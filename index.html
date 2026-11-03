@@ -56,7 +56,7 @@
         /* Page Transition Effect */
         body.fade-out {
             opacity: 0;
-            transition: opacity 0.5s ease;
+            transition: opacity 0.4s ease;
         }
         
         /* Custom Modal Animation */
@@ -71,7 +71,7 @@
 </head>
 <body class="min-h-screen flex flex-col justify-between p-4 sm:p-8 lg:p-12 transition-opacity duration-500">
 
-    <!-- Canvas Animasi Sakura (Merah Putih Nuansa) -->
+    <!-- Canvas Animasi Sakura -->
     <canvas id="sakura-canvas"></canvas>
 
     <!-- Header Section -->
@@ -89,7 +89,6 @@
 
     <!-- Main Navigation Grid -->
     <main class="content-wrapper w-full max-w-6xl mx-auto my-auto flex-grow flex items-center">
-        <!-- Menggunakan grid-cols-1 untuk HP, grid-cols-2 untuk Tablet, dan grid-cols-3 untuk PC -->
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 w-full pb-8">
             
             <!-- Card 1: Kana -->
@@ -149,13 +148,12 @@
             </button>
 
             <!-- Card 5: Flashcard -->
-             <button onclick="handleNavigation('Flashcard', 'flashcard.html')" class="glass-card group rounded-3xl p-6 sm:p-8 text-left focus:outline-none focus:ring-2 focus:ring-red-400/50 w-full cursor-pointer sm:col-span-2 lg:col-span-1">
+            <button onclick="handleNavigation('Flashcard', 'flashcard.html')" class="glass-card group rounded-3xl p-6 sm:p-8 text-left focus:outline-none focus:ring-2 focus:ring-red-400/50 w-full cursor-pointer sm:col-span-2 lg:col-span-1">
                 <div class="flex items-start justify-between">
                     <div>
                         <h3 class="text-xl sm:text-2xl font-semibold text-gray-900 mb-2 tracking-wide group-hover:text-red-700 transition-colors">Flashcard</h3>
                         <p class="text-gray-500 text-xs sm:text-sm font-light leading-relaxed">Tebak Huruf Hiragana & Katakana</p>
                     </div>
-                    <!-- Menggunakan kanji 'Fuda' (Kartu) agar berbeda dari Kana -->
                     <div class="card-icon font-jp text-5xl sm:text-6xl ml-4 shrink-0">
                         札
                     </div>
@@ -171,30 +169,31 @@
         &copy; 2026 Japanese Private Tutoring Dashboard. All Rights Reserved.
     </footer>
 
-    <!-- Custom Modal Message Box (Pengganti Alert) -->
+    <!-- Custom Modal Message Box (Dapat dipanggil opsional via showModal) -->
     <div id="customModal" class="fixed inset-0 z-50 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 bg-gray-900/40 backdrop-blur-sm px-4">
         <div id="modalContent" class="bg-white rounded-2xl shadow-2xl p-6 sm:p-8 max-w-sm w-full transform scale-95 translate-y-4 transition-all duration-300 text-center border border-red-100">
             <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4 text-red-600">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-8 h-8">
-                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M12 9v3.75m9-.75a9 9 0 11-18 0 9 9 0 0118 0zm-9 3.75h.008v.008H12v-.008z" />
                 </svg>
             </div>
-            <h3 class="text-xl font-bold text-gray-900 mb-2">Mengalihkan...</h3>
-            <p id="modalMessage" class="text-gray-500 text-sm mb-6">Mengarahkan ke halaman yang dipilih.</p>
+            <h3 id="modalTitle" class="text-xl font-bold text-gray-900 mb-2">Pemberitahuan</h3>
+            <p id="modalMessage" class="text-gray-500 text-sm mb-6">Pesan modal.</p>
             <button onclick="closeModal()" class="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-4 rounded-xl transition-colors duration-200">
-                Tutup Peringatan
+                Tutup
             </button>
         </div>
     </div>
 
     <!-- JavaScript Navigasi & Animasi Sakura -->
     <script>
-        // --- Sistem Modal Pengganti Alert ---
+        // --- Sistem Modal (Dapat digunakan jika dibutuhkan) ---
         const modal = document.getElementById('customModal');
         const modalContent = document.getElementById('modalContent');
         const modalMessage = document.getElementById('modalMessage');
 
-        function showModal(message) {
+        function showModal(message, title = 'Pemberitahuan') {
+            document.getElementById('modalTitle').textContent = title;
             modalMessage.textContent = message;
             modal.classList.add('modal-enter');
             modalContent.classList.add('modal-content-enter');
@@ -203,25 +202,26 @@
         function closeModal() {
             modal.classList.remove('modal-enter');
             modalContent.classList.remove('modal-content-enter');
-            // Menghapus class fade-out jika user membatalkan/menutup modal agar halaman normal kembali
             document.body.classList.remove('fade-out');
         }
 
-        // --- Fungsi Navigasi ---
+        // --- Fungsi Navigasi Halaman ---
         function handleNavigation(menuName, targetUrl) {
-            // Efek transisi halus (fade out) sebelum berpindah halaman
             document.body.classList.add('fade-out');
             
             setTimeout(() => {
-                // Menampilkan Custom Modal sebagai pengganti alert default browser
-                showModal(`Mengarahkan ke halaman: ${menuName} (${targetUrl})`);
-                
-                // Jika file halamannya sudah siap, gunakan kode di bawah ini:
-                // window.location.href = targetUrl;
-            }, 300);
+                window.location.href = targetUrl;
+            }, 350);
         }
 
-        // --- Script Animasi Kelopak Sakura Jatuh (Tema Merah Putih) ---
+        // Reset state fade-out jika user kembali (Back) via history browser
+        window.addEventListener('pageshow', (event) => {
+            if (event.persisted) {
+                document.body.classList.remove('fade-out');
+            }
+        });
+
+        // --- Script Animasi Kelopak Sakura Jatuh ---
         const canvas = document.getElementById('sakura-canvas');
         const ctx = canvas.getContext('2d');
 
@@ -233,7 +233,7 @@
         resizeCanvas();
 
         const petals = [];
-        const petalCount = window.innerWidth < 640 ? 15 : 35; // Kurangi jumlah kelopak di HP agar lebih ringan
+        const petalCount = window.innerWidth < 640 ? 15 : 35;
 
         class Petal {
             constructor() {
@@ -247,7 +247,6 @@
                 this.speedX = Math.random() * 1 - 0.5;
                 this.rotation = Math.random() * 360;
                 this.rotationSpeed = Math.random() * 2 - 1;
-                // Kombinasi warna merah lembut & putih transparan
                 this.color = Math.random() > 0.4 ? 'rgba(239, 68, 68, 0.25)' : 'rgba(255, 255, 255, 0.7)';
             }
             update() {
