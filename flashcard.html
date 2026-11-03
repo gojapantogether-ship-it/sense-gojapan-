@@ -1,0 +1,1619 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nihongo Jumbo Flashcard - Huruf Besar Hiragana & Katakana + Kotoba Bab 1 PDF</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Noto Sans JP (Gothic), Noto Serif JP (Mincho), Plus Jakarta Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@500;700;900&family=Noto+Serif+JP:wght@600;700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        crimson: {
+                            DEFAULT: '#BC002D',
+                            dark: '#8E0022',
+                            light: '#E6194B',
+                            soft: '#FFF0F3'
+                        },
+                        washi: {
+                            DEFAULT: '#FDFBF7',
+                            dark: '#F3EFE6',
+                            border: '#E5DEC9'
+                        },
+                        sumi: '#141418',
+                        gold: '#D4AF37'
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        gothic: ['Noto Sans JP', 'sans-serif'],
+                        mincho: ['Noto Serif JP', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #FDFBF7;
+            color: #141418;
+            overflow-x: hidden;
+            background-image: radial-gradient(#BC002D 0.45px, transparent 0.45px), radial-gradient(#D4AF37 0.45px, #FDFBF7 0.45px);
+            background-size: 36px 36px;
+            background-position: 0 0, 18px 18px;
+        }
+
+        /* Pola Gelombang Tradisional Jepang (Seigaiha) */
+        .seigaiha-header {
+            background-color: #BC002D;
+            background-image: 
+                radial-gradient(circle at 100% 150%, #BC002D 24%, #9E0026 25%, #9E0026 28%, #BC002D 29%, #BC002D 36%, #9E0026 36%, #9E0026 40%, transparent 40%, transparent),
+                radial-gradient(circle at 0    150%, #BC002D 24%, #9E0026 25%, #9E0026 28%, #BC002D 29%, #BC002D 36%, #9E0026 36%, #9E0026 40%, transparent 40%, transparent),
+                radial-gradient(circle at 50%  100%, #9E0026 10%, #BC002D 11%, #BC002D 23%, #9E0026 24%, #9E0026 30%, #BC002D 31%, #BC002D 43%, #9E0026 44%, #9E0026 50%, #BC002D 51%, #BC002D 63%, #9E0026 64%, #9E0026 71%, transparent 71%, transparent),
+                radial-gradient(circle at 100% 50%, #9E0026 5%, #BC002D 6%, #BC002D 15%, #9E0026 16%, #9E0026 20%, #BC002D 21%, #BC002D 30%, #9E0026 31%, #9E0026 35%, #BC002D 36%, #BC002D 45%, #9E0026 46%, #9E0026 49%, transparent 50%, transparent),
+                radial-gradient(circle at 0    50%, #9E0026 5%, #BC002D 6%, #BC002D 15%, #9E0026 16%, #9E0026 20%, #BC002D 21%, #BC002D 30%, #9E0026 31%, #9E0026 35%, #BC002D 36%, #BC002D 45%, #9E0026 46%, #9E0026 49%, transparent 50%, transparent);
+            background-size: 60px 30px;
+        }
+
+        /* 3D Flip Card Architecture */
+        .perspective-container {
+            perspective: 1600px;
+        }
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
+            transform-style: preserve-3d;
+        }
+        .flip-card-inner.is-flipped {
+            transform: rotateY(180deg);
+        }
+        .flip-card-front,
+        .flip-card-back {
+            position: absolute;
+            inset: 0;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            -webkit-backface-visibility: hidden;
+            border-radius: 1.75rem;
+        }
+        .flip-card-back {
+            transform: rotateY(180deg);
+        }
+
+        /* Garis Bantu Proporsi Huruf Jepang (Genkouyoushi Grid) */
+        .kana-grid-guide {
+            background-image:
+                linear-gradient(to right, rgba(188, 0, 45, 0.14) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(188, 0, 45, 0.14) 1px, transparent 1px);
+            background-size: 50% 50%;
+            background-position: center center;
+        }
+        .kana-grid-guide::before {
+            content: '';
+            position: absolute;
+            inset: 14px;
+            border: 2px dashed rgba(212, 175, 55, 0.45);
+            border-radius: 1.25rem;
+            pointer-events: none;
+        }
+
+        /* Ukuran Font Jumbo Dinamis */
+        .jumbo-size-normal {
+            font-size: clamp(6.5rem, 17vw, 10.5rem);
+            line-height: 1.05;
+        }
+        .jumbo-size-xl {
+            font-size: clamp(8rem, 21vw, 13.5rem);
+            line-height: 1.02;
+        }
+        .jumbo-size-giant {
+            font-size: clamp(9.5rem, 25vw, 16.5rem);
+            line-height: 1;
+        }
+
+        /* Ukuran saat mode Sandingkan Hiragana + Katakana */
+        .dual-size-normal {
+            font-size: clamp(4.2rem, 11vw, 7.2rem);
+            line-height: 1.08;
+        }
+        .dual-size-xl {
+            font-size: clamp(5.2rem, 13.5vw, 8.8rem);
+            line-height: 1.05;
+        }
+        .dual-size-giant {
+            font-size: clamp(6rem, 16vw, 10.5rem);
+            line-height: 1.02;
+        }
+
+        /* Animasi Halaman */
+        .page-transition {
+            animation: fadeSlideUp 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes fadeSlideUp {
+            0% { opacity: 0; transform: translateY(12px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Canvas Sakura */
+        #sakura-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Print Mode Khusus Halaman PDF Kotoba Bab 1 */
+        @media print {
+            body {
+                background: #ffffff !important;
+                color: #000000 !important;
+            }
+            #sakura-canvas, header, footer, .no-print {
+                display: none !important;
+            }
+            #view-pdf-bab1 {
+                display: block !important;
+            }
+            .print-sheet {
+                box-shadow: none !important;
+                border: none !important;
+                padding: 0 !important;
+                margin: 0 !important;
+            }
+        }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col relative selection:bg-crimson selection:text-white">
+
+    <!-- Canvas Animasi Kelopak Bunga Sakura -->
+    <canvas id="sakura-canvas"></canvas>
+
+    <!-- NAVBAR / HEADER ATAS DENGAN TOMBOL KEMBALI (BACK) -->
+    <header class="seigaiha-header text-white sticky top-0 z-50 shadow-lg border-b-4 border-gold">
+        <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
+            <!-- Kiri: Tombol Back & Identitas Web -->
+            <div class="flex items-center gap-3">
+                <button id="btn-header-back" onclick="goBack()" class="hidden group flex items-center gap-2 bg-white text-crimson hover:bg-gold hover:text-sumi font-extrabold px-4 py-2 rounded-full shadow-md transition-all duration-300 transform hover:-translate-x-0.5 active:scale-95">
+                    <i class="fa-solid fa-arrow-left transition-transform group-hover:-translate-x-1"></i>
+                    <span>Kembali</span>
+                </button>
+
+                <div onclick="switchMainView('flashcard')" class="flex items-center gap-3 cursor-pointer group">
+                    <div class="w-11 h-11 rounded-full bg-white flex items-center justify-center shadow-inner border-2 border-gold group-hover:scale-105 transition-transform">
+                        <span class="font-mincho font-black text-crimson text-xl">あ</span>
+                    </div>
+                    <div>
+                        <h1 class="font-mincho font-black text-base sm:text-xl tracking-wide flex items-center gap-2">
+                            日本語ジャンボカード <span class="text-[11px] bg-gold text-sumi font-sans font-extrabold px-2.5 py-0.5 rounded-full">JUMBO FLASHCARD</span>
+                        </h1>
+                        <p class="text-[11px] text-red-100 hidden sm:block">Flashcard Huruf Ekstra Besar &amp; Jelas • Hiragana &amp; Katakana Tahap 1–5 + PDF Kotoba Bab 1</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kanan: Tab Mode Utama -->
+            <div class="flex items-center gap-2">
+                <nav class="hidden lg:flex items-center gap-1 bg-crimson-dark/85 p-1 rounded-full border border-white/20">
+                    <button onclick="switchMainView('flashcard')" id="tab-btn-flashcard" class="px-4 py-1.5 rounded-full text-xs font-extrabold transition-all bg-white text-crimson shadow">
+                        <i class="fa-solid fa-clone mr-1.5"></i>1. Flashcard Raksasa
+                    </button>
+                    <button onclick="switchMainView('grid')" id="tab-btn-grid" class="px-4 py-1.5 rounded-full text-xs font-bold transition-all text-white hover:bg-white/15">
+                        <i class="fa-solid fa-table-cells-large mr-1.5"></i>2. Tabel Huruf Besar
+                    </button>
+                    <button onclick="switchMainView('quiz')" id="tab-btn-quiz" class="px-4 py-1.5 rounded-full text-xs font-bold transition-all text-white hover:bg-white/15">
+                        <i class="fa-solid fa-bolt mr-1.5"></i>3. Tebak Cepat
+                    </button>
+                    <button onclick="switchMainView('pdf-bab1')" id="tab-btn-pdf-bab1" class="px-4 py-1.5 rounded-full text-xs font-bold transition-all text-white hover:bg-white/15">
+                        <i class="fa-solid fa-file-pdf mr-1.5"></i>4. PDF Full Kotoba Bab 1
+                    </button>
+                </nav>
+
+                <!-- Tombol Toggle Sakura -->
+                <button onclick="toggleSakura()" id="btn-sakura-toggle" class="bg-white/15 hover:bg-white/25 text-white px-3 py-2 rounded-full text-xs font-bold border border-white/25 transition-all" title="Animasi Bunga Sakura">
+                    🌸 <span class="hidden sm:inline">Sakura: ON</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Bar Navigasi Mobile -->
+        <div class="lg:hidden bg-crimson-dark/95 border-t border-white/15 px-3 py-2 flex items-center justify-between gap-1 overflow-x-auto">
+            <button onclick="switchMainView('flashcard')" id="mob-tab-flashcard" class="px-3 py-1.5 rounded-full text-[11px] font-extrabold whitespace-nowrap bg-white text-crimson">
+                1. Flashcard Besar
+            </button>
+            <button onclick="switchMainView('grid')" id="mob-tab-grid" class="px-3 py-1.5 rounded-full text-[11px] font-bold whitespace-nowrap text-white">
+                2. Tabel Besar
+            </button>
+            <button onclick="switchMainView('quiz')" id="mob-tab-quiz" class="px-3 py-1.5 rounded-full text-[11px] font-bold whitespace-nowrap text-white">
+                3. Tebak Cepat
+            </button>
+            <button onclick="switchMainView('pdf-bab1')" id="mob-tab-pdf-bab1" class="px-3 py-1.5 rounded-full text-[11px] font-bold whitespace-nowrap text-white">
+                4. PDF Kotoba Bab 1
+            </button>
+        </div>
+    </header>
+
+    <!-- KONTEN UTAMA -->
+    <main class="flex-grow max-w-7xl w-full mx-auto px-4 py-5 sm:py-7 relative z-10 pb-20">
+
+        <!-- =========================================================
+             PANEL PENGATURAN GLOBAL FLASHCARD (TAHAP, JENIS HURUF, UKURAN & FONT)
+             ========================================================= -->
+        <section id="global-kana-controls" class="bg-white rounded-3xl p-4 sm:p-6 shadow-lg border-2 border-crimson/20 mb-6 space-y-4 no-print">
+            <!-- Baris 1: Pilih Tahap Belajar -->
+            <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-3 border-b border-gray-100 pb-4">
+                <div class="space-y-1">
+                    <span class="text-[11px] font-extrabold uppercase tracking-wider text-crimson bg-crimson-soft px-2.5 py-0.5 rounded-full">
+                        <i class="fa-solid fa-layer-group mr-1"></i> Pilih Dek / Tahap Huruf
+                    </span>
+                    <div class="flex flex-wrap items-center gap-1.5 pt-1" id="stage-selector-buttons">
+                        <button onclick="selectStage('stage1')" data-stage="stage1" class="stage-btn px-3.5 py-2 rounded-xl text-xs font-extrabold bg-crimson text-white shadow">
+                            Tahap 1 (15) <span class="hidden sm:inline font-normal opacity-90">• a-ka-sa</span>
+                        </button>
+                        <button onclick="selectStage('stage2')" data-stage="stage2" class="stage-btn px-3.5 py-2 rounded-xl text-xs font-bold bg-washi-dark text-sumi hover:bg-crimson-soft">
+                            Tahap 2 (15) <span class="hidden sm:inline font-normal opacity-75">• ta-ha-na</span>
+                        </button>
+                        <button onclick="selectStage('stage3')" data-stage="stage3" class="stage-btn px-3.5 py-2 rounded-xl text-xs font-bold bg-washi-dark text-sumi hover:bg-crimson-soft">
+                            Tahap 3 (16) <span class="hidden sm:inline font-normal opacity-75">• ma-ya-ra-wa</span>
+                        </button>
+                        <button onclick="selectStage('stage4')" data-stage="stage4" class="stage-btn px-3.5 py-2 rounded-xl text-xs font-bold bg-washi-dark text-sumi hover:bg-crimson-soft">
+                            Tahap 4: Tenten &amp; Maru (25)
+                        </button>
+                        <button onclick="selectStage('stage5')" data-stage="stage5" class="stage-btn px-3.5 py-2 rounded-xl text-xs font-bold bg-washi-dark text-sumi hover:bg-crimson-soft">
+                            Tahap 5: Yoon Gabungan (33)
+                        </button>
+                        <button onclick="selectStage('seion')" data-stage="seion" class="stage-btn px-3.5 py-2 rounded-xl text-xs font-bold bg-washi-dark text-sumi hover:bg-crimson-soft">
+                            Semua Dasar (46)
+                        </button>
+                        <button onclick="selectStage('all')" data-stage="all" class="stage-btn px-3.5 py-2 rounded-xl text-xs font-bold bg-washi-dark text-sumi hover:bg-crimson-soft">
+                            Semua Lengkap (104)
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Filter Hafalan -->
+                <div class="flex items-center gap-2 shrink-0">
+                    <button onclick="toggleUnmemorizedOnly()" id="btn-filter-unmemorized" class="px-3.5 py-2 rounded-xl text-xs font-extrabold border-2 border-washi-border bg-washi text-sumi hover:border-crimson transition-all flex items-center gap-1.5">
+                        <i class="fa-solid fa-filter text-crimson"></i>
+                        <span id="unmemorized-filter-label">Semua Kartu</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Baris 2: Pengaturan Visual Huruf Besar (Mode Aksara, Ukuran Huruf, Gaya Font, Garis Bantu) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 pt-1">
+                <!-- 1. Mode Aksara -->
+                <div class="bg-washi rounded-2xl p-2.5 border border-washi-border">
+                    <label class="block text-[10px] font-extrabold uppercase text-gray-500 mb-1.5 px-1">
+                        1. Tampilan Aksara Depan:
+                    </label>
+                    <div class="grid grid-cols-3 gap-1">
+                        <button onclick="setScriptMode('hiragana')" id="script-btn-hiragana" class="py-1.5 px-2 rounded-xl text-xs font-extrabold bg-crimson text-white shadow">
+                            あ Hiragana
+                        </button>
+                        <button onclick="setScriptMode('katakana')" id="script-btn-katakana" class="py-1.5 px-2 rounded-xl text-xs font-bold text-sumi hover:bg-crimson-soft">
+                            ア Katakana
+                        </button>
+                        <button onclick="setScriptMode('both')" id="script-btn-both" class="py-1.5 px-2 rounded-xl text-xs font-bold text-sumi hover:bg-crimson-soft">
+                            あ/ア Keduanya
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 2. Ukuran Huruf Raksasa -->
+                <div class="bg-washi rounded-2xl p-2.5 border border-washi-border">
+                    <label class="block text-[10px] font-extrabold uppercase text-gray-500 mb-1.5 px-1">
+                        2. Ukuran Huruf Flashcard:
+                    </label>
+                    <div class="grid grid-cols-3 gap-1">
+                        <button onclick="setFontSize('normal')" id="size-btn-normal" class="py-1.5 px-2 rounded-xl text-xs font-bold text-sumi hover:bg-crimson-soft">
+                            Besar
+                        </button>
+                        <button onclick="setFontSize('xl')" id="size-btn-xl" class="py-1.5 px-2 rounded-xl text-xs font-extrabold bg-crimson text-white shadow">
+                            Ekstra Besar
+                        </button>
+                        <button onclick="setFontSize('giant')" id="size-btn-giant" class="py-1.5 px-2 rounded-xl text-xs font-bold text-sumi hover:bg-crimson-soft">
+                            Raksasa MAX
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 3. Gaya Font (Gothic vs Mincho) -->
+                <div class="bg-washi rounded-2xl p-2.5 border border-washi-border">
+                    <label class="block text-[10px] font-extrabold uppercase text-gray-500 mb-1.5 px-1">
+                        3. Gaya Tipografi Huruf:
+                    </label>
+                    <div class="grid grid-cols-2 gap-1">
+                        <button onclick="setFontStyle('gothic')" id="font-btn-gothic" class="py-1.5 px-2 rounded-xl text-xs font-extrabold bg-sumi text-gold shadow">
+                            ゴシック Tegas/Jelas
+                        </button>
+                        <button onclick="setFontStyle('mincho')" id="font-btn-mincho" class="py-1.5 px-2 rounded-xl text-xs font-bold text-sumi hover:bg-crimson-soft font-mincho">
+                            明朝 Buku/Kaligrafi
+                        </button>
+                    </div>
+                </div>
+
+                <!-- 4. Garis Bantu & Romaji Hint -->
+                <div class="bg-washi rounded-2xl p-2.5 border border-washi-border">
+                    <label class="block text-[10px] font-extrabold uppercase text-gray-500 mb-1.5 px-1">
+                        4. Alat Bantu Visual:
+                    </label>
+                    <div class="grid grid-cols-2 gap-1">
+                        <button onclick="toggleGridGuide()" id="btn-grid-guide" class="py-1.5 px-2 rounded-xl text-xs font-extrabold bg-amber-100 text-amber-900 border border-gold">
+                            <i class="fa-solid fa-border-all mr-1"></i>Garis: ON
+                        </button>
+                        <button onclick="toggleFrontHint()" id="btn-front-hint" class="py-1.5 px-2 rounded-xl text-xs font-bold bg-white text-gray-600 border border-gray-200">
+                            <i class="fa-solid fa-eye-slash mr-1"></i>Romaji: OFF
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================================
+             VIEW 1: FLASHCARD JUMBO 1-PER-1 (MAIN JUMBO CARD VIEW)
+             ========================================================= -->
+        <section id="view-flashcard" class="page-transition space-y-6">
+            <!-- Bar Progres & Statistik Hafalan -->
+            <div class="bg-white rounded-2xl px-5 py-3.5 shadow-sm border border-washi-border flex flex-wrap items-center justify-between gap-4">
+                <div class="flex items-center gap-3">
+                    <span id="deck-stage-badge" class="bg-crimson text-white font-extrabold text-xs px-3 py-1 rounded-full">
+                        Tahap 1
+                    </span>
+                    <span id="card-counter-text" class="text-sm sm:text-base font-black text-sumi">
+                        Kartu 1 / 15
+                    </span>
+                </div>
+
+                <!-- Bar Persentase Hafal -->
+                <div class="flex items-center gap-4 text-xs font-extrabold">
+                    <span class="text-emerald-700 bg-emerald-50 border border-emerald-200 px-3 py-1 rounded-full">
+                        <i class="fa-solid fa-circle-check mr-1"></i>Sudah Hafal: <span id="stat-memorized-count">0</span>
+                    </span>
+                    <span class="text-crimson bg-crimson-soft border border-crimson/20 px-3 py-1 rounded-full">
+                        <i class="fa-solid fa-clock-rotate-left mr-1"></i>Perlu Diulang: <span id="stat-review-count">0</span>
+                    </span>
+                </div>
+            </div>
+
+            <!-- AREA KARTU FLASHCARD RAKSASA + TOMBOL KIRI/KANAN -->
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-center">
+                <!-- Tombol Sebelumnya (Desktop Kiri) -->
+                <div class="hidden lg:flex lg:col-span-2 justify-end">
+                    <button onclick="prevCard()" class="w-20 h-20 rounded-3xl bg-white hover:bg-crimson text-sumi hover:text-white border-2 border-washi-border hover:border-crimson shadow-xl flex flex-col items-center justify-center gap-1 transition-all transform hover:-translate-x-1 active:scale-95 group">
+                        <i class="fa-solid fa-chevron-left text-2xl text-crimson group-hover:text-white"></i>
+                        <span class="text-[11px] font-extrabold">Sebelumnya</span>
+                    </button>
+                </div>
+
+                <!-- KARTU FLASHCARD JUMBO 3D -->
+                <div class="lg:col-span-8">
+                    <div class="perspective-container w-full h-[430px] sm:h-[510px]">
+                        <div id="jumbo-flip-card" onclick="flipCurrentCard()" class="flip-card-inner cursor-pointer select-none">
+
+                            <!-- SISI DEPAN KARTU (HURUF JEPANG SUPER BESAR & JELAS) -->
+                            <div class="flip-card-front bg-white shadow-2xl border-4 border-crimson/25 flex flex-col justify-between p-6 sm:p-8 overflow-hidden">
+                                <!-- Header Kartu Depan -->
+                                <div class="flex items-center justify-between gap-2 relative z-10">
+                                    <div class="flex items-center gap-2">
+                                        <span id="front-row-badge" class="text-xs font-extrabold uppercase tracking-wider px-3 py-1 rounded-full bg-washi-dark text-sumi border border-washi-border">
+                                            Baris Vokal A-I-U-E-O
+                                        </span>
+                                        <span id="front-memorized-badge" class="hidden text-xs font-extrabold px-3 py-1 rounded-full"></span>
+                                    </div>
+
+                                    <div class="flex items-center gap-2">
+                                        <button type="button" onclick="event.stopPropagation(); speakCurrentCard();" class="w-12 h-12 rounded-2xl bg-crimson hover:bg-crimson-dark text-white shadow-lg flex items-center justify-center transition-transform hover:scale-105 active:scale-95" title="Dengarkan Bunyi Huruf (Tombol S)">
+                                            <i class="fa-solid fa-volume-high text-lg"></i>
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <!-- KOTAK TENGAH HURUF RAKSASA -->
+                                <div id="front-kana-box" class="relative my-auto py-4 sm:py-6 rounded-3xl flex flex-col items-center justify-center kana-grid-guide">
+                                    <!-- Karakter Utama -->
+                                    <div id="front-kana-display" class="font-gothic font-black text-sumi tracking-tight text-center select-all jumbo-size-xl">
+                                        あ
+                                    </div>
+
+                                    <!-- Intip Romaji Opsional di Depan -->
+                                    <div id="front-romaji-peek" class="hidden mt-2 text-2xl sm:text-3xl font-black text-crimson bg-crimson-soft px-5 py-1 rounded-full border border-crimson/20">
+                                        a
+                                    </div>
+                                </div>
+
+                                <!-- Footer Kartu Depan -->
+                                <div class="flex items-center justify-between text-xs text-gray-500 font-bold pt-2 border-t border-gray-100 relative z-10">
+                                    <span><i class="fa-solid fa-hand-pointer text-crimson mr-1"></i> Klik kartu atau tekan <strong>Spasi</strong> untuk membalik</span>
+                                    <span class="text-crimson font-extrabold">Lihat Cara Baca &amp; Contoh <i class="fa-solid fa-rotate ml-1"></i></span>
+                                </div>
+                            </div>
+
+                            <!-- SISI BELAKANG KARTU (ROMAJI BESAR + SANDINGAN HIRAGANA/KATAKANA + CONTOH KATA) -->
+                            <div class="flip-card-back bg-white shadow-2xl border-4 border-gold flex flex-col justify-between p-6 sm:p-8 overflow-y-auto">
+                                <!-- Header Belakang -->
+                                <div class="flex items-center justify-between gap-2 border-b border-gray-100 pb-3">
+                                    <div>
+                                        <span class="text-xs font-extrabold uppercase tracking-wider text-amber-900 bg-amber-100 px-3 py-1 rounded-full">
+                                            CARA BACA &amp; PERBANDINGAN AKSARA
+                                        </span>
+                                    </div>
+                                    <button type="button" onclick="event.stopPropagation(); speakCurrentCard(true);" class="px-4 py-2 rounded-xl bg-crimson hover:bg-crimson-dark text-white font-extrabold text-xs shadow flex items-center gap-2">
+                                        <i class="fa-solid fa-volume-high"></i> Putar Huruf &amp; Kata
+                                    </button>
+                                </div>
+
+                                <!-- Tengah Belakang: Romaji Besar + Kotak Hiragana & Katakana Berdampingan -->
+                                <div class="grid grid-cols-1 md:grid-cols-12 gap-4 my-auto py-3 items-center">
+                                    <!-- Romaji Super Jelas -->
+                                    <div class="md:col-span-5 bg-crimson text-white rounded-3xl p-5 text-center shadow-lg flex flex-col items-center justify-center">
+                                        <span class="text-[11px] uppercase tracking-widest font-extrabold text-red-100">Bunyi Romaji</span>
+                                        <div id="back-romaji-giant" class="text-6xl sm:text-7xl font-black tracking-wider my-1">
+                                            A
+                                        </div>
+                                        <p id="back-pronounce-tip" class="text-xs text-red-100 font-medium">
+                                            Dibaca jelas seperti huruf "a" pada kata "apel".
+                                        </p>
+                                    </div>
+
+                                    <!-- Sandingan Hiragana & Katakana Besar -->
+                                    <div class="md:col-span-7 grid grid-cols-2 gap-3">
+                                        <div class="bg-washi-dark rounded-3xl p-4 border-2 border-washi-border text-center">
+                                            <span class="text-xs font-extrabold text-crimson uppercase">ひらがな (Hiragana)</span>
+                                            <div id="back-hiragana-char" class="text-6xl sm:text-7xl font-black text-sumi my-2">
+                                                あ
+                                            </div>
+                                            <span class="text-[11px] text-gray-500 font-bold">Garis Lengkung Halus</span>
+                                        </div>
+
+                                        <div class="bg-washi-dark rounded-3xl p-4 border-2 border-washi-border text-center">
+                                            <span class="text-xs font-extrabold text-blue-800 uppercase">カタカナ (Katakana)</span>
+                                            <div id="back-katakana-char" class="text-6xl sm:text-7xl font-black text-sumi my-2">
+                                                ア
+                                            </div>
+                                            <span class="text-[11px] text-gray-500 font-bold">Garis Tegas Bersudut</span>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <!-- Kotak Contoh Kosakata & Jembatan Keledai (Mnemonic) -->
+                                <div class="bg-washi rounded-2xl p-4 border border-washi-border grid grid-cols-1 sm:grid-cols-2 gap-3 text-xs sm:text-sm">
+                                    <div class="flex items-center justify-between bg-white p-3 rounded-xl border border-gray-200">
+                                        <div>
+                                            <span class="text-[10px] font-extrabold uppercase text-crimson block">Contoh Kosakata:</span>
+                                            <div id="back-example-word" class="font-jp font-black text-lg text-sumi">あめ (ame)</div>
+                                            <div id="back-example-meaning" class="text-xs text-gray-600 font-bold">Arti: Hujan / Permen</div>
+                                        </div>
+                                        <button type="button" onclick="event.stopPropagation(); speakExampleWord();" class="w-10 h-10 rounded-xl bg-crimson-soft hover:bg-crimson text-crimson hover:text-white flex items-center justify-center transition-colors">
+                                            <i class="fa-solid fa-volume-high"></i>
+                                        </button>
+                                    </div>
+
+                                    <div class="bg-amber-50/80 p-3 rounded-xl border border-gold/50 flex flex-col justify-center">
+                                        <span class="text-[10px] font-extrabold uppercase text-amber-900 block">
+                                            <i class="fa-solid fa-lightbulb text-crimson mr-1"></i>Tips Mengingat Bentuk:
+                                        </span>
+                                        <p id="back-mnemonic-text" class="text-xs text-amber-950 font-semibold mt-0.5 leading-snug">
+                                            Hiragana あ mirip huruf 'A' yang sedang menari melengkung.
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Tombol Berikutnya (Desktop Kanan) -->
+                <div class="hidden lg:flex lg:col-span-2 justify-start">
+                    <button onclick="nextCard()" class="w-20 h-20 rounded-3xl bg-crimson hover:bg-crimson-dark text-white shadow-xl shadow-crimson/30 flex flex-col items-center justify-center gap-1 transition-all transform hover:translate-x-1 active:scale-95">
+                        <i class="fa-solid fa-chevron-right text-2xl"></i>
+                        <span class="text-[11px] font-extrabold">Berikutnya</span>
+                    </button>
+                </div>
+            </div>
+
+            <!-- TOMBOL NAVIGASI MOBILE + TOMBOL TANDAI HAFALAN + FITUR ACAK / AUTOPLAY -->
+            <div class="bg-white rounded-3xl p-4 sm:p-6 shadow-lg border border-washi-border space-y-4">
+                <!-- Navigasi Mobile & Penilaian Mandiri -->
+                <div class="grid grid-cols-2 sm:grid-cols-4 gap-3">
+                    <button onclick="prevCard()" class="lg:hidden py-3.5 px-4 rounded-2xl bg-washi-dark hover:bg-gray-200 text-sumi font-extrabold text-sm flex items-center justify-center gap-2">
+                        <i class="fa-solid fa-arrow-left"></i> Sebelumnya
+                    </button>
+                    <button onclick="nextCard()" class="lg:hidden py-3.5 px-4 rounded-2xl bg-crimson text-white font-extrabold text-sm flex items-center justify-center gap-2 shadow">
+                        Berikutnya <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+
+                    <!-- Tombol Belum Hafal -->
+                    <button onclick="markCardStatus('review')" class="col-span-1 sm:col-span-2 py-3.5 px-5 rounded-2xl border-2 border-crimson bg-crimson-soft hover:bg-crimson text-crimson hover:text-white font-extrabold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all">
+                        <i class="fa-solid fa-rotate-left"></i>
+                        <span>Belum Hafal (Ulangi Lagi)</span>
+                    </button>
+
+                    <!-- Tombol Sudah Hafal -->
+                    <button onclick="markCardStatus('memorized')" class="col-span-1 sm:col-span-2 py-3.5 px-5 rounded-2xl border-2 border-emerald-600 bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs sm:text-sm flex items-center justify-center gap-2 shadow-md transition-all">
+                        <i class="fa-solid fa-check-double"></i>
+                        <span>Sudah Hafal Huruf Ini!</span>
+                    </button>
+                </div>
+
+                <!-- Bar Kontrol Deck: Acak, Balik, Auto-Play, Reset -->
+                <div class="flex flex-wrap items-center justify-between gap-3 pt-3 border-t border-gray-100">
+                    <div class="flex flex-wrap items-center gap-2">
+                        <button onclick="shuffleDeck()" class="px-4 py-2.5 rounded-xl bg-sumi hover:bg-gray-800 text-white font-extrabold text-xs flex items-center gap-2 shadow transition-all">
+                            <i class="fa-solid fa-shuffle text-gold"></i> Acak Urutan Kartu
+                        </button>
+                        <button onclick="resetDeckOrder()" class="px-4 py-2.5 rounded-xl bg-washi-dark hover:bg-gray-200 text-sumi font-bold text-xs flex items-center gap-2 transition-all">
+                            <i class="fa-solid fa-arrow-down-a-z text-crimson"></i> Urutan Asli
+                        </button>
+                        <button onclick="toggleAutoPlay()" id="btn-autoplay" class="px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs flex items-center gap-2 shadow transition-all">
+                            <i class="fa-solid fa-play"></i> <span>Auto-Play Slideshow (3 dtk)</span>
+                        </button>
+                    </div>
+
+                    <div class="text-[11px] text-gray-500 font-semibold hidden md:block">
+                        Pintasan Keyboard: <kbd class="px-1.5 py-0.5 bg-gray-100 border rounded">←</kbd> <kbd class="px-1.5 py-0.5 bg-gray-100 border rounded">→</kbd> Pindah • <kbd class="px-1.5 py-0.5 bg-gray-100 border rounded">Spasi</kbd> Balik • <kbd class="px-1.5 py-0.5 bg-gray-100 border rounded">S</kbd> Suara
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================================
+             VIEW 2: TABEL GALERI HURUF BESAR (JUMBO GRID VIEW)
+             ========================================================= -->
+        <section id="view-grid" class="hidden page-transition space-y-6">
+            <div class="bg-white rounded-2xl p-4 sm:p-5 shadow-md border-l-8 border-crimson flex flex-wrap items-center justify-between gap-4">
+                <div class="flex items-center gap-3">
+                    <button onclick="goBack()" class="flex items-center gap-2 bg-crimson hover:bg-crimson-dark text-white font-bold px-4 py-2.5 rounded-xl shadow">
+                        <i class="fa-solid fa-arrow-left"></i> Kembali
+                    </button>
+                    <div>
+                        <span class="text-xs font-extrabold uppercase text-crimson bg-crimson-soft px-2.5 py-0.5 rounded-full">GALERI HURUF BESAR</span>
+                        <h2 class="text-lg sm:text-2xl font-extrabold text-sumi mt-0.5">Tabel Kartu Besar Hiragana &amp; Katakana</h2>
+                    </div>
+                </div>
+                <p class="text-xs text-gray-600 font-semibold">
+                    Klik kartu mana saja untuk mendengarkan bunyi atau langsung membukanya di layar Flashcard Raksasa!
+                </p>
+            </div>
+
+            <!-- Grid Kartu Besar -->
+            <div id="jumbo-grid-container" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
+                <!-- Diisi oleh JS -->
+            </div>
+        </section>
+
+        <!-- =========================================================
+             VIEW 3: MODE TEBAK CEPAT HURUF BESAR (JUMBO FLASH QUIZ)
+             ========================================================= -->
+        <section id="view-quiz" class="hidden page-transition space-y-6">
+            <div class="bg-white rounded-2xl p-4 sm:p-5 shadow-md border-l-8 border-gold flex flex-wrap items-center justify-between gap-4">
+                <div class="flex items-center gap-3">
+                    <button onclick="goBack()" class="flex items-center gap-2 bg-crimson hover:bg-crimson-dark text-white font-bold px-4 py-2.5 rounded-xl shadow">
+                        <i class="fa-solid fa-arrow-left"></i> Kembali
+                    </button>
+                    <div>
+                        <span class="text-xs font-extrabold uppercase text-amber-900 bg-amber-100 px-2.5 py-0.5 rounded-full">UJI KECEPATAN BACA</span>
+                        <h2 class="text-lg sm:text-2xl font-extrabold text-sumi mt-0.5">Tebak Cepat Huruf Raksasa (Flash Quiz)</h2>
+                    </div>
+                </div>
+
+                <div class="flex items-center gap-3">
+                    <div class="bg-emerald-50 border border-emerald-200 px-4 py-2 rounded-xl text-xs font-extrabold text-emerald-800">
+                        Skor Benar: <span id="flash-quiz-score" class="text-base">0</span>
+                    </div>
+                    <div class="bg-amber-50 border border-gold px-4 py-2 rounded-xl text-xs font-extrabold text-amber-900">
+                        Beruntun (Streak): 🔥 <span id="flash-quiz-streak" class="text-base">0</span>
+                    </div>
+                </div>
+            </div>
+
+            <div class="bg-white rounded-3xl p-6 sm:p-10 shadow-xl border-2 border-crimson/20 max-w-3xl mx-auto text-center space-y-6">
+                <div class="flex items-center justify-between text-xs font-extrabold text-gray-500">
+                    <span id="quiz-stage-label">Dek Aktif: Tahap 1</span>
+                    <button onclick="speakQuizPrompt()" class="text-crimson hover:underline flex items-center gap-1">
+                        <i class="fa-solid fa-volume-high"></i> Dengarkan Bantuan Suara
+                    </button>
+                </div>
+
+                <!-- Huruf Raksasa Soal -->
+                <div class="py-6 px-4 rounded-3xl bg-washi border-2 border-washi-border kana-grid-guide relative">
+                    <div id="quiz-giant-char" class="font-gothic font-black text-sumi jumbo-size-xl select-none">
+                        あ
+                    </div>
+                </div>
+
+                <p class="text-sm font-extrabold text-sumi">Pilih bacaan Romaji yang tepat untuk huruf di atas:</p>
+
+                <!-- 4 Pilihan Jawaban Besar -->
+                <div id="quiz-options-grid" class="grid grid-cols-2 gap-4">
+                    <!-- Diisi oleh JS -->
+                </div>
+
+                <div id="quiz-feedback-bar" class="hidden p-4 rounded-2xl font-extrabold text-sm"></div>
+            </div>
+        </section>
+
+        <!-- =========================================================
+             VIEW 4: LEMBAR PDF FULL KOTOBA KATA BENDA & KATA KERJA BAB 1
+             ========================================================= -->
+        <section id="view-pdf-bab1" class="hidden page-transition space-y-6">
+            <!-- Bar Tombol Cetak / Simpan PDF (Tidak ikut tercetak saat di-print) -->
+            <div class="bg-white rounded-2xl p-4 sm:p-5 shadow-md border-l-8 border-crimson flex flex-wrap items-center justify-between gap-4 no-print">
+                <div class="flex items-center gap-3">
+                    <button onclick="goBack()" class="flex items-center gap-2 bg-crimson hover:bg-crimson-dark text-white font-bold px-4 py-2.5 rounded-xl shadow">
+                        <i class="fa-solid fa-arrow-left"></i> Kembali ke Flashcard
+                    </button>
+                    <div>
+                        <span class="text-xs font-extrabold uppercase text-crimson bg-crimson-soft px-2.5 py-0.5 rounded-full">DOKUMEN SIAP CETAK PDF • BAB 1</span>
+                        <h2 class="text-lg sm:text-2xl font-extrabold text-sumi mt-0.5">Modul PDF Lengkap Kotoba Kata Benda &amp; Kata Kerja Bab 1</h2>
+                    </div>
+                </div>
+                <button onclick="window.print()" class="bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold px-5 py-3 rounded-xl shadow-lg flex items-center gap-2 transition-all">
+                    <i class="fa-solid fa-print"></i>
+                    <span>Cetak / Simpan sebagai PDF</span>
+                </button>
+            </div>
+
+            <!-- Lembar Dokumen PDF Kotoba Bab 1 -->
+            <div class="print-sheet bg-white rounded-3xl p-6 sm:p-10 shadow-xl border-2 border-washi-border space-y-8">
+                <header class="border-t-8 border-crimson border-b-2 border-gold py-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <div>
+                        <p class="text-xs font-extrabold uppercase tracking-widest text-crimson">日本語 第1課 ことば一覧表 • DAFTAR KOSAKATA LENGKAP BAB 1</p>
+                        <h3 class="text-2xl sm:text-3xl font-black text-sumi mt-1">Kumpulan Lengkap Kata Benda (名詞), Kata Kerja (動詞) &amp; Ungkapan Bab 1</h3>
+                    </div>
+                    <div class="text-xs font-bold text-gray-500 sm:text-right">
+                        Dilengkapi Huruf Kana Besar, Kanji, Romaji &amp; Arti<br>
+                        Klik baris mana saja untuk mendengar pengucapan!
+                    </div>
+                </header>
+
+                <!-- BAGIAN A: KATA BENDA (MEISHI) BAB 1 - ORANG, PROFESI, INSTANSI & NEGARA -->
+                <div class="space-y-3">
+                    <h4 class="text-base sm:text-lg font-extrabold text-white bg-crimson px-4 py-2.5 rounded-xl flex items-center justify-between">
+                        <span>BAGIAN I: KATA BENDA (名詞 - Meishi) — Kata Ganti, Profesi, Instansi &amp; Negara</span>
+                        <span class="text-xs bg-white text-crimson px-2.5 py-0.5 rounded-full">32 Kosakata</span>
+                    </h4>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse text-xs sm:text-sm">
+                            <thead>
+                                <tr class="bg-washi-dark text-sumi border-b-2 border-crimson">
+                                    <th class="p-3 font-extrabold w-12">No</th>
+                                    <th class="p-3 font-extrabold">Hiragana / Katakana (Besar)</th>
+                                    <th class="p-3 font-extrabold">Kanji</th>
+                                    <th class="p-3 font-extrabold">Romaji</th>
+                                    <th class="p-3 font-extrabold">Arti Bahasa Indonesia &amp; Keterangan</th>
+                                </tr>
+                            </thead>
+                            <tbody id="pdf-noun-table-body" class="divide-y divide-gray-200">
+                                <!-- Diisi oleh JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- BAGIAN B: KATA KERJA (DOUSHI), KOPULA & UNGKAPAN KERJA BAB 1 -->
+                <div class="space-y-3">
+                    <h4 class="text-base sm:text-lg font-extrabold text-sumi bg-gold px-4 py-2.5 rounded-xl flex items-center justify-between">
+                        <span>BAGIAN II: KATA KERJA (動詞 - Doushi), Kopula &amp; Ungkapan Kerja Bab 1</span>
+                        <span class="text-xs bg-sumi text-gold px-2.5 py-0.5 rounded-full">15 Kosakata &amp; Frasa Kerja</span>
+                    </h4>
+                    <div class="overflow-x-auto">
+                        <table class="w-full text-left border-collapse text-xs sm:text-sm">
+                            <thead>
+                                <tr class="bg-washi-dark text-sumi border-b-2 border-gold">
+                                    <th class="p-3 font-extrabold w-12">No</th>
+                                    <th class="p-3 font-extrabold">Bentuk Masu / Ungkapan (Besar)</th>
+                                    <th class="p-3 font-extrabold">Kanji / Bentuk Kamus</th>
+                                    <th class="p-3 font-extrabold">Romaji</th>
+                                    <th class="p-3 font-extrabold">Arti &amp; Contoh Pemakaian di Bab 1</th>
+                                </tr>
+                            </thead>
+                            <tbody id="pdf-verb-table-body" class="divide-y divide-gray-200">
+                                <!-- Diisi oleh JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-white border-t border-washi-border py-5 mt-auto relative z-10 no-print">
+        <div class="max-w-7xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-3 text-xs text-gray-500">
+            <div class="flex items-center gap-2">
+                <span class="w-4 h-4 rounded-full bg-crimson inline-block"></span>
+                <strong class="text-sumi">Nihongo Jumbo Flashcard (ひらがな・カタカナ)</strong> — Tampilan Huruf Ekstra Besar &amp; Jelas
+            </div>
+            <div>
+                Gunakan tombol panah kiri/kanan untuk berpindah kartu dan Spasi untuk membalik kartu.
+            </div>
+        </div>
+    </footer>
+
+    <!-- =========================================================
+         JAVASCRIPT ENGINE: COMPLETE 104 KANA DECK + BAB 1 PDF DATA
+         ========================================================= -->
+    <script>
+        /* =========================================================================
+           1. DATABASE LENGKAP 104 HURUF HIRAGANA & KATAKANA (TAHAP 1 - 5)
+           ========================================================================= */
+        const KANA_MASTER_LIST = [
+            // ================= TAHAP 1 (15 HURUF: A-I-U-E-O, KA-KI-KU-KE-KO, SA-SHI-TSU-SE-SO) =================
+            { id: 'a', stage: 'stage1', row: 'Baris A (あ行)', h: 'あ', k: 'ア', r: 'a', tip: 'Vokal "a" terang seperti pada kata "apel".', word: 'あめ (ame)', meaning: 'Hujan / Permen', mnemo: 'Hiragana あ mirip huruf A dengan lengkungan; Katakana ア mirip kapak.' },
+            { id: 'i', stage: 'stage1', row: 'Baris A (あ行)', h: 'い', k: 'イ', r: 'i', tip: 'Vokal "i" jelas seperti pada kata "ikan".', word: 'いぬ (inu)', meaning: 'Anjing', mnemo: 'Hiragana い seperti dua tiang sejajar; Katakana イ seperti tiang penyangga.' },
+            { id: 'u', stage: 'stage1', row: 'Baris A (あ行)', h: 'う', k: 'ウ', r: 'u', tip: 'Vokal "u" tanpa memonyongkan bibir berlebihan.', word: 'うみ (umi)', meaning: 'Laut', mnemo: 'Hiragana う mirip huruf U miring dengan topi di atasnya.' },
+            { id: 'e', stage: 'stage1', row: 'Baris A (あ行)', h: 'え', k: 'エ', r: 'e', tip: 'Dibaca "é" terang seperti pada kata "enak" (bukan elang).', word: 'えき (eki)', meaning: 'Stasiun', mnemo: 'Katakana エ persis seperti tiang besi berbentuk huruf I kapital.' },
+            { id: 'o', stage: 'stage1', row: 'Baris A (あ行)', h: 'お', k: 'オ', r: 'o', tip: 'Vokal "o" bulat seperti pada kata "obat".', word: 'おかし (okashi)', meaning: 'Kue / Camilan', mnemo: 'Hiragana お memiliki satu titik kecil di kanan atas.' },
+
+            { id: 'ka', stage: 'stage1', row: 'Baris KA (か行)', h: 'か', k: 'カ', r: 'ka', tip: 'Bunyi "ka" jelas.', word: 'かさ (kasa)', meaning: 'Payung', mnemo: 'Hiragana か dan Katakana カ hampir kembar, Hiragana punya titik di kanan.' },
+            { id: 'ki', stage: 'stage1', row: 'Baris KA (か行)', h: 'き', k: 'キ', r: 'ki', tip: 'Bunyi "ki" jelas.', word: 'き (ki)', meaning: 'Pohon', mnemo: 'Mirip bentuk kunci (key) tradisional.' },
+            { id: 'ku', stage: 'stage1', row: 'Baris KA (か行)', h: 'く', k: 'ク', r: 'ku', tip: 'Bunyi "ku" jelas.', word: 'くつ (kutsu)', meaning: 'Sepatu', mnemo: 'Hiragana く mirip paruh burung yang terbuka.' },
+            { id: 'ke', stage: 'stage1', row: 'Baris KA (か行)', h: 'け', k: 'ケ', r: 'ke', tip: 'Dibaca "ké" terang.', word: 'けさ (kesa)', meaning: 'Tadi pagi', mnemo: 'Garis kiri melengkung dengan salib di sebelah kanan.' },
+            { id: 'ko', stage: 'stage1', row: 'Baris KA (か行)', h: 'こ', k: 'コ', r: 'ko', tip: 'Bunyi "ko" jelas.', word: 'こえ (koe)', meaning: 'Suara', mnemo: 'Hiragana こ adalah dua garis atas-bawah; Katakana コ sudut kotak.' },
+
+            { id: 'sa', stage: 'stage1', row: 'Baris SA (さ行)', h: 'さ', k: 'サ', r: 'sa', tip: 'Bunyi "sa" jelas.', word: 'さくら (sakura)', meaning: 'Bunga Sakura', mnemo: 'Perhatikan arah lengkungan bawah さ menghadap ke kiri (kebalikan ち).' },
+            { id: 'shi', stage: 'stage1', row: 'Baris SA (さ行)', h: 'し', k: 'シ', r: 'shi', tip: 'Dibaca "syi" lembut.', word: 'しお (shio)', meaning: 'Garam', mnemo: 'Hiragana し seperti kail pancing; Katakana シ titiknya berbaris vertikal dan ditarik dari bawah ke atas!' },
+            { id: 'tsu', stage: 'stage1', row: 'Baris SA/TA', h: 'つ', k: 'ツ', r: 'tsu', tip: 'Bunyi "tsu" (gabungan t+s di ujung lidah).', word: 'つくえ (tsukue)', meaning: 'Meja tulis', mnemo: 'Hiragana つ seperti gelombang tsunami; Katakana ツ titiknya berbaris horizontal di atas.' },
+            { id: 'se', stage: 'stage1', row: 'Baris SA (さ行)', h: 'せ', k: 'セ', r: 'se', tip: 'Dibaca "sé" terang.', word: 'せかい (sekai)', meaning: 'Dunia', mnemo: 'Kedua bentuk せ dan セ sangat mirip.' },
+            { id: 'so', stage: 'stage1', row: 'Baris SA (さ行)', h: 'そ', k: 'ソ', r: 'so', tip: 'Bunyi "so" jelas.', word: 'そら (sora)', meaning: 'Langit', mnemo: 'Hiragana そ berkelok zig-zag seperti huruf Z dan C bersambung.' },
+
+            // ================= TAHAP 2 (15 HURUF: TA-CHI-SU-TE-TO, HA-HI-FU-HE-HO, NA-NI-NU-NE-NO) =================
+            { id: 'ta', stage: 'stage2', row: 'Baris TA (た行)', h: 'た', k: 'タ', r: 'ta', tip: 'Bunyi "ta" jelas.', word: 'たかい (takai)', meaning: 'Tinggi / Mahal', mnemo: 'Hiragana た mirip huruf "t" ditambah huruf "a" kecil di kanannya.' },
+            { id: 'chi', stage: 'stage2', row: 'Baris TA (た行)', h: 'ち', k: 'チ', r: 'chi', tip: 'Dibaca "ci" seperti pada kata "cicak".', word: 'ちち (chichi)', meaning: 'Ayah (sendiri)', mnemo: 'Hiragana ち mirip angka 5.' },
+            { id: 'su', stage: 'stage2', row: 'Baris SA/TA', h: 'す', k: 'ス', r: 'su', tip: 'Bunyi "su" jelas.', word: 'すし (sushi)', meaning: 'Sushi', mnemo: 'Hiragana す memiliki simpul melingkar di tengahnya.' },
+            { id: 'te', stage: 'stage2', row: 'Baris TA (た行)', h: 'て', k: 'テ', r: 'te', tip: 'Dibaca "té" terang.', word: 'て (te)', meaning: 'Tangan', mnemo: 'Hiragana て mirip huruf T yang melengkung perutnya.' },
+            { id: 'to', stage: 'stage2', row: 'Baris TA (た行)', h: 'と', k: 'ト', r: 'to', tip: 'Bunyi "to" jelas.', word: 'とけい (tokei)', meaning: 'Jam', mnemo: 'Katakana ト lurus tegas seperti tiang totem.' },
+
+            { id: 'ha', stage: 'stage2', row: 'Baris HA (は行)', h: 'は', k: 'ハ', r: 'ha', tip: 'Dibaca "ha" (namun dibaca "wa" saat menjadi partikel topik).', word: 'はな (hana)', meaning: 'Bunga', mnemo: 'Katakana ハ berbentuk seperti atap tenda.' },
+            { id: 'hi', stage: 'stage2', row: 'Baris HA (は行)', h: 'ひ', k: 'ヒ', r: 'hi', tip: 'Bunyi "hi" jelas.', word: 'ひと (hito)', meaning: 'Orang', mnemo: 'Hiragana ひ tampak seperti mulut yang tersenyum lebar (hi-hi-hi).' },
+            { id: 'fu', stage: 'stage2', row: 'Baris HA (は行)', h: 'ふ', k: 'フ', r: 'fu', tip: 'Antara "fu" dan "hu" lembut (hembusan bibir tanpa menggigit bibir bawah).', word: 'ふね (fune)', meaning: 'Perahu / Kapal', mnemo: 'Mirip lekukan puncak Gunung Fuji.' },
+            { id: 'he', stage: 'stage2', row: 'Baris HA (は行)', h: 'へ', k: 'ヘ', r: 'he', tip: 'Dibaca "hé" (dibaca "e" saat menjadi partikel arah).', word: 'へや (heya)', meaning: 'Kamar', mnemo: 'Hiragana へ dan Katakana ヘ bentuknya identik seperti gunung.' },
+            { id: 'ho', stage: 'stage2', row: 'Baris HA (は行)', h: 'ほ', k: 'ホ', r: 'ho', tip: 'Bunyi "ho" jelas.', word: 'ほし (hoshi)', meaning: 'Bintang', mnemo: 'Mirip は tetapi punya dua garis horizontal di sebelah kanan.' },
+
+            { id: 'na', stage: 'stage2', row: 'Baris NA (な行)', h: 'な', k: 'ナ', r: 'na', tip: 'Bunyi "na" jelas.', word: 'なつ (natsu)', meaning: 'Musim panas', mnemo: 'Perhatikan salib di kiri atas dan simpul kecil di kanan bawah.' },
+            { id: 'ni', stage: 'stage2', row: 'Baris NA (な行)', h: 'に', k: 'ニ', r: 'ni', tip: 'Bunyi "ni" jelas.', word: 'にく (niku)', meaning: 'Daging', mnemo: 'Katakana ニ sama persis dengan angka dua Kanji (二).' },
+            { id: 'nu', stage: 'stage2', row: 'Baris NA (な行)', h: 'ぬ', k: 'ヌ', r: 'nu', tip: 'Bunyi "nu" jelas.', word: 'いぬ (inu)', meaning: 'Anjing', mnemo: 'Mirip め (me), tetapi ぬ memiliki ekor melingkar (ekor anjing).' },
+            { id: 'ne', stage: 'stage2', row: 'Baris NA (な行)', h: 'ね', k: 'ネ', r: 'ne', tip: 'Dibaca "né" terang.', word: 'ねこ (neko)', meaning: 'Kucing', mnemo: 'Mirip れ dan わ, tetapi ね punya simpul melingkar di ujungnya (ekor kucing).' },
+            { id: 'no', stage: 'stage2', row: 'Baris NA (な行)', h: 'の', k: 'ノ', r: 'no', tip: 'Bunyi "no" jelas.', word: 'のみもの (nomimono)', meaning: 'Minuman', mnemo: 'Hiragana の melingkar seperti tanda dilarang (NO).' },
+
+            // ================= TAHAP 3 (16 HURUF: MA-MI-MU-ME-MO, YA-YU-YO, RA-RI-RU-RE-RO, WA-WO-N) =================
+            { id: 'ma', stage: 'stage3', row: 'Baris MA (ま行)', h: 'ま', k: 'マ', r: 'ma', tip: 'Bunyi "ma" jelas.', word: 'まち (machi)', meaning: 'Kota', mnemo: 'Dua garis horizontal dengan simpul di bawah.' },
+            { id: 'mi', stage: 'stage3', row: 'Baris MA (ま行)', h: 'み', k: 'ミ', r: 'mi', tip: 'Bunyi "mi" jelas.', word: 'みみ (mimi)', meaning: 'Telinga', mnemo: 'Katakana ミ terdiri dari 3 garis miring.' },
+            { id: 'mu', stage: 'stage3', row: 'Baris MA (ま行)', h: 'む', k: 'ム', r: 'mu', tip: 'Bunyi "mu" jelas.', word: 'むし (mushi)', meaning: 'Serangga', mnemo: 'Hiragana む tampak seperti sapi yang bersuara "muuu".' },
+            { id: 'me', stage: 'stage3', row: 'Baris MA (ま行)', h: 'め', k: 'メ', r: 'me', tip: 'Dibaca "mé" terang.', word: 'め (me)', meaning: 'Mata', mnemo: 'Mirip ぬ tetapi tanpa ekor melingkar di ujungnya.' },
+            { id: 'mo', stage: 'stage3', row: 'Baris MA (ま行)', h: 'も', k: 'モ', r: 'mo', tip: 'Bunyi "mo" jelas.', word: 'もも (momo)', meaning: 'Buah persik', mnemo: 'Kail pancing dengan dua garis umpan.' },
+
+            { id: 'ya', stage: 'stage3', row: 'Baris YA (や行)', h: 'や', k: 'ヤ', r: 'ya', tip: 'Bunyi "ya" jelas.', word: 'やま (yama)', meaning: 'Gunung', mnemo: 'Hiragana や dan Katakana ヤ bentuk dasarnya serupa.' },
+            { id: 'yu', stage: 'stage3', row: 'Baris YA (や行)', h: 'ゆ', k: 'ユ', r: 'yu', tip: 'Bunyi "yu" jelas.', word: 'ゆき (yuki)', meaning: 'Salju', mnemo: 'Hiragana ゆ sering dipasang di tirai pemandian air panas (onsen).' },
+            { id: 'yo', stage: 'stage3', row: 'Baris YA (や行)', h: 'よ', k: 'ヨ', r: 'yo', tip: 'Bunyi "yo" jelas.', word: 'よる (yoru)', meaning: 'Malam', mnemo: 'Katakana ヨ seperti huruf E terbalik.' },
+
+            { id: 'ra', stage: 'stage3', row: 'Baris RA (ら行)', h: 'ら', k: 'ラ', r: 'ra', tip: 'Bunyi R Jepang adalah ketukan ringan lidah (antara R dan L).', word: 'らいげつ (raigetsu)', meaning: 'Bulan depan', mnemo: 'Mirip angka 5 yang terpisah atapnya.' },
+            { id: 'ri', stage: 'stage3', row: 'Baris RA (ら行)', h: 'り', k: 'リ', r: 'ri', tip: 'Bunyi "ri" ringan.', word: 'りんご (ringo)', meaning: 'Apel', mnemo: 'Dua garis vertikal, garis kanan lebih panjang melengkung ke kiri.' },
+            { id: 'ru', stage: 'stage3', row: 'Baris RA (ら行)', h: 'る', k: 'ル', r: 'ru', tip: 'Bunyi "ru" jelas.', word: 'くるま (kuruma)', meaning: 'Mobil', mnemo: 'Mirip ろ tetapi る memiliki bulatan simpul di ujung bawah.' },
+            { id: 're', stage: 'stage3', row: 'Baris RA (ら行)', h: 'れ', k: 'レ', r: 're', tip: 'Dibaca "ré" terang.', word: 'れきし (rekishi)', meaning: 'Sejarah', mnemo: 'Ujung kanan bawahnya melenting keluar seperti tanda centang.' },
+            { id: 'ro', stage: 'stage3', row: 'Baris RA (ら行)', h: 'ろ', k: 'ロ', r: 'ro', tip: 'Bunyi "ro" jelas.', word: 'ろく (roku)', meaning: 'Enam (6)', mnemo: 'Mirip angka 3 tanpa bulatan di ujung; Katakana ロ berbentuk kotak.' },
+
+            { id: 'wa', stage: 'stage3', row: 'Baris WA (わ行)', h: 'わ', k: 'ワ', r: 'wa', tip: 'Bunyi "wa" jelas.', word: 'わたし (watashi)', meaning: 'Saya', mnemo: 'Mirip ね dan れ, namun perut わ melengkung mulus ke dalam.' },
+            { id: 'wo', stage: 'stage3', row: 'Baris WA (わ行)', h: 'を', k: 'ヲ', r: 'wo (o)', tip: 'Khusus digunakan sebagai partikel objek (dibaca "o").', word: 'ほんを よみます', meaning: 'Membaca buku (partikel objek)', mnemo: 'Selalu menempel setelah objek kata kerja.' },
+            { id: 'n', stage: 'stage3', row: 'Huruf N (ん)', h: 'ん', k: 'ン', r: 'n', tip: 'Konsonan sengau tunggal (dibaca n, m, atau ng tergantung huruf setelahnya).', word: 'にほん (nihon)', meaning: 'Jepang', mnemo: 'Hiragana ん mirip huruf "n" sambung; Katakana ン ditarik dari bawah ke kanan atas.' },
+
+            // ================= TAHAP 4: TENTEN & MARU (25 HURUF) =================
+            { id: 'ga', stage: 'stage4', row: 'Tenten G (が行)', h: 'が', k: 'ガ', r: 'ga', tip: 'Huruf KA + Tenten (゛) menjadi GA.', word: 'がっこう (gakkou)', meaning: 'Sekolah', mnemo: 'か + ゛ = が' },
+            { id: 'gi', stage: 'stage4', row: 'Tenten G (が行)', h: 'ぎ', k: 'ギ', r: 'gi', tip: 'Huruf KI + Tenten (゛) menjadi GI.', word: 'ぎんこう (ginkou)', meaning: 'Bank', mnemo: 'き + ゛ = ぎ' },
+            { id: 'gu', stage: 'stage4', row: 'Tenten G (が行)', h: 'ぐ', k: 'グ', r: 'gu', tip: 'Huruf KU + Tenten (゛) menjadi GU.', word: 'かぐ (kagu)', meaning: 'Perabotan', mnemo: 'く + ゛ = ぐ' },
+            { id: 'ge', stage: 'stage4', row: 'Tenten G (が行)', h: 'げ', k: 'ゲ', r: 'ge', tip: 'Huruf KE + Tenten (゛) menjadi GE.', word: 'げんき (genki)', meaning: 'Sehat / Semangat', mnemo: 'け + ゛ = げ' },
+            { id: 'go', stage: 'stage4', row: 'Tenten G (が行)', h: 'ご', k: 'ゴ', r: 'go', tip: 'Huruf KO + Tenten (゛) menjadi GO.', word: 'にほんご (nihongo)', meaning: 'Bahasa Jepang', mnemo: 'こ + ゛ = ご' },
+
+            { id: 'za', stage: 'stage4', row: 'Tenten Z (ざ行)', h: 'ざ', k: 'ザ', r: 'za', tip: 'Huruf SA + Tenten (゛) menjadi ZA.', word: 'ざっし (zasshi)', meaning: 'Majalah', mnemo: 'さ + ゛ = ざ' },
+            { id: 'ji', stage: 'stage4', row: 'Tenten Z (ざ行)', h: 'じ', k: 'ジ', r: 'ji', tip: 'Huruf SHI + Tenten (゛) menjadi JI (bukan dzi).', word: 'じしょ (jisho)', meaning: 'Kamus', mnemo: 'し + ゛ = じ (JI paling umum dipakai).' },
+            { id: 'zu', stage: 'stage4', row: 'Tenten Z (ざ行)', h: 'ず', k: 'ズ', r: 'zu', tip: 'Huruf SU + Tenten (゛) menjadi ZU.', word: 'みず (mizu)', meaning: 'Air', mnemo: 'す + ゛ = ず' },
+            { id: 'ze', stage: 'stage4', row: 'Tenten Z (ざ行)', h: 'ぜ', k: 'ゼ', r: 'ze', tip: 'Huruf SE + Tenten (゛) menjadi ZE.', word: 'かぜ (kaze)', meaning: 'Angin / Masuk angin', mnemo: 'せ + ゛ = ぜ' },
+            { id: 'zo', stage: 'stage4', row: 'Tenten Z (ざ行)', h: 'ぞ', k: 'ゾ', r: 'zo', tip: 'Huruf SO + Tenten (゛) menjadi ZO.', word: 'かぞく (kazoku)', meaning: 'Keluarga', mnemo: 'そ + ゛ = ぞ' },
+
+            { id: 'da', stage: 'stage4', row: 'Tenten D (だ行)', h: 'だ', k: 'ダ', r: 'da', tip: 'Huruf TA + Tenten (゛) menjadi DA.', word: 'だいがく (daigaku)', meaning: 'Universitas', mnemo: 'た + ゛ = だ' },
+            { id: 'dji', stage: 'stage4', row: 'Tenten D (だ行)', h: 'ぢ', k: 'ヂ', r: 'ji (di)', tip: 'Huruf CHI + Tenten (゛) dibaca JI (jarang dipakai, khusus kata tertentu).', word: 'はなぢ (hanaji)', meaning: 'Mimisan', mnemo: 'ち + ゛ = ぢ' },
+            { id: 'dzu', stage: 'stage4', row: 'Tenten D (だ行)', h: 'づ', k: 'ヅ', r: 'zu (du)', tip: 'Huruf TSU + Tenten (゛) dibaca ZU (dipakai pada kata berulang seperti tsuzuku).', word: 'つづく (tsuzuku)', meaning: 'Berlanjut', mnemo: 'つ + ゛ = づ' },
+            { id: 'de', stage: 'stage4', row: 'Tenten D (だ行)', h: 'で', k: 'デ', r: 'de', tip: 'Huruf TE + Tenten (゛) menjadi DE.', word: 'でんわ (denwa)', meaning: 'Telepon', mnemo: 'て + ゛ = で' },
+            { id: 'do', stage: 'stage4', row: 'Tenten D (だ行)', h: 'ど', k: 'ド', r: 'do', tip: 'Huruf TO + Tenten (゛) menjadi DO.', word: 'どなた (donata)', meaning: 'Siapa (sopan)', mnemo: 'と + ゛ = ど' },
+
+            { id: 'ba', stage: 'stage4', row: 'Tenten B (ば行)', h: 'ば', k: 'バ', r: 'ba', tip: 'Huruf HA + Tenten (゛) menjadi BA.', word: 'かばん (kaban)', meaning: 'Tas', mnemo: 'は + ゛ = ば' },
+            { id: 'bi', stage: 'stage4', row: 'Tenten B (ば行)', h: 'び', k: 'ビ', r: 'bi', tip: 'Huruf HI + Tenten (゛) menjadi BI.', word: 'テレビ (terebi)', meaning: 'Televisi', mnemo: 'ひ + ゛ = び' },
+            { id: 'bu', stage: 'stage4', row: 'Tenten B (ば行)', h: 'ぶ', k: 'ブ', r: 'bu', tip: 'Huruf FU + Tenten (゛) menjadi BU.', word: 'しんぶん (shinbun)', meaning: 'Koran', mnemo: 'ふ + ゛ = ぶ' },
+            { id: 'be', stage: 'stage4', row: 'Tenten B (ば行)', h: 'べ', k: 'ベ', r: 'be', tip: 'Huruf HE + Tenten (゛) menjadi BE.', word: 'ベッド (beddo)', meaning: 'Tempat tidur', mnemo: 'へ + ゛ = べ' },
+            { id: 'bo', stage: 'stage4', row: 'Tenten B (ば行)', h: 'ぼ', k: 'ボ', r: 'bo', tip: 'Huruf HO + Tenten (゛) menjadi BO.', word: 'ボールペン (boorupen)', meaning: 'Bolpoin', mnemo: 'ほ + ゛ = ぼ' },
+
+            { id: 'pa', stage: 'stage4', row: 'Maru P (ぱ行)', h: 'ぱ', k: 'パ', r: 'pa', tip: 'Huruf HA + Maru (゜) menjadi PA.', word: 'パン (pan)', meaning: 'Roti', mnemo: 'は + ゜ = ぱ' },
+            { id: 'pi', stage: 'stage4', row: 'Maru P (ぱ行)', h: 'ぴ', k: 'ピ', r: 'pi', tip: 'Huruf HI + Maru (゜) menjadi PI.', word: 'えんぴつ (enpitsu)', meaning: 'Pensil', mnemo: 'ひ + ゜ = ぴ' },
+            { id: 'pu', stage: 'stage4', row: 'Maru P (ぱ行)', h: 'ぷ', k: 'プ', r: 'pu', tip: 'Huruf FU + Maru (゜) menjadi PU.', word: 'てんぷら (tenpura)', meaning: 'Tempura', mnemo: 'ふ + ゜ = ぷ' },
+            { id: 'pe', stage: 'stage4', row: 'Maru P (ぱ行)', h: 'ぺ', k: 'ペ', r: 'pe', tip: 'Huruf HE + Maru (゜) menjadi PE.', word: 'ぺこぺこ (pekopeko)', meaning: 'Perut keroncongan', mnemo: 'へ + ゜ = ぺ' },
+            { id: 'po', stage: 'stage4', row: 'Maru P (ぱ行)', h: 'ぽ', k: 'ポ', r: 'po', tip: 'Huruf HO + Maru (゜) menjadi PO.', word: 'さんぽ (sanpo)', meaning: 'Jalan-jalan santai', mnemo: 'ほ + ゜ = ぽ' },
+
+            // ================= TAHAP 5: YOON GABUNGAN (33 HURUF) =================
+            { id: 'kya', stage: 'stage5', row: 'Yoon KY (きゃ行)', h: 'きゃ', k: 'キャ', r: 'kya', tip: 'Gabungan KI + ya kecil (ゃ) dibaca 1 ketukan "kya".', word: 'きゃく (kyaku)', meaning: 'Tamu / Pelanggan', mnemo: 'き + ゃ kecil = きゃ' },
+            { id: 'kyu', stage: 'stage5', row: 'Yoon KY (きゃ行)', h: 'きゅ', k: 'キュ', r: 'kyu', tip: 'Gabungan KI + yu kecil (ゅ) dibaca "kyu".', word: 'きゅう (kyuu)', meaning: 'Sembilan (9)', mnemo: 'き + ゅ kecil = きゅ' },
+            { id: 'kyo', stage: 'stage5', row: 'Yoon KY (きゃ行)', h: 'きょ', k: 'キョ', r: 'kyo', tip: 'Gabungan KI + yo kecil (ょ) dibaca "kyo".', word: 'きょうし (kyoushi)', meaning: 'Guru / Dosen (profesi)', mnemo: 'き + ょ kecil = きょ' },
+
+            { id: 'sha', stage: 'stage5', row: 'Yoon SH (しゃ行)', h: 'しゃ', k: 'シャ', r: 'sha', tip: 'Gabungan SHI + ya kecil (ゃ) dibaca "sya".', word: 'いしゃ (isha)', meaning: 'Dokter', mnemo: 'し + ゃ kecil = しゃ' },
+            { id: 'shu', stage: 'stage5', row: 'Yoon SH (しゃ行)', h: 'しゅ', k: 'シュ', r: 'shu', tip: 'Gabungan SHI + yu kecil (ゅ) dibaca "syu".', word: 'しゅみ (shumi)', meaning: 'Hobi', mnemo: 'し + ゅ kecil = しゅ' },
+            { id: 'sho', stage: 'stage5', row: 'Yoon SH (しゃ行)', h: 'しょ', k: 'ショ', r: 'sho', tip: 'Gabungan SHI + yo kecil (ょ) dibaca "syo".', word: 'じしょ (jisho)', meaning: 'Kamus', mnemo: 'し + ょ kecil = しょ' },
+
+            { id: 'cha', stage: 'stage5', row: 'Yoon CH (ちゃ行)', h: 'ちゃ', k: 'チャ', r: 'cha', tip: 'Gabungan CHI + ya kecil (ゃ) dibaca "ca".', word: 'おちゃ (ocha)', meaning: 'Teh Jepang', mnemo: 'ち + ゃ kecil = ちゃ' },
+            { id: 'chu', stage: 'stage5', row: 'Yoon CH (ちゃ行)', h: 'ちゅ', k: 'チュ', r: 'chu', tip: 'Gabungan CHI + yu kecil (ゅ) dibaca "cu".', word: 'ちゅうごく (chuugoku)', meaning: 'Tiongkok', mnemo: 'ち + ゅ kecil = ちゅ' },
+            { id: 'cho', stage: 'stage5', row: 'Yoon CH (ちゃ行)', h: 'ちょ', k: 'チョ', r: 'cho', tip: 'Gabungan CHI + yo kecil (ょ) dibaca "co".', word: 'てちょう (techou)', meaning: 'Buku agenda', mnemo: 'ち + ょ kecil = ちょ' },
+
+            { id: 'nya', stage: 'stage5', row: 'Yoon NY (にゃ行)', h: 'にゃ', k: 'ニャ', r: 'nya', tip: 'Gabungan NI + ya kecil (ゃ) dibaca "nya".', word: 'にゃんこ (nyanko)', meaning: 'Kucing (akrab)', mnemo: 'に + ゃ kecil = にゃ' },
+            { id: 'nyu', stage: 'stage5', row: 'Yoon NY (にゃ行)', h: 'にゅ', k: 'ニュ', r: 'nyu', tip: 'Gabungan NI + yu kecil (ゅ) dibaca "nyu".', word: 'ニュース (nyuusu)', meaning: 'Berita', mnemo: 'に + ゅ kecil = にゅ' },
+            { id: 'nyo', stage: 'stage5', row: 'Yoon NY (にゃ行)', h: 'にょ', k: 'ニョ', r: 'nyo', tip: 'Gabungan NI + yo kecil (ょ) dibaca "nyo".', word: 'にょうぼう (nyoubou)', meaning: 'Istri', mnemo: 'に + ょ kecil = にょ' },
+
+            { id: 'hya', stage: 'stage5', row: 'Yoon HY (ひゃ行)', h: 'ひゃ', k: 'ヒャ', r: 'hya', tip: 'Gabungan HI + ya kecil (ゃ) dibaca "hya".', word: 'ひゃく (hyaku)', meaning: 'Seratus (100)', mnemo: 'ひ + ゃ kecil = ひゃ' },
+            { id: 'hyu', stage: 'stage5', row: 'Yoon HY (ひゃ行)', h: 'ひゅ', k: 'ヒュ', r: 'hyu', tip: 'Gabungan HI + yu kecil (ゅ) dibaca "hyu".', word: 'ヒューマン (hyuuman)', meaning: 'Manusia (Human)', mnemo: 'ひ + ゅ kecil = ひゅ' },
+            { id: 'hyo', stage: 'stage5', row: 'Yoon HY (ひゃ行)', h: 'ひょ', k: 'ヒョ', r: 'hyo', tip: 'Gabungan HI + yo kecil (ょ) dibaca "hyo".', word: 'ひょう (hyou)', meaning: 'Tabel / Bagan', mnemo: 'ひ + ょ kecil = ひょ' },
+
+            { id: 'mya', stage: 'stage5', row: 'Yoon MY (みゃ行)', h: 'みゃ', k: 'ミャ', r: 'mya', tip: 'Gabungan MI + ya kecil (ゃ) dibaca "mya".', word: 'みゃく (myaku)', meaning: 'Denyut nadi', mnemo: 'み + ゃ kecil = みゃ' },
+            { id: 'myu', stage: 'stage5', row: 'Yoon MY (みゃ行)', h: 'みゅ', k: 'ミュ', r: 'myu', tip: 'Gabungan MI + yu kecil (ゅ) dibaca "myu".', word: 'ミュージック (myuujikku)', meaning: 'Musik', mnemo: 'み + ゅ kecil = みゅ' },
+            { id: 'myo', stage: 'stage5', row: 'Yoon MY (みゃ行)', h: 'みょ', k: 'ミョ', r: 'myo', tip: 'Gabungan MI + yo kecil (ょ) dibaca "myo".', word: 'みょうじ (myouji)', meaning: 'Nama marga', mnemo: 'み + ょ kecil = みょ' },
+
+            { id: 'rya', stage: 'stage5', row: 'Yoon RY (りゃ行)', h: 'りゃ', k: 'リャ', r: 'rya', tip: 'Gabungan RI + ya kecil (ゃ) dibaca "rya".', word: 'りゃくご (ryakugo)', meaning: 'Singkatan', mnemo: 'り + ゃ kecil = りゃ' },
+            { id: 'ryu', stage: 'stage5', row: 'Yoon RY (りゃ行)', h: 'りゅ', k: 'リュ', r: 'ryu', tip: 'Gabungan RI + yu kecil (ゅ) dibaca "ryu".', word: 'りゅうがくせい (ryuugakusei)', meaning: 'Pelajar asing', mnemo: 'り + ゅ kecil = りゅ' },
+            { id: 'ryo', stage: 'stage5', row: 'Yoon RY (りゃ行)', h: 'りょ', k: 'リョ', r: 'ryo', tip: 'Gabungan RI + yo kecil (ょ) dibaca "ryo".', word: 'りょこう (ryokou)', meaning: 'Wisata / Traveling', mnemo: 'り + ょ kecil = りょ' },
+
+            { id: 'gya', stage: 'stage5', row: 'Yoon GY (ぎゃ行)', h: 'ぎゃ', k: 'ギャ', r: 'gya', tip: 'Gabungan GI + ya kecil (ゃ) dibaca "gya".', word: 'ぎゃく (gyaku)', meaning: 'Kebalikan', mnemo: 'ぎ + ゃ kecil = ぎゃ' },
+            { id: 'gyu', stage: 'stage5', row: 'Yoon GY (ぎゃ行)', h: 'ぎゅ', k: 'ギュ', r: 'gyu', tip: 'Gabungan GI + yu kecil (ゅ) dibaca "gyu".', word: 'ぎゅうにゅう (gyuunyuu)', meaning: 'Susu sapi', mnemo: 'ぎ + ゅ kecil = ぎゅ' },
+            { id: 'gyo', stage: 'stage5', row: 'Yoon GY (ぎゃ行)', h: 'ぎょ', k: 'ギョ', r: 'gyo', tip: 'Gabungan GI + yo kecil (ょ) dibaca "gyo".', word: 'きんぎょ (kingyo)', meaning: 'Ikan mas koki', mnemo: 'ぎ + ょ kecil = ぎょ' },
+
+            { id: 'ja', stage: 'stage5', row: 'Yoon J (じゃ行)', h: 'じゃ', k: 'ジャ', r: 'ja', tip: 'Gabungan JI + ya kecil (ゃ) dibaca "ja".', word: 'じゃ ありません', meaning: 'Bukan (negatif)', mnemo: 'じ + ゃ kecil = じゃ' },
+            { id: 'ju', stage: 'stage5', row: 'Yoon J (じゃ行)', h: 'じゅ', k: 'ジュ', r: 'ju', tip: 'Gabungan JI + yu kecil (ゅ) dibaca "ju".', word: 'じゅっさい (jussai)', meaning: 'Umur 10 tahun', mnemo: 'じ + ゅ kecil = じゅ' },
+            { id: 'jo', stage: 'stage5', row: 'Yoon J (じゃ行)', h: 'じょ', k: 'ジョ', r: 'jo', tip: 'Gabungan JI + yo kecil (ょ) dibaca "jo".', word: 'じょうず (jouzu)', meaning: 'Pandai / Mahir', mnemo: 'じ + ょ kecil = じょ' },
+
+            { id: 'bya', stage: 'stage5', row: 'Yoon BY (びゃ行)', h: 'びゃ', k: 'ビャ', r: 'bya', tip: 'Gabungan BI + ya kecil (ゃ) dibaca "bya".', word: 'さんびゃく (sanbyaku)', meaning: 'Tiga ratus (300)', mnemo: 'び + ゃ kecil = びゃ' },
+            { id: 'byu', stage: 'stage5', row: 'Yoon BY (びゃ行)', h: 'びゅ', k: 'ビュ', r: 'byu', tip: 'Gabungan BI + yu kecil (ゅ) dibaca "byu".', word: 'インタビュー (intabyuu)', meaning: 'Wawancara', mnemo: 'び + ゅ kecil = びゅ' },
+            { id: 'byo', stage: 'stage5', row: 'Yoon BY (びゃ行)', h: 'びょ', k: 'ビョ', r: 'byo', tip: 'Gabungan BI + yo kecil (ょ) dibaca "byo".', word: 'びょういん (byouin)', meaning: 'Rumah sakit', mnemo: 'び + ょ kecil = びょ' },
+
+            { id: 'pya', stage: 'stage5', row: 'Yoon PY (ぴゃ行)', h: 'ぴゃ', k: 'ピャ', r: 'pya', tip: 'Gabungan PI + ya kecil (ゃ) dibaca "pya".', word: 'ろっぴゃく (roppyaku)', meaning: 'Enam ratus (600)', mnemo: 'ぴ + ゃ kecil = ぴゃ' },
+            { id: 'pyu', stage: 'stage5', row: 'Yoon PY (ぴゃ行)', h: 'ぴゅ', k: 'ピュ', r: 'pyu', tip: 'Gabungan PI + yu kecil (ゅ) dibaca "pyu".', word: 'コンピューター', meaning: 'Komputer', mnemo: 'ぴ + ゅ kecil = ぴゅ' },
+            { id: 'pyo', stage: 'stage5', row: 'Yoon PY (ぴゃ行)', h: 'ぴょ', k: 'ピョ', r: 'pyo', tip: 'Gabungan PI + yo kecil (ょ) dibaca "pyo".', word: 'はっぴょう (happyou)', meaning: 'Presentasi / Pengumuman', mnemo: 'ぴ + ょ kecil = ぴょ' }
+        ];
+
+        /* =========================================================================
+           2. DATA LENGKAP KOTOBA KATA BENDA & KATA KERJA BAB 1 (UNTUK PDF)
+           ========================================================================= */
+        const BAB1_NOUNS_PDF = [
+            { kana: 'わたし', kanji: '私', romaji: 'watashi', meaning: 'Saya (kata ganti orang pertama tunggal)' },
+            { kana: 'あなた', kanji: '貴方', romaji: 'anata', meaning: 'Anda / Kamu (orang kedua tunggal)' },
+            { kana: 'あのひと', kanji: 'あの人', romaji: 'ano hito', meaning: 'Orang itu / Dia (bentuk biasa)' },
+            { kana: 'あのかた', kanji: 'あの方', romaji: 'ano kata', meaning: 'Beliau / Orang itu (bentuk sopan)' },
+            { kana: '～さん', kanji: '～さん', romaji: '~san', meaning: 'Saudara / Bapak / Ibu (dibelakang nama orang lain)' },
+            { kana: '～ちゃん', kanji: '～ちゃん', romaji: '~chan', meaning: 'Panggilan akrab untuk anak-anak' },
+            { kana: '～じん', kanji: '～人', romaji: '~jin', meaning: 'Orang / Warga negara ~ (contoh: インドネシアじん)' },
+            { kana: 'せんせい', kanji: '先生', romaji: 'sensei', meaning: 'Guru / Dosen / Instruktur (panggilan hormat)' },
+            { kana: 'きょうし', kanji: '教師', romaji: 'kyoushi', meaning: 'Guru / Dosen (saat menyebut pekerjaan sendiri)' },
+            { kana: 'がくせい', kanji: '学生', romaji: 'gakusei', meaning: 'Mahasiswa / Pelajar' },
+            { kana: 'かいしゃいん', kanji: '会社員', romaji: 'kaishain', meaning: 'Karyawan perusahaan (secara umum)' },
+            { kana: 'しゃいん', kanji: '社員', romaji: 'shain', meaning: 'Karyawan perusahaan ~ (diikuti nama PT: IMCのしゃいん)' },
+            { kana: 'ぎんこういん', kanji: '銀行員', romaji: 'ginkouin', meaning: 'Pegawai bank' },
+            { kana: 'いしゃ', kanji: '医者', romaji: 'isha', meaning: 'Dokter' },
+            { kana: 'けんきゅうしゃ', kanji: '研究者', romaji: 'kenkyuusha', meaning: 'Peneliti' },
+            { kana: 'エンジニア', kanji: 'エンジニア', romaji: 'enjinia', meaning: 'Insinyur / Teknisi (Engineer)' },
+            { kana: 'だいがく', kanji: '大学', romaji: 'daigaku', meaning: 'Universitas' },
+            { kana: 'びょういん', kanji: '病院', romaji: 'byouin', meaning: 'Rumah sakit' },
+            { kana: 'でんき', kanji: '電気', romaji: 'denki', meaning: 'Listrik / Lampu' },
+            { kana: 'だれ / どなた', kanji: '誰 / どなた', romaji: 'dare / donata', meaning: 'Siapa (biasa) / Siapa (sopan)' },
+            { kana: '～さい', kanji: '～歳', romaji: '~sai', meaning: 'Umur ~ tahun' },
+            { kana: 'なんさい / おいくつ', kanji: '何歳 / おいくつ', romaji: 'nansai / oikutsu', meaning: 'Umur berapa? (biasa / sopan)' },
+            { kana: 'にほん', kanji: '日本', romaji: 'nihon', meaning: 'Jepang (にほんじん = Orang Jepang)' },
+            { kana: 'インドネシア', kanji: 'インドネシア', romaji: 'indoneshia', meaning: 'Indonesia (インドネシアじん = Orang Indonesia)' },
+            { kana: 'アメリカ', kanji: 'アメリカ', romaji: 'amerika', meaning: 'Amerika Serikat' },
+            { kana: 'イギリス', kanji: 'イギリス', romaji: 'igirisu', meaning: 'Inggris' },
+            { kana: 'インド', kanji: 'インド', romaji: 'indo', meaning: 'India' },
+            { kana: 'かんこく', kanji: '韓国', romaji: 'kankoku', meaning: 'Korea Selatan' },
+            { kana: 'ちゅうごく', kanji: '中国', romaji: 'chuugoku', meaning: 'Tiongkok / China' },
+            { kana: 'ドイツ', kanji: 'ドイツ', romaji: 'doitsu', meaning: 'Jerman' },
+            { kana: 'ブラジル', kanji: 'ブラジル', romaji: 'burajiru', meaning: 'Brasil' },
+            { kana: 'タイ', kanji: 'タイ', romaji: 'tai', meaning: 'Thailand' }
+        ];
+
+        const BAB1_VERBS_PDF = [
+            { kana: 'きます (きました)', kanji: '来ます (くる)', romaji: 'kimasu (kimashita)', meaning: 'Datang / Berasal dari (Contoh: インドネシアから きました)' },
+            { kana: 'おねがいします', kanji: 'お願いします (願う)', romaji: 'onegaishimasu', meaning: 'Memohon / Meminta tolong (Contoh: どうぞ よろしく おねがいします)' },
+            { kana: 'はじめまして', kanji: '初めまして (始める)', romaji: 'hajimemashite', meaning: 'Perkenalkan (Berasal dari kata kerja hajimeru = memulai pertemuan pertama)' },
+            { kana: 'しつれいします', kanji: '失礼します (する)', romaji: 'shitsureishimasu', meaning: 'Permisi / Mohon maaf mengganggu (しつれいですが = Permisi, tetapi...)' },
+            { kana: 'です', kanji: 'です (Kopula)', romaji: 'desu', meaning: 'Adalah... (Penegas kalimat kata benda positif sopan)' },
+            { kana: 'じゃ ありません', kanji: 'じゃ ありません', romaji: 'ja arimasen', meaning: 'Bukan... (Bentuk negatif dari desu dalam percakapan)' },
+            { kana: 'では ありません', kanji: 'では ありません', romaji: 'dewa arimasen', meaning: 'Bukan... (Bentuk negatif formal dari desu)' },
+            { kana: 'べんきょうします', kanji: '勉強します (する)', romaji: 'benkyoushimasu', meaning: 'Belajar (Contoh: にほんごを べんきょうします = Belajar bahasa Jepang)' },
+            { kana: 'はたらきます', kanji: '働きます (はたらく)', romaji: 'hatarakimasu', meaning: 'Bekerja (Contoh: IMCで はたらきます = Bekerja di perusahaan IMC)' },
+            { kana: 'いきます', kanji: '行きます (いく)', romaji: 'ikimasu', meaning: 'Pergi (Contoh: だいがくへ いきます = Pergi ke universitas)' },
+            { kana: 'かえります', kanji: '帰ります (かえる)', romaji: 'kaerimasu', meaning: 'Pulang / Kembali (Contoh: うちへ かえります = Pulang ke rumah)' },
+            { kana: 'よみます', kanji: '読みます (よむ)', romaji: 'yomimasu', meaning: 'Membaca (Contoh: ほんを よみます = Membaca buku)' },
+            { kana: 'ききます', kanji: '聞きます (きく)', romaji: 'kikimasu', meaning: 'Mendengar / Bertanya (Contoh: せんせいに ききます)' },
+            { kana: 'はなします', kanji: '話します (はなす)', romaji: 'hanashimasu', meaning: 'Berbicara (Contoh: にほんごを はなします)' },
+            { kana: 'みます', kanji: '見ます (みる)', romaji: 'mimasu', meaning: 'Melihat / Menonton (Contoh: テレビを みます)' }
+        ];
+
+        /* =========================================================================
+           3. STATE MANAGEMENT FLASHCARD JUMBO
+           ========================================================================= */
+        let currentMainView = 'flashcard'; // 'flashcard' | 'grid' | 'quiz' | 'pdf-bab1'
+        let viewHistory = [];
+
+        let activeStage = 'stage1';
+        let scriptMode = 'hiragana'; // 'hiragana' | 'katakana' | 'both'
+        let fontSizeMode = 'xl';     // 'normal' | 'xl' | 'giant'
+        let fontStyleMode = 'gothic'; // 'gothic' | 'mincho'
+        let showGridGuide = true;
+        let showFrontHint = false;
+        let filterUnmemorizedOnly = false;
+
+        let activeDeck = [];
+        let currentCardIndex = 0;
+        let isCardFlipped = false;
+
+        // Penyimpanan status hafalan { [id]: 'memorized' | 'review' }
+        let cardMemoryStatus = {};
+
+        // Auto-play state
+        let autoPlayTimer = null;
+
+        // State Flash Quiz
+        let quizScore = 0;
+        let quizStreak = 0;
+        let currentQuizItem = null;
+
+        /* =========================================================================
+           4. NAVIGASI ANTAR TAMPILAN & TOMBOL KEMBALI (BACK)
+           ========================================================================= */
+        function switchMainView(viewName, recordHistory = true) {
+            stopAutoPlay();
+            if (recordHistory && viewName !== currentMainView) {
+                viewHistory.push(currentMainView);
+            }
+            currentMainView = viewName;
+
+            const views = ['flashcard', 'grid', 'quiz', 'pdf-bab1'];
+            views.forEach(v => {
+                const el = document.getElementById(`view-${v}`);
+                if (el) el.classList.toggle('hidden', v !== viewName);
+
+                const tBtn = document.getElementById(`tab-btn-${v}`);
+                if (tBtn) {
+                    if (v === viewName) {
+                        tBtn.className = "px-4 py-1.5 rounded-full text-xs font-extrabold transition-all bg-white text-crimson shadow";
+                    } else {
+                        tBtn.className = "px-4 py-1.5 rounded-full text-xs font-bold transition-all text-white hover:bg-white/15";
+                    }
+                }
+
+                const mBtn = document.getElementById(`mob-tab-${v}`);
+                if (mBtn) {
+                    if (v === viewName) {
+                        mBtn.className = "px-3 py-1.5 rounded-full text-[11px] font-extrabold whitespace-nowrap bg-white text-crimson shadow";
+                    } else {
+                        mBtn.className = "px-3 py-1.5 rounded-full text-[11px] font-bold whitespace-nowrap text-white";
+                    }
+                }
+            });
+
+            // Sembunyikan panel kontrol kana saat di halaman PDF Bab 1 agar fokus
+            const globalControls = document.getElementById('global-kana-controls');
+            if (globalControls) {
+                globalControls.classList.toggle('hidden', viewName === 'pdf-bab1');
+            }
+
+            // Tombol Back di Header
+            const backBtn = document.getElementById('btn-header-back');
+            if (backBtn) {
+                backBtn.classList.toggle('hidden', viewName === 'flashcard' && viewHistory.length === 0);
+            }
+
+            if (viewName === 'grid') renderJumboGrid();
+            if (viewName === 'quiz') generateQuizQuestion();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function goBack() {
+            stopAutoPlay();
+            if (viewHistory.length > 0) {
+                const prev = viewHistory.pop();
+                switchMainView(prev, false);
+            } else {
+                switchMainView('flashcard', false);
+            }
+        }
+
+        /* =========================================================================
+           5. PENGATURAN DEK, FILTER & TAMPILAN HURUF JUMBO
+           ========================================================================= */
+        const STAGE_NAMES = {
+            stage1: 'Tahap 1 (a-ka-sa)',
+            stage2: 'Tahap 2 (ta-ha-na)',
+            stage3: 'Tahap 3 (ma-ya-ra-wa)',
+            stage4: 'Tahap 4 (Tenten & Maru)',
+            stage5: 'Tahap 5 (Yoon Gabungan)',
+            seion: 'Semua Huruf Dasar (46)',
+            all: 'Semua Huruf Lengkap (104)'
+        };
+
+        function buildActiveDeck() {
+            let list = [];
+            if (activeStage === 'seion') {
+                list = KANA_MASTER_LIST.filter(item => ['stage1', 'stage2', 'stage3'].includes(item.stage));
+            } else if (activeStage === 'all') {
+                list = [...KANA_MASTER_LIST];
+            } else {
+                list = KANA_MASTER_LIST.filter(item => item.stage === activeStage);
+            }
+
+            if (filterUnmemorizedOnly) {
+                const unmem = list.filter(item => cardMemoryStatus[item.id] !== 'memorized');
+                if (unmem.length > 0) {
+                    list = unmem;
+                } else {
+                    filterUnmemorizedOnly = false;
+                    updateUnmemorizedFilterUI();
+                }
+            }
+
+            activeDeck = list;
+            currentCardIndex = 0;
+            isCardFlipped = false;
+            renderCurrentFlashcard();
+            if (currentMainView === 'grid') renderJumboGrid();
+            if (currentMainView === 'quiz') generateQuizQuestion();
+        }
+
+        function selectStage(stageKey) {
+            activeStage = stageKey;
+            document.querySelectorAll('.stage-btn').forEach(btn => {
+                if (btn.getAttribute('data-stage') === stageKey) {
+                    btn.className = "stage-btn px-3.5 py-2 rounded-xl text-xs font-extrabold bg-crimson text-white shadow";
+                } else {
+                    btn.className = "stage-btn px-3.5 py-2 rounded-xl text-xs font-bold bg-washi-dark text-sumi hover:bg-crimson-soft";
+                }
+            });
+            buildActiveDeck();
+        }
+
+        function setScriptMode(mode) {
+            scriptMode = mode;
+            ['hiragana', 'katakana', 'both'].forEach(m => {
+                const btn = document.getElementById(`script-btn-${m}`);
+                if (!btn) return;
+                if (m === mode) {
+                    btn.className = "py-1.5 px-2 rounded-xl text-xs font-extrabold bg-crimson text-white shadow";
+                } else {
+                    btn.className = "py-1.5 px-2 rounded-xl text-xs font-bold text-sumi hover:bg-crimson-soft";
+                }
+            });
+            renderCurrentFlashcard();
+            if (currentMainView === 'grid') renderJumboGrid();
+            if (currentMainView === 'quiz') generateQuizQuestion();
+        }
+
+        function setFontSize(sizeKey) {
+            fontSizeMode = sizeKey;
+            ['normal', 'xl', 'giant'].forEach(s => {
+                const btn = document.getElementById(`size-btn-${s}`);
+                if (!btn) return;
+                if (s === sizeKey) {
+                    btn.className = "py-1.5 px-2 rounded-xl text-xs font-extrabold bg-crimson text-white shadow";
+                } else {
+                    btn.className = "py-1.5 px-2 rounded-xl text-xs font-bold text-sumi hover:bg-crimson-soft";
+                }
+            });
+            renderCurrentFlashcard();
+        }
+
+        function setFontStyle(styleKey) {
+            fontStyleMode = styleKey;
+            const gBtn = document.getElementById('font-btn-gothic');
+            const mBtn = document.getElementById('font-btn-mincho');
+            if (styleKey === 'gothic') {
+                gBtn.className = "py-1.5 px-2 rounded-xl text-xs font-extrabold bg-sumi text-gold shadow";
+                mBtn.className = "py-1.5 px-2 rounded-xl text-xs font-bold text-sumi hover:bg-crimson-soft font-mincho";
+            } else {
+                mBtn.className = "py-1.5 px-2 rounded-xl text-xs font-extrabold bg-sumi text-gold shadow font-mincho";
+                gBtn.className = "py-1.5 px-2 rounded-xl text-xs font-bold text-sumi hover:bg-crimson-soft";
+            }
+            renderCurrentFlashcard();
+            if (currentMainView === 'grid') renderJumboGrid();
+            if (currentMainView === 'quiz') generateQuizQuestion();
+        }
+
+        function toggleGridGuide() {
+            showGridGuide = !showGridGuide;
+            const btn = document.getElementById('btn-grid-guide');
+            const box = document.getElementById('front-kana-box');
+            if (showGridGuide) {
+                btn.className = "py-1.5 px-2 rounded-xl text-xs font-extrabold bg-amber-100 text-amber-900 border border-gold";
+                btn.innerHTML = `<i class="fa-solid fa-border-all mr-1"></i>Garis: ON`;
+                box.classList.add('kana-grid-guide');
+            } else {
+                btn.className = "py-1.5 px-2 rounded-xl text-xs font-bold bg-white text-gray-600 border border-gray-200";
+                btn.innerHTML = `<i class="fa-solid fa-border-none mr-1"></i>Garis: OFF`;
+                box.classList.remove('kana-grid-guide');
+            }
+        }
+
+        function toggleFrontHint() {
+            showFrontHint = !showFrontHint;
+            const btn = document.getElementById('btn-front-hint');
+            const peek = document.getElementById('front-romaji-peek');
+            if (showFrontHint) {
+                btn.className = "py-1.5 px-2 rounded-xl text-xs font-extrabold bg-crimson-soft text-crimson border border-crimson";
+                btn.innerHTML = `<i class="fa-solid fa-eye mr-1"></i>Romaji: ON`;
+                peek.classList.remove('hidden');
+            } else {
+                btn.className = "py-1.5 px-2 rounded-xl text-xs font-bold bg-white text-gray-600 border border-gray-200";
+                btn.innerHTML = `<i class="fa-solid fa-eye-slash mr-1"></i>Romaji: OFF`;
+                peek.classList.add('hidden');
+            }
+        }
+
+        function toggleUnmemorizedOnly() {
+            filterUnmemorizedOnly = !filterUnmemorizedOnly;
+            updateUnmemorizedFilterUI();
+            buildActiveDeck();
+        }
+
+        function updateUnmemorizedFilterUI() {
+            const btn = document.getElementById('btn-filter-unmemorized');
+            const lbl = document.getElementById('unmemorized-filter-label');
+            if (filterUnmemorizedOnly) {
+                btn.className = "px-3.5 py-2 rounded-xl text-xs font-extrabold border-2 border-crimson bg-crimson text-white shadow transition-all flex items-center gap-1.5";
+                lbl.textContent = "Hanya yang Belum Hafal";
+            } else {
+                btn.className = "px-3.5 py-2 rounded-xl text-xs font-extrabold border-2 border-washi-border bg-washi text-sumi hover:border-crimson transition-all flex items-center gap-1.5";
+                lbl.textContent = "Semua Kartu";
+            }
+        }
+
+        /* =========================================================================
+           6. RENDER FLASHCARD RAKSASA UTAMA
+           ========================================================================= */
+        function renderCurrentFlashcard() {
+            if (!activeDeck || activeDeck.length === 0) return;
+            const item = activeDeck[currentCardIndex];
+
+            // Pastikan kartu kembali ke sisi depan saat berganti
+            const cardInner = document.getElementById('jumbo-flip-card');
+            if (isCardFlipped) {
+                cardInner.classList.add('is-flipped');
+            } else {
+                cardInner.classList.remove('is-flipped');
+            }
+
+            // Badge & Counter
+            document.getElementById('deck-stage-badge').textContent = STAGE_NAMES[activeStage] || 'Dek Huruf';
+            document.getElementById('card-counter-text').textContent = `Kartu ${currentCardIndex + 1} / ${activeDeck.length}`;
+            document.getElementById('front-row-badge').textContent = item.row;
+
+            // Status Hafalan pada Kartu
+            const memBadge = document.getElementById('front-memorized-badge');
+            const status = cardMemoryStatus[item.id];
+            if (status === 'memorized') {
+                memBadge.className = "text-xs font-extrabold px-3 py-1 rounded-full bg-emerald-100 text-emerald-800 border border-emerald-300";
+                memBadge.innerHTML = `<i class="fa-solid fa-check mr-1"></i>Sudah Hafal`;
+            } else if (status === 'review') {
+                memBadge.className = "text-xs font-extrabold px-3 py-1 rounded-full bg-red-100 text-crimson border border-crimson/30";
+                memBadge.innerHTML = `<i class="fa-solid fa-rotate-left mr-1"></i>Perlu Diulang`;
+            } else {
+                memBadge.className = "hidden";
+            }
+
+            // Tentukan karakter depan & kelas ukuran jumbo
+            const displayEl = document.getElementById('front-kana-display');
+            const fontClass = fontStyleMode === 'mincho' ? 'font-mincho' : 'font-gothic';
+
+            if (scriptMode === 'hiragana') {
+                displayEl.textContent = item.h;
+                displayEl.className = `${fontClass} font-black text-sumi tracking-tight text-center select-all jumbo-size-${fontSizeMode}`;
+            } else if (scriptMode === 'katakana') {
+                displayEl.textContent = item.k;
+                displayEl.className = `${fontClass} font-black text-sumi tracking-tight text-center select-all jumbo-size-${fontSizeMode}`;
+            } else {
+                displayEl.innerHTML = `<span>${item.h}</span> <span class="text-crimson/35 font-light mx-1">/</span> <span class="text-blue-950">${item.k}</span>`;
+                displayEl.className = `${fontClass} font-black text-sumi tracking-tight text-center select-all dual-size-${fontSizeMode}`;
+            }
+
+            document.getElementById('front-romaji-peek').textContent = item.r.toUpperCase();
+
+            // Isi Sisi Belakang Kartu
+            document.getElementById('back-romaji-giant').textContent = item.r.toUpperCase();
+            document.getElementById('back-pronounce-tip').textContent = item.tip;
+
+            const backH = document.getElementById('back-hiragana-char');
+            const backK = document.getElementById('back-katakana-char');
+            backH.textContent = item.h;
+            backK.textContent = item.k;
+            backH.className = `text-6xl sm:text-7xl font-black text-sumi my-2 ${fontClass}`;
+            backK.className = `text-6xl sm:text-7xl font-black text-sumi my-2 ${fontClass}`;
+
+            document.getElementById('back-example-word').textContent = item.word;
+            document.getElementById('back-example-meaning').textContent = `Arti: ${item.meaning}`;
+            document.getElementById('back-mnemonic-text').textContent = item.mnemo;
+
+            updateMemoryStatsCounter();
+        }
+
+        function flipCurrentCard() {
+            isCardFlipped = !isCardFlipped;
+            const cardInner = document.getElementById('jumbo-flip-card');
+            cardInner.classList.toggle('is-flipped', isCardFlipped);
+        }
+
+        function nextCard() {
+            if (!activeDeck.length) return;
+            isCardFlipped = false;
+            currentCardIndex = (currentCardIndex + 1) % activeDeck.length;
+            renderCurrentFlashcard();
+        }
+
+        function prevCard() {
+            if (!activeDeck.length) return;
+            isCardFlipped = false;
+            currentCardIndex = (currentCardIndex - 1 + activeDeck.length) % activeDeck.length;
+            renderCurrentFlashcard();
+        }
+
+        function markCardStatus(status) {
+            if (!activeDeck.length) return;
+            const item = activeDeck[currentCardIndex];
+            cardMemoryStatus[item.id] = status;
+            saveMemoryProgress();
+            nextCard();
+        }
+
+        function updateMemoryStatsCounter() {
+            let mem = 0;
+            let rev = 0;
+            Object.values(cardMemoryStatus).forEach(v => {
+                if (v === 'memorized') mem++;
+                if (v === 'review') rev++;
+            });
+            document.getElementById('stat-memorized-count').textContent = mem;
+            document.getElementById('stat-review-count').textContent = rev;
+        }
+
+        function shuffleDeck() {
+            for (let i = activeDeck.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [activeDeck[i], activeDeck[j]] = [activeDeck[j], activeDeck[i]];
+            }
+            currentCardIndex = 0;
+            isCardFlipped = false;
+            renderCurrentFlashcard();
+        }
+
+        function resetDeckOrder() {
+            buildActiveDeck();
+        }
+
+        function toggleAutoPlay() {
+            if (autoPlayTimer) {
+                stopAutoPlay();
+            } else {
+                const btn = document.getElementById('btn-autoplay');
+                btn.className = "px-4 py-2.5 rounded-xl bg-crimson hover:bg-crimson-dark text-white font-extrabold text-xs flex items-center gap-2 shadow transition-all";
+                btn.innerHTML = `<i class="fa-solid fa-stop"></i> <span>Hentikan Slideshow</span>`;
+                speakCurrentCard();
+                autoPlayTimer = setInterval(() => {
+                    nextCard();
+                    speakCurrentCard();
+                }, 3000);
+            }
+        }
+
+        function stopAutoPlay() {
+            if (autoPlayTimer) {
+                clearInterval(autoPlayTimer);
+                autoPlayTimer = null;
+            }
+            const btn = document.getElementById('btn-autoplay');
+            if (btn) {
+                btn.className = "px-4 py-2.5 rounded-xl bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold text-xs flex items-center gap-2 shadow transition-all";
+                btn.innerHTML = `<i class="fa-solid fa-play"></i> <span>Auto-Play Slideshow (3 dtk)</span>`;
+            }
+        }
+
+        /* =========================================================================
+           7. RENDER TABEL GALERI HURUF BESAR (GRID VIEW)
+           ========================================================================= */
+        function renderJumboGrid() {
+            const container = document.getElementById('jumbo-grid-container');
+            const fontClass = fontStyleMode === 'mincho' ? 'font-mincho' : 'font-gothic';
+
+            container.innerHTML = activeDeck.map((item, idx) => {
+                const status = cardMemoryStatus[item.id];
+                let borderStyle = 'border-washi-border hover:border-crimson';
+                let badgeHtml = '';
+
+                if (status === 'memorized') {
+                    borderStyle = 'border-emerald-500 bg-emerald-50/20';
+                    badgeHtml = `<span class="text-[10px] font-extrabold bg-emerald-100 text-emerald-800 px-2 py-0.5 rounded-full">✓ Hafal</span>`;
+                } else if (status === 'review') {
+                    borderStyle = 'border-crimson bg-crimson-soft/30';
+                    badgeHtml = `<span class="text-[10px] font-extrabold bg-red-100 text-crimson px-2 py-0.5 rounded-full">Ulangi</span>`;
+                }
+
+                let mainCharHtml = item.h;
+                if (scriptMode === 'katakana') mainCharHtml = item.k;
+                if (scriptMode === 'both') mainCharHtml = `${item.h} <span class="text-gray-300 font-light">/</span> ${item.k}`;
+
+                return `
+                    <div class="bg-white rounded-3xl p-5 shadow-md border-2 ${borderStyle} flex flex-col justify-between items-center text-center transition-all group">
+                        <div class="w-full flex items-center justify-between text-xs">
+                            <span class="font-extrabold text-crimson bg-crimson-soft px-2.5 py-0.5 rounded-lg uppercase">${item.r}</span>
+                            ${badgeHtml}
+                        </div>
+
+                        <div onclick="speakJapanese('${item.h}')" class="cursor-pointer my-4 ${fontClass} font-black text-5xl sm:text-6xl text-sumi group-hover:text-crimson transition-colors select-all">
+                            ${mainCharHtml}
+                        </div>
+
+                        <div class="w-full pt-2 border-t border-gray-100 flex items-center justify-between gap-2">
+                            <button onclick="speakJapanese('${item.h}')" class="flex-1 py-1.5 rounded-xl bg-washi-dark hover:bg-crimson text-sumi hover:text-white text-xs font-bold transition-colors">
+                                <i class="fa-solid fa-volume-high mr-1"></i>Suara
+                            </button>
+                            <button onclick="openCardFromGrid(${idx})" class="flex-1 py-1.5 rounded-xl bg-crimson-soft hover:bg-crimson text-crimson hover:text-white text-xs font-extrabold transition-colors">
+                                Perbesar
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function openCardFromGrid(idx) {
+            currentCardIndex = idx;
+            isCardFlipped = false;
+            renderCurrentFlashcard();
+            switchMainView('flashcard');
+        }
+
+        /* =========================================================================
+           8. MODE TEBAK CEPAT HURUF RAKSASA (FLASH QUIZ)
+           ========================================================================= */
+        function generateQuizQuestion() {
+            if (!activeDeck.length) return;
+            const fontClass = fontStyleMode === 'mincho' ? 'font-mincho' : 'font-gothic';
+
+            document.getElementById('quiz-stage-label').textContent = `Dek Aktif: ${STAGE_NAMES[activeStage]}`;
+            document.getElementById('quiz-feedback-bar').classList.add('hidden');
+
+            currentQuizItem = activeDeck[Math.floor(Math.random() * activeDeck.length)];
+
+            const charEl = document.getElementById('quiz-giant-char');
+            charEl.className = `${fontClass} font-black text-sumi jumbo-size-xl select-none`;
+            if (scriptMode === 'katakana') {
+                charEl.textContent = currentQuizItem.k;
+            } else if (scriptMode === 'both') {
+                charEl.textContent = Math.random() > 0.5 ? currentQuizItem.h : currentQuizItem.k;
+            } else {
+                charEl.textContent = currentQuizItem.h;
+            }
+
+            // Buat 4 opsi jawaban
+            const wrongPool = KANA_MASTER_LIST.filter(x => x.r !== currentQuizItem.r);
+            const shuffledWrong = wrongPool.sort(() => 0.5 - Math.random()).slice(0, 3);
+            const options = [currentQuizItem, ...shuffledWrong].sort(() => 0.5 - Math.random());
+
+            const grid = document.getElementById('quiz-options-grid');
+            grid.innerHTML = options.map(opt => `
+                <button onclick="checkFlashQuizAnswer('${opt.id}', this)" class="py-4 px-6 rounded-2xl border-2 border-washi-border bg-washi hover:bg-crimson-soft hover:border-crimson text-2xl sm:text-3xl font-black text-sumi transition-all shadow-sm">
+                    ${opt.r.toUpperCase()}
+                </button>
+            `).join('');
+        }
+
+        function checkFlashQuizAnswer(selectedId, btnEl) {
+            const fb = document.getElementById('quiz-feedback-bar');
+            fb.classList.remove('hidden');
+
+            if (selectedId === currentQuizItem.id) {
+                quizScore += 10;
+                quizStreak += 1;
+                btnEl.className = "py-4 px-6 rounded-2xl border-2 border-emerald-600 bg-emerald-600 text-2xl sm:text-3xl font-black text-white shadow-lg";
+                fb.className = "p-4 rounded-2xl font-extrabold text-sm bg-emerald-100 text-emerald-900 border border-emerald-300";
+                fb.innerHTML = `<i class="fa-solid fa-circle-check mr-1"></i> Tepat Sekali! ${currentQuizItem.h} / ${currentQuizItem.k} dibaca "${currentQuizItem.r.toUpperCase()}" (${currentQuizItem.word} = ${currentQuizItem.meaning})`;
+                speakJapanese(currentQuizItem.h);
+                setTimeout(generateQuizQuestion, 1100);
+            } else {
+                quizStreak = 0;
+                btnEl.className = "py-4 px-6 rounded-2xl border-2 border-crimson bg-crimson text-2xl sm:text-3xl font-black text-white";
+                fb.className = "p-4 rounded-2xl font-extrabold text-sm bg-red-100 text-crimson border border-crimson/30";
+                fb.innerHTML = `<i class="fa-solid fa-circle-xmark mr-1"></i> Kurang tepat! Huruf ${currentQuizItem.h} / ${currentQuizItem.k} dibaca "${currentQuizItem.r.toUpperCase()}". Coba soal berikutnya!`;
+                speakJapanese(currentQuizItem.h);
+                setTimeout(generateQuizQuestion, 1700);
+            }
+
+            document.getElementById('flash-quiz-score').textContent = quizScore;
+            document.getElementById('flash-quiz-streak').textContent = quizStreak;
+        }
+
+        function speakQuizPrompt() {
+            if (currentQuizItem) speakJapanese(currentQuizItem.h);
+        }
+
+        /* =========================================================================
+           9. RENDER TABEL PDF FULL KOTOBA KATA BENDA & KATA KERJA BAB 1
+           ========================================================================= */
+        function renderBab1PdfTables() {
+            const nounBody = document.getElementById('pdf-noun-table-body');
+            nounBody.innerHTML = BAB1_NOUNS_PDF.map((n, i) => {
+                const clean = n.kana.replace(/～/g, '').split('/')[0].trim();
+                return `
+                    <tr onclick="speakJapanese('${clean}')" class="hover:bg-crimson-soft/40 cursor-pointer transition-colors">
+                        <td class="p-3 font-extrabold text-crimson">${i + 1}</td>
+                        <td class="p-3 font-gothic font-black text-xl sm:text-2xl text-sumi">${n.kana}</td>
+                        <td class="p-3 font-gothic font-bold text-base text-gray-700">${n.kanji}</td>
+                        <td class="p-3 font-extrabold text-amber-900">${n.romaji}</td>
+                        <td class="p-3 font-semibold text-gray-700">${n.meaning}</td>
+                    </tr>
+                `;
+            }).join('');
+
+            const verbBody = document.getElementById('pdf-verb-table-body');
+            verbBody.innerHTML = BAB1_VERBS_PDF.map((v, i) => {
+                const clean = v.kana.split('(')[0].trim();
+                return `
+                    <tr onclick="speakJapanese('${clean}')" class="hover:bg-amber-50 cursor-pointer transition-colors">
+                        <td class="p-3 font-extrabold text-amber-900">${i + 1}</td>
+                        <td class="p-3 font-gothic font-black text-xl sm:text-2xl text-sumi">${v.kana}</td>
+                        <td class="p-3 font-gothic font-bold text-base text-gray-700">${v.kanji}</td>
+                        <td class="p-3 font-extrabold text-crimson">${v.romaji}</td>
+                        <td class="p-3 font-semibold text-gray-700">${v.meaning}</td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        /* =========================================================================
+           10. WEB SPEECH API (SUARA JEPANG) & PINTASAN KEYBOARD
+           ========================================================================= */
+        function speakJapanese(text) {
+            if (!('speechSynthesis' in window)) return;
+            window.speechSynthesis.cancel();
+            const u = new SpeechSynthesisUtterance(text);
+            u.lang = 'ja-JP';
+            u.rate = 0.85;
+            window.speechSynthesis.speak(u);
+        }
+
+        function speakCurrentCard(includeExample = false) {
+            if (!activeDeck.length) return;
+            const item = activeDeck[currentCardIndex];
+            if (includeExample) {
+                const cleanWord = item.word.split('(')[0].trim();
+                speakJapanese(`${item.h}。 ${cleanWord}`);
+            } else {
+                speakJapanese(item.h);
+            }
+        }
+
+        function speakExampleWord() {
+            if (!activeDeck.length) return;
+            const item = activeDeck[currentCardIndex];
+            const cleanWord = item.word.split('(')[0].trim();
+            speakJapanese(cleanWord);
+        }
+
+        // Keyboard Shortcuts untuk Flashcard
+        window.addEventListener('keydown', (e) => {
+            if (currentMainView !== 'flashcard') return;
+            if (['INPUT', 'TEXTAREA'].includes(document.activeElement?.tagName)) return;
+
+            if (e.code === 'Space') {
+                e.preventDefault();
+                flipCurrentCard();
+            } else if (e.code === 'ArrowRight') {
+                e.preventDefault();
+                nextCard();
+            } else if (e.code === 'ArrowLeft') {
+                e.preventDefault();
+                prevCard();
+            } else if (e.key.toLowerCase() === 's') {
+                e.preventDefault();
+                speakCurrentCard();
+            }
+        });
+
+        /* =========================================================================
+           11. PENYIMPANAN LOKAL & ANIMASI KELOPAK BUNGA SAKURA
+           ========================================================================= */
+        function saveMemoryProgress() {
+            try {
+                localStorage.setItem('nihongo_jumbo_flashcard_mem_v1', JSON.stringify(cardMemoryStatus));
+            } catch (e) {}
+        }
+
+        function loadMemoryProgress() {
+            try {
+                const raw = localStorage.getItem('nihongo_jumbo_flashcard_mem_v1');
+                if (raw) cardMemoryStatus = JSON.parse(raw) || {};
+            } catch (e) {}
+        }
+
+        let sakuraEnabled = true;
+        function toggleSakura() {
+            sakuraEnabled = !sakuraEnabled;
+            const canvas = document.getElementById('sakura-canvas');
+            const btn = document.getElementById('btn-sakura-toggle');
+            canvas.style.display = sakuraEnabled ? 'block' : 'none';
+            btn.innerHTML = sakuraEnabled ? '🌸 <span class="hidden sm:inline">Sakura: ON</span>' : '🌸 <span class="hidden sm:inline">Sakura: OFF</span>';
+        }
+
+        function initSakuraCanvas() {
+            const canvas = document.getElementById('sakura-canvas');
+            const ctx = canvas.getContext('2d');
+            let width = canvas.width = window.innerWidth;
+            let height = canvas.height = window.innerHeight;
+
+            window.addEventListener('resize', () => {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
+            });
+
+            const petals = Array.from({ length: 18 }, () => ({
+                x: Math.random() * width,
+                y: Math.random() * height,
+                size: Math.random() * 7 + 5,
+                speedY: Math.random() * 0.6 + 0.35,
+                speedX: Math.random() * 0.5 - 0.25,
+                angle: Math.random() * Math.PI * 2,
+                spin: (Math.random() - 0.5) * 0.02,
+                opacity: Math.random() * 0.28 + 0.12
+            }));
+
+            function drawPetal(p) {
+                ctx.save();
+                ctx.translate(p.x, p.y);
+                ctx.rotate(p.angle);
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.bezierCurveTo(p.size / 2, -p.size / 2, p.size, p.size / 3, 0, p.size);
+                ctx.bezierCurveTo(-p.size, p.size / 3, -p.size / 2, -p.size / 2, 0, 0);
+                ctx.fillStyle = `rgba(229, 75, 115, ${p.opacity})`;
+                ctx.fill();
+                ctx.restore();
+            }
+
+            function animateSakura() {
+                if (sakuraEnabled) {
+                    ctx.clearRect(0, 0, width, height);
+                    petals.forEach(p => {
+                        p.y += p.speedY;
+                        p.x += p.speedX + Math.sin(p.angle) * 0.25;
+                        p.angle += p.spin;
+                        if (p.y > height + 20) { p.y = -20; p.x = Math.random() * width; }
+                        if (p.x > width + 20) p.x = -20;
+                        if (p.x < -20) p.x = width + 20;
+                        drawPetal(p);
+                    });
+                }
+                requestAnimationFrame(animateSakura);
+            }
+            animateSakura();
+        }
+
+        window.onload = function () {
+            loadMemoryProgress();
+            initSakuraCanvas();
+            buildActiveDeck();
+            renderBab1PdfTables();
+        };
+    </script>
+</body>
+</html>
