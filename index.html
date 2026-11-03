@@ -58,127 +58,170 @@
             opacity: 0;
             transition: opacity 0.5s ease;
         }
+        
+        /* Custom Modal Animation */
+        .modal-enter {
+            opacity: 1 !important;
+            pointer-events: auto !important;
+        }
+        .modal-content-enter {
+            transform: scale(1) translateY(0) !important;
+        }
     </style>
 </head>
-<body class="min-h-screen flex flex-col justify-between p-6 sm:p-12 transition-opacity duration-500">
+<body class="min-h-screen flex flex-col justify-between p-4 sm:p-8 lg:p-12 transition-opacity duration-500">
 
     <!-- Canvas Animasi Sakura (Merah Putih Nuansa) -->
     <canvas id="sakura-canvas"></canvas>
 
     <!-- Header Section -->
-    <header class="content-wrapper text-center max-w-2xl mx-auto mb-10">
+    <header class="content-wrapper text-center max-w-3xl mx-auto mb-10 pt-4">
         <span class="inline-block py-1.5 px-4 rounded-full bg-red-100 text-red-700 text-xs font-semibold tracking-widest uppercase mb-4 shadow-sm">
             Japanese Private Course
         </span>
-        <h1 class="text-4xl sm:text-5xl font-extrabold text-gray-900 tracking-tight font-jp mb-3">
-            日本語の授業 <span class="text-red-600">ようこそ</span>
+        <h1 class="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-gray-900 tracking-tight font-jp mb-4 leading-tight">
+            日本語の授業 <span class="text-red-600 block sm:inline mt-2 sm:mt-0">ようこそ</span>
         </h1>
-        <p class="text-gray-600 text-base sm:text-lg font-light">
+        <p class="text-gray-600 text-sm sm:text-base lg:text-lg font-light px-4">
             Selamat datang di dashboard pembelajaran eksklusif. Silakan pilih menu di bawah untuk memulai sesi belajar.
         </p>
     </header>
 
     <!-- Main Navigation Grid -->
-    <main class="content-wrapper w-full max-w-4xl mx-auto my-auto">
-        <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 w-full">
+    <main class="content-wrapper w-full max-w-6xl mx-auto my-auto flex-grow flex items-center">
+        <!-- Menggunakan grid-cols-1 untuk HP, grid-cols-2 untuk Tablet, dan grid-cols-3 untuk PC -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 sm:gap-6 w-full pb-8">
             
             <!-- Card 1: Kana -->
-            <button onclick="handleNavigation('Kana', 'kana.html')" class="glass-card group rounded-3xl p-8 text-left focus:outline-none focus:ring-2 focus:ring-red-400/50">
+            <button onclick="handleNavigation('Kana', 'kana.html')" class="glass-card group rounded-3xl p-6 sm:p-8 text-left focus:outline-none focus:ring-2 focus:ring-red-400/50 w-full cursor-pointer">
                 <div class="flex items-start justify-between">
                     <div>
-                        <h3 class="text-2xl font-semibold text-gray-900 mb-2 tracking-wide group-hover:text-red-700 transition-colors">Kana</h3>
-                        <p class="text-gray-500 text-sm font-light">Belajar Huruf (Hiragana & Katakana)</p>
+                        <h3 class="text-xl sm:text-2xl font-semibold text-gray-900 mb-2 tracking-wide group-hover:text-red-700 transition-colors">Kana</h3>
+                        <p class="text-gray-500 text-xs sm:text-sm font-light leading-relaxed">Belajar Huruf (Hiragana & Katakana)</p>
                     </div>
-                    <div class="card-icon font-jp text-6xl ml-4">
+                    <div class="card-icon font-jp text-5xl sm:text-6xl ml-4 shrink-0">
                         あ
                     </div>
                 </div>
-                <div class="mt-8 h-1 w-0 bg-gradient-to-r from-red-600 to-red-400 rounded-full group-hover:w-full transition-all duration-500"></div>
+                <div class="mt-6 sm:mt-8 h-1 w-0 bg-gradient-to-r from-red-600 to-red-400 rounded-full group-hover:w-full transition-all duration-500"></div>
             </button>
 
             <!-- Card 2: Materi -->
-            <button onclick="handleNavigation('Materi', 'materi.html')" class="glass-card group rounded-3xl p-8 text-left focus:outline-none focus:ring-2 focus:ring-red-400/50">
+            <button onclick="handleNavigation('Materi', 'materi.html')" class="glass-card group rounded-3xl p-6 sm:p-8 text-left focus:outline-none focus:ring-2 focus:ring-red-400/50 w-full cursor-pointer">
                 <div class="flex items-start justify-between">
                     <div>
-                        <h3 class="text-2xl font-semibold text-gray-900 mb-2 tracking-wide group-hover:text-red-700 transition-colors">Materi</h3>
-                        <p class="text-gray-500 text-sm font-light">Minna no Nihongo 1 (Tata Bahasa)</p>
+                        <h3 class="text-xl sm:text-2xl font-semibold text-gray-900 mb-2 tracking-wide group-hover:text-red-700 transition-colors">Materi</h3>
+                        <p class="text-gray-500 text-xs sm:text-sm font-light leading-relaxed">Minna no Nihongo 1 (Tata Bahasa)</p>
                     </div>
-                    <div class="card-icon font-jp text-6xl ml-4">
+                    <div class="card-icon font-jp text-5xl sm:text-6xl ml-4 shrink-0">
                         本
                     </div>
                 </div>
-                <div class="mt-8 h-1 w-0 bg-gradient-to-r from-red-600 to-red-400 rounded-full group-hover:w-full transition-all duration-500"></div>
+                <div class="mt-6 sm:mt-8 h-1 w-0 bg-gradient-to-r from-red-600 to-red-400 rounded-full group-hover:w-full transition-all duration-500"></div>
             </button>
 
             <!-- Card 3: Latihan -->
-            <button onclick="handleNavigation('Latihan', 'latihan.html')" class="glass-card group rounded-3xl p-8 text-left focus:outline-none focus:ring-2 focus:ring-red-400/50">
+            <button onclick="handleNavigation('Latihan', 'latihan.html')" class="glass-card group rounded-3xl p-6 sm:p-8 text-left focus:outline-none focus:ring-2 focus:ring-red-400/50 w-full cursor-pointer">
                 <div class="flex items-start justify-between">
                     <div>
-                        <h3 class="text-2xl font-semibold text-gray-900 mb-2 tracking-wide group-hover:text-red-700 transition-colors">Latihan</h3>
-                        <p class="text-gray-500 text-sm font-light">Praktik, Kuis & Evaluasi</p>
+                        <h3 class="text-xl sm:text-2xl font-semibold text-gray-900 mb-2 tracking-wide group-hover:text-red-700 transition-colors">Latihan</h3>
+                        <p class="text-gray-500 text-xs sm:text-sm font-light leading-relaxed">Praktik, Kuis & Evaluasi</p>
                     </div>
-                    <div class="card-icon font-jp text-6xl ml-4">
+                    <div class="card-icon font-jp text-5xl sm:text-6xl ml-4 shrink-0">
                         練
                     </div>
                 </div>
-                <div class="mt-8 h-1 w-0 bg-gradient-to-r from-red-600 to-red-400 rounded-full group-hover:w-full transition-all duration-500"></div>
+                <div class="mt-6 sm:mt-8 h-1 w-0 bg-gradient-to-r from-red-600 to-red-400 rounded-full group-hover:w-full transition-all duration-500"></div>
             </button>
 
             <!-- Card 4: Kanji -->
-            <button onclick="handleNavigation('Kanji', 'kanji.html')" class="glass-card group rounded-3xl p-8 text-left focus:outline-none focus:ring-2 focus:ring-red-400/50">
+            <button onclick="handleNavigation('Kanji', 'kanji.html')" class="glass-card group rounded-3xl p-6 sm:p-8 text-left focus:outline-none focus:ring-2 focus:ring-red-400/50 w-full cursor-pointer">
                 <div class="flex items-start justify-between">
                     <div>
-                        <h3 class="text-2xl font-semibold text-gray-900 mb-2 tracking-wide group-hover:text-red-700 transition-colors">Kanji</h3>
-                        <p class="text-gray-500 text-sm font-light">Pembelajaran Karakter & Radikal</p>
+                        <h3 class="text-xl sm:text-2xl font-semibold text-gray-900 mb-2 tracking-wide group-hover:text-red-700 transition-colors">Kanji</h3>
+                        <p class="text-gray-500 text-xs sm:text-sm font-light leading-relaxed">Pembelajaran Karakter & Radikal</p>
                     </div>
-                    <div class="card-icon font-jp text-6xl ml-4">
+                    <div class="card-icon font-jp text-5xl sm:text-6xl ml-4 shrink-0">
                         漢
                     </div>
                 </div>
-                <div class="mt-8 h-1 w-0 bg-gradient-to-r from-red-600 to-red-400 rounded-full group-hover:w-full transition-all duration-500"></div>
+                <div class="mt-6 sm:mt-8 h-1 w-0 bg-gradient-to-r from-red-600 to-red-400 rounded-full group-hover:w-full transition-all duration-500"></div>
             </button>
-            <!-- card 5 5: flashcard -->
-             <button onclick="handleNavigation('flashcardi', 'flashcard.html')" class="glass-card group rounded-3xl p-8 text-left focus:outline-none focus:ring-2 focus:ring-red-400/50">
+
+            <!-- Card 5: Flashcard -->
+             <button onclick="handleNavigation('Flashcard', 'flashcard.html')" class="glass-card group rounded-3xl p-6 sm:p-8 text-left focus:outline-none focus:ring-2 focus:ring-red-400/50 w-full cursor-pointer sm:col-span-2 lg:col-span-1">
                 <div class="flex items-start justify-between">
                     <div>
-                        <h3 class="text-2xl font-semibold text-gray-900 mb-2 tracking-wide group-hover:text-red-700 transition-colors">Kanji</h3>
-                        <p class="text-gray-500 text-sm font-light">tebak huruf hiragana katakana</p>
+                        <h3 class="text-xl sm:text-2xl font-semibold text-gray-900 mb-2 tracking-wide group-hover:text-red-700 transition-colors">Flashcard</h3>
+                        <p class="text-gray-500 text-xs sm:text-sm font-light leading-relaxed">Tebak Huruf Hiragana & Katakana</p>
                     </div>
-                    <div class="card-icon font-jp text-6xl ml-4">
-                        あ
+                    <!-- Menggunakan kanji 'Fuda' (Kartu) agar berbeda dari Kana -->
+                    <div class="card-icon font-jp text-5xl sm:text-6xl ml-4 shrink-0">
+                        札
                     </div>
                 </div>
-                <div class="mt-8 h-1 w-0 bg-gradient-to-r from-red-600 to-red-400 rounded-full group-hover:w-full transition-all duration-500"></div>
+                <div class="mt-6 sm:mt-8 h-1 w-0 bg-gradient-to-r from-red-600 to-red-400 rounded-full group-hover:w-full transition-all duration-500"></div>
             </button>
 
         </div>
     </main>
 
     <!-- Footer Section -->
-    <footer class="content-wrapper text-center mt-12 text-gray-400 text-xs tracking-wider">
+    <footer class="content-wrapper text-center mt-6 text-gray-500 text-xs sm:text-sm tracking-wider">
         &copy; 2026 Japanese Private Tutoring Dashboard. All Rights Reserved.
     </footer>
 
+    <!-- Custom Modal Message Box (Pengganti Alert) -->
+    <div id="customModal" class="fixed inset-0 z-50 flex items-center justify-center opacity-0 pointer-events-none transition-opacity duration-300 bg-gray-900/40 backdrop-blur-sm px-4">
+        <div id="modalContent" class="bg-white rounded-2xl shadow-2xl p-6 sm:p-8 max-w-sm w-full transform scale-95 translate-y-4 transition-all duration-300 text-center border border-red-100">
+            <div class="w-16 h-16 bg-red-100 rounded-full flex items-center justify-center mx-auto mb-4 text-red-600">
+                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" class="w-8 h-8">
+                    <path stroke-linecap="round" stroke-linejoin="round" d="M13.5 6H5.25A2.25 2.25 0 003 8.25v10.5A2.25 2.25 0 005.25 21h10.5A2.25 2.25 0 0018 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                </svg>
+            </div>
+            <h3 class="text-xl font-bold text-gray-900 mb-2">Mengalihkan...</h3>
+            <p id="modalMessage" class="text-gray-500 text-sm mb-6">Mengarahkan ke halaman yang dipilih.</p>
+            <button onclick="closeModal()" class="w-full bg-red-600 hover:bg-red-700 text-white font-semibold py-3 px-4 rounded-xl transition-colors duration-200">
+                Tutup Peringatan
+            </button>
+        </div>
+    </div>
+
     <!-- JavaScript Navigasi & Animasi Sakura -->
     <script>
-        // Fungsi Navigasi yang Diarahkan ke Halaman Lain
+        // --- Sistem Modal Pengganti Alert ---
+        const modal = document.getElementById('customModal');
+        const modalContent = document.getElementById('modalContent');
+        const modalMessage = document.getElementById('modalMessage');
+
+        function showModal(message) {
+            modalMessage.textContent = message;
+            modal.classList.add('modal-enter');
+            modalContent.classList.add('modal-content-enter');
+        }
+
+        function closeModal() {
+            modal.classList.remove('modal-enter');
+            modalContent.classList.remove('modal-content-enter');
+            // Menghapus class fade-out jika user membatalkan/menutup modal agar halaman normal kembali
+            document.body.classList.remove('fade-out');
+        }
+
+        // --- Fungsi Navigasi ---
         function handleNavigation(menuName, targetUrl) {
             // Efek transisi halus (fade out) sebelum berpindah halaman
             document.body.classList.add('fade-out');
             
             setTimeout(() => {
-                // Arahkan ke file tujuan (Ganti targetUrl sesuai nama file HTML Anda berikutnya)
-                // Contoh: window.location.href = targetUrl;
+                // Menampilkan Custom Modal sebagai pengganti alert default browser
+                showModal(`Mengarahkan ke halaman: ${menuName} (${targetUrl})`);
                 
-                // Jika file belum dibuat, untuk sementara menampilkan alert konfirmasi:
-                alert(`Mengarahkan ke halaman: ${menuName} (${targetUrl})`);
-                
-                // Uncomment baris di bawah ini jika file halamannya sudah siap:
-                window.location.href = targetUrl;
-            }, 400);
+                // Jika file halamannya sudah siap, gunakan kode di bawah ini:
+                // window.location.href = targetUrl;
+            }, 300);
         }
 
-        // Script Animasi Kelopak Sakura Jatuh (Tema Merah Putih)
+        // --- Script Animasi Kelopak Sakura Jatuh (Tema Merah Putih) ---
         const canvas = document.getElementById('sakura-canvas');
         const ctx = canvas.getContext('2d');
 
@@ -190,7 +233,7 @@
         resizeCanvas();
 
         const petals = [];
-        const petalCount = 35;
+        const petalCount = window.innerWidth < 640 ? 15 : 35; // Kurangi jumlah kelopak di HP agar lebih ringan
 
         class Petal {
             constructor() {
