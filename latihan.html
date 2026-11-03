@@ -1,0 +1,1727 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nihongo Yomikata - Tugas Membaca Hiragana & Katakana ke Romaji (120 Soal Lengkap: 15 Soal per Tahap)</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Noto Sans JP, Noto Serif JP & Plus Jakarta Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Noto+Serif+JP:wght@600;700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        crimson: {
+                            DEFAULT: '#BC002D',
+                            dark: '#8E0022',
+                            light: '#E6194B',
+                            soft: '#FFF0F3'
+                        },
+                        washi: {
+                            DEFAULT: '#FDFBF7',
+                            dark: '#F3EFE6',
+                            border: '#E5DEC9'
+                        },
+                        sumi: '#1E1E24',
+                        gold: '#D4AF37'
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        jp: ['Noto Sans JP', 'sans-serif'],
+                        serifjp: ['Noto Serif JP', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #FDFBF7;
+            color: #1E1E24;
+            overflow-x: hidden;
+            background-image: radial-gradient(#BC002D 0.45px, transparent 0.45px), radial-gradient(#D4AF37 0.45px, #FDFBF7 0.45px);
+            background-size: 36px 36px;
+            background-position: 0 0, 18px 18px;
+        }
+
+        /* Pola Gelombang Jepang (Seigaiha) */
+        .seigaiha-header {
+            background-color: #BC002D;
+            background-image: 
+                radial-gradient(circle at 100% 150%, #BC002D 24%, #9E0026 25%, #9E0026 28%, #BC002D 29%, #BC002D 36%, #9E0026 36%, #9E0026 40%, transparent 40%, transparent),
+                radial-gradient(circle at 0    150%, #BC002D 24%, #9E0026 25%, #9E0026 28%, #BC002D 29%, #BC002D 36%, #9E0026 36%, #9E0026 40%, transparent 40%, transparent),
+                radial-gradient(circle at 50%  100%, #9E0026 10%, #BC002D 11%, #BC002D 23%, #9E0026 24%, #9E0026 30%, #BC002D 31%, #BC002D 43%, #9E0026 44%, #9E0026 50%, #BC002D 51%, #BC002D 63%, #9E0026 64%, #9E0026 71%, transparent 71%, transparent),
+                radial-gradient(circle at 100% 50%, #9E0026 5%, #BC002D 6%, #BC002D 15%, #9E0026 16%, #9E0026 20%, #BC002D 21%, #BC002D 30%, #9E0026 31%, #9E0026 35%, #BC002D 36%, #BC002D 45%, #9E0026 46%, #9E0026 49%, transparent 50%, transparent),
+                radial-gradient(circle at 0    50%, #9E0026 5%, #BC002D 6%, #BC002D 15%, #9E0026 16%, #9E0026 20%, #BC002D 21%, #BC002D 30%, #9E0026 31%, #9E0026 35%, #BC002D 36%, #BC002D 45%, #9E0026 46%, #9E0026 49%, transparent 50%, transparent);
+            background-size: 60px 30px;
+        }
+
+        /* Animasi Halaman */
+        .page-transition {
+            animation: fadeSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes fadeSlideUp {
+            0% { opacity: 0; transform: translateY(14px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Canvas Sakura */
+        #sakura-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Virtual Keyboard Button Effect */
+        .vk-btn {
+            transition: all 0.12s ease;
+        }
+        .vk-btn:active {
+            transform: scale(0.92);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #FDFBF7; }
+        ::-webkit-scrollbar-thumb { background: #BC002D; border-radius: 9999px; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col relative selection:bg-crimson selection:text-white">
+
+    <!-- Canvas Animasi Kelopak Bunga Sakura -->
+    <canvas id="sakura-canvas"></canvas>
+
+    <!-- NAVBAR / HEADER ATAS DENGAN TOMBOL BACK -->
+    <header class="seigaiha-header text-white sticky top-0 z-50 shadow-lg border-b-4 border-gold">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
+            <!-- Kiri: Tombol Back & Logo -->
+            <div class="flex items-center gap-3">
+                <button id="btn-header-back" onclick="goBack()" class="hidden group flex items-center gap-2 bg-white text-crimson hover:bg-gold hover:text-sumi font-extrabold px-4 py-2 rounded-full shadow-md transition-all duration-300 transform hover:-translate-x-0.5 active:scale-95">
+                    <i class="fa-solid fa-arrow-left transition-transform group-hover:-translate-x-1"></i>
+                    <span>Kembali</span>
+                </button>
+
+                <div onclick="showHome()" class="flex items-center gap-3 cursor-pointer group">
+                    <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-inner border-2 border-gold group-hover:scale-105 transition-transform">
+                        <div class="w-5 h-5 rounded-full bg-crimson"></div>
+                    </div>
+                    <div>
+                        <h1 class="font-serifjp font-bold text-base sm:text-xl tracking-wide flex items-center gap-2">
+                            日本語読み方 <span class="text-[11px] bg-gold text-sumi font-sans font-extrabold px-2.5 py-0.5 rounded-full">15 SOAL PER TAHAP (TOTAL 120 SOAL)</span>
+                        </h1>
+                        <p class="text-[11px] text-red-100 hidden sm:block">Hiragana → Romaji (4 Tahap × 15 = 60 Soal) &amp; Katakana → Romaji (4 Tahap × 15 = 60 Soal)</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kanan: Navigasi Cepat & Rapor -->
+            <div class="flex items-center gap-2">
+                <div class="hidden md:flex items-center gap-1 bg-crimson-dark/80 p-1 rounded-full border border-white/20">
+                    <button onclick="openTaskTrack('hiragana', 1)" id="nav-track-hiragana" class="px-3 py-1.5 rounded-full text-xs font-bold transition-all text-white hover:bg-white/15">
+                        あ Hiragana → Romaji (60)
+                    </button>
+                    <button onclick="openTaskTrack('katakana', 1)" id="nav-track-katakana" class="px-3 py-1.5 rounded-full text-xs font-bold transition-all text-white hover:bg-white/15">
+                        ア Katakana → Romaji (60)
+                    </button>
+                </div>
+
+                <button onclick="openReportModal()" class="bg-gold hover:bg-amber-400 text-sumi font-extrabold px-3.5 py-2 rounded-full text-xs shadow flex items-center gap-1.5 transition-all">
+                    <i class="fa-solid fa-award"></i>
+                    <span id="header-score-badge">Skor: 0/120</span>
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- KONTEN UTAMA -->
+    <main class="flex-grow max-w-6xl w-full mx-auto px-4 py-6 sm:py-8 relative z-10 pb-28">
+
+        <!-- =========================================================
+             VIEW 1: BERANDA / PEMILIH JALUR TUGAS (HOME DASHBOARD)
+             ========================================================= -->
+        <section id="view-home" class="page-transition space-y-8">
+
+            <!-- Hero Banner Merah Putih -->
+            <div class="relative bg-white rounded-3xl p-6 sm:p-10 shadow-xl border-2 border-crimson/20 overflow-hidden">
+                <div class="absolute -right-16 -top-16 w-72 h-72 bg-crimson/10 rounded-full pointer-events-none"></div>
+                <div class="absolute right-8 top-8 w-28 h-28 bg-crimson rounded-full opacity-95 hidden lg:flex flex-col items-center justify-center shadow-lg border-4 border-gold/40">
+                    <span class="font-jp text-white text-2xl font-black leading-none">120問</span>
+                    <span class="font-jp text-gold text-[11px] font-extrabold mt-1">15 SOAL/TAHAP</span>
+                </div>
+
+                <div class="relative z-10 max-w-3xl space-y-4">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-crimson-soft text-crimson font-extrabold text-xs tracking-wider uppercase border border-crimson/20">
+                        <i class="fa-solid fa-book-open-reader"></i> Edisi Lengkap • Setiap Tahap Berisi Penuh 15 Soal Kalimat
+                    </div>
+                    <h2 class="text-2xl sm:text-4xl font-extrabold text-sumi leading-tight">
+                        Tugas Membaca <span class="text-crimson underline decoration-gold decoration-4 underline-offset-4">Hiragana &amp; Katakana ke Romaji</span> (Masing-Masing Tahap 15 Soal)
+                    </h2>
+                    <p class="text-gray-600 text-sm sm:text-base leading-relaxed">
+                        Setiap tahap kini memiliki <strong>15 kalimat soal penuh (No. 1 s/d No. 15 di setiap tahap!)</strong>:
+                        <strong>Tahap 1 (15 Soal)</strong>, <strong>Tahap 2 (15 Soal)</strong>, <strong>Tahap 3 (15 Soal)</strong>, dan <strong>Tahap 4 Lanjutan (15 Soal)</strong> — baik untuk <strong>Hiragana (Total 60 Soal)</strong> maupun <strong>Katakana (Total 60 Soal)</strong>. Soal tampil dalam huruf Jepang berukuran besar, dan Anda menjawab dengan mengetikkan <strong>Romaji</strong>-nya!
+                    </p>
+
+                    <div class="flex flex-wrap gap-3 pt-2">
+                        <button onclick="openTaskTrack('hiragana', 1)" class="bg-crimson hover:bg-crimson-dark text-white font-extrabold px-6 py-3.5 rounded-xl shadow-lg shadow-crimson/30 flex items-center gap-2.5 transition-all transform hover:-translate-y-0.5">
+                            <span class="font-jp text-lg bg-white/20 px-2 py-0.5 rounded-lg">あ</span>
+                            <span>Mulai Hiragana → Romaji (60 Soal / 4 Tahap)</span>
+                        </button>
+                        <button onclick="openTaskTrack('katakana', 1)" class="bg-sumi hover:bg-gray-800 text-white font-extrabold px-6 py-3.5 rounded-xl shadow-lg flex items-center gap-2.5 transition-all transform hover:-translate-y-0.5 border-2 border-gold/60">
+                            <span class="font-jp text-lg bg-gold text-sumi px-2 py-0.5 rounded-lg">ア</span>
+                            <span>Mulai Katakana → Romaji (60 Soal / 4 Tahap)</span>
+                        </button>
+                        <button onclick="openReportModal()" class="bg-white hover:bg-crimson-soft text-crimson border-2 border-crimson font-bold px-5 py-3.5 rounded-xl flex items-center gap-2 transition-all">
+                            <i class="fa-solid fa-file-signature"></i> Lihat Rapor Nilai
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RINGKASAN PROGRES SKOR & STATISTIK -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                <div class="bg-white rounded-2xl p-5 shadow-md border-l-4 border-crimson flex items-center justify-between">
+                    <div>
+                        <span class="text-xs font-extrabold uppercase text-gray-400">Hiragana → Romaji</span>
+                        <div id="stat-hira-done" class="text-2xl font-black text-sumi mt-1">0 / 60 Benar</div>
+                        <span id="stat-hira-pct" class="text-xs font-bold text-crimson">4 Tahap × 15 Soal</span>
+                    </div>
+                    <div class="w-12 h-12 rounded-2xl bg-crimson-soft text-crimson font-jp font-black text-2xl flex items-center justify-center">あ</div>
+                </div>
+
+                <div class="bg-white rounded-2xl p-5 shadow-md border-l-4 border-gold flex items-center justify-between">
+                    <div>
+                        <span class="text-xs font-extrabold uppercase text-gray-400">Katakana → Romaji</span>
+                        <div id="stat-kata-done" class="text-2xl font-black text-sumi mt-1">0 / 60 Benar</div>
+                        <span id="stat-kata-pct" class="text-xs font-bold text-amber-700">4 Tahap × 15 Soal</span>
+                    </div>
+                    <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-900 font-jp font-black text-2xl flex items-center justify-center">ア</div>
+                </div>
+
+                <div class="bg-white rounded-2xl p-5 shadow-md border-l-4 border-emerald-600 flex items-center justify-between">
+                    <div>
+                        <span class="text-xs font-extrabold uppercase text-gray-400">Total Nilai Keseluruhan</span>
+                        <div id="stat-total-score" class="text-2xl font-black text-emerald-700 mt-1">0 / 100 Poin</div>
+                        <span id="stat-grade-label" class="text-xs font-bold text-gray-500">Predikat: Belum Dinilai</span>
+                    </div>
+                    <div class="w-12 h-12 rounded-2xl bg-emerald-50 text-emerald-600 text-xl flex items-center justify-center">
+                        <i class="fa-solid fa-trophy"></i>
+                    </div>
+                </div>
+
+                <div class="bg-white rounded-2xl p-5 shadow-md border border-washi-border flex flex-col justify-between gap-2">
+                    <span class="text-xs font-extrabold uppercase text-gray-400">Kelola Lembar Tugas</span>
+                    <div class="flex gap-2">
+                        <button onclick="openReportModal()" class="flex-1 bg-crimson-soft hover:bg-crimson text-crimson hover:text-white font-bold text-xs py-2.5 px-3 rounded-xl transition-colors">
+                            <i class="fa-solid fa-award mr-1"></i> Rapor
+                        </button>
+                        <button onclick="confirmResetAll()" class="flex-1 bg-gray-100 hover:bg-red-100 text-gray-700 hover:text-crimson font-bold text-xs py-2.5 px-3 rounded-xl transition-colors">
+                            <i class="fa-solid fa-rotate-left mr-1"></i> Reset
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- DUA KARTU UTAMA JALUR TUGAS (HIRAGANA 60 SOAL & KATAKANA 60 SOAL) -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Kartu Jalur 1: Hiragana ke Romaji (60 Soal) -->
+                <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-lg border-2 border-crimson/20 hover:border-crimson transition-all flex flex-col justify-between relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 bg-crimson text-white font-extrabold text-xs px-4 py-1.5 rounded-bl-2xl">
+                        JALUR 1 • HIRAGANA → ROMAJI (60 SOAL)
+                    </div>
+                    <div class="space-y-4">
+                        <div class="w-16 h-16 rounded-2xl bg-crimson-soft text-crimson font-jp font-black text-3xl flex items-center justify-center group-hover:bg-crimson group-hover:text-white transition-colors">
+                            あいう
+                        </div>
+                        <h3 class="text-xl sm:text-2xl font-extrabold text-sumi">
+                            Tugas Hiragana ke Romaji (4 Tahap × 15 Soal = 60 Kalimat)
+                        </h3>
+                        <p class="text-xs sm:text-sm text-gray-600 leading-relaxed">
+                            Klik langsung tahap yang ingin dikerjakan (setiap tahap memiliki <strong>15 kalimat soal Hiragana</strong>):
+                        </p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
+                            <button onclick="openTaskTrack('hiragana', 1)" class="p-3 rounded-2xl bg-washi-dark hover:bg-crimson hover:text-white border border-washi-border text-left transition-all group/btn">
+                                <div class="flex items-center justify-between font-extrabold text-xs">
+                                    <span>Tahap 1 Hiragana</span>
+                                    <span class="px-2 py-0.5 rounded bg-crimson/10 text-crimson group-hover/btn:bg-white/20 group-hover/btn:text-white">15 Soal</span>
+                                </div>
+                                <div class="text-[11px] opacity-75 mt-1">あ–お, か–こ, さ–そ (No. 1–15)</div>
+                            </button>
+                            <button onclick="openTaskTrack('hiragana', 2)" class="p-3 rounded-2xl bg-washi-dark hover:bg-crimson hover:text-white border border-washi-border text-left transition-all group/btn">
+                                <div class="flex items-center justify-between font-extrabold text-xs">
+                                    <span>Tahap 2 Hiragana</span>
+                                    <span class="px-2 py-0.5 rounded bg-crimson/10 text-crimson group-hover/btn:bg-white/20 group-hover/btn:text-white">15 Soal</span>
+                                </div>
+                                <div class="text-[11px] opacity-75 mt-1">+ た–と, は–ほ, な–の (No. 1–15)</div>
+                            </button>
+                            <button onclick="openTaskTrack('hiragana', 3)" class="p-3 rounded-2xl bg-washi-dark hover:bg-crimson hover:text-white border border-washi-border text-left transition-all group/btn">
+                                <div class="flex items-center justify-between font-extrabold text-xs">
+                                    <span>Tahap 3 Hiragana</span>
+                                    <span class="px-2 py-0.5 rounded bg-crimson/10 text-crimson group-hover/btn:bg-white/20 group-hover/btn:text-white">15 Soal</span>
+                                </div>
+                                <div class="text-[11px] opacity-75 mt-1">+ ま–も, ら–ろ, わ–ん (No. 1–15)</div>
+                            </button>
+                            <button onclick="openTaskTrack('hiragana', 4)" class="p-3 rounded-2xl bg-washi-dark hover:bg-crimson hover:text-white border border-washi-border text-left transition-all group/btn">
+                                <div class="flex items-center justify-between font-extrabold text-xs">
+                                    <span>Tahap 4 Lanjutan</span>
+                                    <span class="px-2 py-0.5 rounded bg-gold/40 text-amber-950 group-hover/btn:bg-white/20 group-hover/btn:text-white">15 Soal</span>
+                                </div>
+                                <div class="text-[11px] opacity-75 mt-1">゛, ゜, っ (yukkuri), ゃゅょ (No. 1–15)</div>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-gray-100 flex items-center justify-between">
+                        <span id="card-hira-progress" class="text-xs font-extrabold text-gray-500">Progres: 0/60 selesai</span>
+                        <button onclick="openTaskTrack('hiragana', 1)" class="bg-crimson hover:bg-crimson-dark text-white font-extrabold px-5 py-2.5 rounded-xl text-xs sm:text-sm shadow flex items-center gap-2 transition-all">
+                            <span>Buka Tugas Hiragana</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Kartu Jalur 2: Katakana ke Romaji (60 Soal) -->
+                <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-lg border-2 border-gold/60 hover:border-crimson transition-all flex flex-col justify-between relative overflow-hidden group">
+                    <div class="absolute top-0 right-0 bg-gold text-sumi font-extrabold text-xs px-4 py-1.5 rounded-bl-2xl">
+                        JALUR 2 • KATAKANA → ROMAJI (60 SOAL)
+                    </div>
+                    <div class="space-y-4">
+                        <div class="w-16 h-16 rounded-2xl bg-amber-100 text-amber-900 font-jp font-black text-3xl flex items-center justify-center group-hover:bg-crimson group-hover:text-white transition-colors">
+                            アイウ
+                        </div>
+                        <h3 class="text-xl sm:text-2xl font-extrabold text-sumi">
+                            Tugas Katakana ke Romaji (4 Tahap × 15 Soal = 60 Kalimat)
+                        </h3>
+                        <p class="text-xs sm:text-sm text-gray-600 leading-relaxed">
+                            Klik langsung tahap yang ingin dikerjakan (setiap tahap memiliki <strong>15 kalimat soal Katakana</strong>):
+                        </p>
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
+                            <button onclick="openTaskTrack('katakana', 1)" class="p-3 rounded-2xl bg-washi-dark hover:bg-sumi hover:text-white border border-washi-border text-left transition-all group/btn">
+                                <div class="flex items-center justify-between font-extrabold text-xs">
+                                    <span>Tahap 1 Katakana</span>
+                                    <span class="px-2 py-0.5 rounded bg-amber-200/70 text-amber-950 group-hover/btn:bg-gold group-hover/btn:text-sumi">15 Soal</span>
+                                </div>
+                                <div class="text-[11px] opacity-75 mt-1">ア–オ, カ–コ, サ–ソ (No. 1–15)</div>
+                            </button>
+                            <button onclick="openTaskTrack('katakana', 2)" class="p-3 rounded-2xl bg-washi-dark hover:bg-sumi hover:text-white border border-washi-border text-left transition-all group/btn">
+                                <div class="flex items-center justify-between font-extrabold text-xs">
+                                    <span>Tahap 2 Katakana</span>
+                                    <span class="px-2 py-0.5 rounded bg-amber-200/70 text-amber-950 group-hover/btn:bg-gold group-hover/btn:text-sumi">15 Soal</span>
+                                </div>
+                                <div class="text-[11px] opacity-75 mt-1">+ タ–ト, ハ–ホ, ナ–ノ (No. 1–15)</div>
+                            </button>
+                            <button onclick="openTaskTrack('katakana', 3)" class="p-3 rounded-2xl bg-washi-dark hover:bg-sumi hover:text-white border border-washi-border text-left transition-all group/btn">
+                                <div class="flex items-center justify-between font-extrabold text-xs">
+                                    <span>Tahap 3 Katakana</span>
+                                    <span class="px-2 py-0.5 rounded bg-amber-200/70 text-amber-950 group-hover/btn:bg-gold group-hover/btn:text-sumi">15 Soal</span>
+                                </div>
+                                <div class="text-[11px] opacity-75 mt-1">+ マ–モ, ラ–ロ, ワ–ン (No. 1–15)</div>
+                            </button>
+                            <button onclick="openTaskTrack('katakana', 4)" class="p-3 rounded-2xl bg-washi-dark hover:bg-sumi hover:text-white border border-washi-border text-left transition-all group/btn">
+                                <div class="flex items-center justify-between font-extrabold text-xs">
+                                    <span>Tahap 4 Lanjutan</span>
+                                    <span class="px-2 py-0.5 rounded bg-crimson/15 text-crimson group-hover/btn:bg-gold group-hover/btn:text-sumi">15 Soal</span>
+                                </div>
+                                <div class="text-[11px] opacity-75 mt-1">゛, ゜, ッ, ャュョ &amp; ー (No. 1–15)</div>
+                            </button>
+                        </div>
+                    </div>
+                    <div class="mt-6 pt-4 border-t border-gray-100 flex items-center justify-between">
+                        <span id="card-kata-progress" class="text-xs font-extrabold text-gray-500">Progres: 0/60 selesai</span>
+                        <button onclick="openTaskTrack('katakana', 1)" class="bg-sumi hover:bg-crimson text-white font-extrabold px-5 py-2.5 rounded-xl text-xs sm:text-sm shadow flex items-center gap-2 transition-all">
+                            <span>Buka Tugas Katakana</span>
+                            <i class="fa-solid fa-arrow-right"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- =========================================================
+             VIEW 2: HALAMAN LEMBAR KERJA TUGAS (15 SOAL PER TAHAP)
+             ========================================================= -->
+        <section id="view-task" class="hidden page-transition space-y-6">
+
+            <!-- Bar Navigasi Atas Lembar Tugas + Tombol Back -->
+            <div class="bg-white rounded-2xl p-4 sm:p-5 shadow-md border-l-8 border-crimson flex flex-wrap items-center justify-between gap-4">
+                <div class="flex items-center gap-3">
+                    <button onclick="goBack()" class="flex items-center gap-2 bg-crimson hover:bg-crimson-dark text-white font-bold px-4 py-2.5 rounded-xl shadow transition-all active:scale-95">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        <span>Kembali</span>
+                    </button>
+                    <div>
+                        <span id="task-track-badge" class="text-xs font-extrabold uppercase tracking-wider text-crimson bg-crimson-soft px-2.5 py-0.5 rounded-full">JALUR HIRAGANA → ROMAJI</span>
+                        <h2 id="task-track-title" class="text-lg sm:text-2xl font-extrabold text-sumi mt-0.5">Tugas Membaca Hiragana ke Romaji (15 Soal per Tahap)</h2>
+                    </div>
+                </div>
+
+                <!-- Switcher Hiragana <-> Katakana -->
+                <div class="flex items-center gap-1.5 bg-washi-dark p-1.5 rounded-xl border border-washi-border">
+                    <button onclick="openTaskTrack('hiragana', activeStageFilter)" id="tab-btn-hiragana" class="px-3.5 py-2 rounded-lg text-xs font-extrabold transition-all">
+                        あ Hiragana (60)
+                    </button>
+                    <button onclick="openTaskTrack('katakana', activeStageFilter)" id="tab-btn-katakana" class="px-3.5 py-2 rounded-lg text-xs font-extrabold transition-all">
+                        ア Katakana (60)
+                    </button>
+                </div>
+            </div>
+
+            <!-- Control Bar Pilih Tahap (Tahap 1 = 15 Soal, Tahap 2 = 15 Soal, Tahap 3 = 15 Soal, Tahap 4 = 15 Soal, Semua = 60 Soal) -->
+            <div class="bg-white rounded-2xl p-4 shadow-md border border-washi-border sticky top-[66px] z-30 flex flex-wrap items-center justify-between gap-3">
+                <!-- Pemilih Tahap -->
+                <div class="flex flex-wrap items-center gap-1.5">
+                    <span class="text-xs font-extrabold text-gray-500 mr-1"><i class="fa-solid fa-layer-group text-crimson"></i> Pilih Tahap:</span>
+                    <button onclick="setStageFilter(1)" id="filter-stage-1" class="px-3.5 py-2 rounded-xl text-xs font-extrabold bg-crimson text-white shadow">
+                        Tahap 1 (15 Soal)
+                    </button>
+                    <button onclick="setStageFilter(2)" id="filter-stage-2" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-washi-dark text-sumi hover:bg-crimson-soft">
+                        Tahap 2 (15 Soal)
+                    </button>
+                    <button onclick="setStageFilter(3)" id="filter-stage-3" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-washi-dark text-sumi hover:bg-crimson-soft">
+                        Tahap 3 (15 Soal)
+                    </button>
+                    <button onclick="setStageFilter(4)" id="filter-stage-4" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-washi-dark text-sumi hover:bg-crimson-soft">
+                        Tahap 4 Lanjutan (15 Soal)
+                    </button>
+                    <button onclick="setStageFilter('all')" id="filter-stage-all" class="px-3.5 py-2 rounded-xl text-xs font-bold bg-washi-dark text-sumi hover:bg-crimson-soft">
+                        Semua Tahap (60 Soal)
+                    </button>
+                </div>
+
+                <!-- Pengaturan Input & Cek Semua -->
+                <div class="flex flex-wrap items-center gap-2">
+                    <button onclick="toggleFlexSpelling()" id="btn-auto-ime" class="px-3 py-1.5 rounded-xl text-xs font-extrabold border-2 border-emerald-600 bg-emerald-600 text-white shadow-sm flex items-center gap-1.5 transition-all" title="Terima ejaan fleksibel seperti shi/si, chi/ti, tsu/tu, fu/hu, wa/ha, wo/o">
+                        <i class="fa-solid fa-wand-magic-sparkles"></i>
+                        <span>Toleransi Ejaan: ON</span>
+                    </button>
+                    <button onclick="toggleVirtualKeyboard()" id="btn-toggle-vk" class="px-3 py-1.5 rounded-xl text-xs font-extrabold border-2 border-crimson bg-white text-crimson hover:bg-crimson hover:text-white flex items-center gap-1.5 transition-all">
+                        <i class="fa-solid fa-table-cells"></i>
+                        <span>Bantuan Suku Kata</span>
+                    </button>
+                    <button onclick="checkAllVisibleQuestions()" class="px-3.5 py-1.5 rounded-xl text-xs font-extrabold bg-gold text-sumi hover:bg-amber-400 shadow flex items-center gap-1.5 transition-all">
+                        <i class="fa-solid fa-check-double"></i> Periksa Tahap Ini
+                    </button>
+                </div>
+            </div>
+
+            <!-- Info Cakupan Huruf Per Tahap -->
+            <div id="stage-scope-banner" class="bg-amber-50/90 border-2 border-gold rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div class="space-y-1">
+                    <div id="scope-banner-title" class="text-xs sm:text-sm font-extrabold text-amber-950 flex items-center gap-2">
+                        <i class="fa-solid fa-graduation-cap text-crimson"></i> Tahap 1 (15 Kalimat Soal Penuh: No. 1 s/d No. 15)
+                    </div>
+                    <p id="scope-banner-desc" class="text-xs text-amber-900">
+                        Baca kalimat huruf Jepang pada kartu soal, lalu ketikkan cara baca Romaji-nya di kotak jawaban.
+                    </p>
+                </div>
+                <div class="text-right shrink-0">
+                    <span id="track-score-pill" class="inline-block bg-crimson text-white font-extrabold text-xs px-3.5 py-1.5 rounded-full shadow">
+                        Benar Tahap Ini: 0 / 15 Soal
+                    </span>
+                </div>
+            </div>
+
+            <!-- Daftar Kartu Soal Kalimat (15 Soal per Tahap) -->
+            <div id="questions-container" class="space-y-6">
+                <!-- Diisi secara dinamis oleh JavaScript -->
+            </div>
+
+            <!-- Navigasi Bawah Antar Tahap + Tombol Back -->
+            <div class="bg-white rounded-2xl p-5 shadow-md border border-washi-border flex flex-wrap items-center justify-between gap-4">
+                <button onclick="goBack()" class="flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-sumi font-extrabold px-5 py-3 rounded-xl transition-all">
+                    <i class="fa-solid fa-arrow-left"></i> Kembali
+                </button>
+                <div class="flex flex-wrap items-center gap-2.5">
+                    <button onclick="goToNextStage()" id="btn-next-stage" class="bg-crimson hover:bg-crimson-dark text-white font-extrabold px-5 py-3 rounded-xl shadow flex items-center gap-2 transition-all">
+                        <span>Lanjut ke Tahap Berikutnya (15 Soal)</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                    <button onclick="switchOtherTrack()" id="btn-switch-other-track" class="bg-sumi hover:bg-gray-800 text-white font-extrabold px-5 py-3 rounded-xl shadow flex items-center gap-2 transition-all">
+                        <span>Pindah ke Katakana</span>
+                        <i class="fa-solid fa-repeat"></i>
+                    </button>
+                    <button onclick="openReportModal()" class="bg-gold hover:bg-amber-400 text-sumi font-extrabold px-6 py-3 rounded-xl shadow-lg flex items-center gap-2 transition-all">
+                        <i class="fa-solid fa-award"></i> Rapor Nilai (120 Soal)
+                    </button>
+                </div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- =========================================================
+         PANEL BANTUAN SUKU KATA KANA -> ROMAJI MENGAMBANG (FLOATING DRAWER)
+         ========================================================= -->
+    <div id="virtual-keyboard-drawer" class="hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-t-4 border-crimson shadow-2xl transition-all">
+        <div class="max-w-5xl mx-auto px-3 py-3 space-y-2.5">
+            <!-- Header Tabel Bantuan -->
+            <div class="flex flex-wrap items-center justify-between gap-2 border-b border-gray-200 pb-2">
+                <div class="flex items-center gap-2">
+                    <span class="bg-crimson text-white text-xs font-extrabold px-2.5 py-1 rounded-lg">
+                        <i class="fa-solid fa-table-cells mr-1"></i> Tabel Bantuan <span id="vk-mode-label">Hiragana → Romaji</span>
+                    </span>
+                    <span id="vk-active-question-label" class="text-xs font-bold text-gray-600 truncate max-w-[220px] sm:max-w-xs">
+                        Klik huruf untuk menyisipkan Romaji
+                    </span>
+                </div>
+
+                <!-- Tab Kategori Huruf di Keyboard -->
+                <div class="flex flex-wrap items-center gap-1">
+                    <button onclick="setVKTab('stage1')" id="vk-tab-stage1" class="px-2.5 py-1 rounded-lg text-[11px] font-extrabold bg-crimson text-white">Tahap 1 (a-so)</button>
+                    <button onclick="setVKTab('stage2')" id="vk-tab-stage2" class="px-2.5 py-1 rounded-lg text-[11px] font-extrabold bg-washi-dark text-sumi">Tahap 2 (ta-no)</button>
+                    <button onclick="setVKTab('stage3')" id="vk-tab-stage3" class="px-2.5 py-1 rounded-lg text-[11px] font-extrabold bg-washi-dark text-sumi">Tahap 3 (ma-n)</button>
+                    <button onclick="setVKTab('tenten')" id="vk-tab-tenten" class="px-2.5 py-1 rounded-lg text-[11px] font-extrabold bg-washi-dark text-sumi">Tenten &amp; Maru (ga/pa)</button>
+                    <button onclick="setVKTab('special')" id="vk-tab-special" class="px-2.5 py-1 rounded-lg text-[11px] font-extrabold bg-washi-dark text-sumi">Yoon (kya/sha/cha)</button>
+                </div>
+
+                <!-- Tombol Aksi Keyboard -->
+                <div class="flex items-center gap-1.5">
+                    <button onclick="vkInsertSpace()" class="px-3 py-1 rounded-lg bg-amber-100 hover:bg-amber-200 text-amber-900 font-extrabold text-xs" title="Tambah Spasi">
+                        Spasi
+                    </button>
+                    <button onclick="vkBackspace()" class="px-3 py-1 rounded-lg bg-red-100 hover:bg-red-200 text-crimson font-extrabold text-xs" title="Hapus 1 karakter">
+                        <i class="fa-solid fa-delete-left mr-1"></i> Hapus
+                    </button>
+                    <button onclick="toggleVirtualKeyboard()" class="px-2.5 py-1 rounded-lg bg-gray-200 hover:bg-gray-300 text-sumi font-extrabold text-xs">
+                        <i class="fa-solid fa-xmark"></i> Tutup
+                    </button>
+                </div>
+            </div>
+
+            <!-- Grid Tombol Huruf (Klik Kana -> Masukkan Romaji) -->
+            <div id="vk-keys-grid" class="grid grid-cols-5 sm:grid-cols-10 gap-1.5 max-h-44 overflow-y-auto p-1">
+                <!-- Diisi oleh JavaScript -->
+            </div>
+        </div>
+    </div>
+
+    <!-- =========================================================
+         MODAL RAPOR NILAI & SERTIFIKAT PENYELESAIAN TUGAS (120 SOAL)
+         ========================================================= -->
+    <div id="modal-report" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-3xl max-w-xl w-full p-6 sm:p-8 shadow-2xl border-4 border-gold relative space-y-6 animate-[fadeSlideUp_0.3s_ease]">
+            <button onclick="closeReportModal()" class="absolute top-4 right-4 w-9 h-9 rounded-full bg-gray-100 hover:bg-crimson hover:text-white text-gray-600 flex items-center justify-center transition-colors">
+                <i class="fa-solid fa-xmark"></i>
+            </button>
+
+            <div class="text-center space-y-2">
+                <div class="w-16 h-16 rounded-full bg-crimson text-gold border-4 border-gold mx-auto flex items-center justify-center text-2xl shadow-md">
+                    <i class="fa-solid fa-award"></i>
+                </div>
+                <span class="text-xs font-extrabold uppercase tracking-widest text-crimson bg-crimson-soft px-3 py-1 rounded-full">
+                    Rapor Evaluasi 120 Soal (15 Soal per Tahap)
+                </span>
+                <h3 class="text-2xl font-extrabold text-sumi font-serifjp">日本語読み方 成績表</h3>
+                <p class="text-xs text-gray-500">Rekapitulasi Skor 60 Kalimat Hiragana &amp; 60 Kalimat Katakana ke Romaji</p>
+            </div>
+
+            <!-- Kotak Nilai Utama -->
+            <div class="bg-washi-dark rounded-2xl p-5 border-2 border-washi-border text-center space-y-2">
+                <div class="text-xs font-extrabold uppercase text-gray-500">Total Nilai Akhir</div>
+                <div id="report-final-score" class="text-5xl font-black text-crimson">0</div>
+                <div id="report-grade-badge" class="inline-block bg-gold text-sumi font-extrabold text-xs px-4 py-1 rounded-full">
+                    Belum Selesai
+                </div>
+            </div>
+
+            <!-- Rincian Per Jalur & Tahap (Masing-Masing X / 15 Soal) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 text-xs">
+                <div class="p-4 rounded-2xl border border-gray-200 space-y-2">
+                    <div class="font-extrabold text-crimson text-sm flex items-center justify-between">
+                        <span>あ Hiragana → Romaji</span>
+                        <span id="report-hira-total">0 / 60</span>
+                    </div>
+                    <div id="report-hira-stages" class="space-y-1 text-gray-600"></div>
+                </div>
+                <div class="p-4 rounded-2xl border border-gray-200 space-y-2">
+                    <div class="font-extrabold text-amber-800 text-sm flex items-center justify-between">
+                        <span>ア Katakana → Romaji</span>
+                        <span id="report-kata-total">0 / 60</span>
+                    </div>
+                    <div id="report-kata-stages" class="space-y-1 text-gray-600"></div>
+                </div>
+            </div>
+
+            <div class="flex flex-wrap items-center justify-between gap-3 pt-2">
+                <button onclick="confirmResetAll()" class="text-xs font-bold text-gray-500 hover:text-crimson underline">
+                    Reset Semua Jawaban
+                </button>
+                <div class="flex gap-2">
+                    <button onclick="closeReportModal()" class="bg-crimson hover:bg-crimson-dark text-white font-extrabold px-6 py-2.5 rounded-xl text-xs sm:text-sm shadow">
+                        Tutup &amp; Lanjutkan
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- MODAL KONFIRMASI RESET -->
+    <div id="modal-confirm-reset" class="hidden fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4">
+        <div class="bg-white rounded-2xl max-w-md w-full p-6 shadow-2xl border-2 border-crimson space-y-4 text-center">
+            <div class="w-12 h-12 rounded-full bg-red-100 text-crimson mx-auto flex items-center justify-center text-xl">
+                <i class="fa-solid fa-triangle-exclamation"></i>
+            </div>
+            <h4 class="text-lg font-extrabold text-sumi">Reset Seluruh 120 Soal?</h4>
+            <p class="text-xs sm:text-sm text-gray-600">
+                Semua jawaban Romaji dan skor pada 60 soal Hiragana serta 60 soal Katakana akan dikosongkan kembali.
+            </p>
+            <div class="flex items-center justify-center gap-3 pt-2">
+                <button onclick="closeResetModal()" class="px-5 py-2.5 rounded-xl bg-gray-100 hover:bg-gray-200 text-sumi font-bold text-xs">
+                    Batal
+                </button>
+                <button onclick="executeResetAll()" class="px-5 py-2.5 rounded-xl bg-crimson hover:bg-crimson-dark text-white font-extrabold text-xs shadow">
+                    Ya, Reset Semua
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <!-- FOOTER -->
+    <footer class="bg-white border-t border-washi-border py-6 mt-auto relative z-10">
+        <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-500">
+            <div class="flex items-center gap-2">
+                <span class="w-4 h-4 rounded-full bg-crimson inline-block"></span>
+                <strong class="text-sumi">Nihongo Yomikata (日本語読み方)</strong> — 120 Soal Kalimat Kana ke Romaji (15 Soal Penuh di Setiap Tahap 1–4)
+            </div>
+            <div>
+                Tahap 1 (15) • Tahap 2 (15) • Tahap 3 (15) • Tahap 4 (15)
+            </div>
+        </div>
+    </footer>
+
+    <!-- =========================================================
+         JAVASCRIPT ENGINE: FULL 120 QUESTIONS (4 STAGES x 15 EACH FOR HIRAGANA & KATAKANA)
+         ========================================================= -->
+    <script>
+        /* =========================================================================
+           1. DATABASE 120 SOAL KALIMAT PENUH (SETIAP TAHAP WAJIB 15 SOAL #1 - #15)
+           - Hiragana: Tahap 1 (15), Tahap 2 (15), Tahap 3 (15), Tahap 4 (15) = 60 Soal
+           - Katakana: Tahap 1 (15), Tahap 2 (15), Tahap 3 (15), Tahap 4 (15) = 60 Soal
+           ========================================================================= */
+        const TASKS_DB = {
+            hiragana: [
+                // ==================== HIRAGANA TAHAP 1 (15 SOAL PENUH: No. 1 - 15) ====================
+                // Cakupan Huruf Murni Tahap 1: あいうえお かきくけこ さしつせそ
+                { id: 1, stage: 1, stageNum: 1, stageName: "Tahap 1 (あ–お, か–こ, さ–し–つ–せ–そ)", questionKana: "けさ あかい かさ、あおい くつ、おいしい おかし", targetRomaji: "kesa akai kasa, aoi kutsu, oishii okashi", meaning: "Tadi pagi payung merah, sepatu biru, camilan kue yang lezat.", hint: "けさ (kesa) • あかい (akai) • かさ (kasa) • あおい (aoi) • くつ (kutsu) • おいしい (oishii) • おかし (okashi)." },
+                { id: 2, stage: 1, stageNum: 2, stageName: "Tahap 1 (あ–お, か–こ, さ–し–つ–せ–そ)", questionKana: "おおきい いえ、あおい いけ、おおきい うし、おいしい さけ", targetRomaji: "ookii ie, aoi ike, ookii ushi, oishii sake", meaning: "Rumah besar, kolam biru, sapi besar, ikan salmon lezat.", hint: "おおきい (ookii) • いえ (ie) • あおい (aoi) • いけ (ike) • うし (ushi) • おいしい (oishii) • さけ (sake)." },
+                { id: 3, stage: 1, stageNum: 3, stageName: "Tahap 1 (あ–お, か–こ, さ–し–つ–せ–そ)", questionKana: "そこ、あかい つくえ、あおい かさ、おおきい こえ、いい せかい", targetRomaji: "soko, akai tsukue, aoi kasa, ookii koe, ii sekai", meaning: "Di situ, meja merah, payung biru, suara lantang, dunia yang baik.", hint: "そこ (soko) • あかい (akai) • つくえ (tsukue) • あおい (aoi) • かさ (kasa) • おおきい (ookii) • こえ (koe) • いい (ii) • せかい (sekai)." },
+                { id: 4, stage: 1, stageNum: 4, stageName: "Tahap 1 (あ–お, か–こ, さ–し–つ–せ–そ)", questionKana: "あそこ、あおい くさ、あかい いし、おおきい き", targetRomaji: "asoko, aoi kusa, akai ishi, ookii ki", meaning: "Di sana, rumput hijau/biru, batu merah, pohon besar.", hint: "あそこ (asoko) • あおい (aoi) • くさ (kusa) • あかい (akai) • いし (ishi) • おおきい (ookii) • き (ki)." },
+                { id: 5, stage: 1, stageNum: 5, stageName: "Tahap 1 (あ–お, か–こ, さ–し–つ–せ–そ)", questionKana: "あき、あおい いけ、おおきい こい、しずか -> おいしい しお", targetRomaji: "aki, aoi ike, ookii koi, oishii shio", questionKana: "あき、あおい いけ、おおきい こい、おいしい しお", meaning: "Musim gugur, kolam biru, ikan koi besar, garam yang gurih.", hint: "あき (aki) • あおい (aoi) • いけ (ike) • おおきい (ookii) • こい (koi) • おいしい (oishii) • しお (shio)." },
+                { id: 6, stage: 1, stageNum: 6, stageName: "Tahap 1 (あ–お, か–こ, さ–し–つ–せ–そ)", questionKana: "おそい あし、おおきい せ、いい かお、あかい くつ", targetRomaji: "osoi ashi, ookii se, ii kao, akai kutsu", meaning: "Langkah kaki lambat, postur tubuh besar, wajah yang baik, sepatu merah.", hint: "おそい (osoi) • あし (ashi) • おおきい (ookii) • せ (se) • いい (ii) • かお (kao) • あかい (akai) • くつ (kutsu)." },
+                { id: 7, stage: 1, stageNum: 7, stageName: "Tahap 1 (あ–お, か–こ, さ–し–つ–せ–そ)", questionKana: "ここ、あかい しきい、あおい つくえ、おおきい いえ", targetRomaji: "koko, akai shikii, aoi tsukue, ookii ie", meaning: "Di sini, ambang pintu merah, meja biru, rumah yang besar.", hint: "ここ (koko) • あかい (akai) • しきい (shikii) • あおい (aoi) • つくえ (tsukue) • おおきい (ookii) • いえ (ie)." },
+                { id: 8, stage: 1, stageNum: 8, stageName: "Tahap 1 (あ–お, か–こ, さ–し–つ–せ–そ)", questionKana: "けさ、あかるい -> あかい かさ、あおい けいと -> あおい くつ、いい あさ", targetRomaji: "kesa, akai kasa, aoi kutsu, ii asa", questionKana: "けさ、あかい かさ、あおい くつ、いい あさ", meaning: "Tadi pagi, payung merah, sepatu biru, pagi yang cerah.", hint: "けさ (kesa) • あかい (akai) • かさ (kasa) • あおい (aoi) • くつ (kutsu) • いい (ii) • あさ (asa)." },
+                { id: 9, stage: 1, stageNum: 9, stageName: "Tahap 1 (あ–お, か–こ, さ–し–つ–せ–そ)", questionKana: "うつくしい え、あおい うみ -> あおい いけ、あかい きく", targetRomaji: "utsukushii e, aoi ike, akai kiku", questionKana: "うつくしい え、あおい いけ、あかい きく", meaning: "Lukisan yang indah, kolam biru, bunga krisan merah.", hint: "うつくしい (utsukushii) • え (e) • あおい (aoi) • いけ (ike) • あかい (akai) • きく (kiku)." },
+                { id: 10, stage: 1, stageNum: 10, stageName: "Tahap 1 (あ–お, か–こ, さ–し–つ–せ–そ)", questionKana: "あさい いけ、おおきい さい、あかい さかさ かさ", targetRomaji: "asai ike, ookii sai, akai sakasa kasa", meaning: "Kolam yang dangkal, badak besar, payung merah yang terbalik.", hint: "あさい (asai) • いけ (ike) • おおきい (ookii) • さい (sai) • あかい (akai) • さかさ (sakasa) • かさ (kasa)." },
+                { id: 11, stage: 1, stageNum: 11, stageName: "Tahap 1 (あ–お, か–こ, さ–し–つ–せ–そ)", questionKana: "かしこい こ、いい こえ、おおきい せかい、あかるい -> いい あき", targetRomaji: "kashikoi ko, ii koe, ookii sekai, ii aki", questionKana: "かしこい こ、いい こえ、おおきい せかい、いい あき", meaning: "Anak yang cerdas, suara bagus, dunia yang luas, musim gugur yang indah.", hint: "かしこい (kashikoi) • こ (ko) • いい (ii) • こえ (koe) • おおきい (ookii) • せかい (sekai) • いい (ii) • あき (aki)." },
+                { id: 12, stage: 1, stageNum: 12, stageName: "Tahap 1 (あ–お, か–こ, さ–し–つ–せ–そ)", questionKana: "あつい けさ、おいしい かき、おいしい おかし、いい せき", targetRomaji: "atsui kesa, oishii kaki, oishii okashi, ii seki", meaning: "Pagi tadi yang panas, buah kesemek lezat, kue lezat, kursi/tempat duduk yang bagus.", hint: "あつい (atsui) • けさ (kesa) • おいしい (oishii) • かき (kaki) • おかし (okashi) • いい (ii) • せき (seki)." },
+                { id: 13, stage: 1, stageNum: 13, stageName: "Tahap 1 (あ–お, か–こ, さ–し–つ–せ–そ)", questionKana: "そこ、おおきい ししかばぶ -> おおきい しし、あかい くし、あおい いし", targetRomaji: "soko, ookii shishi, akai kushi, aoi ishi", questionKana: "そこ、おおきい しし、あかい くし、あおい いし", meaning: "Di situ, singa besar, sisir merah, batu biru.", hint: "そこ (soko) • おおきい (ookii) • しし (shishi) • あかい (akai) • くし (kushi) • あおい (aoi) • いし (ishi)." },
+                { id: 14, stage: 1, stageNum: 14, stageName: "Tahap 1 (あ–お, か–こ, さ–し–つ–せ–そ)", questionKana: "あそこ、おおきい えき、あかい かさ、おそい けさ", targetRomaji: "asoko, ookii eki, akai kasa, osoi kesa", meaning: "Di sana, stasiun besar, payung merah, pagi yang kesiangan.", hint: "あそこ (asoko) • おおきい (ookii) • えき (eki) • あかい (akai) • かさ (kasa) • おそい (osoi) • けさ (kesa)." },
+                { id: 15, stage: 1, stageNum: 15, stageName: "Tahap 1 (あ–お, か–こ, さ–し–つ–せ–そ)", questionKana: "うつくしい あさ、あおい くさ、おおきい うし、いい こえ", targetRomaji: "utsukushii asa, aoi kusa, ookii ushi, ii koe", meaning: "Pagi yang indah, rumput hijau/biru, sapi besar, suara yang merdu.", hint: "うつくしい (utsukushii) • あさ (asa) • あおい (aoi) • くさ (kusa) • おおきい (ookii) • うし (ushi) • いい (ii) • こえ (koe)." },
+
+                // ==================== HIRAGANA TAHAP 2 (15 SOAL PENUH: No. 1 - 15) ====================
+                // Cakupan Huruf Tahap 1 + Tahap 2: たちすてと はひふへほ なにぬねの
+                { id: 16, stage: 2, stageNum: 1, stageName: "Tahap 2 (+ た–と, は–ほ, な–の)", questionKana: "ちち と はは の おおきい いえ、ちいさい ねこ と かしこい いぬ", targetRomaji: "chichi to haha no ookii ie, chiisai neko to kashikoi inu", meaning: "Rumah besar milik ayah dan ibu, kucing kecil dan anjing yang cerdas.", hint: "ちち (chichi) • と (to) • はは (haha) • の (no) • おおきい いえ (ookii ie) • ちいさい ねこ (chiisai neko) • かしこい いぬ (kashikoi inu)." },
+                { id: 17, stage: 2, stageNum: 2, stageName: "Tahap 2 (+ た–と, は–ほ, な–の)", questionKana: "あたたか な なつ の ひ、あおい ふね と ひくい はし", targetRomaji: "atataka na natsu no hi, aoi fune to hikui hashi", meaning: "Hari musim panas yang hangat, perahu biru dan jembatan yang rendah.", hint: "あたたか な (atataka na) • なつ の ひ (natsu no hi) • あおい ふね (aoi fune) • と (to) • ひくい はし (hikui hashi)." },
+                { id: 18, stage: 2, stageNum: 3, stageName: "Tahap 2 (+ た–と, は–ほ, な–の)", questionKana: "つくえ の うえ に あかい はな と ちいさな とけい", targetRomaji: "tsukue no ue ni akai hana to chiisana tokei", meaning: "Di atas meja ada bunga merah dan jam yang kecil.", hint: "つくえ の うえ に (tsukue no ue ni) • あかい はな (akai hana) • と (to) • ちいさな とけい (chiisana tokei)." },
+                { id: 19, stage: 2, stageNum: 4, stageName: "Tahap 2 (+ た–と, は–ほ, な–の)", questionKana: "あの ひと の へや に おいしい すし と おいしい にく", targetRomaji: "ano hito no heya ni oishii sushi to oishii niku", meaning: "Di kamar orang itu ada sushi lezat dan daging yang lezat.", hint: "あの ひと の へや に (ano hito no heya ni) • おいしい すし (oishii sushi) • と (to) • おいしい にく (oishii niku)." },
+                { id: 20, stage: 2, stageNum: 5, stageName: "Tahap 2 (+ た–と, は–ほ, な–の)", questionKana: "き の した に あかい いす と たかい つくえ", targetRomaji: "ki no shita ni akai isu to takai tsukue", meaning: "Di bawah pohon ada kursi merah dan meja yang tinggi.", hint: "き の した に (ki no shita ni) • あかい いす (akai isu) • と (to) • たかい つくえ (takai tsukue)." },
+                { id: 21, stage: 2, stageNum: 6, stageName: "Tahap 2 (+ た–と, は–ほ, な–の)", questionKana: "あね の ナイフ -> あね の ないふ と あに の ねくたい", targetRomaji: "ane no naifu to ani no nekutai", questionKana: "あね の ないふ と あに の ねくたい", meaning: "Pisau milik kakak perempuan dan dasi milik kakak laki-laki.", hint: "あね の (ane no) • ないふ (naifu) • と (to) • あに の (ani no) • ねくたい (nekutai)." },
+                { id: 22, stage: 2, stageNum: 7, stageName: "Tahap 2 (+ た–と, は–ほ, な–の)", questionKana: "ほし の した、あおい ふね と たかい はし", targetRomaji: "hoshi no shita, aoi fune to takai hashi", meaning: "Di bawah bintang, perahu biru dan jembatan yang tinggi.", hint: "ほし の した (hoshi no shita) • あおい ふね (aoi fune) • と (to) • たかい はし (takai hashi)." },
+                { id: 23, stage: 2, stageNum: 8, stageName: "Tahap 2 (+ た–と, は–ほ, な–の)", questionKana: "あした の あさ、そと の てにす と たのしい はなし", targetRomaji: "ashita no asa, soto no tenisu to tanoshii hanashi", meaning: "Besok pagi, tenis di luar dan obrolan yang menyenangkan.", hint: "あした の あさ (ashita no asa) • そと の てにす (soto no tenisu) • と (to) • たのしい はなし (tanoshii hanashi)." },
+                { id: 24, stage: 2, stageNum: 9, stageName: "Tahap 2 (+ た–と, は–ほ, な–の)", questionKana: "この へや の なか に きれい -> ちいさい はこ と ふえ", targetRomaji: "kono heya no naka ni chiisai hako to fue", questionKana: "この へや の なか に ちいさい はこ と ふえ", meaning: "Di dalam kamar ini ada kotak kecil dan seruling.", hint: "この へや の なか に (kono heya no naka ni) • ちいさい はこ (chiisai hako) • と (to) • ふえ (fue)." },
+                { id: 25, stage: 2, stageNum: 10, stageName: "Tahap 2 (+ た–と, は–ほ, な–の)", questionKana: "ちち の くつ と はは の かさ、あね の ぼうし -> あね の はな", targetRomaji: "chichi no kutsu to haha no kasa, ane no hana", questionKana: "ちち の くつ と はは の かさ、あね の はな", meaning: "Sepatu ayah dan payung ibu, bunga milik kakak perempuan.", hint: "ちち の くつ (chichi no kutsu) • と (to) • はは の かさ (haha no kasa) • あね の はな (ane no hana)." },
+                { id: 26, stage: 2, stageNum: 11, stageName: "Tahap 2 (+ た–と, は–ほ, な–の)", questionKana: "たかい き の うえ に ちいさい とり -> ちいさい はと", targetRomaji: "takai ki no ue ni chiisai hato", questionKana: "たかい き の うえ に ちいさい はと", meaning: "Di atas pohon yang tinggi ada burung merpati kecil.", hint: "たかい き (takai ki) • の うえ に (no ue ni) • ちいさい はと (chiisai hato)." },
+                { id: 27, stage: 2, stageNum: 12, stageName: "Tahap 2 (+ た–と, は–ほ, な–の)", questionKana: "なつ の あつい ひ、つめたい -> おいしい すいか と なし", targetRomaji: "natsu no atsui hi, oishii suika to nashi", questionKana: "なつ の あつい ひ、おいしい すいか と なし", meaning: "Hari musim panas yang terik, semangka lezat dan buah pir.", hint: "なつ の あつい ひ (natsu no atsui hi) • おいしい すいか (oishii suika) • と (to) • なし (nashi)." },
+                { id: 28, stage: 2, stageNum: 13, stageName: "Tahap 2 (+ た–と, は–ほ, な–の)", questionKana: "その ひと の て に あかい はな と あおい ふうせん -> あおいぬの", targetRomaji: "sono hito no te ni akai hana to aoi nuno", questionKana: "その ひと の て に あかい はな と あおい ぬの", meaning: "Di tangan orang itu ada bunga merah dan kain biru.", hint: "その ひと の て に (sono hito no te ni) • あかい はな (akai hana) • と (to) • あおい ぬの (aoi nuno)." },
+                { id: 29, stage: 2, stageNum: 14, stageName: "Tahap 2 (+ た–と, は–ほ, な–の)", questionKana: "わたし -> うち の そと に おおきい いぬ と ちいさい ねこ", targetRomaji: "uchi no soto ni ookii inu to chiisai neko", questionKana: "うち の そと に おおきい いぬ と ちいさい ねこ", meaning: "Di luar rumah ada anjing besar dan kucing kecil.", hint: "うち の そと に (uchi no soto ni) • おおきい いぬ (ookii inu) • と (to) • ちいさい ねこ (chiisai neko)." },
+                { id: 30, stage: 2, stageNum: 15, stageName: "Tahap 2 (+ た–と, は–ほ, な–の)", questionKana: "あした の てすと、つくえ の うえ に かみ -> のおと と とけい", targetRomaji: "ashita no tesuto, tsukue no ue ni nooto to tokei", questionKana: "あした の てすと、つくえ の うえ に のおと と とけい", meaning: "Ujian besok, di atas meja ada buku catatan dan jam.", hint: "あした の てすと (ashita no tesuto) • つくえ の うえ に (tsukue no ue ni) • のおと (nooto) • と (to) • とけい (tokei)." },
+
+                // ==================== HIRAGANA TAHAP 3 (15 SOAL PENUH: No. 1 - 15) ====================
+                // Cakupan Huruf Tahap 1-2 + Tahap 3: まみむめも らりるれろ わをん やゆよ
+                { id: 31, stage: 3, stageNum: 1, stageName: "Tahap 3 (+ ま–も, ら–ろ, わ–を–ん)", questionKana: "わたし は まいあさ あまい もも と くるみ を もらいます", targetRomaji: "watashi wa maiasa amai momo to kurumi wo moraimasu", meaning: "Saya setiap pagi menerima buah persik manis dan kacang kenari.", hint: "わたし は (watashi wa) • まいあさ (maiasa) • あまい もも (amai momo) • と (to) • くるみ (kurumi) • を もらいます (wo moraimasu)." },
+                { id: 32, stage: 3, stageNum: 2, stageName: "Tahap 3 (+ ま–も, ら–ろ, わ–を–ん)", questionKana: "はる に は きれい な さくら の はな を みます", targetRomaji: "haru ni wa kirei na sakura no hana wo mimasu", meaning: "Pada musim semi melihat bunga sakura yang indah.", hint: "はる に は (haru ni wa) • きれい な (kirei na) • さくら の はな (sakura no hana) • を みます (wo mimasu)." },
+                { id: 33, stage: 3, stageNum: 3, stageName: "Tahap 3 (+ ま–も, ら–ろ, わ–を–ん)", questionKana: "あに は しろい くるま の なか から そら を みました", targetRomaji: "ani wa shiroi kuruma no naka kara sora wo mimashita", meaning: "Kakak laki-laki melihat langit dari dalam mobil putih.", hint: "あに は (ani wa) • しろい くるま (shiroi kuruma) • の なか から (no naka kara) • そら を みました (sora wo mimashita)." },
+                { id: 34, stage: 3, stageNum: 4, stageName: "Tahap 3 (+ ま–も, ら–ろ, わ–を–ん)", questionKana: "ひる に は にほん の れきし の ほん を よみます", targetRomaji: "hiru ni wa nihon no rekishi no hon wo yomimasu", meaning: "Pada siang hari membaca buku sejarah Jepang.", hint: "ひる に は (hiru ni wa) • にほん の れきし (nihon no rekishi) • の ほん (no hon) • を よみます (wo yomimasu)." },
+                { id: 35, stage: 3, stageNum: 5, stageName: "Tahap 3 (+ ま–も, ら–ろ, わ–を–ん)", questionKana: "つめたい みるく と まるい めろん を かいます", targetRomaji: "tsumetai miruku to marui meron wo kaimasu", meaning: "Membeli susu dingin dan buah melon yang bundar.", hint: "つめたい みるく (tsumetai miruku) • と (to) • まるい めろん (marui meron) • を かいます (wo kaimasu)." },
+                { id: 36, stage: 3, stageNum: 6, stageName: "Tahap 3 (+ ま–も, ら–ろ, わ–を–ん)", questionKana: "よる に は くらい もり の なか を あるきます", targetRomaji: "yoru ni wa kurai mori no naka wo arukimasu", meaning: "Pada malam hari berjalan di dalam hutan yang gelap.", hint: "よる に は (yoru ni wa) • くらい もり (kurai mori) • の なか (no naka) • を あるきます (wo arukimasu)." },
+                { id: 37, stage: 3, stageNum: 7, stageName: "Tahap 3 (+ ま–も, ら–ろ, わ–を–ん)", questionKana: "いもうと は にわ の きれい な はな を とります", targetRomaji: "imouto wa niwa no kirei na hana wo torimasu", meaning: "Adik perempuan memetik/memotret bunga indah di halaman.", hint: "いもうと は (imouto wa) • にわ の (niwa no) • きれい な はな (kirei na hana) • を とります (wo torimasu)." },
+                { id: 38, stage: 3, stageNum: 8, stageName: "Tahap 3 (+ ま–も, ら–ろ, わ–を–ん)", questionKana: "みんな と たのしく にほん の うた を うたいます", targetRomaji: "minna to tanoshiku nihon no uta wo utaimasu", meaning: "Bersama semuanya menyanyikan lagu Jepang dengan gembira.", hint: "みんな と (minna to) • たのしく (tanoshiku) • にほん の うた (nihon no uta) • を うたいます (wo utaimasu)." },
+                { id: 39, stage: 3, stageNum: 9, stageName: "Tahap 3 (+ ま–も, ら–ろ, わ–を–ん)", questionKana: "せんせい から あたらしい かみ と ほん を もらいました", targetRomaji: "sensei kara atarashii kami to hon wo moraimashita", meaning: "Telah menerima kertas baru dan buku dari guru.", hint: "せんせい から (sensei kara) • あたらしい (atarashii) • かみ と ほん (kami to hon) • を もらいました (wo moraimashita)." },
+                { id: 40, stage: 3, stageNum: 10, stageName: "Tahap 3 (+ ま–も, ら–ろ, わ–を–ん)", questionKana: "なつ に は あおい うみ の ちかく を あるきます", targetRomaji: "natsu ni wa aoi umi no chikaku wo arukimasu", meaning: "Pada musim panas berjalan di dekat laut yang biru.", hint: "なつ に は (natsu ni wa) • あおい うみ (aoi umi) • の ちかく (no chikaku) • を あるきます (wo arukimasu)." },
+                { id: 41, stage: 3, stageNum: 11, stageName: "Tahap 3 (+ ま–も, ら–ろ, わ–を–ん)", questionKana: "ふゆ に は しろい ゆき の やま を みます", targetRomaji: "fuyu ni wa shiroi yuki no yama wo mimasu", meaning: "Pada musim dingin melihat gunung bersalju putih.", hint: "ふゆ に は (fuyu ni wa) • しろい ゆき (shiroi yuki) • の やま (no yama) • を みます (wo mimasu)." },
+                { id: 42, stage: 3, stageNum: 12, stageName: "Tahap 3 (+ ま–も, ら–ろ, わ–を–ん)", questionKana: "わたし は まいにち へや の なか を そうじ -> へや の なか で やすみます -> へや で ほん を よみます", targetRomaji: "watashi wa mainichi heya no naka ni imasu", questionKana: "わたし は まいにち へや の なか に います", meaning: "Saya setiap hari berada di dalam kamar.", hint: "わたし は (watashi wa) • まいにち (mainichi) • へや の なか に (heya no naka ni) • います (imasu)." },
+                { id: 43, stage: 3, stageNum: 13, stageName: "Tahap 3 (+ ま–も, ら–ろ, わ–を–ん)", questionKana: "あね は かいもの に いき、あまい くり を かいました", targetRomaji: "ane wa kaimono ni iki, amai kuri wo kaimashita", meaning: "Kakak perempuan pergi berbelanja, lalu membeli kacang kastanye manis.", hint: "あね は (ane wa) • かいもの に いき (kaimono ni iki) • あまい くり (amai kuri) • を かいました (wo kaimashita)." },
+                { id: 44, stage: 3, stageNum: 14, stageName: "Tahap 3 (+ ま–も, ら–ろ, わ–を–ん)", questionKana: "ここ から えき の まえ まで はやく はしります", targetRomaji: "koko kara eki no mae made hayaku hashirimasu", meaning: "Dari sini sampai depan stasiun berlari dengan cepat.", hint: "ここ から (koko kara) • えき の まえ まで (eki no mae made) • はやく (hayaku) • はしります (hashirimasu)." },
+                { id: 45, stage: 3, stageNum: 15, stageName: "Tahap 3 (+ ま–も, ら–ろ, わ–を–ん)", questionKana: "らいねん の はる、にほん の まち へ いきます", targetRomaji: "rainen no haru, nihon no machi e ikimasu", meaning: "Musim semi tahun depan, pergi ke kota di Jepang.", hint: "らいねん の はる (rainen no haru) • にほん の まち (nihon no machi) • へ (e / he) • いきます (ikimasu)." },
+
+                // ==================== HIRAGANA TAHAP 4 LANJUTAN (15 SOAL PENUH: No. 1 - 15) ====================
+                // Cakupan: Tenten (゛), Maru (゜), Tsu Kecil (っ yukkuri/chotto/kippu), Yoon (ゃゅょ)
+                { id: 46, stage: 4, stageNum: 1, stageName: "Tahap 4 Lanjutan (Tenten ゛, Maru ゜, っ Yukkuri, Yoon)", questionKana: "もっと ゆっくり おおきな こえ で はなして ください", targetRomaji: "motto yukkuri ookina koe de hanashite kudasai", meaning: "Tolong berbicara lebih pelan-pelan (yukkuri) dengan suara yang lantang.", hint: "もっと (motto) • ゆっくり (yukkuri) • おおきな こえ で (ookina koe de) • はなして ください (hanashite kudasai)." },
+                { id: 47, stage: 4, stageNum: 2, stageName: "Tahap 4 Lanjutan (Tenten ゛, Maru ゜, っ Yukkuri, Yoon)", questionKana: "ちょっと まって、えき で でんしゃ の きっぷ を かいます", targetRomaji: "chotto matte, eki de densha no kippu wo kaimasu", meaning: "Tunggu sebentar (chotto matte), di stasiun membeli tiket kereta.", hint: "ちょっと まって (chotto matte) • えき で (eki de) • でんしゃ の きっぷ (densha no kippu) • を かいます (wo kaimasu)." },
+                { id: 48, stage: 4, stageNum: 3, stageName: "Tahap 4 Lanjutan (Tenten ゛, Maru ゜, っ Yukkuri, Yoon)", questionKana: "おなか が ぺこぺこ な ので、えび の てんぷら を いっぱい たべました", targetRomaji: "onaka ga pekopeko na node, ebi no tenpura wo ippai tabemashita", meaning: "Karena perut sangat lapar (pekopeko), saya makan banyak sekali tempura udang.", hint: "おなか が (onaka ga) • ぺこぺこ な ので (pekopeko na node) • えび の てんぷら (ebi no tenpura) • を いっぱい たべました (wo ippai tabemashita)." },
+                { id: 49, stage: 4, stageNum: 4, stageName: "Tahap 4 Lanjutan (Tenten ゛, Maru ゜, っ Yukkuri, Yoon)", questionKana: "きょう は がっこう で せんせい と いっしょ に にほんご の ざっし を ゆっくり よみました", targetRomaji: "kyou wa gakkou de sensei to issho ni nihongo no zasshi wo yukkuri yomimashita", meaning: "Hari ini di sekolah bersama guru membaca majalah bahasa Jepang secara perlahan-lahan.", hint: "きょう は (kyou wa) • がっこう で (gakkou de) • せんせい と いっしょ に (sensei to issho ni) • にほんご の ざっし (nihongo no zasshi) • を ゆっくり よみました (wo yukkuri yomimashita)." },
+                { id: 50, stage: 4, stageNum: 5, stageName: "Tahap 4 Lanjutan (Tenten ゛, Maru ゜, っ Yukkuri, Yoon)", questionKana: "かぞく と いっしょ に しずか な こうえん を ゆっくり さんぽ します", targetRomaji: "kazoku to issho ni shizuka na kouen wo yukkuri sanpo shimasu", meaning: "Bersama keluarga berjalan-jalan santai (yukkuri sanpo) di taman yang tenang.", hint: "かぞく と いっしょ に (kazoku to issho ni) • しずか な こうえん (shizuka na kouen) • を ゆっくり さんぽ します (wo yukkuri sanpo shimasu)." },
+                { id: 51, stage: 4, stageNum: 6, stageName: "Tahap 4 Lanjutan (Tenten ゛, Maru ゜, っ Yukkuri, Yoon)", questionKana: "かばん の なか に えんぴつ と じしょ と きって が あります", targetRomaji: "kaban no naka ni enpitsu to jisho to kitte ga arimasu", meaning: "Di dalam tas ada pensil, kamus, dan prangko (kitte).", hint: "かばん の なか に (kaban no naka ni) • えんぴつ (enpitsu) • と じしょ (to jisho) • と きって (to kitte) • が あります (ga arimasu)." },
+                { id: 52, stage: 4, stageNum: 7, stageName: "Tahap 4 Lanjutan (Tenten ゛, Maru ゜, っ Yukkuri, Yoon)", questionKana: "よじ に びょういん の まえ で ともだち と あいました", targetRomaji: "yoji ni byouin no mae de tomodachi to aimashita", meaning: "Pada pukul empat bertemu dengan teman di depan rumah sakit (byouin).", hint: "よじ に (yoji ni) • びょういん の まえ で (byouin no mae de) • ともだち と (tomodachi to) • あいました (aimashita)." },
+                { id: 53, stage: 4, stageNum: 8, stageName: "Tahap 4 Lanjutan (Tenten ゛, Maru ゜, っ Yukkuri, Yoon)", questionKana: "あめ が ふって いる ので、ずっと へや で べんきょう します", targetRomaji: "ame ga futte iru node, zutto heya de benkyou shimasu", meaning: "Karena sedang turun hujan (futte), terus-menerus (zutto) belajar di kamar.", hint: "あめ が ふって いる ので (ame ga futte iru node) • ずっと (zutto) • へや で べんきょう します (heya de benkyou shimasu)." },
+                { id: 54, stage: 4, stageNum: 9, stageName: "Tahap 4 Lanjutan (Tenten ゛, Maru ゜, っ Yukkuri, Yoon)", questionKana: "よる の そら に ぴかぴか の ほし が いっぱい でて います", targetRomaji: "yoru no sora ni pikapika no hoshi ga ippai dete imasu", meaning: "Di langit malam muncul banyak sekali bintang yang berkelap-kelip (pikapika).", hint: "よる の そら に (yoru no sora ni) • ぴかぴか の ほし (pikapika no hoshi) • が いっぱい でて います (ga ippai dete imasu)." },
+                { id: 55, stage: 4, stageNum: 10, stageName: "Tahap 4 Lanjutan (Tenten ゛, Maru ゜, っ Yukkuri, Yoon)", questionKana: "らいげつ、しんかんせん で きょうと と おおさか へ りょこう に いきます", targetRomaji: "raigetsu, shinkansen de kyouto to oosaka e ryokou ni ikimasu", meaning: "Bulan depan pergi berwisata (ryokou) ke Kyoto dan Osaka naik Shinkansen.", hint: "らいげつ (raigetsu) • しんかんせん で (shinkansen de) • きょうと と おおさか へ (kyouto to oosaka e) • りょこう に いきます (ryokou ni ikimasu)." },
+                { id: 56, stage: 4, stageNum: 11, stageName: "Tahap 4 Lanjutan (Tenten ゛, Maru ゜, っ Yukkuri, Yoon)", questionKana: "つめたい ぎゅうにゅう と あまい りんご を みっつ かいました", targetRomaji: "tsumetai gyuunyuu to amai ringo wo mittsu kaimashita", meaning: "Telah membeli susu sapi (gyuunyuu) dingin dan tiga buah (mittsu) apel manis.", hint: "つめたい ぎゅうにゅう (tsumetai gyuunyuu) • と あまい りんご (to amai ringo) • を みっつ かいました (wo mittsu kaimashita)." },
+                { id: 57, stage: 4, stageNum: 12, stageName: "Tahap 4 Lanjutan (Tenten ゛, Maru ゜, っ Yukkuri, Yoon)", questionKana: "としょかん で じしょ を つかって、むずかしい かんじ を べんきょう します", targetRomaji: "toshokan de jisho wo tsukatte, muzukashii kanji wo benkyou shimasu", meaning: "Di perpustakaan menggunakan kamus (tsukatte) mempelajari kanji yang sulit.", hint: "としょかん で (toshokan de) • じしょ を つかって (jisho wo tsukatte) • むずかしい かんじ (muzukashii kanji) • を べんきょう します (wo benkyou shimasu)." },
+                { id: 58, stage: 4, stageNum: 13, stageName: "Tahap 4 Lanjutan (Tenten ゛, Maru ゜, っ Yukkuri, Yoon)", questionKana: "やはり にほん の しゃしん は とっても きれい です", targetRomaji: "yahari nihon no shashin wa tottemo kirei desu", meaning: "Seperti dugaanku, foto-foto (shashin) Jepang sangatlah (tottemo) indah.", hint: "やはり (yahari) • にほん の しゃしん は (nihon no shashin wa) • とっても (tottemo) • きれい です (kirei desu)." },
+                { id: 59, stage: 4, stageNum: 14, stageName: "Tahap 4 Lanjutan (Tenten ゛, Maru ゜, っ Yukkuri, Yoon)", questionKana: "あさ はやく おきて、つめたい みず で かお を あらいます", targetRomaji: "asa hayaku okite, tsumetai mizu de kao wo araimasu", meaning: "Bangun pagi-pagi sekali, lalu mencuci wajah dengan air dingin.", hint: "あさ はやく おきて (asa hayaku okite) • つめたい みず で (tsumetai mizu de) • かお を あらいます (kao wo araimasu)." },
+                { id: 60, stage: 4, stageNum: 15, stageName: "Tahap 4 Lanjutan (Tenten ゛, Maru ゜, っ Yukkuri, Yoon)", questionKana: "きょうしつ で せんせい の はっぴょう を しずか に きいて います", targetRomaji: "kyoushitsu de sensei no happyou wo shizuka ni kiite imasu", meaning: "Di ruang kelas sedang mendengarkan presentasi (happyou) guru dengan tenang.", hint: "きょうしつ で (kyoushitsu de) • せんせい の はっぴょう (sensei no happyou) • を しずか に きいて います (wo shizuka ni kiite imasu)." }
+            ],
+
+            katakana: [
+                // ==================== KATAKANA TAHAP 1 (15 SOAL PENUH: No. 1 - 15) ====================
+                // Cakupan Murni Tahap 1: アイウエオ カキクケコ サシツセソ
+                { id: 1, stage: 1, stageNum: 1, stageName: "Tahap 1 Katakana (ア–オ, カ–コ, サ–シ–ツ–セ–ソ)", questionKana: "アカイ カサ、アオイ クツ、オイシイ オカシ、オオキイ サイ", targetRomaji: "akai kasa, aoi kutsu, oishii okashi, ookii sai", meaning: "Payung merah, sepatu biru, camilan kue lezat, badak (sai) yang besar.", hint: "アカイ カサ (akai kasa) • アオイ クツ (aoi kutsu) • オイシイ オカシ (oishii okashi) • オオキイ サイ (ookii sai)." },
+                { id: 2, stage: 1, stageNum: 2, stageName: "Tahap 1 Katakana (ア–オ, カ–コ, サ–シ–ツ–セ–ソ)", questionKana: "ケサ アオイ クツ、アカイ カサ、オイシイ サケ、シオ", targetRomaji: "kesa aoi kutsu, akai kasa, oishii sake, shio", meaning: "Tadi pagi sepatu biru, payung merah, salmon lezat, garam.", hint: "ケサ (kesa) • アオイ クツ (aoi kutsu) • アカイ カサ (akai kasa) • オイシイ サケ (oishii sake) • シオ (shio)." },
+                { id: 3, stage: 1, stageNum: 3, stageName: "Tahap 1 Katakana (ア–オ, カ–コ, サ–シ–ツ–セ–ソ)", questionKana: "オオキイ イエ、アオイ イケ、アカイ ツクエ、オオキイ コエ", targetRomaji: "ookii ie, aoi ike, akai tsukue, ookii koe", meaning: "Rumah besar, kolam biru, meja merah, suara yang besar.", hint: "オオキイ イエ (ookii ie) • アオイ イケ (aoi ike) • アカイ ツクエ (akai tsukue) • オオキイ コエ (ookii koe)." },
+                { id: 4, stage: 1, stageNum: 4, stageName: "Tahap 1 Katakana (ア–オ, カ–コ, サ–シ–ツ–セ–ソ)", questionKana: "ソコ、オオキイ ウシ、アオイ クサ、アカイ イシ", targetRomaji: "soko, ookii ushi, aoi kusa, akai ishi", meaning: "Di situ, sapi besar, rumput hijau/biru, batu merah.", hint: "ソコ (soko) • オオキイ ウシ (ookii ushi) • アオイ クサ (aoi kusa) • アカイ イシ (akai ishi)." },
+                { id: 5, stage: 1, stageNum: 5, stageName: "Tahap 1 Katakana (ア–オ, カ–コ, サ–シ–ツ–セ–ソ)", questionKana: "アソコ、オオキイ キ、アカイ キク、イイ セカイ", targetRomaji: "asoko, ookii ki, akai kiku, ii sekai", meaning: "Di sana, pohon besar, bunga krisan merah, dunia yang baik.", hint: "アソコ (asoko) • オオキイ キ (ookii ki) • アカイ キク (akai kiku) • イイ セカイ (ii sekai)." },
+                { id: 6, stage: 1, stageNum: 6, stageName: "Tahap 1 Katakana (ア–オ, カ–コ, サ–シ–ツ–セ–ソ)", questionKana: "アキ、アオイ カサ、オオキイ コイ、オイシイ カキ", targetRomaji: "aki, aoi kasa, ookii koi, oishii kaki", meaning: "Musim gugur, payung biru, ikan koi besar, buah kesemek lezat.", hint: "アキ (aki) • アオイ カサ (aoi kasa) • オオキイ コイ (ookii koi) • オイシイ カキ (oishii kaki)." },
+                { id: 7, stage: 1, stageNum: 7, stageName: "Tahap 1 Katakana (ア–オ, カ–コ, サ–シ–ツ–セ–ソ)", questionKana: "オソイ アシ、オオキイ セ、イイ カオ、アカイ クシ", targetRomaji: "osoi ashi, ookii se, ii kao, akai kushi", meaning: "Kaki yang lambat, postur besar, wajah yang baik, sisir merah.", hint: "オソイ アシ (osoi ashi) • オオキイ セ (ookii se) • イイ カオ (ii kao) • アカイ クシ (akai kushi)." },
+                { id: 8, stage: 1, stageNum: 8, stageName: "Tahap 1 Katakana (ア–オ, カ–コ, サ–シ–ツ–セ–ソ)", questionKana: "ココ、オイシイ カシ、アオイ クツ、オオキイ エキ", targetRomaji: "koko, oishii kashi, aoi kutsu, ookii eki", meaning: "Di sini, kue lezat, sepatu biru, stasiun yang besar.", hint: "ココ (koko) • オイシイ カシ (oishii kashi) • アオイ クツ (aoi kutsu) • オオキイ エキ (ookii eki)." },
+                { id: 9, stage: 1, stageNum: 9, stageName: "Tahap 1 Katakana (ア–オ, カ–コ, サ–シ–ツ–セ–ソ)", questionKana: "ウツクシイ エ、アサイ イケ、オオキイ シシ、イイ セキ", targetRomaji: "utsukushii e, asai ike, ookii shishi, ii seki", meaning: "Lukisan indah, kolam dangkal, singa besar, tempat duduk yang bagus.", hint: "ウツクシイ エ (utsukushii e) • アサイ イケ (asai ike) • オオキイ シシ (ookii shishi) • イイ セキ (ii seki)." },
+                { id: 10, stage: 1, stageNum: 10, stageName: "Tahap 1 Katakana (ア–オ, カ–コ, サ–シ–ツ–セ–ソ)", questionKana: "カシコイ コ、イイ コエ、ウツクシイ アサ、アカイ カサ", targetRomaji: "kashikoi ko, ii koe, utsukushii asa, akai kasa", meaning: "Anak cerdas, suara bagus, pagi yang indah, payung merah.", hint: "カシコイ コ (kashikoi ko) • イイ コエ (ii koe) • ウツクシイ アサ (utsukushii asa) • アカイ カサ (akai kasa)." },
+                { id: 11, stage: 1, stageNum: 11, stageName: "Tahap 1 Katakana (ア–オ, カ–コ, サ–シ–ツ–セ–ソ)", questionKana: "アツイ ケサ、アオイ ツクエ、オイシイ シオ、オイシイ サケ", targetRomaji: "atsui kesa, aoi tsukue, oishii shio, oishii sake", meaning: "Pagi tadi yang panas, meja biru, garam gurih, ikan salmon lezat.", hint: "アツイ ケサ (atsui kesa) • アオイ ツクエ (aoi tsukue) • オイシイ シオ (oishii shio) • オイシイ サケ (oishii sake)." },
+                { id: 12, stage: 1, stageNum: 12, stageName: "Tahap 1 Katakana (ア–オ, カ–コ, サ–シ–ツ–セ–ソ)", questionKana: "オオキイ サイ、オオキイ ウシ、アオイ クサ、アオイ イケ", targetRomaji: "ookii sai, ookii ushi, aoi kusa, aoi ike", meaning: "Badak besar, sapi besar, rumput biru/hijau, kolam biru.", hint: "オオキイ サイ (ookii sai) • オオキイ ウシ (ookii ushi) • アオイ クサ (aoi kusa) • アオイ イケ (aoi ike)." },
+                { id: 13, stage: 1, stageNum: 13, stageName: "Tahap 1 Katakana (ア–オ, カ–コ, サ–シ–ツ–セ–ソ)", questionKana: "アカイ サカサ カサ、アオイ クツ、オソイ アシ、イイ カオ", targetRomaji: "akai sakasa kasa, aoi kutsu, osoi ashi, ii kao", meaning: "Payung merah terbalik, sepatu biru, langkah lambat, wajah yang ramah.", hint: "アカイ サカサ カサ (akai sakasa kasa) • アオイ クツ (aoi kutsu) • オソイ アシ (osoi ashi) • イイ カオ (ii kao)." },
+                { id: 14, stage: 1, stageNum: 14, stageName: "Tahap 1 Katakana (ア–オ, カ–コ, サ–シ–ツ–セ–ソ)", questionKana: "ソコ、アカイ シキイ、オオキイ イエ、ウツクシイ キ", targetRomaji: "soko, akai shikii, ookii ie, utsukushii ki", meaning: "Di situ, ambang pintu merah, rumah besar, pohon yang indah.", hint: "ソコ (soko) • アカイ シキイ (akai shikii) • オオキイ イエ (ookii ie) • ウツクシイ キ (utsukushii ki)." },
+                { id: 15, stage: 1, stageNum: 15, stageName: "Tahap 1 Katakana (ア–オ, カ–コ, サ–シ–ツ–セ–ソ)", questionKana: "ケサ、イイ アキ、アカイ キク、オイシイ オカシ", targetRomaji: "kesa, ii aki, akai kiku, oishii okashi", meaning: "Tadi pagi, musim gugur yang baik, bunga krisan merah, kue yang lezat.", hint: "ケサ (kesa) • イイ アキ (ii aki) • アカイ キク (akai kiku) • オイシイ オカシ (oishii okashi)." },
+
+                // ==================== KATAKANA TAHAP 2 (15 SOAL PENUH: No. 1 - 15) ====================
+                // Cakupan Tahap 1 + Tahap 2: タチステト ハヒフヘホ ナニヌネノ
+                { id: 16, stage: 2, stageNum: 1, stageName: "Tahap 2 Katakana (+ タ–ト, ハ–ホ, ナ–ノ)", questionKana: "ナツ ノ テニス、アオイ テント ト オオキイ ナイフ", targetRomaji: "natsu no tenisu, aoi tento to ookii naifu", meaning: "Tenis musim panas, tenda (tento) biru dan pisau (naifu) besar.", hint: "ナツ ノ テニス (natsu no tenisu) • アオイ テント (aoi tento) • ト (to) • オオキイ ナイフ (ookii naifu)." },
+                { id: 17, stage: 2, stageNum: 2, stageName: "Tahap 2 Katakana (+ タ–ト, ハ–ホ, ナ–ノ)", questionKana: "チイサイ ネコ ト イヌ、ツクエ ノ ウエ ニ アカイ ハナ ト テスト", targetRomaji: "chiisai neko to inu, tsukue no ue ni akai hana to tesuto", meaning: "Kucing kecil dan anjing, di atas meja ada bunga merah dan kertas ujian.", hint: "チイサイ ネコ ト イヌ (chiisai neko to inu) • ツクエ ノ ウエ ニ (tsukue no ue ni) • アカイ ハナ ト テスト (akai hana to tesuto)." },
+                { id: 18, stage: 2, stageNum: 3, stageName: "Tahap 2 Katakana (+ タ–ト, ハ–ホ, ナ–ノ)", questionKana: "アノ ヒト ノ ヘヤ ニ オイシイ スシ ト オイシイ ニク", targetRomaji: "ano hito no heya ni oishii sushi to oishii niku", meaning: "Di kamar orang itu ada sushi lezat dan daging lezat.", hint: "アノ ヒト ノ ヘヤ ニ (ano hito no heya ni) • オイシイ スシ (oishii sushi) • ト オイシイ ニク (to oishii niku)." },
+                { id: 19, stage: 2, stageNum: 4, stageName: "Tahap 2 Katakana (+ タ–ト, ハ–ホ, ナ–ノ)", questionKana: "ホシ ノ シタ、アオイ フネ ト タカイ ハシ、アタタカイ ヒ", targetRomaji: "hoshi no shita, aoi fune to takai hashi, atatakai hi", meaning: "Di bawah bintang, kapal biru dan jembatan tinggi, hari yang hangat.", hint: "ホシ ノ シタ (hoshi no shita) • アオイ フネ ト タカイ ハシ (aoi fune to takai hashi) • アタタカイ ヒ (atatakai hi)." },
+                { id: 20, stage: 2, stageNum: 5, stageName: "Tahap 2 Katakana (+ タ–ト, ハ–ホ, ナ–ノ)", questionKana: "アニ ノ ネクタイ ト チチ ノ クツ、アネ ノ ナイフ", targetRomaji: "ani no nekutai to chichi no kutsu, ane no naifu", meaning: "Dasi kakak laki-laki dan sepatu ayah, pisau milik kakak perempuan.", hint: "アニ ノ ネクタイ (ani no nekutai) • ト (to) • チチ ノ クツ (chichi no kutsu) • アネ ノ ナイフ (ane no naifu)." },
+                { id: 21, stage: 2, stageNum: 6, stageName: "Tahap 2 Katakana (+ タ–ト, ハ–ホ, ナ–ノ)", questionKana: "キ ノ シタ ニ アカイ イス ト タカイ ツクエ", targetRomaji: "ki no shita ni akai isu to takai tsukue", meaning: "Di bawah pohon ada kursi merah dan meja yang tinggi.", hint: "キ ノ シタ ニ (ki no shita ni) • アカイ イス (akai isu) • ト タカイ ツクエ (to takai tsukue)." },
+                { id: 22, stage: 2, stageNum: 7, stageName: "Tahap 2 Katakana (+ タ–ト, ハ–ホ, ナ–ノ)", questionKana: "アシタ ノ テスト、チイサナ トケイ ト アオイ クツ", targetRomaji: "ashita no tesuto, chiisana tokei to aoi kutsu", meaning: "Ujian besok, jam yang kecil dan sepatu biru.", hint: "アシタ ノ テスト (ashita no tesuto) • チイサナ トケイ (chiisana tokei) • ト アオイ クツ (to aoi kutsu)." },
+                { id: 23, stage: 2, stageNum: 8, stageName: "Tahap 2 Katakana (+ タ–ト, ハ–ホ, ナ–ノ)", questionKana: "アタタカ ナ ヒ、ソト ノ テニス ト タノシイ ハナシ", targetRomaji: "atataka na hi, soto no tenisu to tanoshii hanashi", meaning: "Hari yang hangat, tenis di luar dan perbincangan yang menyenangkan.", hint: "アタタカ ナ ヒ (atataka na hi) • ソト ノ テニス (soto no tenisu) • ト タノシイ ハナシ (to tanoshii hanashi)." },
+                { id: 24, stage: 2, stageNum: 9, stageName: "Tahap 2 Katakana (+ タ–ト, ハ–ホ, ナ–ノ)", questionKana: "コノ ヘヤ ノ ナカ ニ チイサイ ハコ ト フエ", targetRomaji: "kono heya no naka ni chiisai hako to fue", meaning: "Di dalam kamar ini ada kotak kecil dan seruling.", hint: "コノ ヘヤ ノ ナカ ニ (kono heya no naka ni) • チイサイ ハコ (chiisai hako) • ト フエ (to fue)." },
+                { id: 25, stage: 2, stageNum: 10, stageName: "Tahap 2 Katakana (+ タ–ト, ハ–ホ, ナ–ノ)", questionKana: "チチ ト ハハ ノ オオキイ イエ、カシコイ イヌ", targetRomaji: "chichi to haha no ookii ie, kashikoi inu", meaning: "Rumah besar milik ayah dan ibu, anjing yang cerdas.", hint: "チチ ト ハハ ノ (chichi to haha no) • オオキイ イエ (ookii ie) • カシコイ イヌ (kashikoi inu)." },
+                { id: 26, stage: 2, stageNum: 11, stageName: "Tahap 2 Katakana (+ タ–ト, ハ–ホ, ナ–ノ)", questionKana: "タカイ キ ノ ウエ ニ チイサイ ハト ト リス -> チイサイ ハト", targetRomaji: "takai ki no ue ni chiisai hato", questionKana: "タカイ キ ノ ウエ ニ チイサイ ハト", meaning: "Di atas pohon yang tinggi ada burung merpati kecil.", hint: "タカイ キ ノ ウエ ニ (takai ki no ue ni) • チイサイ ハト (chiisai hato)." },
+                { id: 27, stage: 2, stageNum: 12, stageName: "Tahap 2 Katakana (+ タ–ト, ハ–ホ, ナ–ノ)", questionKana: "ナツ ノ アツイ ヒ、オイシイ スイカ ト ナシ", targetRomaji: "natsu no atsui hi, oishii suika to nashi", meaning: "Hari musim panas yang terik, semangka lezat dan buah pir.", hint: "ナツ ノ アツイ ヒ (natsu no atsui hi) • オイシイ スイカ (oishii suika) • ト ナシ (to nashi)." },
+                { id: 28, stage: 2, stageNum: 13, stageName: "Tahap 2 Katakana (+ タ–ト, ハ–ホ, ナ–ノ)", questionKana: "ソノ ヒト ノ テ ニ アカイ ハナ ト アオイ ヌノ", targetRomaji: "sono hito no te ni akai hana to aoi nuno", meaning: "Di tangan orang itu ada bunga merah dan kain biru.", hint: "ソノ ヒト ノ テ ニ (sono hito no te ni) • アカイ ハナ (akai hana) • ト アオイ ヌノ (to aoi nuno)." },
+                { id: 29, stage: 2, stageNum: 14, stageName: "Tahap 2 Katakana (+ タ–ト, ハ–ホ, ナ–ノ)", questionKana: "ウチ ノ ソト ニ オオキイ イヌ ト チイサイ ネコ", targetRomaji: "uchi no soto ni ookii inu to chiisai neko", meaning: "Di luar rumah ada anjing besar dan kucing kecil.", hint: "ウチ ノ ソト ニ (uchi no soto ni) • オオキイ イヌ (ookii inu) • ト チイサイ ネコ (to chiisai neko)." },
+                { id: 30, stage: 2, stageNum: 15, stageName: "Tahap 2 Katakana (+ タ–ト, ハ–ホ, ナ–ノ)", questionKana: "ホシ ノ シタ、ヒクイ フネ ト タカイ ハシ", targetRomaji: "hoshi no shita, hikui fune to takai hashi", meaning: "Di bawah bintang, perahu rendah dan jembatan yang tinggi.", hint: "ホシ ノ シタ (hoshi no shita) • ヒクイ フネ (hikui fune) • ト タカイ ハシ (to takai hashi)." },
+
+                // ==================== KATAKANA TAHAP 3 (15 SOAL PENUH: No. 1 - 15) ====================
+                // Cakupan Tahap 1-2 + Tahap 3: マミムメモ ラリルレロ ワヲン ヤユヨ
+                { id: 31, stage: 3, stageNum: 1, stageName: "Tahap 3 Katakana (+ マ–モ, ラ–ロ, ワ–ヲ–ン)", questionKana: "ワタシ ハ アタラシイ カメラ ト シロイ クルマ ヲ ミマス", targetRomaji: "watashi wa atarashii kamera to shiroi kuruma wo mimasu", meaning: "Saya melihat kamera baru dan mobil putih.", hint: "ワタシ ハ (watashi wa) • アタラシイ カメラ (atarashii kamera) • ト シロイ クルマ (to shiroi kuruma) • ヲ ミマス (wo mimasu)." },
+                { id: 32, stage: 3, stageNum: 2, stageName: "Tahap 3 Katakana (+ マ–モ, ラ–ロ, ワ–ヲ–ン)", questionKana: "マイアサ ツメタイ ミルク ト アマイ メロン ヲ ノミマス", targetRomaji: "maiasa tsumetai miruku to amai meron wo nomimasu", meaning: "Setiap pagi menikmati susu dingin dan melon manis.", hint: "マイアサ (maiasa) • ツメタイ ミルク (tsumetai miruku) • ト アマイ メロン (to amai meron) • ヲ ノミマス (wo nomimasu)." },
+                { id: 33, stage: 3, stageNum: 3, stageName: "Tahap 3 Katakana (+ マ–モ, ラ–ロ, ワ–ヲ–ン)", questionKana: "ヒル ニ ハ レストラン ノ オイシイ オムレツ ヲ モライマス", targetRomaji: "hiru ni wa resutoran no oishii omuretsu wo moraimasu", meaning: "Pada siang hari menerima omelet lezat dari restoran.", hint: "ヒル ニ ハ (hiru ni wa) • レストラン ノ (resutoran no) • オイシイ オムレツ (oishii omuretsu) • ヲ モライマス (wo moraimasu)." },
+                { id: 34, stage: 3, stageNum: 4, stageName: "Tahap 3 Katakana (+ マ–モ, ラ–ロ, ワ–ヲ–ン)", questionKana: "ミンナ ト タノシク テニス ト マラソン ヲ シマス", targetRomaji: "minna to tanoshiku tenisu to marason wo shimasu", meaning: "Bersama semuanya dengan gembira melakukan tenis dan maraton.", hint: "ミンナ ト (minna to) • タノシク (tanoshiku) • テニス ト マラソン (tenisu to marason) • ヲ シマス (wo shimasu)." },
+                { id: 35, stage: 3, stageNum: 5, stageName: "Tahap 3 Katakana (+ マ–モ, ラ–ロ, ワ–ヲ–ン)", questionKana: "ツクエ ノ ウエ ニ カメラ ト レモン ト メモ", targetRomaji: "tsukue no ue ni kamera to remon to memo", meaning: "Di atas meja ada kamera, buah lemon, dan catatan memo.", hint: "ツクエ ノ ウエ ニ (tsukue no ue ni) • カメラ (kamera) • ト レモン (to remon) • ト メモ (to memo)." },
+                { id: 36, stage: 3, stageNum: 6, stageName: "Tahap 3 Katakana (+ マ–モ, ラ–ロ, ワ–ヲ–ン)", questionKana: "アタラシイ ホテル ノ キレイ ナ ヘヤ ヲ ミマシタ", targetRomaji: "atarashii hoteru no kirei na heya wo mimashita", meaning: "Telah melihat kamar indah di hotel yang baru.", hint: "アタラシイ ホテル ノ (atarashii hoteru no) • キレイ ナ ヘヤ (kirei na heya) • ヲ ミマシタ (wo mimashita)." },
+                { id: 37, stage: 3, stageNum: 7, stageName: "Tahap 3 Katakana (+ マ–モ, ラ–ロ, ワ–ヲ–ン)", questionKana: "アニ ハ シロイ ワイシャツ -> シロイ コート -> シロイ くるま ト クロイ ネクタイ ヲ カイマス", targetRomaji: "ani wa shiroi kuruma to kuroi nekutai wo kaimasu", questionKana: "アニ ハ シロイ クルマ ト クロイ ネクタイ ヲ カイマス", meaning: "Kakak laki-laki membeli mobil putih dan dasi hitam.", hint: "アニ ハ (ani wa) • シロイ クルマ (shiroi kuruma) • ト クロイ ネクタイ (to kuroi nekutai) • ヲ カイマス (wo kaimasu)." },
+                { id: 38, stage: 3, stageNum: 8, stageName: "Tahap 3 Katakana (+ マ–モ, ラ–ロ, ワ–ヲ–ン)", questionKana: "クラス ノ ミンナ ト アニメ ノ ウタ ヲ ウタイマス", targetRomaji: "kurasu no minna to anime no uta wo utaimasu", meaning: "Bersama teman-teman sekelas menyanyikan lagu anime.", hint: "クラス ノ ミンナ ト (kurasu no minna to) • アニメ ノ ウタ (anime no uta) • ヲ ウタイマス (wo utaimasu)." },
+                { id: 39, stage: 3, stageNum: 9, stageName: "Tahap 3 Katakana (+ マ–モ, ラ–ロ, ワ–ヲ–ン)", questionKana: "ハル ニ ハ キレイ ナ サクラ ノ キ ヲ カメラ ニ トリマス", targetRomaji: "haru ni wa kirei na sakura no ki wo kamera ni torimasu", meaning: "Pada musim semi memotret pohon sakura yang indah dengan kamera.", hint: "ハル ニ ハ (haru ni wa) • キレイ ナ サクラ ノ キ (kirei na sakura no ki) • ヲ カメラ ニ トリマス (wo kamera ni torimasu)." },
+                { id: 40, stage: 3, stageNum: 10, stageName: "Tahap 3 Katakana (+ マ–モ, ラ–ロ, ワ–ヲ–ン)", questionKana: "ニホン ノ ソウメン ト アマイ モモ ヲ モライマス", targetRomaji: "nihon no soumen to amai momo wo moraimasu", meaning: "Menerima mi soumen Jepang dan buah persik yang manis.", hint: "ニホン ノ ソウメン (nihon no soumen) • ト アマイ モモ (to amai momo) • ヲ モライマス (wo moraimasu)." },
+                { id: 41, stage: 3, stageNum: 11, stageName: "Tahap 3 Katakana (+ マ–モ, ラ–ロ, ワ–ヲ–ン)", questionKana: "ヨル ニ ハ クライ モリ ノ ナカ ヲ アルキマス", targetRomaji: "yoru ni wa kurai mori no naka wo arukimasu", meaning: "Pada malam hari berjalan di dalam hutan yang gelap.", hint: "ヨル ニ ハ (yoru ni wa) • クライ モリ ノ ナカ (kurai mori no naka) • ヲ アルキマス (wo arukimasu)." },
+                { id: 42, stage: 3, stageNum: 12, stageName: "Tahap 3 Katakana (+ マ–モ, ラ–ロ, ワ–ヲ–ン)", questionKana: "イモウト ハ ニワ ノ キレイ ナユリ ノ ハナ ヲ ミマス", targetRomaji: "imouto wa niwa no kirei na yuri no hana wo mimasu", questionKana: "イモウト ハ ニワ ノ キレイ ナ ユリ ノ ハナ ヲ ミマス", meaning: "Adik perempuan melihat bunga lili (yuri) yang indah di halaman.", hint: "イモウト ハ (imouto wa) • ニワ ノ (niwa no) • キレイ ナ ユリ ノ ハナ (kirei na yuri no hana) • ヲ ミマス (wo mimasu)." },
+                { id: 43, stage: 3, stageNum: 13, stageName: "Tahap 3 Katakana (+ マ–モ, ラ–ロ, ワ–ヲ–ン)", questionKana: "センセイ カラ アタラシイ カミ ト ホン ヲ モライマシタ", targetRomaji: "sensei kara atarashii kami to hon wo moraimashita", meaning: "Telah menerima kertas baru dan buku dari guru.", hint: "センセイ カラ (sensei kara) • アタラシイ カミ ト ホン (atarashii kami to hon) • ヲ モライマシタ (wo moraimashita)." },
+                { id: 44, stage: 3, stageNum: 14, stageName: "Tahap 3 Katakana (+ マ–モ, ラ–ロ, ワ–ヲ–ン)", questionKana: "フユ ニ ハ シロイ ユキ ノ ヤマ ト モリ ヲ ミマス", targetRomaji: "fuyu ni wa shiroi yuki no yama to mori wo mimasu", meaning: "Pada musim dingin melihat gunung bersalju putih dan hutan.", hint: "フユ ニ ハ (fuyu ni wa) • シロイ ユキ ノ ヤマ (shiroi yuki no yama) • ト モリ ヲ ミマス (to mori wo mimasu)." },
+                { id: 45, stage: 3, stageNum: 15, stageName: "Tahap 3 Katakana (+ マ–モ, ラ–ロ, ワ–ヲ–ン)", questionKana: "ライネン ノ ナツ、アオイ ウミ ノ チカク ノ ホテル ヘ イキマス", targetRomaji: "rainen no natsu, aoi umi no chikaku no hoteru e ikimasu", meaning: "Musim panas tahun depan pergi ke hotel di dekat laut biru.", hint: "ライネン ノ ナツ (rainen no natsu) • アオイ ウミ ノ チカク ノ ホテル (aoi umi no chikaku no hoteru) • ヘ イキマス (e ikimasu)." },
+
+                // ==================== KATAKANA TAHAP 4 LANJUTAN (15 SOAL PENUH: No. 1 - 15) ====================
+                // Cakupan: Tenten (゛), Maru (゜), Tsu Kecil (ッ), Yoon (ャュョ), Katakana Modern & Vokal Panjang (ー)
+                { id: 46, stage: 4, stageNum: 1, stageName: "Tahap 4 Katakana Lanjutan (゛, ゜, ッ, ャュョ, ー)", questionKana: "カフェ デ アカイ カップ ノ アタタカイ コーヒー ト パン ヲ ユックリ ノミマス", targetRomaji: "kafe de akai kappu no atatakai koohii to pan wo yukkuri nomimasu", meaning: "Di kafe minum kopi (koohii) hangat dalam cangkir (kappu) merah dan roti secara santai (yukkuri).", hint: "カフェ デ (kafe de) • アカイ カップ (akai kappu) • ノ アタタカイ コーヒー (no atatakai koohii) • ト パン ヲ ユックリ ノミマス (to pan wo yukkuri nomimasu)." },
+                { id: 47, stage: 4, stageNum: 2, stageName: "Tahap 4 Katakana Lanjutan (゛, ゜, ッ, ャュョ, ー)", questionKana: "デパート デ アタラシイ パソコン ト ピカピカ ノ ギター ヲ カイマシタ", targetRomaji: "depaato de atarashii pasokon to pikapika no gitaa wo kaimashita", meaning: "Di toserba (depaato) telah membeli laptop (pasokon) baru dan gitar (gitaa) yang berkilau.", hint: "デパート デ (depaato de) • アタラシイ パソコン (atarashii pasokon) • ト ピカピカ ノ ギター (to pikapika no gitaa) • ヲ カイマシタ (wo kaimashita)." },
+                { id: 48, stage: 4, stageNum: 3, stageName: "Tahap 4 Katakana Lanjutan (゛, ゜, ッ, ャュョ, ー)", questionKana: "スーパー デ ツメタイ オレンジ ジュース ト アマイ チョコレート ケーキ ヲ エラビマス", targetRomaji: "suupaa de tsumetai orenji juusu to amai chokoreeto keeki wo erabimasu", meaning: "Di supermarket memilih jus jeruk dingin dan kue cokelat manis.", hint: "スーパー デ (suupaa de) • ツメタイ オレンジ ジュース (tsumetai orenji juusu) • ト アマイ チョコレート ケーキ (to amai chokoreeto keeki) • ヲ エラビマス (wo erabimasu)." },
+                { id: 49, stage: 4, stageNum: 4, stageName: "Tahap 4 Katakana Lanjutan (゛, ゜, ッ, ャュョ, ー)", questionKana: "タノシイ パーティー ノ アト、シズカ ナ ヘヤ ノ ベッド デ ユックリ ヤスミマス", targetRomaji: "tanoshii paatii no ato, shizuka na heya no beddo de yukkuri yasumimasu", meaning: "Setelah pesta (paatii) yang menyenangkan, beristirahat dengan tenang di kasur (beddo) kamar yang sunyi.", hint: "タノシイ パーティー ノ アト (tanoshii paatii no ato) • シズカ ナ ヘヤ ノ ベッド デ (shizuka na heya no beddo de) • ユックリ ヤスミマス (yukkuri yasumimasu)." },
+                { id: 50, stage: 4, stageNum: 5, stageName: "Tahap 4 Katakana Lanjutan (゛, ゜, ッ, ャュョ, ー)", questionKana: "ヒロバ デ トモダチ ト イッショ ニ サッカー ト バスケットボール ヲ シマス", targetRomaji: "hiroba de tomodachi to issho ni sakkaa to basukettobooru wo shimasu", meaning: "Di lapangan bersama teman bermain sepak bola (sakkaa) dan bola basket (basukettobooru).", hint: "ヒロバ デ (hiroba de) • トモダチ ト イッショ ニ (tomodachi to issho ni) • サッカー (sakkaa) • ト バスケットボール ヲ シマス (to basukettobooru wo shimasu)." },
+                { id: 51, stage: 4, stageNum: 6, stageName: "Tahap 4 Katakana Lanjutan (゛, ゜, ッ, ャュョ, ー)", questionKana: "オナカ ガ ペコペコ ナ ノデ、ハンバーガー ト フライドポテト ヲ イッパイ タベマス", targetRomaji: "onaka ga pekopeko na node, hanbaagaa to furaidopoteto wo ippai tabemasu", meaning: "Karena perut keroncongan (pekopeko), makan banyak sekali hamburger dan kentang goreng.", hint: "オナカ ガ ペコペコ ナ ノデ (onaka ga pekopeko na node) • ハンバーガー (hanbaagaa) • ト フライドポテト (to furaidopoteto) • ヲ イッパイ タベマス (wo ippai tabemasu)." },
+                { id: 52, stage: 4, stageNum: 7, stageName: "Tahap 4 Katakana Lanjutan (゛, ゜, ッ, ャュョ, ー)", questionKana: "エキ ノ マエ カラ バス ト タクシー デ オオキナ ホテル ヘ イキマス", targetRomaji: "eki no mae kara basu to takushii de ookina hoteru e ikimasu", meaning: "Dari depan stasiun pergi ke hotel besar naik bus (basu) dan taksi (takushii).", hint: "エキ ノ マエ カラ (eki no mae kara) • バス ト タクシー デ (basu to takushii de) • オオキナ ホテル ヘ イキマス (ookina hoteru e ikimasu)." },
+                { id: 53, stage: 4, stageNum: 8, stageName: "Tahap 4 Katakana Lanjutan (゛, ゜, ッ, ャュョ, ー)", questionKana: "テーブル ノ ウエ ニ スプーン ト フォーク ト ガラス ノ コップ ガ アリマス", targetRomaji: "teeburu no ue ni supuun to fooku to garasu no koppu ga arimasu", meaning: "Di atas meja makan ada sendok (supuun), garpu (fooku), dan gelas (koppu) kaca.", hint: "テーブル ノ ウエ ニ (teeburu no ue ni) • スプーン ト フォーク (supuun to fooku) • ト ガラス ノ コップ ガ アリマス (to garasu no koppu ga arimasu)." },
+                { id: 54, stage: 4, stageNum: 9, stageName: "Tahap 4 Katakana Lanjutan (゛, ゜, ッ, ャュョ, ー)", questionKana: "コンサート デ ハ ピアノ ト バイオリン ノ ステキ ナ メロディー ヲ キキマス", targetRomaji: "konsaato de wa piano to baiorin no suteki na merodii wo kikimasu", meaning: "Di konser mendengarkan melodi indah dari piano dan biola (baiorin).", hint: "コンサート デ ハ (konsaato de wa) • ピアノ ト バイオリン (piano to baiorin) • ノ ステキ ナ メロディー ヲ キキマス (no suteki na merodii wo kikimasu)." },
+                { id: 55, stage: 4, stageNum: 10, stageName: "Tahap 4 Katakana Lanjutan (゛, ゜, ッ, ャュョ, ー)", questionKana: "スマートフォン デ ニュース ヲ ミテ、チョット テレビ ノ ゲーム ヲ シマス", targetRomaji: "sumaatofon de nyuusu wo mite, chotto terebi no geemu wo shimasu", meaning: "Melihat berita (nyuusu) di ponsel pintar, lalu sebentar (chotto) bermain gim televisi.", hint: "スマートフォン デ (sumaatofon de) • ニュース ヲ ミテ (nyuusu wo mite) • チョット テレビ ノ ゲーム ヲ シマス (chotto terebi no geemu wo shimasu)." },
+                { id: 56, stage: 4, stageNum: 11, stageName: "Tahap 4 Katakana Lanjutan (゛, ゜, ッ, ャュョ, ー)", questionKana: "アタラシイ アパート ノ ドア ノ カギ ヲ ポケット ニ イレマス", targetRomaji: "atarashii apaato no doa no kagi wo poketto ni iremasu", meaning: "Memasukkan kunci pintu (doa) apartemen (apaato) baru ke dalam saku (poketto).", hint: "アタラシイ アパート (atarashii apaato) • ノ ドア ノ カギ (no doa no kagi) • ヲ ポケット ニ イレマス (wo poketto ni iremasu)." },
+                { id: 57, stage: 4, stageNum: 12, stageName: "Tahap 4 Katakana Lanjutan (゛, ゜, ッ, ャュョ, ー)", questionKana: "コンビニ デ サンドイッチ ト アイスクリーム ト ガム ヲ カイマシタ", targetRomaji: "konbini de sandoicchi to aisukuriimu to gamu wo kaimashita", meaning: "Di minimarket (konbini) membeli roti lapis (sandoicchi), es krim, dan permen karet (gamu).", hint: "コンビニ デ (konbini de) • サンドイッチ (sandoicchi) • ト アイスクリーム (to aisukuriimu) • ト ガム ヲ カイマシタ (to gamu wo kaimashita)." },
+                { id: 58, stage: 4, stageNum: 13, stageName: "Tahap 4 Katakana Lanjutan (゛, ゜, ッ, ャュョ, ー)", questionKana: "インドネシア ノ ジャカルタ カラ ヒコウキ デ トウキョウ ヘ キマシタ", targetRomaji: "indoneshia no jakaruta kara hikouki de toukyou e kimashita", meaning: "Dari Jakarta Indonesia telah datang ke Tokyo naik pesawat terbang.", hint: "インドネシア ノ ジャカルタ カラ (indoneshia no jakaruta kara) • ヒコウキ デ (hikouki de) • トウキョウ ヘ キマシタ (toukyou e kimashita)." },
+                { id: 59, stage: 4, stageNum: 14, stageName: "Tahap 4 Katakana Lanjutan (゛, ゜, ッ, ャュョ, ー)", questionKana: "プレゼント ノ バッグ ノ ナカ ニ ピンク ノ ハンカチ ト ペン ガ アリマス", targetRomaji: "purezento no baggu no naka ni pinku no hankachi to pen ga arimasu", meaning: "Di dalam tas (baggu) hadiah (purezento) ada saputangan merah muda (pinku) dan pena.", hint: "プレゼント ノ バッグ (purezento no baggu) • ノ ナカ ニ (no naka ni) • ピンク ノ ハンカチ ト ペン ガ アリマス (pinku no hankachi to pen ga arimasu)." },
+                { id: 60, stage: 4, stageNum: 15, stageName: "Tahap 4 Katakana Lanjutan (゛, ゜, ッ, ャュョ, ー)", questionKana: "エレベーター デ デパート ノ レストラン ヘ イッテ、ステーキ ヲ タベマス", targetRomaji: "erebeetaa de depaato no resutoran e itte, suteeki wo tabemasu", meaning: "Naik lift (erebeetaa) pergi ke restoran toserba, lalu makan steik (suteeki).", hint: "エレベーター デ (erebeetaa de) • デパート ノ レストラン ヘ イッテ (depaato no resutoran e itte) • ステーキ ヲ タベマス (suteeki wo tabemasu)." }
+            ]
+        };
+
+        /* =========================================================================
+           2. STATE PENGERJAAN TUGAS & RIWAYAT NAVIGASI
+           ========================================================================= */
+        let currentView = 'home'; // 'home' | 'task'
+        let activeTrack = 'hiragana'; // 'hiragana' | 'katakana'
+        let activeStageFilter = 1; // Default langsung buka Tahap 1 (15 Soal), bisa pilih 1 | 2 | 3 | 4 | 'all'
+        let flexSpellingEnabled = true;
+        let vkOpen = false;
+        let vkCurrentTab = 'stage1';
+        let activeInputId = null;
+        let navHistory = [];
+
+        const userProgress = {
+            hiragana: {},
+            katakana: {}
+        };
+
+        function initProgressState() {
+            ['hiragana', 'katakana'].forEach(track => {
+                TASKS_DB[track].forEach(q => {
+                    if (!userProgress[track][q.id]) {
+                        userProgress[track][q.id] = {
+                            input: '',
+                            status: 'unanswered',
+                            showHint: false,
+                            showKey: false,
+                            diffHTML: ''
+                        };
+                    }
+                });
+            });
+            try {
+                const saved = localStorage.getItem('nihongo_yomikata_120_v1');
+                if (saved) {
+                    const parsed = JSON.parse(saved);
+                    if (parsed.hiragana && parsed.katakana) {
+                        Object.assign(userProgress.hiragana, parsed.hiragana);
+                        Object.assign(userProgress.katakana, parsed.katakana);
+                    }
+                }
+            } catch (e) {
+                console.warn('Gagal memuat progres lokal:', e);
+            }
+        }
+
+        function saveProgressState() {
+            try {
+                localStorage.setItem('nihongo_yomikata_120_v1', JSON.stringify(userProgress));
+            } catch (e) {}
+            updateAllScoreBadges();
+        }
+
+        /* =========================================================================
+           3. DATA TABEL BANTUAN SUKU KATA KANA -> ROMAJI (VIRTUAL HELPER)
+           ========================================================================= */
+        const VK_LAYOUTS = {
+            stage1: [
+                { h: 'あ', k: 'ア', r: 'a' }, { h: 'い', k: 'イ', r: 'i' }, { h: 'う', k: 'ウ', r: 'u' }, { h: 'え', k: 'エ', r: 'e' }, { h: 'お', k: 'オ', r: 'o' },
+                { h: 'か', k: 'カ', r: 'ka' }, { h: 'き', k: 'キ', r: 'ki' }, { h: 'く', k: 'ク', r: 'ku' }, { h: 'け', k: 'ケ', r: 'ke' }, { h: 'こ', k: 'コ', r: 'ko' },
+                { h: 'さ', k: 'サ', r: 'sa' }, { h: 'し', k: 'シ', r: 'shi' }, { h: 'つ', k: 'ツ', r: 'tsu' }, { h: 'せ', k: 'セ', r: 'se' }, { h: 'そ', k: 'ソ', r: 'so' }
+            ],
+            stage2: [
+                { h: 'た', k: 'タ', r: 'ta' }, { h: 'ち', k: 'チ', r: 'chi' }, { h: 'す', k: 'ス', r: 'su' }, { h: 'て', k: 'テ', r: 'te' }, { h: 'と', k: 'ト', r: 'to' },
+                { h: 'は', k: 'ハ', r: 'ha' }, { h: 'ひ', k: 'ヒ', r: 'hi' }, { h: 'ふ', k: 'フ', r: 'fu' }, { h: 'へ', k: 'ヘ', r: 'he' }, { h: 'ほ', k: 'ホ', r: 'ho' },
+                { h: 'な', k: 'ナ', r: 'na' }, { h: 'に', k: 'ニ', r: 'ni' }, { h: 'ぬ', k: 'ヌ', r: 'nu' }, { h: 'ね', k: 'ネ', r: 'ne' }, { h: 'の', k: 'ノ', r: 'no' }
+            ],
+            stage3: [
+                { h: 'ま', k: 'マ', r: 'ma' }, { h: 'み', k: 'ミ', r: 'mi' }, { h: 'む', k: 'ム', r: 'mu' }, { h: 'め', k: 'メ', r: 'me' }, { h: 'も', k: 'モ', r: 'mo' },
+                { h: 'ら', k: 'ラ', r: 'ra' }, { h: 'り', k: 'リ', r: 'ri' }, { h: 'る', k: 'ル', r: 'ru' }, { h: 'れ', k: 'レ', r: 're' }, { h: 'ろ', k: 'ロ', r: 'ro' },
+                { h: 'わ', k: 'ワ', r: 'wa' }, { h: 'を', k: 'ヲ', r: 'wo' }, { h: 'ん', k: 'ン', r: 'n' }, { h: 'や', k: 'ヤ', r: 'ya' }, { h: 'ゆ', k: 'ユ', r: 'yu' }, { h: 'よ', k: 'ヨ', r: 'yo' }
+            ],
+            tenten: [
+                { h: 'が', k: 'ガ', r: 'ga' }, { h: 'ぎ', k: 'ギ', r: 'gi' }, { h: 'ぐ', k: 'グ', r: 'gu' }, { h: 'げ', k: 'ゲ', r: 'ge' }, { h: 'ご', k: 'ゴ', r: 'go' },
+                { h: 'ざ', k: 'ザ', r: 'za' }, { h: 'じ', k: 'ジ', r: 'ji' }, { h: 'ず', k: 'ズ', r: 'zu' }, { h: 'ぜ', k: 'ゼ', r: 'ze' }, { h: 'ぞ', k: 'ゾ', r: 'zo' },
+                { h: 'だ', k: 'ダ', r: 'da' }, { h: 'ぢ', k: 'ヂ', r: 'ji' }, { h: 'づ', k: 'ヅ', r: 'zu' }, { h: 'で', k: 'デ', r: 'de' }, { h: 'ど', k: 'ド', r: 'do' },
+                { h: 'ば', k: 'バ', r: 'ba' }, { h: 'び', k: 'ビ', r: 'bi' }, { h: 'ぶ', k: 'ブ', r: 'bu' }, { h: 'べ', k: 'ベ', r: 'be' }, { h: 'ぼ', k: 'ボ', r: 'bo' },
+                { h: 'ぱ', k: 'パ', r: 'pa' }, { h: 'ぴ', k: 'ピ', r: 'pi' }, { h: 'ぷ', k: 'プ', r: 'pu' }, { h: 'ぺ', k: 'ペ', r: 'pe' }, { h: 'ぽ', k: 'ポ', r: 'po' }
+            ],
+            special: [
+                { h: 'きゃ', k: 'キャ', r: 'kya' }, { h: 'きゅ', k: 'キュ', r: 'kyu' }, { h: 'きょ', k: 'キョ', r: 'kyo' },
+                { h: 'しゃ', k: 'シャ', r: 'sha' }, { h: 'しゅ', k: 'シュ', r: 'shu' }, { h: 'しょ', k: 'ショ', r: 'sho' },
+                { h: 'ちゃ', k: 'チャ', r: 'cha' }, { h: 'ちゅ', k: 'チュ', r: 'chu' }, { h: 'ちょ', k: 'チョ', r: 'cho' },
+                { h: 'じゃ', k: 'ジャ', r: 'ja' }, { h: 'じゅ', k: 'ジュ', r: 'ju' }, { h: 'じょ', k: 'ジョ', r: 'jo' },
+                { h: 'びゃ', k: 'ビャ', r: 'bya' }, { h: 'びゅ', k: 'ビュ', r: 'byu' }, { h: 'びょ', k: 'ビョ', r: 'byo' },
+                { h: 'ぴゃ', k: 'ピャ', r: 'pya' }, { h: 'ぴゅ', k: 'ピュ', r: 'pyu' }, { h: 'ぴょ', k: 'ピョ', r: 'pyo' }
+            ]
+        };
+
+        /* =========================================================================
+           4. NAVIGASI HALAMAN & TOMBOL BACK
+           ========================================================================= */
+        function updateHeaderBackBtn() {
+            const btn = document.getElementById('btn-header-back');
+            if (currentView === 'home') {
+                btn.classList.add('hidden');
+            } else {
+                btn.classList.remove('hidden');
+            }
+        }
+
+        function pushHistory() {
+            navHistory.push({
+                view: currentView,
+                track: activeTrack,
+                stageFilter: activeStageFilter
+            });
+        }
+
+        function goBack() {
+            stopSpeech();
+            if (navHistory.length > 0) {
+                const prev = navHistory.pop();
+                if (prev.view === 'home') {
+                    renderHomeView(false);
+                } else {
+                    activeTrack = prev.track;
+                    activeStageFilter = prev.stageFilter;
+                    renderTaskView(false);
+                }
+            } else {
+                renderHomeView(false);
+            }
+        }
+
+        function showHome() {
+            stopSpeech();
+            if (currentView !== 'home') pushHistory();
+            renderHomeView(false);
+        }
+
+        function renderHomeView(record = false) {
+            if (record && currentView !== 'home') pushHistory();
+            currentView = 'home';
+            document.getElementById('view-home').classList.remove('hidden');
+            document.getElementById('view-task').classList.add('hidden');
+            document.getElementById('virtual-keyboard-drawer').classList.add('hidden');
+            vkOpen = false;
+            updateHeaderBackBtn();
+            updateAllScoreBadges();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function openTaskTrack(track, stageFilter = 1) {
+            stopSpeech();
+            pushHistory();
+            activeTrack = track;
+            activeStageFilter = stageFilter;
+            renderTaskView(false);
+        }
+
+        function switchOtherTrack() {
+            const nextTrack = activeTrack === 'hiragana' ? 'katakana' : 'hiragana';
+            openTaskTrack(nextTrack, activeStageFilter);
+        }
+
+        function goToNextStage() {
+            if (activeStageFilter === 'all') {
+                setStageFilter(1);
+            } else if (activeStageFilter < 4) {
+                setStageFilter(activeStageFilter + 1);
+            } else {
+                switchOtherTrack();
+            }
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        /* =========================================================================
+           5. RENDER LEMBAR KERJA TUGAS (15 SOAL PENUH DI SETIAP TAHAP)
+           ========================================================================= */
+        function renderTaskView(record = false) {
+            if (record) pushHistory();
+            currentView = 'task';
+            document.getElementById('view-home').classList.add('hidden');
+            document.getElementById('view-task').classList.remove('hidden');
+
+            const isHira = activeTrack === 'hiragana';
+            document.getElementById('task-track-badge').textContent = isHira ? 'JALUR 1 • SOAL HIRAGANA → JAWAB ROMAJI (60 SOAL)' : 'JALUR 2 • SOAL KATAKANA → JAWAB ROMAJI (60 SOAL)';
+            document.getElementById('task-track-title').textContent = isHira
+                ? 'Tugas Membaca Hiragana ke Romaji (15 Soal Penuh di Setiap Tahap)'
+                : 'Tugas Membaca Katakana ke Romaji (15 Soal Penuh di Setiap Tahap)';
+
+            const tabH = document.getElementById('tab-btn-hiragana');
+            const tabK = document.getElementById('tab-btn-katakana');
+            const navH = document.getElementById('nav-track-hiragana');
+            const navK = document.getElementById('nav-track-katakana');
+
+            if (isHira) {
+                tabH.className = "px-3.5 py-2 rounded-lg text-xs font-extrabold transition-all bg-crimson text-white shadow";
+                tabK.className = "px-3.5 py-2 rounded-lg text-xs font-extrabold transition-all text-sumi hover:bg-crimson-soft";
+                if (navH) navH.className = "px-3 py-1.5 rounded-full text-xs font-bold transition-all bg-white text-crimson shadow";
+                if (navK) navK.className = "px-3 py-1.5 rounded-full text-xs font-bold transition-all text-white hover:bg-white/15";
+            } else {
+                tabK.className = "px-3.5 py-2 rounded-lg text-xs font-extrabold transition-all bg-crimson text-white shadow";
+                tabH.className = "px-3.5 py-2 rounded-lg text-xs font-extrabold transition-all text-sumi hover:bg-crimson-soft";
+                if (navK) navK.className = "px-3 py-1.5 rounded-full text-xs font-bold transition-all bg-white text-crimson shadow";
+                if (navH) navH.className = "px-3 py-1.5 rounded-full text-xs font-bold transition-all text-white hover:bg-white/15";
+            }
+
+            const btnSwitchOther = document.getElementById('btn-switch-other-track');
+            if (btnSwitchOther) {
+                btnSwitchOther.innerHTML = isHira
+                    ? `<span>Pindah ke Soal Katakana (60 Soal)</span> <i class="fa-solid fa-repeat"></i>`
+                    : `<span>Pindah ke Soal Hiragana (60 Soal)</span> <i class="fa-solid fa-repeat"></i>`;
+            }
+
+            updateStageFilterUI();
+            renderQuestionsList();
+            updateAllScoreBadges();
+            updateHeaderBackBtn();
+            renderVirtualKeyboardKeys();
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function setStageFilter(stage) {
+            activeStageFilter = stage;
+            updateStageFilterUI();
+            renderQuestionsList();
+            updateAllScoreBadges();
+        }
+
+        function updateStageFilterUI() {
+            const stages = [1, 2, 3, 4, 'all'];
+            stages.forEach(s => {
+                const btn = document.getElementById(`filter-stage-${s}`);
+                if (!btn) return;
+                if (s === activeStageFilter) {
+                    btn.className = "px-3.5 py-2 rounded-xl text-xs font-extrabold bg-crimson text-white shadow";
+                } else {
+                    btn.className = "px-3.5 py-2 rounded-xl text-xs font-bold bg-washi-dark text-sumi hover:bg-crimson-soft";
+                }
+            });
+
+            const scopeTitle = document.getElementById('scope-banner-title');
+            const scopeDesc = document.getElementById('scope-banner-desc');
+            const scriptName = activeTrack === 'hiragana' ? 'Hiragana' : 'Katakana';
+
+            const scopeInfo = {
+                1: {
+                    t: `Tahap 1 ${scriptName} — 15 Kalimat Soal Penuh (Soal #1 s/d #15)`,
+                    d: `Cakupan Huruf Murni Tahap 1: a-i-u-e-o (あ–お), ka-ki-ku-ke-ko (か–こ), sa-shi-tsu-se-so (さ–そ).`
+                },
+                2: {
+                    t: `Tahap 2 ${scriptName} — 15 Kalimat Soal Penuh (Soal #1 s/d #15)`,
+                    d: `Cakupan Huruf Tahap 1 ditambah: ta-chi-su-te-to (た–と), ha-hi-fu-he-ho (は–ほ), na-ni-nu-ne-no (な–の).`
+                },
+                3: {
+                    t: `Tahap 3 ${scriptName} — 15 Kalimat Soal Penuh (Soal #1 s/d #15)`,
+                    d: `Cakupan Huruf Tahap 1 & 2 ditambah: ma-mi-mu-me-mo (ま–も), ra-ri-ru-re-ro (ら–ろ), wa-wo-n (わ–ん).`
+                },
+                4: {
+                    t: `Tahap 4 Lanjutan ${scriptName} — 15 Kalimat Soal Penuh (Soal #1 s/d #15)`,
+                    d: `Cakupan Lengkap: Tenten (゛), Maru (゜), Tsu Kecil (っ/ッ yukkuri, chotto, kippu, kappu, beddo), Yoon (ゃゅょ), dan Vokal Panjang (ー).`
+                },
+                all: {
+                    t: `Menampilkan Seluruh 60 Kalimat Soal ${scriptName} (Tahap 1 s/d Tahap 4 × 15 Soal)`,
+                    d: `Menampilkan gabungan seluruh 60 soal dari Tahap 1 (15 soal), Tahap 2 (15 soal), Tahap 3 (15 soal), dan Tahap 4 (15 soal).`
+                }
+            };
+
+            const info = scopeInfo[activeStageFilter];
+            scopeTitle.innerHTML = `<i class="fa-solid fa-graduation-cap text-crimson"></i> ${info.t}`;
+            scopeDesc.textContent = info.d;
+
+            const nextBtn = document.getElementById('btn-next-stage');
+            if (nextBtn) {
+                if (activeStageFilter === 1 || activeStageFilter === 2 || activeStageFilter === 3) {
+                    nextBtn.innerHTML = `<span>Lanjut ke Tahap ${activeStageFilter + 1} (15 Soal)</span> <i class="fa-solid fa-arrow-right"></i>`;
+                } else {
+                    nextBtn.innerHTML = `<span>Kembali ke Tahap 1 (15 Soal)</span> <i class="fa-solid fa-rotate-right"></i>`;
+                }
+            }
+        }
+
+        function renderQuestionsList() {
+            const container = document.getElementById('questions-container');
+            const list = TASKS_DB[activeTrack].filter(q => activeStageFilter === 'all' || q.stage === activeStageFilter);
+
+            const stageColors = {
+                1: 'bg-crimson text-white',
+                2: 'bg-rose-700 text-white',
+                3: 'bg-amber-700 text-white',
+                4: 'bg-sumi text-gold border border-gold'
+            };
+
+            container.innerHTML = list.map(q => {
+                const state = userProgress[activeTrack][q.id];
+                const inputId = `input-${activeTrack}-${q.id}`;
+
+                let statusBadge = `<span class="text-xs font-bold text-gray-400 bg-gray-100 px-3 py-1 rounded-full"><i class="fa-regular fa-circle mr-1"></i>Belum Dijawab</span>`;
+                let cardBorder = 'border-washi-border';
+
+                if (state.status === 'correct') {
+                    statusBadge = `<span class="text-xs font-extrabold text-emerald-800 bg-emerald-100 border border-emerald-300 px-3 py-1 rounded-full"><i class="fa-solid fa-circle-check mr-1"></i>Benar Sempurna!</span>`;
+                    cardBorder = 'border-emerald-500 ring-2 ring-emerald-500/20';
+                } else if (state.status === 'wrong') {
+                    statusBadge = `<span class="text-xs font-extrabold text-crimson bg-crimson-soft border border-crimson/30 px-3 py-1 rounded-full"><i class="fa-solid fa-circle-exclamation mr-1"></i>Perlu Perbaikan</span>`;
+                    cardBorder = 'border-crimson';
+                }
+
+                const escapedAudio = q.questionKana.replace(/'/g, "\\'");
+                const placeholderText = `Ketik cara baca Romaji untuk Soal #${q.stageNum} (Tahap ${q.stage})...`;
+
+                return `
+                    <article id="card-${activeTrack}-${q.id}" class="bg-white rounded-3xl p-5 sm:p-7 shadow-md border-2 ${cardBorder} transition-all space-y-4">
+                        <!-- Bar Atas Soal (Menampilkan Nomor 1 - 15 di Tahap Tersebut) -->
+                        <div class="flex flex-wrap items-center justify-between gap-2 border-b border-gray-100 pb-3">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <span class="px-3 py-1.5 rounded-xl bg-crimson text-white font-black text-xs sm:text-sm flex items-center justify-center shadow">
+                                    Soal #${q.stageNum} / 15
+                                </span>
+                                <span class="text-xs font-extrabold px-3 py-1 rounded-full ${stageColors[q.stage]}">
+                                    ${q.stageName}
+                                </span>
+                            </div>
+                            <div class="flex items-center gap-2">
+                                ${statusBadge}
+                                <button onclick="speakJapanese('${escapedAudio}')" class="w-9 h-9 rounded-xl bg-crimson-soft hover:bg-crimson text-crimson hover:text-white flex items-center justify-center transition-colors shadow-sm" title="Dengarkan Kalimat Bahasa Jepang">
+                                    <i class="fa-solid fa-volume-high"></i>
+                                </button>
+                            </div>
+                        </div>
+
+                        <!-- Kalimat Soal HIRAGANA / KATAKANA & Arti -->
+                        <div class="bg-washi-dark rounded-2xl p-4 sm:p-5 border border-washi-border space-y-2.5">
+                            <div class="flex items-center justify-between text-[11px] font-extrabold uppercase tracking-wider text-crimson">
+                                <span><i class="fa-solid fa-quote-left mr-1"></i> Soal ${activeTrack === 'hiragana' ? 'Hiragana (ひらがな)' : 'Katakana (カタカナ)'} — Tulislah ke dalam Romaji:</span>
+                                <button onclick="speakJapanese('${escapedAudio}')" class="hover:underline flex items-center gap-1">
+                                    <i class="fa-solid fa-ear-listen"></i> Dengar Audio
+                                </button>
+                            </div>
+                            <p class="font-jp text-2xl sm:text-3xl font-black text-sumi tracking-wide leading-relaxed select-all py-1">
+                                ${q.questionKana}
+                            </p>
+                            <p class="text-xs sm:text-sm text-gray-600 font-medium">
+                                <i class="fa-solid fa-language text-crimson mr-1"></i> <strong>Arti:</strong> ${q.meaning}
+                            </p>
+                        </div>
+
+                        <!-- Kotak Input Jawaban ROMAJI -->
+                        <div class="space-y-2">
+                            <div class="flex flex-wrap items-center justify-between gap-2 text-xs">
+                                <label for="${inputId}" class="font-extrabold text-sumi flex items-center gap-1.5">
+                                    <i class="fa-solid fa-pen-fancy text-crimson"></i> Jawaban Romaji Anda:
+                                </label>
+                                <div class="flex items-center gap-3">
+                                    <button onclick="focusAndOpenVK('${inputId}', ${q.id}, ${q.stage}, ${q.stageNum})" class="text-crimson hover:underline font-bold text-xs flex items-center gap-1">
+                                        <i class="fa-solid fa-table-cells"></i> Bantuan Suku Kata Soal #${q.stageNum}
+                                    </button>
+                                    <button onclick="clearSingleInput(${q.id})" class="text-gray-400 hover:text-crimson font-bold text-xs">
+                                        <i class="fa-solid fa-eraser"></i> Bersihkan
+                                    </button>
+                                </div>
+                            </div>
+
+                            <input
+                                type="text"
+                                id="${inputId}"
+                                value="${escapeHtmlAttr(state.input)}"
+                                onfocus="setActiveInput('${inputId}', ${q.id}, ${q.stage}, ${q.stageNum})"
+                                oninput="handleAnswerInput(event, '${activeTrack}', ${q.id})"
+                                onkeydown="if(event.key === 'Enter') checkSingleAnswer('${activeTrack}', ${q.id})"
+                                placeholder="${placeholderText}"
+                                autocomplete="off"
+                                spellcheck="false"
+                                class="w-full font-sans text-lg sm:text-xl font-bold text-sumi bg-washi hover:bg-white focus:bg-white px-4 py-3.5 rounded-2xl border-2 border-washi-border focus:border-crimson focus:outline-none shadow-inner transition-all"
+                            />
+                        </div>
+
+                        <!-- Bar Tombol Aksi Per Soal -->
+                        <div class="flex flex-wrap items-center justify-between gap-2 pt-1">
+                            <div class="flex flex-wrap items-center gap-2">
+                                <button onclick="checkSingleAnswer('${activeTrack}', ${q.id})" class="bg-crimson hover:bg-crimson-dark text-white font-extrabold px-5 py-2.5 rounded-xl text-xs sm:text-sm shadow flex items-center gap-2 transition-all active:scale-95">
+                                    <i class="fa-solid fa-check"></i> Periksa Jawaban
+                                </button>
+                                <button onclick="toggleQuestionHint('${activeTrack}', ${q.id})" class="bg-amber-100 hover:bg-amber-200 text-amber-950 font-bold px-3.5 py-2.5 rounded-xl text-xs flex items-center gap-1.5 transition-all">
+                                    <i class="fa-solid fa-lightbulb text-amber-600"></i> Petunjuk Per Kata
+                                </button>
+                            </div>
+
+                            <button onclick="toggleQuestionKey('${activeTrack}', ${q.id})" class="text-xs font-bold text-gray-500 hover:text-crimson px-3 py-2 rounded-xl hover:bg-crimson-soft transition-all">
+                                <i class="fa-solid fa-key mr-1"></i> ${state.showKey ? 'Sembunyikan Kunci' : 'Lihat Kunci Jawaban'}
+                            </button>
+                        </div>
+
+                        <!-- Kotak Hasil Pemeriksaan Per Karakter (Character Diff Feedback) -->
+                        <div id="diff-${activeTrack}-${q.id}" class="${state.diffHTML ? '' : 'hidden'} pt-2">
+                            ${state.diffHTML}
+                        </div>
+
+                        <!-- Kotak Petunjuk (Hint) -->
+                        <div id="hint-${activeTrack}-${q.id}" class="${state.showHint ? '' : 'hidden'} bg-amber-50 border border-gold rounded-2xl p-4 text-xs sm:text-sm text-amber-950 space-y-1">
+                            <div class="font-extrabold text-amber-900 flex items-center gap-1.5">
+                                <i class="fa-solid fa-lightbulb text-amber-600"></i> Petunjuk Cara Baca Per Kata:
+                            </div>
+                            <p class="font-jp leading-relaxed">${q.hint}</p>
+                        </div>
+
+                        <!-- Kotak Kunci Jawaban -->
+                        <div id="key-${activeTrack}-${q.id}" class="${state.showKey ? '' : 'hidden'} bg-crimson-soft/70 border border-crimson/20 rounded-2xl p-4 space-y-1.5">
+                            <div class="flex items-center justify-between">
+                                <span class="text-[11px] font-extrabold uppercase text-crimson">Kunci Jawaban Romaji Standar:</span>
+                                <button onclick="fillWithKey('${activeTrack}', ${q.id})" class="text-[11px] font-extrabold text-crimson underline hover:text-crimson-dark">
+                                    Salin ke Kotak Input
+                                </button>
+                            </div>
+                            <p class="font-sans text-lg sm:text-xl font-black text-sumi select-all">${q.targetRomaji}</p>
+                        </div>
+                    </article>
+                `;
+            }).join('');
+        }
+
+        function escapeHtmlAttr(str) {
+            if (!str) return '';
+            return str.replace(/"/g, '&quot;');
+        }
+
+        /* =========================================================================
+           6. HANDLER INPUT & TABEL BANTUAN SUKU KATA KANA -> ROMAJI
+           ========================================================================= */
+        function handleAnswerInput(event, track, qId) {
+            const inputEl = event.target;
+            userProgress[track][qId].input = inputEl.value;
+            saveProgressState();
+        }
+
+        function toggleFlexSpelling() {
+            flexSpellingEnabled = !flexSpellingEnabled;
+            const btn = document.getElementById('btn-auto-ime');
+            if (flexSpellingEnabled) {
+                btn.className = "px-3 py-1.5 rounded-xl text-xs font-extrabold border-2 border-emerald-600 bg-emerald-600 text-white shadow-sm flex items-center gap-1.5 transition-all";
+                btn.innerHTML = `<i class="fa-solid fa-wand-magic-sparkles"></i> <span>Toleransi Ejaan: ON</span>`;
+            } else {
+                btn.className = "px-3 py-1.5 rounded-xl text-xs font-extrabold border-2 border-gray-400 bg-white text-gray-600 flex items-center gap-1.5 transition-all";
+                btn.innerHTML = `<i class="fa-solid fa-wand-magic-sparkles"></i> <span>Toleransi Ejaan: OFF</span>`;
+            }
+        }
+
+        function setActiveInput(inputId, qId, stage, stageNum) {
+            activeInputId = inputId;
+            const lbl = document.getElementById('vk-active-question-label');
+            if (lbl) lbl.textContent = `Aktif di: Tahap ${stage} • Soal #${stageNum}/15`;
+        }
+
+        function focusAndOpenVK(inputId, qId, stage, stageNum) {
+            activeInputId = inputId;
+            const tabMap = { 1: 'stage1', 2: 'stage2', 3: 'stage3', 4: 'tenten' };
+            vkCurrentTab = tabMap[stage] || 'stage1';
+            const drawer = document.getElementById('virtual-keyboard-drawer');
+            drawer.classList.remove('hidden');
+            vkOpen = true;
+            setActiveInput(inputId, qId, stage, stageNum);
+            renderVirtualKeyboardKeys();
+            const el = document.getElementById(inputId);
+            if (el) el.focus();
+        }
+
+        function toggleVirtualKeyboard() {
+            const drawer = document.getElementById('virtual-keyboard-drawer');
+            vkOpen = !vkOpen;
+            drawer.classList.toggle('hidden', !vkOpen);
+            if (vkOpen) {
+                if (!activeInputId) {
+                    const firstVisible = TASKS_DB[activeTrack].find(q => activeStageFilter === 'all' || q.stage === activeStageFilter);
+                    if (firstVisible) {
+                        activeInputId = `input-${activeTrack}-${firstVisible.id}`;
+                    }
+                }
+                renderVirtualKeyboardKeys();
+            }
+        }
+
+        function setVKTab(tabName) {
+            vkCurrentTab = tabName;
+            renderVirtualKeyboardKeys();
+        }
+
+        function renderVirtualKeyboardKeys() {
+            const modeLabel = document.getElementById('vk-mode-label');
+            if (modeLabel) modeLabel.textContent = activeTrack === 'hiragana' ? 'Hiragana → Romaji' : 'Katakana → Romaji';
+
+            ['stage1', 'stage2', 'stage3', 'tenten', 'special'].forEach(t => {
+                const btn = document.getElementById(`vk-tab-${t}`);
+                if (!btn) return;
+                if (t === vkCurrentTab) {
+                    btn.className = "px-2.5 py-1 rounded-lg text-[11px] font-extrabold bg-crimson text-white shadow";
+                } else {
+                    btn.className = "px-2.5 py-1 rounded-lg text-[11px] font-extrabold bg-washi-dark text-sumi hover:bg-crimson-soft";
+                }
+            });
+
+            const grid = document.getElementById('vk-keys-grid');
+            if (!grid) return;
+
+            const keys = VK_LAYOUTS[vkCurrentTab] || VK_LAYOUTS.stage1;
+            grid.innerHTML = keys.map(item => {
+                const ch = activeTrack === 'hiragana' ? item.h : item.k;
+                return `
+                    <button type="button" onclick="insertVKRomaji('${item.r}')" class="vk-btn bg-washi hover:bg-crimson hover:text-white border border-washi-border rounded-xl p-2 flex flex-col items-center justify-center shadow-sm" title="Klik untuk mengetik '${item.r}'">
+                        <span class="font-jp text-lg font-black leading-none">${ch}</span>
+                        <span class="text-[11px] text-crimson group-hover:text-white font-extrabold mt-1">${item.r}</span>
+                    </button>
+                `;
+            }).join('');
+        }
+
+        function insertVKRomaji(romajiStr) {
+            if (!activeInputId) {
+                const firstVisible = TASKS_DB[activeTrack].find(q => activeStageFilter === 'all' || q.stage === activeStageFilter);
+                activeInputId = `input-${activeTrack}-${firstVisible ? firstVisible.id : 1}`;
+            }
+            const inputEl = document.getElementById(activeInputId);
+            if (!inputEl) return;
+
+            inputEl.value += romajiStr;
+            const parts = activeInputId.split('-');
+            const track = parts[1];
+            const qId = parseInt(parts[2], 10);
+            userProgress[track][qId].input = inputEl.value;
+            saveProgressState();
+            inputEl.focus();
+        }
+
+        function vkInsertSpace() {
+            insertVKRomaji(' ');
+        }
+
+        function vkBackspace() {
+            if (!activeInputId) return;
+            const inputEl = document.getElementById(activeInputId);
+            if (!inputEl) return;
+            inputEl.value = inputEl.value.slice(0, -1);
+            const parts = activeInputId.split('-');
+            const track = parts[1];
+            const qId = parseInt(parts[2], 10);
+            userProgress[track][qId].input = inputEl.value;
+            saveProgressState();
+            inputEl.focus();
+        }
+
+        function clearSingleInput(qId) {
+            const inputId = `input-${activeTrack}-${qId}`;
+            const el = document.getElementById(inputId);
+            if (el) el.value = '';
+            userProgress[activeTrack][qId].input = '';
+            userProgress[activeTrack][qId].status = 'unanswered';
+            userProgress[activeTrack][qId].diffHTML = '';
+            saveProgressState();
+            renderQuestionsList();
+        }
+
+        /* =========================================================================
+           7. PEMERIKSAAN JAWABAN ROMAJI & CHARACTER-BY-CHARACTER DIFF HIGHLIGHT
+           ========================================================================= */
+        function cleanRomajiString(str) {
+            if (!str) return '';
+            return str
+                .toLowerCase()
+                .trim()
+                .replace(/[\s　、。,.!！?？「」"'\-]/g, '');
+        }
+
+        function canonicalizeRomaji(str) {
+            let s = cleanRomajiString(str);
+            if (!flexSpellingEnabled) return s;
+            return s
+                .replace(/si/g, 'shi')
+                .replace(/ti/g, 'chi')
+                .replace(/tu/g, 'tsu')
+                .replace(/hu/g, 'fu')
+                .replace(/zi/g, 'ji')
+                .replace(/sya/g, 'sha')
+                .replace(/syu/g, 'shu')
+                .replace(/syo/g, 'sho')
+                .replace(/tya/g, 'cha')
+                .replace(/tyu/g, 'chu')
+                .replace(/tyo/g, 'cho')
+                .replace(/cya/g, 'cha')
+                .replace(/cyu/g, 'chu')
+                .replace(/cyo/g, 'cho')
+                .replace(/jya/g, 'ja')
+                .replace(/jyu/g, 'ju')
+                .replace(/jyo/g, 'jo')
+                .replace(/zya/g, 'ja')
+                .replace(/zyu/g, 'ju')
+                .replace(/zyo/g, 'jo')
+                .replace(/tch/g, 'cch');
+        }
+
+        function createParticleAlternativeRomaji(targetRomajiStr) {
+            return targetRomajiStr
+                .toLowerCase()
+                .replace(/\bwa\b/g, 'ha')
+                .replace(/\bwo\b/g, 'o')
+                .replace(/\be\b/g, 'he');
+        }
+
+        function checkSingleAnswer(track, qId) {
+            const q = TASKS_DB[track].find(item => item.id === qId);
+            const state = userProgress[track][qId];
+            const inputEl = document.getElementById(`input-${track}-${qId}`);
+            if (inputEl) {
+                state.input = inputEl.value;
+            }
+
+            const rawUser = state.input.trim();
+            const cleanUser = cleanRomajiString(rawUser);
+            const cleanTarget = cleanRomajiString(q.targetRomaji);
+
+            if (!cleanUser) {
+                state.status = 'wrong';
+                state.diffHTML = `
+                    <div class="p-3.5 rounded-2xl bg-red-50 border border-crimson/30 text-xs font-bold text-crimson flex items-center gap-2">
+                        <i class="fa-solid fa-circle-exclamation"></i> Kotak jawaban Romaji masih kosong. Silakan ketik cara baca Romaji-nya terlebih dahulu!
+                    </div>
+                `;
+                saveProgressState();
+                renderQuestionsList();
+                return;
+            }
+
+            const canonUser = canonicalizeRomaji(rawUser);
+            const canonTarget = canonicalizeRomaji(q.targetRomaji);
+
+            const userWords = rawUser.toLowerCase().replace(/[、。,.!！?？"']/g, ' ').trim().split(/\s+/);
+            const targetWords = q.targetRomaji.toLowerCase().replace(/[、。,.!！?？"']/g, ' ').trim().split(/\s+/);
+
+            let wordMatchAll = (userWords.length === targetWords.length);
+            if (wordMatchAll) {
+                for (let i = 0; i < targetWords.length; i++) {
+                    const uw = canonicalizeRomaji(userWords[i]);
+                    const tw = canonicalizeRomaji(targetWords[i]);
+                    if (uw === tw) continue;
+                    if (flexSpellingEnabled && ((tw === 'wa' && uw === 'ha') || (tw === 'wo' && uw === 'o') || (tw === 'e' && uw === 'he'))) continue;
+                    wordMatchAll = false;
+                    break;
+                }
+            }
+
+            const altParticleTargetCanon = canonicalizeRomaji(createParticleAlternativeRomaji(q.targetRomaji));
+            const mixedParticleUser = canonicalizeRomaji(
+                rawUser.toLowerCase().replace(/\bha\b/g, 'wa').replace(/\bo\b/g, 'wo').replace(/\bhe\b/g, 'e')
+            );
+
+            if (cleanUser === cleanTarget) {
+                state.status = 'correct';
+                state.diffHTML = `
+                    <div class="p-4 rounded-2xl bg-emerald-50 border-2 border-emerald-500 text-xs sm:text-sm text-emerald-900 space-y-1">
+                        <div class="font-extrabold flex items-center gap-2 text-emerald-800">
+                            <i class="fa-solid fa-circle-check text-base"></i> Luar Biasa! Jawaban Romaji Anda 100% Tepat!
+                        </div>
+                        <div class="font-sans text-base font-bold text-sumi">${q.targetRomaji}</div>
+                    </div>
+                `;
+                speakJapanese(q.questionKana);
+            } else if (canonUser === canonTarget || wordMatchAll || mixedParticleUser === canonTarget || canonUser === altParticleTargetCanon) {
+                state.status = 'correct';
+                state.diffHTML = `
+                    <div class="p-4 rounded-2xl bg-emerald-50 border-2 border-emerald-500 text-xs sm:text-sm text-emerald-900 space-y-1">
+                        <div class="font-extrabold flex items-center gap-2 text-emerald-800">
+                            <i class="fa-solid fa-circle-check text-base"></i> Jawaban Romaji Benar! (Ejaan Hepburn Standar)
+                        </div>
+                        <p class="text-xs">Bacaan Anda sudah tepat! Sebagai referensi, berikut penulisan Romaji Hepburn standarnya:</p>
+                        <div class="font-sans text-base font-bold text-sumi">${q.targetRomaji}</div>
+                    </div>
+                `;
+                speakJapanese(q.questionKana);
+            } else {
+                state.status = 'wrong';
+
+                let wordBoxes = '';
+                const maxWords = Math.max(userWords.length, targetWords.length);
+                for (let w = 0; w < maxWords; w++) {
+                    const uw = userWords[w] || '___';
+                    const tw = targetWords[w] || '';
+                    const uwCanon = canonicalizeRomaji(uw);
+                    const twCanon = canonicalizeRomaji(tw);
+                    const isWordOk = (uwCanon === twCanon) || (flexSpellingEnabled && ((twCanon === 'wa' && uwCanon === 'ha') || (twCanon === 'wo' && uwCanon === 'o') || (twCanon === 'e' && uwCanon === 'he')));
+
+                    if (isWordOk) {
+                        wordBoxes += `<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-emerald-100 text-emerald-900 border border-emerald-300 font-sans font-bold text-xs">${uw} <i class="fa-solid fa-check text-[10px] text-emerald-700"></i></span>`;
+                    } else {
+                        wordBoxes += `<span class="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-red-100 text-crimson border border-crimson/40 font-sans font-bold text-xs">${uw} <span class="text-[10px] text-crimson font-extrabold">→ ${tw || '(berlebih)'}</span></span>`;
+                    }
+                }
+
+                let charBoxes = '';
+                const maxLen = Math.max(cleanUser.length, cleanTarget.length);
+                for (let i = 0; i < maxLen; i++) {
+                    const uChar = cleanUser[i] || '_';
+                    const tChar = cleanTarget[i] || '';
+                    if (uChar === tChar) {
+                        charBoxes += `<span class="inline-flex flex-col items-center px-1.5 py-1 rounded-lg bg-emerald-100 text-emerald-900 border border-emerald-300 font-sans font-bold text-xs" title="Benar">${uChar}<span class="text-[9px] text-emerald-700">✓</span></span>`;
+                    } else {
+                        charBoxes += `<span class="inline-flex flex-col items-center px-1.5 py-1 rounded-lg bg-red-100 text-crimson border border-crimson/40 font-sans font-bold text-xs" title="Seharusnya: ${tChar || '(tidak ada)'}">${uChar}<span class="text-[9px] text-crimson font-extrabold">→${tChar || '∅'}</span></span>`;
+                    }
+                }
+
+                state.diffHTML = `
+                    <div class="p-4 rounded-2xl bg-red-50/90 border-2 border-crimson/40 space-y-3">
+                        <div class="text-xs font-extrabold text-crimson flex items-center gap-1.5">
+                            <i class="fa-solid fa-magnifying-glass"></i> Pemeriksaan Per Kata (Hijau = Tepat, Merah = Perlu Diperbaiki):
+                        </div>
+                        <div class="flex flex-wrap gap-1.5">
+                            ${wordBoxes}
+                        </div>
+                        <div class="text-[11px] font-extrabold text-crimson pt-1">
+                            Detail Per Huruf Romaji:
+                        </div>
+                        <div class="flex flex-wrap gap-1">
+                            ${charBoxes}
+                        </div>
+                        <div class="text-[11px] text-gray-600">
+                            Tips: Klik tombol <strong>"Petunjuk Per Kata"</strong> untuk melihat cara baca tiap kata lalu klik <strong>"Periksa Jawaban"</strong> lagi.
+                        </div>
+                    </div>
+                `;
+            }
+
+            saveProgressState();
+            renderQuestionsList();
+        }
+
+        function checkAllVisibleQuestions() {
+            const list = TASKS_DB[activeTrack].filter(q => activeStageFilter === 'all' || q.stage === activeStageFilter);
+            list.forEach(q => {
+                const inputEl = document.getElementById(`input-${activeTrack}-${q.id}`);
+                if (inputEl && inputEl.value.trim().length > 0) {
+                    checkSingleAnswer(activeTrack, q.id);
+                }
+            });
+            openReportModal();
+        }
+
+        function toggleQuestionHint(track, qId) {
+            userProgress[track][qId].showHint = !userProgress[track][qId].showHint;
+            const el = document.getElementById(`hint-${track}-${qId}`);
+            if (el) el.classList.toggle('hidden', !userProgress[track][qId].showHint);
+        }
+
+        function toggleQuestionKey(track, qId) {
+            userProgress[track][qId].showKey = !userProgress[track][qId].showKey;
+            renderQuestionsList();
+        }
+
+        function fillWithKey(track, qId) {
+            const q = TASKS_DB[track].find(item => item.id === qId);
+            userProgress[track][qId].input = q.targetRomaji;
+            saveProgressState();
+            renderQuestionsList();
+            checkSingleAnswer(track, qId);
+        }
+
+        /* =========================================================================
+           8. PERHITUNGAN SKOR (120 SOAL: 15 SOAL PER TAHAP), STATISTIK & MODAL RAPOR
+           ========================================================================= */
+        function calculateStats() {
+            let hiraCorrect = 0;
+            let kataCorrect = 0;
+
+            const hiraByStage = { 1: { c: 0, t: 15 }, 2: { c: 0, t: 15 }, 3: { c: 0, t: 15 }, 4: { c: 0, t: 15 } };
+            const kataByStage = { 1: { c: 0, t: 15 }, 2: { c: 0, t: 15 }, 3: { c: 0, t: 15 }, 4: { c: 0, t: 15 } };
+
+            TASKS_DB.hiragana.forEach(q => {
+                if (userProgress.hiragana[q.id]?.status === 'correct') {
+                    hiraCorrect++;
+                    hiraByStage[q.stage].c++;
+                }
+            });
+
+            TASKS_DB.katakana.forEach(q => {
+                if (userProgress.katakana[q.id]?.status === 'correct') {
+                    kataCorrect++;
+                    kataByStage[q.stage].c++;
+                }
+            });
+
+            const totalCorrect = hiraCorrect + kataCorrect;
+            const finalScore100 = Math.round((totalCorrect / 120) * 100);
+
+            let gradeLabel = 'Belum Dinilai';
+            if (totalCorrect > 0) {
+                if (finalScore100 >= 90) gradeLabel = 'S (Sangat Memuaskan / 優)';
+                else if (finalScore100 >= 75) gradeLabel = 'A (Baik Sekali / 良)';
+                else if (finalScore100 >= 60) gradeLabel = 'B (Cukup Baik / 可)';
+                else gradeLabel = 'C (Terus Berlatih / 努力)';
+            }
+
+            return {
+                hiraCorrect,
+                kataCorrect,
+                totalCorrect,
+                finalScore100,
+                gradeLabel,
+                hiraByStage,
+                kataByStage
+            };
+        }
+
+        function updateAllScoreBadges() {
+            const st = calculateStats();
+
+            const headerBadge = document.getElementById('header-score-badge');
+            if (headerBadge) headerBadge.textContent = `Skor: ${st.totalCorrect}/120`;
+
+            const hiraDone = document.getElementById('stat-hira-done');
+            const hiraPct = document.getElementById('stat-hira-pct');
+            if (hiraDone) hiraDone.textContent = `${st.hiraCorrect} / 60 Benar`;
+            if (hiraPct) hiraPct.textContent = `${Math.round((st.hiraCorrect / 60) * 100)}% Terjawab Benar (4×15 Soal)`;
+
+            const kataDone = document.getElementById('stat-kata-done');
+            const kataPct = document.getElementById('stat-kata-pct');
+            if (kataDone) kataDone.textContent = `${st.kataCorrect} / 60 Benar`;
+            if (kataPct) kataPct.textContent = `${Math.round((st.kataCorrect / 60) * 100)}% Terjawab Benar (4×15 Soal)`;
+
+            const totalScore = document.getElementById('stat-total-score');
+            const gradeLbl = document.getElementById('stat-grade-label');
+            if (totalScore) totalScore.textContent = `${st.finalScore100} / 100 Poin`;
+            if (gradeLbl) gradeLbl.textContent = `Predikat: ${st.gradeLabel}`;
+
+            const cardHira = document.getElementById('card-hira-progress');
+            const cardKata = document.getElementById('card-kata-progress');
+            if (cardHira) cardHira.textContent = `Progres: ${st.hiraCorrect}/60 kalimat selesai`;
+            if (cardKata) cardKata.textContent = `Progres: ${st.kataCorrect}/60 kalimat selesai`;
+
+            const trackPill = document.getElementById('track-score-pill');
+            if (trackPill) {
+                const byStageObj = activeTrack === 'hiragana' ? st.hiraByStage : st.kataByStage;
+                if (activeStageFilter === 'all') {
+                    const currTotal = activeTrack === 'hiragana' ? st.hiraCorrect : st.kataCorrect;
+                    trackPill.textContent = `Benar Semua Tahap: ${currTotal} / 60 Soal`;
+                } else {
+                    const currStage = byStageObj[activeStageFilter];
+                    trackPill.textContent = `Benar Tahap ${activeStageFilter}: ${currStage.c} / 15 Soal`;
+                }
+            }
+        }
+
+        function openReportModal() {
+            const st = calculateStats();
+            document.getElementById('report-final-score').textContent = `${st.finalScore100}`;
+            document.getElementById('report-grade-badge').textContent = `Predikat: ${st.gradeLabel} (${st.totalCorrect}/120 Kalimat Benar)`;
+            document.getElementById('report-hira-total').textContent = `${st.hiraCorrect} / 60 Benar`;
+            document.getElementById('report-kata-total').textContent = `${st.kataCorrect} / 60 Benar`;
+
+            const renderStageBreakdown = (byStage) => {
+                return [1, 2, 3, 4].map(s => `
+                    <div class="flex items-center justify-between py-1 border-b border-gray-100">
+                        <span>Tahap ${s} (15 Soal):</span>
+                        <span class="font-bold text-sumi">${byStage[s].c} / ${byStage[s].t} benar</span>
+                    </div>
+                `).join('');
+            };
+
+            document.getElementById('report-hira-stages').innerHTML = renderStageBreakdown(st.hiraByStage);
+            document.getElementById('report-kata-stages').innerHTML = renderStageBreakdown(st.kataByStage);
+
+            document.getElementById('modal-report').classList.remove('hidden');
+        }
+
+        function closeReportModal() {
+            document.getElementById('modal-report').classList.add('hidden');
+        }
+
+        function confirmResetAll() {
+            closeReportModal();
+            document.getElementById('modal-confirm-reset').classList.remove('hidden');
+        }
+
+        function closeResetModal() {
+            document.getElementById('modal-confirm-reset').classList.add('hidden');
+        }
+
+        function executeResetAll() {
+            ['hiragana', 'katakana'].forEach(track => {
+                TASKS_DB[track].forEach(q => {
+                    userProgress[track][q.id] = {
+                        input: '',
+                        status: 'unanswered',
+                        showHint: false,
+                        showKey: false,
+                        diffHTML: ''
+                    };
+                });
+            });
+            saveProgressState();
+            closeResetModal();
+            if (currentView === 'task') renderQuestionsList();
+            updateAllScoreBadges();
+        }
+
+        /* =========================================================================
+           9. WEB SPEECH API (AUDIO BAHASA JEPANG) & ANIMASI KELOPAK SAKURA
+           ========================================================================= */
+        function stopSpeech() {
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+            }
+        }
+
+        function speakJapanese(text) {
+            if (!('speechSynthesis' in window)) return;
+            stopSpeech();
+            const u = new SpeechSynthesisUtterance(text);
+            u.lang = 'ja-JP';
+            u.rate = 0.85;
+            window.speechSynthesis.speak(u);
+        }
+
+        function initSakuraCanvas() {
+            const canvas = document.getElementById('sakura-canvas');
+            const ctx = canvas.getContext('2d');
+            let width = canvas.width = window.innerWidth;
+            let height = canvas.height = window.innerHeight;
+
+            window.addEventListener('resize', () => {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
+            });
+
+            const petals = Array.from({ length: 20 }, () => ({
+                x: Math.random() * width,
+                y: Math.random() * height,
+                size: Math.random() * 7 + 5,
+                speedY: Math.random() * 0.65 + 0.35,
+                speedX: Math.random() * 0.5 - 0.25,
+                angle: Math.random() * Math.PI * 2,
+                spin: (Math.random() - 0.5) * 0.02,
+                opacity: Math.random() * 0.3 + 0.15
+            }));
+
+            function drawPetal(p) {
+                ctx.save();
+                ctx.translate(p.x, p.y);
+                ctx.rotate(p.angle);
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.bezierCurveTo(p.size / 2, -p.size / 2, p.size, p.size / 3, 0, p.size);
+                ctx.bezierCurveTo(-p.size, p.size / 3, -p.size / 2, -p.size / 2, 0, 0);
+                ctx.fillStyle = `rgba(229, 75, 115, ${p.opacity})`;
+                ctx.fill();
+                ctx.restore();
+            }
+
+            function animateSakura() {
+                ctx.clearRect(0, 0, width, height);
+                petals.forEach(p => {
+                    p.y += p.speedY;
+                    p.x += p.speedX + Math.sin(p.angle) * 0.25;
+                    p.angle += p.spin;
+                    if (p.y > height + 20) { p.y = -20; p.x = Math.random() * width; }
+                    if (p.x > width + 20) p.x = -20;
+                    if (p.x < -20) p.x = width + 20;
+                    drawPetal(p);
+                });
+                requestAnimationFrame(animateSakura);
+            }
+            animateSakura();
+        }
+
+        window.onload = function () {
+            initProgressState();
+            initSakuraCanvas();
+            updateAllScoreBadges();
+            updateHeaderBackBtn();
+        };
+    </script>
+</body>
+</html>
