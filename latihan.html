@@ -49,15 +49,26 @@
             -webkit-tap-highlight-color: transparent;
         }
 
+        /* Transisi Header & Sticky Bar Auto-Hide */
+        header, .sticky-nav-bar {
+            transition: transform 0.3s ease-in-out;
+        }
+        .header-hidden {
+            transform: translateY(-100%);
+        }
+        .nav-hidden {
+            transform: translateY(-120%);
+        }
+
         /* Pola Gelombang Jepang (Seigaiha) */
         .seigaiha-header {
             background-color: #BC002D;
             background-image: 
                 radial-gradient(circle at 100% 150%, #BC002D 24%, #9E0026 25%, #9E0026 28%, #BC002D 29%, #BC002D 36%, #9E0026 36%, #9E0026 40%, transparent 40%, transparent),
-                radial-gradient(circle at 0    150%, #BC002D 24%, #9E0026 25%, #9E0026 28%, #BC002D 29%, #BC002D 36%, #9E0026 36%, #9E0026 40%, transparent 40%, transparent),
+                radial-gradient(circle at 0   150%, #BC002D 24%, #9E0026 25%, #9E0026 28%, #BC002D 29%, #BC002D 36%, #9E0026 36%, #9E0026 40%, transparent 40%, transparent),
                 radial-gradient(circle at 50%  100%, #9E0026 10%, #BC002D 11%, #BC002D 23%, #9E0026 24%, #9E0026 30%, #BC002D 31%, #BC002D 43%, #9E0026 44%, #9E0026 50%, #BC002D 51%, #BC002D 63%, #9E0026 64%, #9E0026 71%, transparent 71%, transparent),
                 radial-gradient(circle at 100% 50%, #9E0026 5%, #BC002D 6%, #BC002D 15%, #9E0026 16%, #9E0026 20%, #BC002D 21%, #BC002D 30%, #9E0026 31%, #9E0026 35%, #BC002D 36%, #BC002D 45%, #9E0026 46%, #9E0026 49%, transparent 50%, transparent),
-                radial-gradient(circle at 0    50%, #9E0026 5%, #BC002D 6%, #BC002D 15%, #9E0026 16%, #9E0026 20%, #BC002D 21%, #BC002D 30%, #9E0026 31%, #9E0026 35%, #BC002D 36%, #BC002D 45%, #9E0026 46%, #9E0026 49%, transparent 50%, transparent);
+                radial-gradient(circle at 0   50%, #9E0026 5%, #BC002D 6%, #BC002D 15%, #9E0026 16%, #9E0026 20%, #BC002D 21%, #BC002D 30%, #9E0026 31%, #9E0026 35%, #BC002D 36%, #BC002D 45%, #9E0026 46%, #9E0026 49%, transparent 50%, transparent);
             background-size: 60px 30px;
         }
 
@@ -98,7 +109,6 @@
             box-shadow: 0 4px 12px rgba(188, 0, 45, 0.12);
         }
 
-        /* Efek Tombol Bantuan Suku Kata */
         .vk-btn {
             transition: all 0.12s ease;
             user-select: none;
@@ -107,7 +117,6 @@
             transform: scale(0.92);
         }
 
-        /* Animasi Peringatan Waktu Hampir Habis */
         @keyframes pulseDanger {
             0%, 100% { transform: scale(1); }
             50% { transform: scale(1.06); }
@@ -130,9 +139,9 @@
     <canvas id="sakura-canvas"></canvas>
 
     <!-- =========================================================
-         HEADER UTAMA DENGAN TOMBOL BACK & STATUS PESERTA
+         HEADER UTAMA (AUTO-HIDE SAAT SCROLL DI HP)
          ========================================================= -->
-    <header class="seigaiha-header text-white sticky top-0 z-50 shadow-lg border-b-4 border-gold">
+    <header id="main-header" class="seigaiha-header text-white sticky top-0 z-50 shadow-lg border-b-4 border-gold">
         <div class="max-w-6xl mx-auto px-3 sm:px-4 py-2.5 sm:py-3 flex items-center justify-between gap-2">
             <!-- Kiri: Tombol Kembali & Identitas Aplikasi -->
             <div class="flex items-center gap-2 sm:gap-3 min-w-0">
@@ -171,16 +180,12 @@
     </header>
 
     <!-- =========================================================
-         KONTEN UTAMA (3 VIEW: BERANDA, ARENA KUIS, & EVALUASI AKHIR)
+         KONTEN UTAMA
          ========================================================= -->
     <main class="flex-grow max-w-6xl w-full mx-auto px-3 sm:px-4 py-5 sm:py-8 relative z-10 pb-28">
 
-        <!-- =========================================================
-             VIEW 1: BERANDA / LOBI SETUP UJIAN ( PILIH NAMA & 2 MODE )
-             ========================================================= -->
+        <!-- VIEW 1: BERANDA / LOBI SETUP UJIAN -->
         <section id="view-home" class="page-transition space-y-6 sm:space-y-8">
-
-            <!-- Hero Card Utama -->
             <div class="relative bg-white rounded-3xl p-5 sm:p-10 shadow-xl border-2 border-crimson/20 overflow-hidden">
                 <div class="absolute -right-16 -top-16 w-64 sm:w-80 h-64 sm:h-80 bg-crimson/10 rounded-full pointer-events-none"></div>
                 <div class="absolute right-8 top-8 w-28 h-28 bg-crimson rounded-full opacity-95 hidden lg:flex flex-col items-center justify-center shadow-lg border-4 border-gold/50">
@@ -201,9 +206,7 @@
                     </p>
                 </div>
 
-                <!-- LANGKAH 1 & 2: FORM NAMA PESERTA & PEMILIHAN 2 MODE -->
                 <div class="mt-6 sm:mt-8 pt-6 border-t-2 border-washi-border space-y-6">
-                    <!-- Input Nama Peserta -->
                     <div class="max-w-xl space-y-2">
                         <label for="lobby-student-name" class="block text-xs sm:text-sm font-extrabold uppercase tracking-wider text-sumi">
                             <span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-crimson text-white text-xs mr-1.5">1</span>
@@ -224,7 +227,6 @@
                         </p>
                     </div>
 
-                    <!-- Pilihan 2 Mode Ujian (Mode Normal vs Mode Hard 35 Menit) -->
                     <div class="space-y-3">
                         <div class="text-xs sm:text-sm font-extrabold uppercase tracking-wider text-sumi">
                             <span class="inline-flex items-center justify-center w-6 h-6 rounded-full bg-crimson text-white text-xs mr-1.5">2</span>
@@ -232,7 +234,7 @@
                         </div>
 
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 sm:gap-6">
-                            <!-- KARTU MODE 1: MODE NORMAL (TANPA WAKTU) -->
+                            <!-- KARTU MODE NORMAL -->
                             <div id="card-mode-normal" onclick="selectQuizMode('normal')" class="cursor-pointer rounded-3xl p-5 sm:p-6 border-4 border-emerald-500 bg-emerald-50/50 hover:bg-emerald-50 transition-all relative flex flex-col justify-between space-y-4 shadow-md">
                                 <div class="flex items-start justify-between gap-3">
                                     <div class="flex items-center gap-3">
@@ -263,7 +265,7 @@
                                 </button>
                             </div>
 
-                            <!-- KARTU MODE 2: MODE HARD (TIMER 35 MENIT) -->
+                            <!-- KARTU MODE HARD -->
                             <div id="card-mode-hard" onclick="selectQuizMode('hard')" class="cursor-pointer rounded-3xl p-5 sm:p-6 border-4 border-washi-border bg-white hover:border-crimson/60 transition-all relative flex flex-col justify-between space-y-4 shadow-md">
                                 <div class="flex items-start justify-between gap-3">
                                     <div class="flex items-center gap-3">
@@ -330,18 +332,13 @@
                     </div>
                 </div>
             </div>
-
         </section>
 
-        <!-- =========================================================
-             VIEW 2: ARENA PENGERJAAN KUIS (10 SOAL SHUFFLE DARI 50 SOAL)
-             ========================================================= -->
+        <!-- VIEW 2: ARENA PENGERJAAN KUIS -->
         <section id="view-quiz" class="hidden page-transition space-y-5">
-
-            <!-- STICKY TOP CONTROL BAR (INFO MODE, TIMER / STOPWATCH, PROGRES & TOMBOL SELESAI) -->
-            <div class="bg-white/95 backdrop-blur-md rounded-2xl p-3.5 sm:p-4 shadow-lg border-2 border-crimson/30 sticky top-[56px] sm:top-[64px] z-30 space-y-3">
+            <!-- STICKY TOP CONTROL BAR (AUTO-HIDE SAAT SCROLL DI HP) -->
+            <div id="sticky-quiz-bar" class="sticky-nav-bar bg-white/95 backdrop-blur-md rounded-2xl p-3.5 sm:p-4 shadow-lg border-2 border-crimson/30 sticky top-[56px] sm:top-[64px] z-30 space-y-3">
                 <div class="flex flex-wrap items-center justify-between gap-2.5">
-                    <!-- Kiri: Badge Mode Aktif & Nama Peserta -->
                     <div class="flex flex-wrap items-center gap-2">
                         <span id="quiz-active-mode-badge" class="text-xs font-extrabold px-3 py-1.5 rounded-xl bg-emerald-600 text-white shadow-sm flex items-center gap-1.5">
                             <i class="fa-solid fa-mug-hot"></i>
@@ -354,7 +351,6 @@
                         </span>
                     </div>
 
-                    <!-- Tengah / Kanan: Timer 35 Menit (Hard) atau Stopwatch (Normal) -->
                     <div class="flex items-center gap-2">
                         <div id="quiz-timer-container" class="flex items-center gap-2 bg-sumi text-white px-3.5 py-1.5 rounded-xl shadow">
                             <i id="quiz-timer-icon" class="fa-solid fa-clock text-gold text-xs sm:text-sm"></i>
@@ -369,9 +365,7 @@
                     </div>
                 </div>
 
-                <!-- Baris Kedua: Progress Bar Terjawab + Pengaturan Bantuan + Kumpulkan -->
                 <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-2.5 pt-2 border-t border-gray-100">
-                    <!-- Progress Bar -->
                     <div class="flex items-center gap-3 flex-grow max-w-md">
                         <span id="quiz-answered-counter" class="text-xs font-extrabold text-sumi shrink-0">Terisi: 0 / 10 Soal</span>
                         <div class="w-full h-2.5 bg-gray-200 rounded-full overflow-hidden">
@@ -379,7 +373,6 @@
                         </div>
                     </div>
 
-                    <!-- Tombol Bantuan & Selesai -->
                     <div class="flex flex-wrap items-center justify-end gap-2">
                         <button onclick="toggleFlexSpelling()" id="btn-flex-spelling" class="px-3 py-1.5 rounded-xl text-[11px] sm:text-xs font-extrabold border-2 border-emerald-600 bg-emerald-600 text-white flex items-center gap-1.5 transition-all">
                             <i class="fa-solid fa-wand-magic-sparkles"></i>
@@ -409,11 +402,8 @@
             </div>
 
             <!-- Container 10 Kartu Soal Hasil Shuffle -->
-            <div id="quiz-questions-container" class="space-y-5 sm:space-y-6">
-                <!-- Diisi secara dinamis oleh JavaScript -->
-            </div>
+            <div id="quiz-questions-container" class="space-y-5 sm:space-y-6"></div>
 
-            <!-- Bar Bawah Kumpulkan Ujian -->
             <div class="bg-white rounded-3xl p-5 sm:p-6 shadow-lg border-2 border-crimson/20 flex flex-col sm:flex-row items-stretch sm:items-center justify-between gap-4">
                 <div>
                     <h4 class="font-extrabold text-sumi text-sm sm:text-base">Sudah selesai mengerjakan ke-10 soal kalimat di atas?</h4>
@@ -424,17 +414,11 @@
                     <span>Kumpulkan & Tampilkan Evaluasi Akhir</span>
                 </button>
             </div>
-
         </section>
 
-        <!-- =========================================================
-             VIEW 3: HALAMAN EVALUASI AKHIR (SKOR, JENIS MODE & LETAK SALAH)
-             ========================================================= -->
+        <!-- VIEW 3: HALAMAN EVALUASI AKHIR -->
         <section id="view-evaluation" class="hidden page-transition space-y-6 sm:space-y-8">
-
-            <!-- KARTU SERTIFIKAT & RINGKASAN SKOR EVALUASI AKHIR -->
             <div class="bg-white rounded-3xl shadow-2xl border-4 border-gold overflow-hidden">
-                <!-- Banner Header Evaluasi -->
                 <div class="seigaiha-header text-white p-6 sm:p-8 text-center space-y-2 border-b-4 border-gold relative">
                     <div id="eval-reason-pill" class="inline-flex items-center gap-1.5 bg-gold text-sumi font-extrabold text-[11px] sm:text-xs px-3.5 py-1 rounded-full uppercase tracking-wider shadow">
                         <i class="fa-solid fa-award"></i> HASIL EVALUASI AKHIR KUIS HIRAGANA → ROMAJI
@@ -443,10 +427,8 @@
                     <p class="text-xs sm:text-sm text-red-100">Laporan Resmi Penilaian & Analisis Letak Kesalahan Kalimat Panjang Hiragana</p>
                 </div>
 
-                <!-- Grid Informasi Peserta, Jenis Mode, Skor & Waktu -->
                 <div class="p-5 sm:p-8 space-y-6">
                     <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                        <!-- 1. Nama Peserta -->
                         <div class="bg-washi-dark p-4 rounded-2xl border-2 border-washi-border flex flex-col justify-center">
                             <span class="text-[11px] font-extrabold uppercase text-gray-500 flex items-center gap-1.5">
                                 <i class="fa-solid fa-user-graduate text-crimson"></i> Nama Peserta
@@ -455,35 +437,27 @@
                             <span class="text-[11px] font-bold text-gray-500 mt-0.5">Paket: 10 Soal Acak (dari 50)</span>
                         </div>
 
-                        <!-- 2. Jenis Mode Ujian (Sesuai Permintaan User) -->
                         <div class="bg-washi-dark p-4 rounded-2xl border-2 border-washi-border flex flex-col justify-center">
                             <span class="text-[11px] font-extrabold uppercase text-gray-500 flex items-center gap-1.5">
                                 <i class="fa-solid fa-gamepad text-crimson"></i> Jenis Mode Ujian
                             </span>
-                            <div id="eval-mode-badge-box" class="mt-1.5">
-                                <!-- Diisi secara dinamis oleh JS -->
-                            </div>
+                            <div id="eval-mode-badge-box" class="mt-1.5"></div>
                             <span id="eval-time-spent" class="text-[11px] font-bold text-gray-600 mt-1">Durasi: -</span>
                         </div>
 
-                        <!-- 3. Skor Akhir (0 - 100) -->
                         <div class="bg-crimson-soft/70 p-4 rounded-2xl border-2 border-crimson/30 text-center flex flex-col justify-center">
                             <span class="text-[11px] font-extrabold uppercase text-crimson">Nilai Akhir Anda</span>
                             <div id="eval-final-score" class="text-4xl sm:text-5xl font-black text-crimson leading-none my-1">0</div>
                             <span id="eval-correct-ratio" class="text-xs font-extrabold text-sumi">Benar: 0 / 10 Soal</span>
                         </div>
 
-                        <!-- 4. Predikat & Akurasi Kata -->
                         <div class="bg-washi-dark p-4 rounded-2xl border-2 border-washi-border flex flex-col justify-center items-center text-center">
                             <span class="text-[11px] font-extrabold uppercase text-gray-500">Predikat Kelulusan</span>
-                            <div id="eval-grade-pill" class="mt-1.5 inline-block bg-gold text-sumi font-extrabold text-xs px-3.5 py-1.5 rounded-full shadow-sm">
-                                -
-                            </div>
+                            <div id="eval-grade-pill" class="mt-1.5 inline-block bg-gold text-sumi font-extrabold text-xs px-3.5 py-1.5 rounded-full shadow-sm">-</div>
                             <span id="eval-wrong-summary" class="text-xs font-bold text-crimson mt-1.5">Perlu Perbaikan: 0 Soal</span>
                         </div>
                     </div>
 
-                    <!-- Tombol Aksi di Evaluasi Akhir -->
                     <div class="flex flex-wrap items-center justify-between gap-3 pt-2 border-t border-gray-200">
                         <div class="flex flex-wrap items-center gap-2">
                             <button onclick="filterEvalDetails('all')" id="eval-filter-all" class="px-3.5 py-2 rounded-xl text-xs font-extrabold bg-crimson text-white shadow">
@@ -511,7 +485,6 @@
                 </div>
             </div>
 
-            <!-- DAFTAR RINCIAN PEMERIKSAAN & LETAK KESALAHAN (10 SOAL) -->
             <div class="space-y-4">
                 <div class="flex flex-wrap items-center justify-between gap-2">
                     <h3 class="text-base sm:text-xl font-extrabold text-sumi flex items-center gap-2">
@@ -524,18 +497,12 @@
                     </div>
                 </div>
 
-                <div id="eval-details-container" class="space-y-4">
-                    <!-- Diisi secara dinamis oleh JavaScript -->
-                </div>
+                <div id="eval-details-container" class="space-y-4"></div>
             </div>
-
         </section>
-
     </main>
 
-    <!-- =========================================================
-         PANEL BANTUAN SUKU KATA HIRAGANA -> ROMAJI MENGAMBANG
-         ========================================================= -->
+    <!-- PANEL BANTUAN SUKU KATA MENGAMBANG -->
     <div id="virtual-keyboard-drawer" class="hidden fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-t-4 border-crimson shadow-2xl transition-all">
         <div class="max-w-5xl mx-auto px-3 py-2.5 sm:py-3 space-y-2">
             <div class="flex flex-wrap items-center justify-between gap-2 border-b border-gray-200 pb-2">
@@ -549,15 +516,9 @@
                 </div>
 
                 <div class="flex items-center gap-1.5 shrink-0">
-                    <button onclick="vkInsertSpace()" class="px-2.5 py-1 rounded-lg bg-amber-100 hover:bg-amber-200 text-amber-900 font-extrabold text-xs">
-                        Spasi
-                    </button>
-                    <button onclick="vkBackspace()" class="px-2.5 py-1 rounded-lg bg-red-100 hover:bg-red-200 text-crimson font-extrabold text-xs">
-                        <i class="fa-solid fa-delete-left"></i> Hapus
-                    </button>
-                    <button onclick="toggleVirtualKeyboard()" class="px-2.5 py-1 rounded-lg bg-gray-200 hover:bg-gray-300 text-sumi font-extrabold text-xs">
-                        <i class="fa-solid fa-xmark"></i> Tutup
-                    </button>
+                    <button onclick="vkInsertSpace()" class="px-2.5 py-1 rounded-lg bg-amber-100 hover:bg-amber-200 text-amber-900 font-extrabold text-xs">Spasi</button>
+                    <button onclick="vkBackspace()" class="px-2.5 py-1 rounded-lg bg-red-100 hover:bg-red-200 text-crimson font-extrabold text-xs"><i class="fa-solid fa-delete-left"></i> Hapus</button>
+                    <button onclick="toggleVirtualKeyboard()" class="px-2.5 py-1 rounded-lg bg-gray-200 hover:bg-gray-300 text-sumi font-extrabold text-xs"><i class="fa-solid fa-xmark"></i> Tutup</button>
                 </div>
             </div>
 
@@ -569,15 +530,11 @@
                 <button onclick="setVKTab('special')" id="vk-tab-special" class="px-2.5 py-1 rounded-lg text-[11px] font-extrabold bg-washi-dark text-sumi shrink-0">Yoon (kya/sha/cha)</button>
             </div>
 
-            <div id="vk-keys-grid" class="grid grid-cols-5 sm:grid-cols-10 gap-1.5 max-h-40 sm:max-h-44 overflow-y-auto p-1">
-                <!-- Diisi oleh JavaScript -->
-            </div>
+            <div id="vk-keys-grid" class="grid grid-cols-5 sm:grid-cols-10 gap-1.5 max-h-40 sm:max-h-44 overflow-y-auto p-1"></div>
         </div>
     </div>
 
-    <!-- =========================================================
-         MODAL BANK 50 KALIMAT PANJANG HIRAGANA
-         ========================================================= -->
+    <!-- MODAL BANK 50 KALIMAT -->
     <div id="modal-bank" class="hidden fixed inset-0 z-50 bg-black/70 backdrop-blur-sm flex items-center justify-center p-3 sm:p-4">
         <div class="bg-white rounded-3xl max-w-4xl w-full max-h-[90vh] flex flex-col shadow-2xl border-4 border-gold overflow-hidden animate-[fadeSlideUp_0.25s_ease]">
             <div class="seigaiha-header text-white p-4 sm:p-5 flex items-center justify-between border-b-4 border-gold shrink-0">
@@ -589,9 +546,7 @@
                     <i class="fa-solid fa-xmark"></i>
                 </button>
             </div>
-            <div id="bank-list-body" class="p-4 sm:p-6 overflow-y-auto space-y-3 flex-grow">
-                <!-- Diisi oleh JS -->
-            </div>
+            <div id="bank-list-body" class="p-4 sm:p-6 overflow-y-auto space-y-3 flex-grow"></div>
             <div class="bg-washi-dark px-5 py-3 border-t border-washi-border flex items-center justify-between shrink-0">
                 <span class="text-xs font-bold text-gray-600">Sistem memilih 10 soal secara acak setiap sesi kuis dimulai.</span>
                 <button onclick="closeBankModal()" class="bg-crimson text-white font-extrabold px-5 py-2 rounded-xl text-xs">Tutup</button>
@@ -612,320 +567,61 @@
         </div>
     </footer>
 
-    <!-- =========================================================
-         JAVASCRIPT ENGINE: 50 KALIMAT PANJANG HIRAGANA, SHUFFLE 10,
-         2 MODE (NORMAL & HARD 35 MENIT), DAN DETEKSI LETAK SALAH
-         ========================================================= -->
+    <!-- JAVASCRIPT ENGINE -->
     <script>
-        /* =========================================================================
-           1. BANK SOAL 50 KALIMAT PANJANG HIRAGANA DENGAN SPASI PER KATA YANG JELAS
-           ========================================================================= */
         const HIRAGANA_50_BANK = [
-            {
-                id: 1,
-                kana: "わたし は まいあさ ろくじ に おきて、つめたい みず で かお を あらいます",
-                romaji: "watashi wa maiasa rokuji ni okite, tsumetai mizu de kao wo araimasu",
-                meaning: "Saya setiap pagi bangun jam 6, lalu mencuci muka dengan air dingin."
-            },
-            {
-                id: 2,
-                kana: "きのう の ばん、ちち と はは は ひろい へや で おいしい すし を たべました",
-                romaji: "kinou no ban, chichi to haha wa hiroi heya de oishii sushi wo tabemashita",
-                meaning: "Kemarin malam, ayah dan ibu telah makan sushi lezat di kamar yang luas."
-            },
-            {
-                id: 3,
-                kana: "あした は にちようび です から、ともだち と いっしょ に こうえん へ いきます",
-                romaji: "ashita wa nichiyoubi desu kara, tomodachi to issho ni kouen e ikimasu",
-                meaning: "Karena besok hari Minggu, saya pergi ke taman bersama-sama dengan teman."
-            },
-            {
-                id: 4,
-                kana: "つくえ の うえ に あかい かばん と あたらしい にほんご の じしょ が あります",
-                romaji: "tsukue no ue ni akai kaban to atarashii nihongo no jisho ga arimasu",
-                meaning: "Di atas meja ada tas merah dan kamus bahasa Jepang yang baru."
-            },
-            {
-                id: 5,
-                kana: "もっと ゆっくり おおきな こえ で もう いちど はっきり はなして ください",
-                romaji: "motto yukkuri ookina koe de mou ichido hakkiri hanashite kudasai",
-                meaning: "Tolong berbicara sekali lagi dengan jelas, lebih pelan, dan dengan suara lantang."
-            },
-            {
-                id: 6,
-                kana: "ちょっと まって、あそこ の おおきい えき で でんしゃ の きっぷ を かいます",
-                romaji: "chotto matte, asoko no ookii eki de densha no kippu wo kaimasu",
-                meaning: "Tunggu sebentar, di stasiun besar sebelah sana itu saya membeli tiket kereta."
-            },
-            {
-                id: 7,
-                kana: "おなか が ぺこぺこ な ので、あたたかい ごはん と えび の てんぷら を たべました",
-                romaji: "onaka ga pekopeko na node, atatakai gohan to ebi no tenpura wo tabemashita",
-                meaning: "Karena perut sangat keroncongan, saya telah makan nasi hangat dan tempura udang."
-            },
-            {
-                id: 8,
-                kana: "きょう は がっこう の としょかん で せんせい と にほん の れきし を ならいました",
-                romaji: "kyou wa gakkou no toshokan de sensei to nihon no rekishi wo naraimashita",
-                meaning: "Hari ini di perpustakaan sekolah telah belajar sejarah Jepang bersama guru."
-            },
-            {
-                id: 9,
-                kana: "はる に は きれい な さくら の はな が たくさん さきます から、しゃしん を とります",
-                romaji: "haru ni wa kirei na sakura no hana ga takusan sakimasu kara, shashin wo torimasu",
-                meaning: "Karena pada musim semi bunga sakura yang indah mekar banyak, saya memotret foto."
-            },
-            {
-                id: 10,
-                kana: "あに は しろい くるま の なか から あおい そら と たかい やま を みました",
-                romaji: "ani wa shiroi kuruma no naka kara aoi sora to takai yama wo mimashita",
-                meaning: "Kakak laki-laki telah melihat langit biru dan gunung tinggi dari dalam mobil putih."
-            },
-            {
-                id: 11,
-                kana: "まいばん ねる まえ に あたたかい ぎゅうにゅう を いっぱい ゆっくり のみます",
-                romaji: "maiban neru mae ni atatakai gyuunyuu wo ippai yukkuri nomimasu",
-                meaning: "Setiap malam sebelum tidur minum segelas penuh susu hangat secara perlahan-lahan."
-            },
-            {
-                id: 12,
-                kana: "あの おおきい き の した に ちいさい ねこ と かしこい しろい いぬ が います",
-                romaji: "ano ookii ki no shita ni chiisai neko to kashikoi shiroi inu ga imasu",
-                meaning: "Di bawah pohon besar itu ada kucing kecil dan anjing putih yang cerdas."
-            },
-            {
-                id: 13,
-                kana: "なつやすみ に かぞく と いっしょ に しずか な うみ の ちかく へ りょこう します",
-                romaji: "natsuyasumi ni kazoku to issho ni shizuka na umi no chikaku e ryokou shimasu",
-                meaning: "Pada liburan musim panas berwisata ke dekat laut yang tenang bersama keluarga."
-            },
-            {
-                id: 14,
-                kana: "あね は にわ の きれい な はな に まいあさ たのしく みず を やります",
-                romaji: "ane wa niwa no kirei na hana ni maiasa tanoshiku mizu wo yarimasu",
-                meaning: "Kakak perempuan setiap pagi menyirami bunga indah di halaman dengan gembira."
-            },
-            {
-                id: 15,
-                kana: "そと は ざあざあ つよい あめ が ふって います から、あかい かさ を さします",
-                romaji: "soto wa zaazaa tsuyoi ame ga futte imasu kara, akai kasa wo sashimasu",
-                meaning: "Karena di luar sedang turun hujan deras, saya memakai payung merah."
-            },
-            {
-                id: 16,
-                kana: "らいしゅう の どようび に しんかんせん で きょうと の ふるい おてら へ いきます",
-                romaji: "raishuu no doyoubi ni shinkansen de kyouto no furui otera e ikimasu",
-                meaning: "Pada hari Sabtu minggu depan pergi ke kuil tua di Kyoto menggunakan Shinkansen."
-            },
-            {
-                id: 17,
-                kana: "つくえ の ひきだし の なか に えんぴつ と はさみ と きって が はいって います",
-                romaji: "tsukue no hikidashi no naka ni enpitsu to hasami to kitte ga haitte imasu",
-                meaning: "Di dalam laci meja tersimpan pensil, gunting, dan prangko."
-            },
-            {
-                id: 18,
-                kana: "ぴかぴか の あたらしい じてんしゃ に のって、まいあさ げんき に かいしゃ へ いきます",
-                romaji: "pikapika no atarashii jitensha ni notte, maiasa genki ni kaisha e ikimasu",
-                meaning: "Menaiki sepeda baru yang berkilau, setiap pagi pergi ke kantor dengan bersemangat."
-            },
-            {
-                id: 19,
-                kana: "きのう ともだち に かりた おもしろい ほん を こんや ぜんぶ よみました",
-                romaji: "kinou tomodachi ni karita omoshiroi hon wo konya zenbu yomimashita",
-                meaning: "Buku menarik yang dipinjam dari teman kemarin telah saya baca semuanya malam ini."
-            },
-            {
-                id: 20,
-                kana: "ふゆ の さむい ひ に は あたたかい へや で あまい みかん と おちゃ を もらいます",
-                romaji: "fuyu no samui hi ni wa atatakai heya de amai mikan to ocha wo moraimasu",
-                meaning: "Pada hari musim dingin yang sejuk menerima jeruk manis dan teh di kamar yang hangat."
-            },
-            {
-                id: 21,
-                kana: "びょういん の まえ の バスてい で おばあさん に みち を しんせつ に おしえました".replace("バスてい", "みち"),
-                romaji: "byouin no mae no michi de obaasan ni michi wo shinsetsu ni oshiemashita",
-                meaning: "Di jalan depan rumah sakit telah memberitahu arah jalan dengan ramah kepada nenek."
-            },
-            {
-                id: 22,
-                kana: "けさ は はやく おきました から、にわ の そうじ と せんたく をぜんぶ おわりました".replace("をぜんぶ", "を ぜんぶ"),
-                romaji: "kesa wa hayaku okimashita kara, niwa no souji to sentaku wo zenbu owarimashita",
-                meaning: "Karena tadi pagi bangun lebih awal, bersih-bersih halaman dan mencuci pakaian selesai semuanya."
-            },
-            {
-                id: 23,
-                kana: "この まち の みなみ に は ひろい かわ と とても しずか な もり が あります",
-                romaji: "kono machi no minami ni wa hiroi kawa to totemo shizuka na mori ga arimasu",
-                meaning: "Di sebelah selatan kota ini ada sungai yang lebar dan hutan yang sangat tenang."
-            },
-            {
-                id: 24,
-                kana: "わたし の たんじょうび に ちち から すてき な しろい とけい を もらいました",
-                romaji: "watashi no tanjoubi ni chichi kara suteki na shiroi tokei wo moraimashita",
-                meaning: "Pada hari ulang tahun saya, saya telah menerima jam tangan putih yang bagus dari ayah."
-            },
-            {
-                id: 25,
-                kana: "ぎんこう と ゆうびんきょく の あいだ に ちいさな くだものや と はなや が あります",
-                romaji: "ginkou to yuubinkyoku no aida ni chiisana kudamonoya to hanaya ga arimasu",
-                meaning: "Di antara bank dan kantor pos ada toko buah kecil dan toko bunga."
-            },
-            {
-                id: 26,
-                kana: "まいにち がっこう で むずかしい かんじ と ひらがな の れんしゅう を つづけます",
-                romaji: "mainichi gakkou de muzukashii kanji to hiragana no renshuu wo tsuzukemasu",
-                meaning: "Setiap hari di sekolah melanjutkan latihan huruf Kanji yang sulit dan Hiragana."
-            },
-            {
-                id: 27,
-                kana: "よる は くらい みち が あぶない です から、かならず でんとう を つけて ください",
-                romaji: "yoru wa kurai michi ga abunai desu kara, kanarazu dentou wo tsukete kudasai",
-                meaning: "Karena malam hari jalanan gelap berbahaya, pastikan tolong nyalakan lampu penerang."
-            },
-            {
-                id: 28,
-                kana: "やはり にほん の りょうり と つめたい りょくちゃ は いつ たべても おいしい です",
-                romaji: "yahari nihon no ryouri to tsumetai ryokucha wa itsu tabetemo oishii desu",
-                meaning: "Ternyata memang masakan Jepang dan teh hijau dingin kapan pun disantap tetap lezat."
-            },
-            {
-                id: 29,
-                kana: "おとうと は へや の なか で おおきな こえ で たのしい うた を うたって います",
-                romaji: "otouto wa heya no naka de ookina koe de tanoshii uta wo utatte imasu",
-                meaning: "Adik laki-laki sedang menyanyikan lagu yang ceria dengan suara lantang di dalam kamar."
-            },
-            {
-                id: 30,
-                kana: "いもうと は きれい な かみ で ちいさな おりがみ の つる を たくさん つくりました",
-                romaji: "imouto wa kirei na kami de chiisana origami no tsuru wo takusan tsukurimashita",
-                meaning: "Adik perempuan telah membuat banyak burung bangau origami kecil dengan kertas indah."
-            },
-            {
-                id: 31,
-                kana: "せんしゅう の きんようび に びじゅつかん で ゆうめい な ふるい え を みました",
-                romaji: "senshuu no kinyoubi ni bijutsukan de yuumei na furui e wo mimashita",
-                meaning: "Pada hari Jumat minggu lalu telah melihat lukisan tua yang terkenal di museum seni."
-            },
-            {
-                id: 32,
-                kana: "あつい なつ の ひ に は つめたい みず を のんで、きのした で ゆっくり やすみます",
-                romaji: "atsui natsu no hi ni wa tsumetai mizu wo nonde, kinoshita de yukkuri yasumimasu",
-                meaning: "Pada hari musim panas yang terik minum air dingin lalu beristirahat santai di bawah pohon."
-            },
-            {
-                id: 33,
-                kana: "らいげつ から あたらしい かいしゃ で はたらきます から、くろい くつ を かいました",
-                romaji: "raigetsu kara atarashii kaisha de hatarakimasu kara, kuroi kutsu wo kaimashita",
-                meaning: "Karena mulai bulan depan bekerja di perusahaan baru, saya telah membeli sepatu hitam."
-            },
-            {
-                id: 34,
-                kana: "へや の まど を あけると、そと から すずしい かぜ と はな の かおり が はいります",
-                romaji: "heya no mado wo akeruto, soto kara suzushii kaze to hana no kaori ga hairimasu",
-                meaning: "Begitu membuka jendela kamar, angin sejuk dan aroma bunga masuk dari luar."
-            },
-            {
-                id: 35,
-                kana: "だいがく の まえ の ほんや で あたらしい ざっし と しんぶん を にさつ かいました",
-                romaji: "daigaku no mae no honya de atarashii zasshi to shinbun wo nisatsu kaimashita",
-                meaning: "Di toko buku depan universitas telah membeli dua eksemplar majalah baru dan koran."
-            },
-            {
-                id: 36,
-                kana: "きのう は しごと が たいへん いそがしかった ので、よる おそく うち へ かえりました",
-                romaji: "kinou wa shigoto ga taihen isogashikatta node, yoru osoku uchi e kaerimashita",
-                meaning: "Karena kemarin pekerjaan sangat sibuk, saya pulang ke rumah larut malam."
-            },
-            {
-                id: 37,
-                kana: "あき に なると、やま の うえ の もみじ が あかく なって、とても きれい です",
-                romaji: "aki ni naruto, yama no ue no momiji ga akaku natte, totemo kirei desu",
-                meaning: "Ketika memasuki musim gugur, dedaunan momiji di atas gunung memerah dan sangat indah."
-            },
-            {
-                id: 38,
-                kana: "はは が つくった あまい かぼちゃ の りょうり は かぞく みんな が だいすき です",
-                romaji: "haha ga tsukutta amai kabocha no ryouri wa kazoku minna ga daisuki desu",
-                meaning: "Masakan labu manis buatan ibu sangat disukai oleh seluruh anggota keluarga."
-            },
-            {
-                id: 39,
-                kana: "でんしゃ の なか に くろい かさ を わすれました から、えきいん に ききました",
-                romaji: "densha no naka ni kuroi kasa wo wasuremashita kara, ekiin ni kikimashita",
-                meaning: "Karena ketinggalan payung hitam di dalam kereta, saya telah bertanya kepada petugas stasiun."
-            },
-            {
-                id: 40,
-                kana: "わたし の へや は せまい です が、まいにち きちんと そうじ を して います",
-                romaji: "watashi no heya wa semai desu ga, mainichi kichinto souji wo shite imasu",
-                meaning: "Kamar saya sempit, tetapi setiap hari saya membersihkannya dengan rapi."
-            },
-            {
-                id: 41,
-                kana: "こどもたち は ひろい ّうんどうじょう で げんき に はしったり とんだり して います".replace("ّ", ""),
-                romaji: "kodomotachi wa hiroi undoujou de genki ni hashittari tondari shite imasu",
-                meaning: "Anak-anak sedang berlari-lari dan melompat-lompat dengan bersemangat di lapangan olahraga yang luas."
-            },
-            {
-                id: 42,
-                kana: "とおい 外国 に すんで いる ともだち に ながい てがみ と しゃしん を おくりました".replace("外国", "がいこく"),
-                romaji: "tooi gaikoku ni sunde iru tomodachi ni nagai tegami to shashin wo okurimashita",
-                meaning: "Telah mengirim surat panjang dan foto kepada teman yang tinggal di luar negeri yang jauh."
-            },
-            {
-                id: 43,
-                kana: "しゅうまつ に は いえ で ゆっくり おんがく を きいたり えいが を みたり します",
-                romaji: "shuumatsu ni wa ie de yukkuri ongaku wo kiitari eiga wo mitari shimasu",
-                meaning: "Pada akhir pekan di rumah mendengarkan musik dan menonton film dengan santai."
-            },
-            {
-                id: 44,
-                kana: "あさ の しずか な みち を かいものぶくろ を もって おばあさん が あるいて います",
-                romaji: "asa no shizuka na michi wo kaimonobukuro wo motte obaasan ga aruite imasu",
-                meaning: "Nenek sedang berjalan kaki membawa kantong belanjaan menyusuri jalan pagi yang tenang."
-            },
-            {
-                id: 45,
-                kana: "この かわ の みず は とても きれい です から、ちいさな さかな が たくさん およいで います",
-                romaji: "kono kawa no mizu wa totemo kirei desu kara, chiisana sakana ga takusan oyoide imasu",
-                meaning: "Karena air sungai ini sangat jernih, banyak ikan kecil yang sedang berenang."
-            },
-            {
-                id: 46,
-                kana: "らいねん の はる に にほん へ いきたい です から、まいばん べんきょう して います",
-                romaji: "rainen no haru ni nihon e ikitai desu kara, maiban benkyou shite imasu",
-                meaning: "Karena ingin pergi ke Jepang pada musim semi tahun depan, setiap malam saya sedang belajar."
-            },
-            {
-                id: 47,
-                kana: "せんせい の つくえ の うえ に せいと の しゅくだい の のーと が ならんで います",
-                romaji: "sensei no tsukue no ue ni seito no shukudai no nooto ga narande imasu",
-                meaning: "Di atas meja guru berjejer buku catatan pekerjaan rumah milik para murid."
-            },
-            {
-                id: 48,
-                kana: "のど が かわきました から、あそこ の ちゃや で つめたい むぎちゃ を のみましょう",
-                romaji: "nodo ga kawakimashita kara, asoko no chaya de tsumetai mugicha wo nomimashou",
-                meaning: "Karena tenggorokan haus, mari kita minum teh gandum (mugicha) dingin di kedai teh sebelah sana."
-            },
-            {
-                id: 49,
-                kana: "おまつり の よる に は たくさん の ひと が あつまって、にぎやか に おどります",
-                romaji: "omatsuri no yoru ni wa takusan no hito ga atsumatte, nigiyaka ni odorimasu",
-                meaning: "Pada malam festival banyak orang berkumpul dan menari dengan meriah."
-            },
-            {
-                id: 50,
-                kana: "きょう の しけん は すこし むずかしかった です が、さいご まで ぜんぶ かきました",
-                romaji: "kyou no shiken wa sukoshi muzukashikatta desu ga, saigo made zenbu kakimashita",
-                meaning: "Ujian hari ini sedikit sulit, tetapi saya telah menulis semuanya sampai akhir."
-            }
+            { id: 1, kana: "わたし は まいあさ ろくじ に おきて、つめたい みず で かお を あらいます", romaji: "watashi wa maiasa rokuji ni okite, tsumetai mizu de kao wo araimasu", meaning: "Saya setiap pagi bangun jam 6, lalu mencuci muka dengan air dingin." },
+            { id: 2, kana: "きのう の ばん、ちち と はは は ひろい へや で おいしい すし を たべました", romaji: "kinou no ban, chichi to haha wa hiroi heya de oishii sushi wo tabemashita", meaning: "Kemarin malam, ayah dan ibu telah makan sushi lezat di kamar yang luas." },
+            { id: 3, kana: "あした は にちようび です から、ともだち と いっしょ に こうえん へ いきます", romaji: "ashita wa nichiyoubi desu kara, tomodachi to issho ni kouen e ikimasu", meaning: "Karena besok hari Minggu, saya pergi ke taman bersama-sama dengan teman." },
+            { id: 4, kana: "つくえ の うえ に あかい かばん と あたらしい にほんご の じしょ が あります", romaji: "tsukue no ue ni akai kaban to atarashii nihongo no jisho ga arimasu", meaning: "Di atas meja ada tas merah dan kamus bahasa Jepang yang baru." },
+            { id: 5, kana: "もっと ゆっくり おおきな こえ で もう いちど はっきり はなして ください", romaji: "motto yukkuri ookina koe de mou ichido hakkiri hanashite kudasai", meaning: "Tolong berbicara sekali lagi dengan jelas, lebih pelan, dan dengan suara lantang." },
+            { id: 6, kana: "ちょっと まって、あそこ の おおきい えき で でんしゃ の きっぷ を かいます", romaji: "chotto matte, asoko no ookii eki de densha no kippu wo kaimasu", meaning: "Tunggu sebentar, di stasiun besar sebelah sana itu saya membeli tiket kereta." },
+            { id: 7, kana: "おなか が ぺこぺこ な ので、あたたかい ごはん と えび の てんぷら を たべました", romaji: "onaka ga pekopeko na node, atatakai gohan to ebi no tenpura wo tabemashita", meaning: "Karena perut sangat keroncongan, saya telah makan nasi hangat dan tempura udang." },
+            { id: 8, kana: "きょう は がっこう の としょかん で せんせい と にほん の れきし を ならいました", romaji: "kyou wa gakkou no toshokan de sensei to nihon no rekishi wo naraimashita", meaning: "Hari ini di perpustakaan sekolah telah belajar sejarah Jepang bersama guru." },
+            { id: 9, kana: "はる に は きれい な さくら の はな が たくさん さきます から、しゃしん を とります", romaji: "haru ni wa kirei na sakura no hana ga takusan sakimasu kara, shashin wo torimasu", meaning: "Karena pada musim semi bunga sakura yang indah mekar banyak, saya memotret foto." },
+            { id: 10, kana: "あに は しろい くるま の なか から あおい そら と たかい やま を みました", romaji: "ani wa shiroi kuruma no naka kara aoi sora to takai yama wo mimashita", meaning: "Kakak laki-laki telah melihat langit biru dan gunung tinggi dari dalam mobil putih." },
+            { id: 11, kana: "まいばん ねる まえ に あたたかい ぎゅうにゅう を いっぱい ゆっくり のみます", romaji: "maiban neru mae ni atatakai gyuunyuu wo ippai yukkuri nomimasu", meaning: "Setiap malam sebelum tidur minum segelas penuh susu hangat secara perlahan-lahan." },
+            { id: 12, kana: "ano ookii ki no shita ni chiisai neko to kashikoi shiroi inu ga imasu", romaji: "ano ookii ki no shita ni chiisai neko to kashikoi shiroi inu ga imasu", meaning: "Di bawah pohon besar itu ada kucing kecil dan anjing putih yang cerdas." },
+            { id: 13, kana: "なつやすみ に かぞく と いっしょ に しずか な うみ の ちかく へ りょこう します", romaji: "natsuyasumi ni kazoku to issho ni shizuka na umi no chikaku e ryokou shimasu", meaning: "Pada liburan musim panas berwisata ke dekat laut yang tenang bersama keluarga." },
+            { id: 14, kana: "あね は にわ の きれい な はな に まいあさ たのしく みず を やります", romaji: "ane wa niwa no kirei na hana ni maiasa tanoshiku mizu wo yarimasu", meaning: "Kakak perempuan setiap pagi menyirami bunga indah di halaman dengan gembira." },
+            { id: 15, kana: "そと は ざあざあ つよい あめ が ふって います から、あかい かさ を さします", romaji: "soto wa zaazaa tsuyoi ame ga futte imasu kara, akai kasa wo sashimasu", meaning: "Karena di luar sedang turun hujan deras, saya memakai payung merah." },
+            { id: 16, kana: "らいしゅう の どようび に しんかんせん で きょうと の ふるい おてら へ いきます", romaji: "raishuu no doyoubi ni shinkansen de kyouto no furui otera e ikimasu", meaning: "Pada hari Sabtu minggu depan pergi ke kuil tua di Kyoto menggunakan Shinkansen." },
+            { id: 17, kana: "つくえ の ひきだし の なか に えんぴつ と はさみ と きって が はいって います", romaji: "tsukue no hikidashi no naka ni enpitsu to hasami to kitte ga haitte imasu", meaning: "Di dalam laci meja tersimpan pensil, gunting, dan prangko." },
+            { id: 18, kana: "ぴかぴか の あたらしい じてんしゃ に のって、まいあさ げんき に かいしゃ へ いきます", romaji: "pikapika no atarashii jitensha ni notte, maiasa genki ni kaisha e ikimasu", meaning: "Menaiki sepeda baru yang berkilau, setiap pagi pergi ke kantor dengan bersemangat." },
+            { id: 19, kana: "きのう ともだち に かりた おもしろい ほん を こんや ぜんぶ よみました", romaji: "kinou tomodachi ni karita omoshiroi hon wo konya zenbu yomimashita", meaning: "Buku menarik yang dipinjam dari teman kemarin telah saya baca semuanya malam ini." },
+            { id: 20, kana: "ふゆ の さむい ひ に は あたたかい へや で あまい みかん と おちゃ を もらいます", romaji: "fuyu no samui hi ni wa atatakai heya de amai mikan to ocha wo moraimasu", meaning: "Pada hari musim dingin yang sejuk menerima jeruk manis dan teh di kamar yang hangat." },
+            { id: 21, kana: "びょういん の まえ の みち で おばあさん に みち を しんせつ に おしえました", romaji: "byouin no mae no michi de obaasan ni michi wo shinsetsu ni oshiemashita", meaning: "Di jalan depan rumah sakit telah memberitahu arah jalan dengan ramah kepada nenek." },
+            { id: 22, kana: "けさ は はやく おきました から、にわ の そうじ と せんたく を ぜんぶ おわりました", romaji: "kesa wa hayaku okimashita kara, niwa no souji to sentaku wo zenbu owarimashita", meaning: "Karena tadi pagi bangun lebih awal, bersih-bersih halaman dan mencuci pakaian selesai semuanya." },
+            { id: 23, kana: "この まち の みなみ に は ひろい かわ と とても しずか な もり が あります", romaji: "kono machi no minami ni wa hiroi kawa to totemo shizuka na mori ga arimasu", meaning: "Di sebelah selatan kota ini ada sungai yang lebar dan hutan yang sangat tenang." },
+            { id: 24, kana: "わたし の たんじょうび に ちち から すてき な しろい とけい を もらいました", romaji: "watashi no tanjoubi ni chichi kara suteki na shiroi tokei wo moraimashita", meaning: "Pada hari ulang tahun saya, saya telah menerima jam tangan putih yang bagus dari ayah." },
+            { id: 25, kana: "ぎんこう と ゆうびんきょく の あいだ に ちいさな くだものや と はなや が あります", romaji: "ginkou to yuubinkyoku no aida ni chiisana kudamonoya to hanaya ga arimasu", meaning: "Di antara bank dan kantor pos ada toko buah kecil dan toko bunga." },
+            { id: 26, kana: "まいにち がっこう で むずかしい かんじ と ひらがな の れんしゅう を つづけます", romaji: "mainichi gakkou de muzukashii kanji to hiragana no renshuu wo tsuzukemasu", meaning: "Setiap hari di sekolah melanjutkan latihan huruf Kanji yang sulit dan Hiragana." },
+            { id: 27, kana: "よる は くらい みち が あぶない です から、かならず でんとう を つけて ください", romaji: "yoru wa kurai michi ga abunai desu kara, kanarazu dentou wo tsukete kudasai", meaning: "Karena malam hari jalanan gelap berbahaya, pastikan tolong nyalakan lampu penerang." },
+            { id: 28, kana: "やはり にほん の りょうり と つめたい りょくちゃ は いつ たべても おいしい です", romaji: "yahari nihon no ryouri to tsumetai ryokucha wa itsu tabetemo oishii desu", meaning: "Ternyata memang masakan Jepang dan teh hijau dingin kapan pun disantap tetap lezat." },
+            { id: 29, kana: "おとうと は へや の なか で おおきな こえ で たのしい うた を うたって います", romaji: "otouto wa heya no naka de ookina koe de tanoshii uta wo utatte imasu", meaning: "Adik laki-laki sedang menyanyikan lagu yang ceria dengan suara lantang di dalam kamar." },
+            { id: 30, kana: "いもうと は きれい な かみ で ちいさな おりがみ の つる を たくさん つくりました", romaji: "imouto wa kirei na kami de chiisana origami no tsuru wo takusan tsukurimashita", meaning: "Adik perempuan telah membuat banyak burung bangau origami kecil dengan kertas indah." },
+            { id: 31, kana: "せんしゅう の きんようび に びじゅつかん で ゆうめい な ふるい え を みました", romaji: "senshuu no kinyoubi ni bijutsukan de yuumei na furui e wo mimashita", meaning: "Pada hari Jumat minggu lalu telah melihat lukisan tua yang terkenal di museum seni." },
+            { id: 32, kana: "あつい なつ の ひ に は つめたい みず を のんで、きのした で ゆっくり やすみます", romaji: "atsui natsu no hi ni wa tsumetai mizu wo nonde, kinoshita de yukkuri yasumimasu", meaning: "Pada hari musim panas yang terik minum air dingin lalu beristirahat santai di bawah pohon." },
+            { id: 33, kana: "らいげつ から あたらしい かいしゃ で はたらきます から、くろい くつ を かいました", romaji: "raigetsu kara atarashii kaisha de hatarakimasu kara, kuroi kutsu wo kaimashita", meaning: "Karena mulai bulan depan bekerja di perusahaan baru, saya telah membeli sepatu hitam." },
+            { id: 34, kana: "へや の まど を あけると、そと から すずしい かぜ と はな の かおり が はいります", romaji: "heya no mado wo akeruto, soto kara suzushii kaze to hana no kaori ga hairimasu", meaning: "Begitu membuka jendela kamar, angin sejuk dan aroma bunga masuk dari luar." },
+            { id: 35, kana: "だいがく の まえ の ほんや で あたらしい ざっし と しんぶん を にさつ かいました", romaji: "daigaku no mae no honya de atarashii zasshi to shinbun wo nisatsu kaimashita", meaning: "Di toko buku depan universitas telah membeli dua eksemplar majalah baru dan koran." },
+            { id: 36, kana: "きのう は しごと が たいへん いそがしかった ので、よる おそく うち へ かえりました", romaji: "kinou wa shigoto ga taihen isogashikatta node, yoru osoku uchi e kaerimashita", meaning: "Karena kemarin pekerjaan sangat sibuk, saya pulang ke rumah larut malam." },
+            { id: 37, kana: "あき に なると、やま の うえ の もみじ が あかく なって、とても きれい です", romaji: "aki ni naruto, yama no ue no momiji ga akaku natte, totemo kirei desu", meaning: "Ketika memasuki musim gugur, dedaunan momiji di atas gunung memerah dan sangat indah." },
+            { id: 38, kana: "はは が つくった あまい かぼちゃ の りょうり は かぞく みんな が だいすき です", romaji: "haha ga tsukutta amai kabocha no ryouri wa kazoku minna ga daisuki desu", meaning: "Masakan labu manis buatan ibu sangat disukai oleh seluruh anggota keluarga." },
+            { id: 39, kana: "でんしゃ の なか に くろい かさ を わすれました から、えきいん に ききました", romaji: "densha no naka ni kuroi kasa wo wasuremashita kara, ekiin ni kikimashita", meaning: "Karena ketinggalan payung hitam di dalam kereta, saya telah bertanya kepada petugas stasiun." },
+            { id: 40, kana: "わたし の へや は せまい です が、まいにち きちんと そうじ を して います", romaji: "watashi no heya wa semai desu ga, mainichi kichinto souji wo shite imasu", meaning: "Kamar saya sempit, tetapi setiap hari saya membersihkannya dengan rapi." },
+            { id: 41, kana: "こどもたち は ひろい うんどうじょう で げんき に はしったり とんだり して います", romaji: "kodomotachi wa hiroi undoujou de genki ni hashittari tondari shite imasu", meaning: "Anak-anak sedang berlari-lari dan melompat-lompat dengan bersemangat di lapangan olahraga yang luas." },
+            { id: 42, kana: "とおい がいこく に すんで いる ともだち に ながい てがみ と しゃしん を おくりました", romaji: "tooi gaikoku ni sunde iru tomodachi ni nagai tegami to shashin wo okurimashita", meaning: "Telah mengirim surat panjang dan foto kepada teman yang tinggal di luar negeri yang jauh." },
+            { id: 43, kana: "しゅうまつ に は いえ で ゆっくり おんがく を きいたり えいが を みたり します", romaji: "shuumatsu ni wa ie de yukkuri ongaku wo kiitari eiga wo mitari shimasu", meaning: "Pada akhir pekan di rumah mendengarkan musik dan menonton film dengan santai." },
+            { id: 44, kana: "あさ の しずか な みち を かいものぶくろ を もって おばあさん が あるいて います", romaji: "asa no shizuka na michi wo kaimonobukuro wo motte obaasan ga aruite imasu", meaning: "Nenek sedang berjalan kaki membawa kantong belanjaan menyusuri jalan pagi yang tenang." },
+            { id: 45, kana: "この かわ の みず は とても きれい です から、ちいさな さかな が たくさん およいで います", romaji: "kono kawa no mizu wa totemo kirei desu kara, chiisana sakana ga takusan oyoide imasu", meaning: "Karena air sungai ini sangat jernih, banyak ikan kecil yang sedang berenang." },
+            { id: 46, kana: "らいねん の はる に にほん へ いきたい です から、まいばん べんきょう して います", romaji: "rainen no haru ni nihon e ikitai desu kara, maiban benkyou shite imasu", meaning: "Karena ingin pergi ke Jepang pada musim semi tahun depan, setiap malam saya sedang belajar." },
+            { id: 47, kana: "せんせい の つくえ の うえ に せいと の しゅくだい の のーと が ならんで います", romaji: "sensei no tsukue no ue ni seito no shukudai no nooto ga narande imasu", meaning: "Di atas meja guru berjejer buku catatan pekerjaan rumah milik para murid." },
+            { id: 48, kana: "のど が かわきました から、asoko no chaya de tsumetai mugicha wo nomimashou".replace("asoko no chaya de tsumetai mugicha wo nomimashou", "asoko no chaya de tsumetai mugicha wo nomimashou"), romaji: "nodo ga kawakimashita kara, asoko no chaya de tsumetai mugicha wo nomimashou", meaning: "Karena tenggorokan haus, mari kita minum teh gandum (mugicha) dingin di kedai teh sebelah sana." },
+            { id: 49, kana: "おまつり の よる に は たくさん の ひと が あつまって、にぎやか に おどります", romaji: "omatsuri no yoru ni wa takusan no hito ga atsumatte, nigiyaka ni odorimasu", meaning: "Pada malam festival banyak orang berkumpul dan menari dengan meriah." },
+            { id: 50, kana: "きょう の しけん は すこし むずかしかった です が、さいご まで ぜんぶ かきました", romaji: "kyou no shiken wa sukoshi muzukashikatta desu ga, saigo made zenbu kakimashita", meaning: "Ujian hari ini sedikit sulit, tetapi saya telah menulis semuanya sampai akhir." }
         ];
 
-        /* =========================================================================
-           2. TABEL SUKU KATA BANTUAN (VIRTUAL KEYBOARD HIRAGANA -> ROMAJI)
-           ========================================================================= */
         const VK_LAYOUTS = {
             stage1: [
                 { h: 'あ', r: 'a' }, { h: 'い', r: 'i' }, { h: 'う', r: 'u' }, { h: 'え', r: 'e' }, { h: 'お', r: 'o' },
@@ -964,20 +660,17 @@
             ]
         };
 
-        /* =========================================================================
-           3. STATE KUIS, MODE (NORMAL VS HARD 35 MENIT), & SHUFFLE 10 SOAL
-           ========================================================================= */
-        const HARD_MODE_SECONDS = 35 * 60; // 35 Menit = 2100 detik
-        const QUESTIONS_PER_SESSION = 10;  // 10 Soal di-shuffle dari 50 Bank Soal
+        const HARD_MODE_SECONDS = 35 * 60;
+        const QUESTIONS_PER_SESSION = 10;
 
-        let currentView = 'home';          // 'home' | 'quiz' | 'evaluation'
-        let selectedMode = 'normal';       // 'normal' (Tanpa Waktu) | 'hard' (35 Menit)
+        let currentView = 'home';
+        let selectedMode = 'normal';
         let studentName = '';
         let flexSpellingEnabled = true;
 
-        let activeQuestions = [];          // 10 soal hasil shuffle
-        let sessionAnswers = {};           // { [qNum 1..10]: { input: '', isCorrect: false, wordDiffHTML: '', charDiffHTML: '', showHint: false } }
-        let evalFilterMode = 'all';        // 'all' | 'wrong' | 'correct'
+        let activeQuestions = [];
+        let sessionAnswers = {};
+        let evalFilterMode = 'all';
 
         let timerInterval = null;
         let remainingSeconds = HARD_MODE_SECONDS;
@@ -987,18 +680,33 @@
         let vkCurrentTab = 'stage1';
         let activeInputId = null;
 
-        // Sinkronisasi Nama Peserta
+        // Auto-Hide Header & Sticky Bar saat Scroll di HP
+        let lastScrollY = window.scrollY;
+        window.addEventListener('scroll', () => {
+            const currentScrollY = window.scrollY;
+            const header = document.getElementById('main-header');
+            const stickyBar = document.getElementById('sticky-quiz-bar');
+
+            if (currentScrollY > lastScrollY && currentScrollY > 80) {
+                // Scroll ke bawah -> Sembunyikan header & sticky bar
+                if (header) header.classList.add('header-hidden');
+                if (stickyBar) stickyBar.classList.add('nav-hidden');
+            } else {
+                // Scroll ke atas -> Tampilkan kembali
+                if (header) header.classList.remove('header-hidden');
+                if (stickyBar) stickyBar.classList.remove('nav-hidden');
+            }
+            lastScrollY = currentScrollY;
+        });
+
         function syncStudentName(val) {
             studentName = val.trim();
             const err = document.getElementById('lobby-name-error');
             if (studentName && err) err.classList.add('hidden');
             document.getElementById('header-student-name').textContent = studentName || 'Peserta';
-            try {
-                localStorage.setItem('nihongo_quiz50_student_name', studentName);
-            } catch (e) {}
+            try { localStorage.setItem('nihongo_quiz50_student_name', studentName); } catch (e) {}
         }
 
-        // Pilih Mode di Lobi
         function selectQuizMode(mode) {
             selectedMode = mode;
             const cardNormal = document.getElementById('card-mode-normal');
@@ -1019,20 +727,15 @@
             }
         }
 
-        // Algoritma Fisher-Yates Shuffle untuk mengambil 10 soal acak dari 50 soal
         function getShuffled10Questions() {
             const copy = [...HIRAGANA_50_BANK];
             for (let i = copy.length - 1; i > 0; i--) {
                 const j = Math.floor(Math.random() * (i + 1));
                 [copy[i], copy[j]] = [copy[j], copy[i]];
             }
-            return copy.slice(0, QUESTIONS_PER_SESSION).map((item, idx) => ({
-                ...item,
-                sessionNum: idx + 1
-            }));
+            return copy.slice(0, QUESTIONS_PER_SESSION).map((item, idx) => ({ ...item, sessionNum: idx + 1 }));
         }
 
-        // Mulai Sesi Kuis (Normal atau Hard 35 Menit)
         function startQuizSession(mode) {
             const nameInput = document.getElementById('lobby-student-name');
             if (nameInput) studentName = nameInput.value.trim();
@@ -1048,16 +751,9 @@
             activeQuestions = getShuffled10Questions();
             sessionAnswers = {};
             activeQuestions.forEach(q => {
-                sessionAnswers[q.sessionNum] = {
-                    input: '',
-                    isCorrect: false,
-                    wordDiffHTML: '',
-                    charDiffHTML: '',
-                    showHint: false
-                };
+                sessionAnswers[q.sessionNum] = { input: '', isCorrect: false, wordDiffHTML: '', charDiffHTML: '', showHint: false };
             });
 
-            // Setup View
             currentView = 'quiz';
             document.getElementById('view-home').classList.add('hidden');
             document.getElementById('view-evaluation').classList.add('hidden');
@@ -1065,7 +761,6 @@
             document.getElementById('btn-header-back').classList.remove('hidden');
             document.getElementById('quiz-bar-student-name').textContent = studentName;
 
-            // Setup Mode Badge & Timer
             setupSessionTimer();
             renderQuizCards();
             updateAnsweredProgress();
@@ -1082,15 +777,8 @@
             startQuizSession(selectedMode);
         }
 
-        /* =========================================================================
-           4. ENGINE TIMER (MODE HARD = 35 MENIT MUNDUR | MODE NORMAL = STOPWATCH)
-           ========================================================================= */
         function setupSessionTimer() {
-            if (timerInterval) {
-                clearInterval(timerInterval);
-                timerInterval = null;
-            }
-
+            if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
             remainingSeconds = HARD_MODE_SECONDS;
             elapsedSeconds = 0;
 
@@ -1113,15 +801,11 @@
                     elapsedSeconds++;
                     timerDisplay.textContent = formatMMSS(remainingSeconds);
 
-                    if (remainingSeconds <= 180) {
-                        timerBox.className = "flex items-center gap-2 bg-crimson text-white px-3.5 py-1.5 rounded-xl shadow timer-danger";
-                    }
-
+                    if (remainingSeconds <= 180) timerBox.className = "flex items-center gap-2 bg-crimson text-white px-3.5 py-1.5 rounded-xl shadow timer-danger";
                     if (remainingSeconds <= 0) {
                         remainingSeconds = 0;
                         clearInterval(timerInterval);
                         timerInterval = null;
-                        // Waktu 35 menit habis -> Otomatis kumpulkan dan buka evaluasi akhir
                         submitQuizAndShowEvaluation(true);
                     }
                 }, 1000);
@@ -1146,9 +830,6 @@
             return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
         }
 
-        /* =========================================================================
-           5. RENDER 10 KARTU SOAL DENGAN SPASI KATA YANG JELAS
-           ========================================================================= */
         function formatKanaWithClearWordBoxes(kanaSentence) {
             const words = kanaSentence.trim().split(/\s+/);
             return words.map(w => `<span class="word-chip">${w}</span>`).join(' ');
@@ -1178,71 +859,47 @@
 
                 return `
                     <article id="quiz-card-${q.sessionNum}" class="bg-white rounded-3xl p-4 sm:p-7 shadow-md border-2 border-washi-border hover:border-crimson/40 transition-all space-y-4">
-                        <!-- Bar Atas Soal -->
                         <div class="flex flex-wrap items-center justify-between gap-2 border-b border-gray-100 pb-3">
                             <div class="flex items-center gap-2">
-                                <span class="px-3.5 py-1 rounded-xl bg-crimson text-white font-black text-xs sm:text-sm shadow">
-                                    Soal #${q.sessionNum} / 10
-                                </span>
-                                <span class="text-[11px] font-extrabold px-2.5 py-1 rounded-full bg-washi-dark text-gray-600 border border-washi-border">
-                                    Kode Bank Soal #${q.id}
-                                </span>
+                                <span class="px-3.5 py-1 rounded-xl bg-crimson text-white font-black text-xs sm:text-sm shadow">Soal #${q.sessionNum} / 10</span>
+                                <span class="text-[11px] font-extrabold px-2.5 py-1 rounded-full bg-washi-dark text-gray-600 border border-washi-border">Kode Bank Soal #${q.id}</span>
                             </div>
-
                             <div class="flex items-center gap-2">
                                 <button type="button" onclick="toggleCardHint(${q.sessionNum})" class="bg-amber-100 hover:bg-amber-200 text-amber-950 font-bold px-3 py-1.5 rounded-xl text-xs flex items-center gap-1.5 transition-all">
-                                    <i class="fa-solid fa-lightbulb text-amber-600"></i>
-                                    <span>Petunjuk Kata</span>
+                                    <i class="fa-solid fa-lightbulb text-amber-600"></i> <span>Petunjuk Kata</span>
                                 </button>
-                                <button type="button" onclick="speakJapanese('${escapedAudio}')" class="w-9 h-9 rounded-xl bg-crimson-soft hover:bg-crimson text-crimson hover:text-white flex items-center justify-center transition-colors shadow-sm" title="Dengarkan Pelafalan Kalimat">
+                                <button type="button" onclick="speakJapanese('${escapedAudio}')" class="w-9 h-9 rounded-xl bg-crimson-soft hover:bg-crimson text-crimson hover:text-white flex items-center justify-center transition-colors shadow-sm" title="Dengarkan Pelafalan">
                                     <i class="fa-solid fa-volume-high"></i>
                                 </button>
                             </div>
                         </div>
 
-                        <!-- Kotak Kalimat Hiragana dengan Spasi Jelas Per Kata -->
                         <div class="bg-washi-dark rounded-2xl p-4 sm:p-5 border border-washi-border space-y-3">
                             <div class="flex items-center justify-between text-[11px] font-extrabold uppercase tracking-wider text-crimson">
                                 <span><i class="fa-solid fa-book-open mr-1"></i> Bacalah Kalimat Hiragana Berikut (Spasi Per Kata):</span>
-                                <button type="button" onclick="speakJapanese('${escapedAudio}')" class="hover:underline flex items-center gap-1">
-                                    <i class="fa-solid fa-ear-listen"></i> Putar Suara
-                                </button>
+                                <button type="button" onclick="speakJapanese('${escapedAudio}')" class="hover:underline flex items-center gap-1"><i class="fa-solid fa-ear-listen"></i> Putar Suara</button>
                             </div>
-
-                            <!-- Tampilan Kata Per Kotak dengan Spasi Ekstra Jelas -->
-                            <div class="font-jp text-xl sm:text-2xl font-black text-sumi leading-loose select-all">
-                                ${wordChipsHTML}
-                            </div>
-
+                            <div class="font-jp text-xl sm:text-2xl font-black text-sumi leading-loose select-all">${wordChipsHTML}</div>
                             <p class="text-xs sm:text-sm text-gray-600 font-medium pt-1 border-t border-washi-border">
                                 <i class="fa-solid fa-language text-crimson mr-1"></i> <strong>Arti Kalimat:</strong> ${q.meaning}
                             </p>
                         </div>
 
-                        <!-- Kotak Petunjuk Per Kata (Opsional) -->
                         <div id="quiz-hint-${q.sessionNum}" class="${st.showHint ? '' : 'hidden'} bg-amber-50 border border-gold rounded-2xl p-3.5 text-xs text-amber-950 space-y-1.5">
-                            <div class="font-extrabold text-amber-900 flex items-center gap-1.5">
-                                <i class="fa-solid fa-lightbulb text-amber-600"></i> Bantuan Pemecahan Bacaan Per Kata:
-                            </div>
+                            <div class="font-extrabold text-amber-900 flex items-center gap-1.5"><i class="fa-solid fa-lightbulb text-amber-600"></i> Bantuan Pemecahan Bacaan Per Kata:</div>
                             <div class="font-jp leading-relaxed">${hintPairsHTML}</div>
                         </div>
 
-                        <!-- Input Jawaban Romaji -->
                         <div class="space-y-1.5">
                             <div class="flex flex-wrap items-center justify-between gap-2 text-xs">
                                 <label for="${inputId}" class="font-extrabold text-sumi flex items-center gap-1.5">
                                     <i class="fa-solid fa-keyboard text-crimson"></i> Ketik Jawaban Romaji Anda:
                                 </label>
                                 <div class="flex items-center gap-3">
-                                    <button type="button" onclick="focusAndOpenVK('${inputId}', ${q.sessionNum})" class="text-crimson hover:underline font-bold text-xs flex items-center gap-1">
-                                        <i class="fa-solid fa-table-cells"></i> Bantuan Huruf
-                                    </button>
-                                    <button type="button" onclick="clearQuizInput(${q.sessionNum})" class="text-gray-400 hover:text-crimson font-bold text-xs">
-                                        <i class="fa-solid fa-eraser"></i> Bersihkan
-                                    </button>
+                                    <button type="button" onclick="focusAndOpenVK('${inputId}', ${q.sessionNum})" class="text-crimson hover:underline font-bold text-xs flex items-center gap-1"><i class="fa-solid fa-table-cells"></i> Bantuan Huruf</button>
+                                    <button type="button" onclick="clearQuizInput(${q.sessionNum})" class="text-gray-400 hover:text-crimson font-bold text-xs"><i class="fa-solid fa-eraser"></i> Bersihkan</button>
                                 </div>
                             </div>
-
                             <input
                                 type="text"
                                 id="${inputId}"
@@ -1250,9 +907,7 @@
                                 onfocus="setActiveInput('${inputId}', ${q.sessionNum})"
                                 oninput="handleQuizInput(${q.sessionNum}, this.value)"
                                 placeholder="Ketik bacaan Romaji kalimat #${q.sessionNum} dengan spasi antar kata..."
-                                autocomplete="off"
-                                autocapitalize="none"
-                                spellcheck="false"
+                                autocomplete="off" autocapitalize="none" spellcheck="false"
                                 class="w-full font-sans text-base sm:text-xl font-bold text-sumi bg-washi hover:bg-white focus:bg-white px-4 py-3.5 rounded-2xl border-2 border-washi-border focus:border-crimson focus:outline-none shadow-inner transition-all"
                             />
                         </div>
@@ -1269,10 +924,7 @@
         function clearQuizInput(sessionNum) {
             sessionAnswers[sessionNum].input = '';
             const el = document.getElementById(`quiz-input-${sessionNum}`);
-            if (el) {
-                el.value = '';
-                el.focus();
-            }
+            if (el) { el.value = ''; el.focus(); }
             updateAnsweredProgress();
         }
 
@@ -1293,38 +945,21 @@
             if (bar) bar.style.width = `${Math.round((filled / QUESTIONS_PER_SESSION) * 100)}%`;
         }
 
-        /* =========================================================================
-           6. SISTEM PENILAIAN AKHIR & ANALISIS LETAK KESALAHAN (PER KATA & PER HURUF)
-           ========================================================================= */
         function cleanRomajiString(str) {
             if (!str) return '';
-            return str.toLowerCase().trim().replace(/[\s 、。,.!！?？「」"'\-]/g, '');
+            return str.toLowerCase().trim().replace(/[\s 、,.!！?？「」"'\-]/g, '');
         }
 
         function canonicalizeRomaji(str) {
             let s = cleanRomajiString(str);
             if (!flexSpellingEnabled) return s;
             return s
-                .replace(/si/g, 'shi')
-                .replace(/ti/g, 'chi')
-                .replace(/tu/g, 'tsu')
-                .replace(/hu/g, 'fu')
-                .replace(/zi/g, 'ji')
-                .replace(/sya/g, 'sha')
-                .replace(/syu/g, 'shu')
-                .replace(/syo/g, 'sho')
-                .replace(/tya/g, 'cha')
-                .replace(/tyu/g, 'chu')
-                .replace(/tyo/g, 'cho')
-                .replace(/cya/g, 'cha')
-                .replace(/cyu/g, 'chu')
-                .replace(/cyo/g, 'cho')
-                .replace(/jya/g, 'ja')
-                .replace(/jyu/g, 'ju')
-                .replace(/jyo/g, 'jo')
-                .replace(/zya/g, 'ja')
-                .replace(/zyu/g, 'ju')
-                .replace(/zyo/g, 'jo')
+                .replace(/si/g, 'shi').replace(/ti/g, 'chi').replace(/tu/g, 'tsu').replace(/hu/g, 'fu').replace(/zi/g, 'ji')
+                .replace(/sya/g, 'sha').replace(/syu/g, 'shu').replace(/syo/g, 'sho')
+                .replace(/tya/g, 'cha').replace(/tyu/g, 'chu').replace(/tyo/g, 'cho')
+                .replace(/cya/g, 'cha').replace(/cyu/g, 'chu').replace(/cyo/g, 'cho')
+                .replace(/jya/g, 'ja').replace(/jyu/g, 'ju').replace(/jyo/g, 'jo')
+                .replace(/zya/g, 'ja').replace(/zyu/g, 'ju').replace(/zyo/g, 'jo')
                 .replace(/tch/g, 'cch');
         }
 
@@ -1334,11 +969,10 @@
             const cleanUser = cleanRomajiString(rawUser);
             const cleanTarget = cleanRomajiString(q.romaji);
 
-            const userWords = rawUser ? rawUser.toLowerCase().replace(/[、。,.!！?？"']/g, ' ').trim().split(/\s+/) : [];
-            const targetWords = q.romaji.toLowerCase().replace(/[、。,.!！?？"']/g, ' ').trim().split(/\s+/);
-            const kanaWords = q.kana.replace(/[、。,.!！?？]/g, ' ').trim().split(/\s+/);
+            const userWords = rawUser ? rawUser.toLowerCase().replace(/[、,.!！?？"']/g, ' ').trim().split(/\s+/) : [];
+            const targetWords = q.romaji.toLowerCase().replace(/[、,.!！?？"']/g, ' ').trim().split(/\s+/);
+            const kanaWords = q.kana.replace(/[、,.!！?？]/g, ' ').trim().split(/\s+/);
 
-            // Cek kesesuaian kata demi kata
             let allWordsMatched = (userWords.length === targetWords.length && cleanUser.length > 0);
             const wordComparisonItems = [];
             const maxW = Math.max(userWords.length, targetWords.length);
@@ -1360,33 +994,18 @@
                 if (!wordOk) allWordsMatched = false;
 
                 if (wordOk) {
-                    wordComparisonItems.push(`
-                        <div class="inline-flex flex-col items-center px-3 py-1.5 rounded-xl bg-emerald-100 border-2 border-emerald-400 text-emerald-950">
-                            <span class="font-jp text-[11px] text-emerald-700 font-bold">${kw}</span>
-                            <span class="font-sans text-xs sm:text-sm font-black">${uw} <i class="fa-solid fa-check text-[10px] text-emerald-700"></i></span>
-                        </div>
-                    `);
+                    wordComparisonItems.push(`<div class="inline-flex flex-col items-center px-3 py-1.5 rounded-xl bg-emerald-100 border-2 border-emerald-400 text-emerald-950"><span class="font-jp text-[11px] text-emerald-700 font-bold">${kw}</span><span class="font-sans text-xs sm:text-sm font-black">${uw} <i class="fa-solid fa-check text-[10px] text-emerald-700"></i></span></div>`);
                 } else {
-                    wordComparisonItems.push(`
-                        <div class="inline-flex flex-col items-center px-3 py-1.5 rounded-xl bg-red-100 border-2 border-crimson text-crimson">
-                            <span class="font-jp text-[11px] text-crimson font-bold">${kw || '(Kata Ekstra)'}</span>
-                            <span class="font-sans text-xs sm:text-sm font-black line-through opacity-75">${uw || '(Kosong)'}</span>
-                            <span class="font-sans text-[11px] font-extrabold bg-white px-1.5 py-0.2 rounded text-crimson mt-0.5">Seharusnya: ${tw || '∅'}</span>
-                        </div>
-                    `);
+                    wordComparisonItems.push(`<div class="inline-flex flex-col items-center px-3 py-1.5 rounded-xl bg-red-100 border-2 border-crimson text-crimson"><span class="font-jp text-[11px] text-crimson font-bold">${kw || '(Kata Ekstra)'}</span><span class="font-sans text-xs sm:text-sm font-black line-through opacity-75">${uw || '(Kosong)'}</span><span class="font-sans text-[11px] font-extrabold bg-white px-1.5 py-0.2 rounded text-crimson mt-0.5">Seharusnya: ${tw || '∅'}</span></div>`);
                 }
             }
 
-            // Cek kecocokan kalimat utuh (jika user tidak memakai spasi sama sekali namun hurufnya benar)
-            const canonUserFull = canonicalizeRomaji(
-                rawUser.toLowerCase().replace(/\bha\b/g, 'wa').replace(/\bo\b/g, 'wo').replace(/\bhe\b/g, 'e')
-            );
+            const canonUserFull = canonicalizeRomaji(rawUser.toLowerCase().replace(/\bha\b/g, 'wa').replace(/\bo\b/g, 'wo').replace(/\bhe\b/g, 'e'));
             const canonTargetFull = canonicalizeRomaji(q.romaji);
 
             st.isCorrect = (cleanUser.length > 0) && (cleanUser === cleanTarget || allWordsMatched || canonUserFull === canonTargetFull);
             st.wordDiffHTML = wordComparisonItems.join('');
 
-            // Analisis Per Huruf (Character-by-Character Diff)
             let charBoxes = '';
             const maxChars = Math.max(cleanUser.length, cleanTarget.length);
             for (let c = 0; c < maxChars; c++) {
@@ -1403,13 +1022,9 @@
 
         function submitQuizAndShowEvaluation(isTimeUp = false) {
             stopSpeech();
-            if (timerInterval) {
-                clearInterval(timerInterval);
-                timerInterval = null;
-            }
+            if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
             if (vkOpen) toggleVirtualKeyboard();
 
-            // Pastikan seluruh input terbaru tersimpan & dievaluasi
             let correctCount = 0;
             activeQuestions.forEach(q => {
                 const inputEl = document.getElementById(`quiz-input-${q.sessionNum}`);
@@ -1421,13 +1036,11 @@
             const wrongCount = QUESTIONS_PER_SESSION - correctCount;
             const finalScore = Math.round((correctCount / QUESTIONS_PER_SESSION) * 100);
 
-            // Tampilkan View Evaluasi Akhir
             currentView = 'evaluation';
             document.getElementById('view-home').classList.add('hidden');
             document.getElementById('view-quiz').classList.add('hidden');
             document.getElementById('view-evaluation').classList.remove('hidden');
 
-            // Isi Data Header Evaluasi
             const reasonPill = document.getElementById('eval-reason-pill');
             if (isTimeUp) {
                 reasonPill.className = "inline-flex items-center gap-1.5 bg-white text-crimson font-extrabold text-[11px] sm:text-xs px-3.5 py-1 rounded-full uppercase tracking-wider shadow";
@@ -1439,25 +1052,14 @@
 
             document.getElementById('eval-student-name').textContent = studentName || 'Peserta';
 
-            // Tampilkan Jenis Mode Ujian Secara Jelas di Evaluasi Akhir
             const modeBox = document.getElementById('eval-mode-badge-box');
             const timeSpentEl = document.getElementById('eval-time-spent');
 
             if (selectedMode === 'hard') {
-                modeBox.innerHTML = `
-                    <span class="inline-flex items-center gap-1.5 bg-crimson text-white font-black text-xs sm:text-sm px-3.5 py-1.5 rounded-xl shadow-sm">
-                        <i class="fa-solid fa-fire text-gold"></i> MODE HARD (TIMER 35 MENIT)
-                    </span>
-                `;
-                timeSpentEl.textContent = isTimeUp
-                    ? `Waktu Habis: 35:00 / 35:00 Menit`
-                    : `Diselesaikan dalam: ${formatMMSS(elapsedSeconds)} (Batas 35:00)`;
+                modeBox.innerHTML = `<span class="inline-flex items-center gap-1.5 bg-crimson text-white font-black text-xs sm:text-sm px-3.5 py-1.5 rounded-xl shadow-sm"><i class="fa-solid fa-fire text-gold"></i> MODE HARD (TIMER 35 MENIT)</span>`;
+                timeSpentEl.textContent = isTimeUp ? `Waktu Habis: 35:00 / 35:00 Menit` : `Diselesaikan dalam: ${formatMMSS(elapsedSeconds)} (Batas 35:00)`;
             } else {
-                modeBox.innerHTML = `
-                    <span class="inline-flex items-center gap-1.5 bg-emerald-600 text-white font-black text-xs sm:text-sm px-3.5 py-1.5 rounded-xl shadow-sm">
-                        <i class="fa-solid fa-mug-hot"></i> MODE NORMAL (TANPA WAKTU)
-                    </span>
-                `;
+                modeBox.innerHTML = `<span class="inline-flex items-center gap-1.5 bg-emerald-600 text-white font-black text-xs sm:text-sm px-3.5 py-1.5 rounded-xl shadow-sm"><i class="fa-solid fa-mug-hot"></i> MODE NORMAL (TANPA WAKTU)</span>`;
                 timeSpentEl.textContent = `Durasi Pengerjaan: ${formatMMSS(elapsedSeconds)} (Tanpa Batas Waktu)`;
             }
 
@@ -1465,7 +1067,7 @@
             document.getElementById('eval-correct-ratio').textContent = `Benar: ${correctCount} / ${QUESTIONS_PER_SESSION} Soal`;
             document.getElementById('eval-wrong-summary').textContent = `Salah / Kosong: ${wrongCount} Soal`;
 
-            let gradeLabel = 'C (Perlu Latihan Lagi / 努力)';
+            let gradeLabel = 'C (Perlu Latihan Lagi)';
             if (finalScore === 100) gradeLabel = 'S+ (Sempurna / 満点)';
             else if (finalScore >= 80) gradeLabel = 'A (Sangat Baik / 優秀)';
             else if (finalScore >= 60) gradeLabel = 'B (Cukup Baik / 良)';
@@ -1481,11 +1083,8 @@
             ['all', 'wrong', 'correct'].forEach(m => {
                 const btn = document.getElementById(`eval-filter-${m}`);
                 if (!btn) return;
-                if (m === mode) {
-                    btn.className = "px-3.5 py-2 rounded-xl text-xs font-extrabold bg-crimson text-white shadow";
-                } else {
-                    btn.className = "px-3.5 py-2 rounded-xl text-xs font-bold bg-washi-dark text-sumi hover:bg-crimson-soft";
-                }
+                if (m === mode) btn.className = "px-3.5 py-2 rounded-xl text-xs font-extrabold bg-crimson text-white shadow";
+                else btn.className = "px-3.5 py-2 rounded-xl text-xs font-bold bg-washi-dark text-sumi hover:bg-crimson-soft";
             });
             renderEvaluationDetailsList();
         }
@@ -1500,12 +1099,7 @@
             });
 
             if (filtered.length === 0) {
-                container.innerHTML = `
-                    <div class="bg-white rounded-3xl p-8 text-center border-2 border-washi-border space-y-2">
-                        <i class="fa-solid fa-circle-check text-3xl text-emerald-600"></i>
-                        <div class="font-extrabold text-sumi text-base">Tidak ada soal pada kategori filter ini!</div>
-                    </div>
-                `;
+                container.innerHTML = `<div class="bg-white rounded-3xl p-8 text-center border-2 border-washi-border space-y-2"><i class="fa-solid fa-circle-check text-3xl text-emerald-600"></i><div class="font-extrabold text-sumi text-base">Tidak ada soal pada kategori filter ini!</div></div>`;
                 return;
             }
 
@@ -1519,9 +1113,7 @@
                     <div class="bg-white rounded-3xl p-5 sm:p-6 shadow-md border-2 ${isOk ? 'border-emerald-500' : 'border-crimson'} space-y-4">
                         <div class="flex flex-wrap items-center justify-between gap-2 border-b border-gray-100 pb-3">
                             <div class="flex items-center gap-2">
-                                <span class="text-xs font-extrabold px-3 py-1 rounded-xl ${isOk ? 'bg-emerald-600 text-white' : 'bg-crimson text-white'}">
-                                    Soal #${q.sessionNum} ${isOk ? '✓ JAWABAN TEPAT' : '✗ ADA KESALAHAN'}
-                                </span>
+                                <span class="text-xs font-extrabold px-3 py-1 rounded-xl ${isOk ? 'bg-emerald-600 text-white' : 'bg-crimson text-white'}">Soal #${q.sessionNum} ${isOk ? '✓ JAWABAN TEPAT' : '✗ ADA KESALAHAN'}</span>
                                 <span class="text-xs text-gray-500 font-bold">(Bank Soal #${q.id})</span>
                             </div>
                             <button onclick="speakJapanese('${escapedAudio}')" class="text-xs font-extrabold text-crimson bg-crimson-soft hover:bg-crimson hover:text-white px-3 py-1.5 rounded-xl flex items-center gap-1.5 transition-all">
@@ -1529,13 +1121,11 @@
                             </button>
                         </div>
 
-                        <!-- Kalimat Soal Hiragana -->
                         <div class="bg-washi-dark p-3.5 rounded-2xl border border-washi-border space-y-1">
                             <div class="font-jp text-lg sm:text-2xl font-black text-sumi">${q.kana}</div>
                             <div class="text-xs text-gray-600"><strong>Arti:</strong> ${q.meaning}</div>
                         </div>
 
-                        <!-- Perbandingan Jawaban Peserta vs Kunci Standar -->
                         <div class="grid grid-cols-1 md:grid-cols-2 gap-3 text-xs sm:text-sm">
                             <div class="p-3.5 rounded-2xl border-2 ${isOk ? 'bg-emerald-50/70 border-emerald-300' : 'bg-red-50/70 border-crimson/40'}">
                                 <span class="text-[10px] font-extrabold uppercase text-gray-500 block">Jawaban Romaji Anda:</span>
@@ -1547,33 +1137,18 @@
                             </div>
                         </div>
 
-                        <!-- Analisis Letak Kesalahan Per Kata & Per Huruf -->
                         <div class="bg-gray-50 rounded-2xl p-4 border border-gray-200 space-y-3">
                             <div class="text-xs font-extrabold ${isOk ? 'text-emerald-800' : 'text-crimson'} flex items-center gap-1.5">
-                                <i class="fa-solid fa-magnifying-glass"></i>
-                                <span>Pemeriksaan Letak Kesalahan Per Kata:</span>
+                                <i class="fa-solid fa-magnifying-glass"></i> <span>Pemeriksaan Letak Kesalahan Per Kata:</span>
                             </div>
-                            <div class="flex flex-wrap gap-2">
-                                ${st.wordDiffHTML}
-                            </div>
-
-                            ${!isOk ? `
-                                <div class="pt-2 border-t border-gray-200 space-y-1.5">
-                                    <div class="text-[11px] font-extrabold text-crimson">Detail Letak Huruf Romaji (Hijau = Benar, Merah = Seharusnya):</div>
-                                    <div class="flex flex-wrap gap-1">
-                                        ${st.charDiffHTML}
-                                    </div>
-                                </div>
-                            ` : ''}
+                            <div class="flex flex-wrap gap-2">${st.wordDiffHTML}</div>
+                            ${!isOk ? `<div class="pt-2 border-t border-gray-200 space-y-1.5"><div class="text-[11px] font-extrabold text-crimson">Detail Letak Huruf Romaji (Hijau = Benar, Merah = Seharusnya):</div><div class="flex flex-wrap gap-1">${st.charDiffHTML}</div></div>` : ''}
                         </div>
                     </div>
                 `;
             }).join('');
         }
 
-        /* =========================================================================
-           7. FUNGSI TABEL SUKU KATA, MODAL 50 BANK SOAL, NAVIGASI & SAKURA
-           ========================================================================= */
         function toggleFlexSpelling() {
             flexSpellingEnabled = !flexSpellingEnabled;
             const btn = document.getElementById('btn-flex-spelling');
@@ -1621,9 +1196,7 @@
             ['stage1', 'stage2', 'stage3', 'tenten', 'special'].forEach(t => {
                 const btn = document.getElementById(`vk-tab-${t}`);
                 if (!btn) return;
-                btn.className = (t === vkCurrentTab)
-                    ? "px-2.5 py-1 rounded-lg text-[11px] font-extrabold bg-crimson text-white shadow shrink-0"
-                    : "px-2.5 py-1 rounded-lg text-[11px] font-extrabold bg-washi-dark text-sumi hover:bg-crimson-soft shrink-0";
+                btn.className = (t === vkCurrentTab) ? "px-2.5 py-1 rounded-lg text-[11px] font-extrabold bg-crimson text-white shadow shrink-0" : "px-2.5 py-1 rounded-lg text-[11px] font-extrabold bg-washi-dark text-sumi hover:bg-crimson-soft shrink-0";
             });
 
             const grid = document.getElementById('vk-keys-grid');
@@ -1649,9 +1222,7 @@
             inputEl.focus();
         }
 
-        function vkInsertSpace() {
-            insertVKRomaji(' ');
-        }
+        function vkInsertSpace() { insertVKRomaji(' '); }
 
         function vkBackspace() {
             if (!activeInputId) return;
@@ -1686,34 +1257,21 @@
             document.getElementById('modal-bank').classList.remove('hidden');
         }
 
-        function closeBankModal() {
-            document.getElementById('modal-bank').classList.add('hidden');
-        }
+        function closeBankModal() { document.getElementById('modal-bank').classList.add('hidden'); }
 
         function handleGlobalBack() {
             stopSpeech();
             const bankModal = document.getElementById('modal-bank');
-            if (bankModal && !bankModal.classList.contains('hidden')) {
-                closeBankModal();
-                return;
-            }
-            if (vkOpen) {
-                toggleVirtualKeyboard();
-                return;
-            }
+            if (bankModal && !bankModal.classList.contains('hidden')) { closeBankModal(); return; }
+            if (vkOpen) { toggleVirtualKeyboard(); return; }
             showHome();
         }
 
-        function confirmBackToHome() {
-            showHome();
-        }
+        function confirmBackToHome() { showHome(); }
 
         function showHome() {
             stopSpeech();
-            if (timerInterval) {
-                clearInterval(timerInterval);
-                timerInterval = null;
-            }
+            if (timerInterval) { clearInterval(timerInterval); timerInterval = null; }
             currentView = 'home';
             document.getElementById('view-home').classList.remove('hidden');
             document.getElementById('view-quiz').classList.add('hidden');
