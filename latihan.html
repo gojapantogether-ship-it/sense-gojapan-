@@ -37,20 +37,30 @@
   <style>
     /* CRITICAL: Pastikan ketika di-scroll di HP maupun PC, soal & paragraf TIDAK TERTUTUP oleh Sticky Header */
     html {
-      scroll-padding-top: 150px;
+      scroll-padding-top: 85px;
     }
     @media (min-width: 768px) {
       html {
-        scroll-padding-top: 140px;
+        scroll-padding-top: 120px;
       }
     }
     .scroll-safe-card {
-      scroll-margin-top: 150px;
+      scroll-margin-top: 85px;
     }
     @media (min-width: 768px) {
       .scroll-safe-card {
-        scroll-margin-top: 140px;
+        scroll-margin-top: 120px;
       }
+    }
+
+    /* Smart Auto-Hide Header Transition */
+    #main-header {
+      transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease;
+      will-change: transform;
+    }
+    #main-header.header-hidden {
+      transform: translateY(-105%);
+      pointer-events: none;
     }
 
     /* Styling Kanvas Tulis Tangan */
@@ -96,45 +106,63 @@
 </head>
 <body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col selection:bg-indigo-600 selection:text-white">
 
-  <!-- ================= STICKY HEADER NAVIGATION ================= -->
-  <header id="main-header" class="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
-    <div class="max-w-6xl mx-auto px-3 sm:px-6">
-      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between py-2.5 sm:h-16 gap-2">
-        <!-- Brand & Title -->
+  <!-- ================= MINI FLOATING PILL (MUNCUL SAAT HEADER SEMBUNYI / KEYBOARD HP AKTIF) ================= -->
+  <div id="mini-floating-bar" class="fixed top-2 right-2.5 z-50 hidden items-center gap-1.5 bg-slate-900/90 backdrop-blur-md text-white px-2.5 py-1.5 rounded-full shadow-lg border border-slate-700/80 text-[11px] font-bold transition-all">
+    <span id="mini-timer-badge" class="hidden items-center gap-1 text-amber-400 font-mono pr-1.5 border-r border-slate-700">
+      <i class="fa-regular fa-clock text-[10px]"></i>
+      <span id="mini-timer-text">30:00</span>
+    </span>
+    <button onclick="forceShowHeader()" class="flex items-center gap-1 text-indigo-300 hover:text-white transition" title="Tampilkan Menu Atas">
+      <i class="fa-solid fa-chevron-down text-[10px]"></i>
+      <span>Menu</span>
+    </button>
+  </div>
+
+  <!-- ================= STICKY HEADER NAVIGATION (COMPACT & AUTO-HIDE DI HP) ================= -->
+  <header id="main-header" class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
+    <div class="max-w-6xl mx-auto px-2.5 sm:px-6">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between py-1.5 sm:py-2.5 gap-1.5 sm:gap-2">
+        <!-- Brand & Title (Compact di HP) -->
         <div class="flex items-center justify-between">
-          <div class="flex items-center gap-2.5">
-            <div class="w-10 h-10 rounded-xl bg-gradient-to-br from-indigo-600 to-rose-500 flex items-center justify-center text-white font-jp font-black text-xl shadow-sm shrink-0">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-indigo-600 to-rose-500 flex items-center justify-center text-white font-jp font-black text-sm sm:text-xl shadow-sm shrink-0">
               あア
             </div>
             <div>
-              <h1 class="text-base sm:text-lg font-extrabold tracking-tight text-slate-900 leading-tight">
+              <h1 class="text-sm sm:text-lg font-extrabold tracking-tight text-slate-900 leading-tight">
                 KanaMaster <span class="text-indigo-600">ID</span>
               </h1>
-              <p class="text-[11px] sm:text-xs text-slate-500 font-medium">
+              <p class="hidden sm:block text-xs text-slate-500 font-medium">
                 Latihan Menulis (50 Soal) & Baca (15 Paragraf)
               </p>
             </div>
           </div>
 
-          <!-- Tombol Tabel Referensi Kana (Mobile) -->
-          <button onclick="toggleKanaChartModal(true)" class="sm:hidden inline-flex items-center gap-1.5 px-2.5 py-1.5 rounded-lg text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 transition">
-            <i class="fa-solid fa-table-cells text-indigo-600"></i>
-            <span>Tabel Kana</span>
-          </button>
+          <!-- Tombol Aksi Cepat Mobile (Tabel Kana & Sembunyikan Header) -->
+          <div class="flex sm:hidden items-center gap-1">
+            <button onclick="toggleKanaChartModal(true)" class="inline-flex items-center gap-1 px-2 py-1 rounded-lg text-[11px] font-semibold bg-slate-100 hover:bg-slate-200 text-slate-700 transition">
+              <i class="fa-solid fa-table-cells text-indigo-600"></i>
+              <span>Tabel Kana</span>
+            </button>
+            <button onclick="manualHideHeader()" class="inline-flex items-center gap-1 px-2 py-1 rounded-lg text-[11px] font-semibold bg-slate-100 hover:bg-rose-100 text-slate-600 hover:text-rose-700 transition" title="Sembunyikan Header (Mode Fokus)">
+              <i class="fa-solid fa-chevron-up"></i>
+              <span>Tutup</span>
+            </button>
+          </div>
         </div>
 
         <!-- Main Navigation Tabs -->
         <div class="flex items-center gap-1.5 sm:gap-2">
-          <button id="tab-btn-write" onclick="switchMainTab('write')" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all bg-indigo-600 text-white shadow-sm">
+          <button id="tab-btn-write" onclick="switchMainTab('write')" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-2.5 py-1.5 sm:px-3.5 sm:py-2 rounded-xl text-xs sm:text-sm font-bold transition-all bg-indigo-600 text-white shadow-sm">
             <i class="fa-solid fa-pen-nib"></i>
             <span>Latihan Menulis</span>
-            <span class="px-1.5 py-0.5 text-[10px] rounded-md bg-white/20 text-white">50 Soal</span>
+            <span class="px-1.5 py-0.5 text-[10px] rounded-md bg-white/20 text-white">50</span>
           </button>
 
-          <button id="tab-btn-read" onclick="switchMainTab('read')" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-bold transition-all bg-slate-100 text-slate-700 hover:bg-slate-200">
+          <button id="tab-btn-read" onclick="switchMainTab('read')" class="flex-1 sm:flex-initial inline-flex items-center justify-center gap-1.5 px-2.5 py-1.5 sm:px-3.5 sm:py-2 rounded-xl text-xs sm:text-sm font-bold transition-all bg-slate-100 text-slate-700 hover:bg-slate-200">
             <i class="fa-solid fa-book-open-reader"></i>
             <span>Latihan Baca</span>
-            <span class="px-1.5 py-0.5 text-[10px] rounded-md bg-slate-200 text-slate-700">15 Paragraf</span>
+            <span class="px-1.5 py-0.5 text-[10px] rounded-md bg-slate-200 text-slate-700">15</span>
           </button>
 
           <!-- Tombol Tabel Referensi Kana (Desktop) -->
@@ -142,44 +170,49 @@
             <i class="fa-solid fa-table-cells text-amber-600"></i>
             <span>Tabel Kana</span>
           </button>
+
+          <!-- Tombol Sembunyikan Header (Desktop) -->
+          <button onclick="manualHideHeader()" class="hidden sm:inline-flex items-center gap-1 px-2.5 py-2 rounded-xl text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-600 transition" title="Sembunyikan Header (Mode Fokus)">
+            <i class="fa-solid fa-chevron-up"></i>
+          </button>
         </div>
       </div>
     </div>
 
-    <!-- SUB-BAR STATUS KUIS / TIMER (Tetap Rapi di Dalam Header agar Tidak Menutupi Soal Saat Scroll) -->
+    <!-- SUB-BAR STATUS KUIS / TIMER (Ramping 1 Baris di HP) -->
     <div id="quiz-sticky-bar" class="bg-slate-900 text-white border-t border-slate-800 transition-all">
-      <div class="max-w-6xl mx-auto px-3 sm:px-6 py-2 flex flex-wrap items-center justify-between gap-2 text-xs">
-        <div class="flex items-center gap-2 sm:gap-4 flex-wrap">
+      <div class="max-w-6xl mx-auto px-2.5 sm:px-6 py-1 sm:py-1.5 flex items-center justify-between gap-1.5 text-[11px] sm:text-xs">
+        <div class="flex items-center gap-2 sm:gap-4 truncate">
           <!-- Mode Indicator -->
-          <div class="flex items-center gap-1.5">
-            <span class="text-slate-400">Mode:</span>
-            <span id="status-mode-badge" class="px-2 py-0.5 rounded-full font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30">
-              Normal (Tanpa Waktu)
+          <div class="flex items-center gap-1">
+            <span class="hidden sm:inline text-slate-400">Mode:</span>
+            <span id="status-mode-badge" class="px-1.5 py-0.5 rounded-full font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30 truncate">
+              Normal
             </span>
           </div>
 
           <!-- Progress Dijawab -->
-          <div class="flex items-center gap-1.5">
+          <div class="flex items-center gap-1 shrink-0">
             <span class="text-slate-400">Terjawab:</span>
             <span id="status-answered-count" class="font-bold text-white">0 / 10</span>
           </div>
 
           <!-- Bank Info -->
-          <div class="hidden md:flex items-center gap-1.5 text-slate-300">
+          <div class="hidden lg:flex items-center gap-1.5 text-slate-300">
             <i class="fa-solid fa-database text-indigo-400"></i>
-            <span>Bank Soal: <strong>50 Soal Campuran</strong> (Di-shuffle <span id="status-batch-size">10</span> Soal)</span>
+            <span>Bank: <strong>50 Soal</strong> (Di-shuffle <span id="status-batch-size">10</span>)</span>
           </div>
         </div>
 
         <!-- Timer & Quick Jump -->
-        <div class="flex items-center gap-3 ml-auto">
-          <!-- Countdown Box (Hanya Aktif di Mode Hard 30 Menit, atau Stopwatch di Normal) -->
-          <div id="timer-container" class="flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-800 border border-slate-700 font-mono text-xs sm:text-sm font-bold text-amber-400">
+        <div class="flex items-center gap-1.5 sm:gap-2.5 shrink-0 ml-auto">
+          <!-- Countdown Box -->
+          <div id="timer-container" class="flex items-center gap-1 px-2 py-0.5 rounded-lg bg-slate-800 border border-slate-700 font-mono text-[11px] sm:text-xs font-bold text-amber-400">
             <i id="timer-icon" class="fa-regular fa-clock"></i>
-            <span id="timer-display">Tanpa Batas Waktu</span>
+            <span id="timer-display">Santai</span>
           </div>
 
-          <button onclick="shuffleAndStartNewQuiz()" class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-semibold transition">
+          <button onclick="shuffleAndStartNewQuiz()" class="inline-flex items-center gap-1 px-2 py-0.5 sm:px-2.5 sm:py-1 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-semibold transition">
             <i class="fa-solid fa-shuffle"></i>
             <span class="hidden sm:inline">Acak Soal Baru</span>
             <span class="sm:hidden">Shuffle</span>
@@ -860,14 +893,14 @@
       if (mode === 'normal') {
         normalBtn.className = "flex-1 sm:flex-initial px-3.5 py-2 rounded-lg text-xs sm:text-sm font-bold transition-all bg-white text-slate-900 shadow-sm flex items-center justify-center gap-1.5";
         hardBtn.className = "flex-1 sm:flex-initial px-3.5 py-2 rounded-lg text-xs sm:text-sm font-bold transition-all text-slate-600 hover:text-slate-900 flex items-center justify-center gap-1.5";
-        badge.textContent = "Normal (Tanpa Waktu)";
-        badge.className = "px-2 py-0.5 rounded-full font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30";
+        badge.textContent = "Normal";
+        badge.className = "px-1.5 py-0.5 rounded-full font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/30";
         showToast("Mode Normal aktif: Latihan santai tanpa batas waktu & fitur Hint tersedia.");
       } else {
         hardBtn.className = "flex-1 sm:flex-initial px-3.5 py-2 rounded-lg text-xs sm:text-sm font-bold transition-all bg-rose-600 text-white shadow-sm flex items-center justify-center gap-1.5";
         normalBtn.className = "flex-1 sm:flex-initial px-3.5 py-2 rounded-lg text-xs sm:text-sm font-bold transition-all text-slate-600 hover:text-slate-900 flex items-center justify-center gap-1.5";
-        badge.textContent = "HARD MODE (30 Menit)";
-        badge.className = "px-2 py-0.5 rounded-full font-bold bg-rose-500/20 text-rose-300 border border-rose-500/30 animate-pulse";
+        badge.textContent = "HARD (30m)";
+        badge.className = "px-1.5 py-0.5 rounded-full font-bold bg-rose-500/20 text-rose-300 border border-rose-500/30 animate-pulse";
         showToast("Mode Hard aktif! Waktu 30 menit dimulai & soal di-shuffle baru.");
       }
 
@@ -910,17 +943,23 @@
 
       const timerDisplay = document.getElementById('timer-display');
       const timerContainer = document.getElementById('timer-container');
+      const miniTimerBadge = document.getElementById('mini-timer-badge');
 
       if (quizGameMode === 'normal') {
-        timerDisplay.textContent = "Tanpa Batas Waktu";
-        timerContainer.className = "flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-slate-800 border border-slate-700 font-mono text-xs sm:text-sm font-bold text-emerald-400";
+        timerDisplay.textContent = "Tanpa Waktu";
+        timerContainer.className = "flex items-center gap-1 px-2 py-0.5 rounded-lg bg-slate-800 border border-slate-700 font-mono text-[11px] sm:text-xs font-bold text-emerald-400";
+        if (miniTimerBadge) miniTimerBadge.classList.add('hidden');
         // Tetap hitung elapsed time di belakang layar untuk laporan akhir
         timerInterval = setInterval(() => {
           if (!quizSubmitted) elapsedSeconds++;
         }, 1000);
       } else {
+        if (miniTimerBadge) {
+          miniTimerBadge.classList.remove('hidden');
+          miniTimerBadge.classList.add(' inline-flex');
+        }
         updateHardTimerUI();
-        timerContainer.className = "flex items-center gap-1.5 px-2.5 py-1 rounded-lg bg-rose-950 border border-rose-700 font-mono text-xs sm:text-sm font-bold text-rose-300";
+        timerContainer.className = "flex items-center gap-1 px-2 py-0.5 rounded-lg bg-rose-950 border border-rose-700 font-mono text-[11px] sm:text-xs font-bold text-rose-300";
         timerInterval = setInterval(() => {
           if (quizSubmitted) return;
           elapsedSeconds++;
@@ -933,6 +972,20 @@
             submitAllQuizAnswers();
           }
         }, 1000);
+      }
+    }
+
+    function updateHardTimerUI() {
+      const mins = Math.floor(remainingSeconds / 60);
+      const secs = remainingSeconds % 60;
+      const formatted = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+      const timerDisplay = document.getElementById('timer-display');
+      if (timerDisplay) {
+        timerDisplay.textContent = formatted;
+      }
+      const miniTimerText = document.getElementById('mini-timer-text');
+      if (miniTimerText) {
+        miniTimerText.textContent = formatted;
       }
     }
 
@@ -1064,6 +1117,7 @@
                       type="text"
                       id="answer-input-${idx}"
                       value="${currentVal}"
+                      onfocus="handleInputFocusOnMobile(${idx})"
                       oninput="handleAnswerInput(${idx}, this)"
                       placeholder="Ketik Hiragana/Katakana atau klik kepingan huruf di bawah..."
                       class="w-full px-4 py-3 rounded-xl border-2 border-slate-200 focus:border-indigo-600 focus:outline-none font-jp text-lg sm:text-xl font-bold text-slate-900 bg-slate-50/50 focus:bg-white transition"
@@ -1165,6 +1219,10 @@
     }
 
     function appendCharToAnswer(idx, char) {
+      // Di HP, otomatis sembunyikan header saat menyusun kepingan huruf agar tidak menghalangi soal
+      if (window.innerWidth < 768) {
+        setHeaderHiddenState(true);
+      }
       const inputEl = document.getElementById(`answer-input-${idx}`);
       if (!inputEl) return;
       inputEl.value = (inputEl.value || '') + char;
@@ -1674,6 +1732,87 @@
         box.classList.add('hidden');
       }, 3200);
     }
+
+    /*************************************************************************
+     * 10. SMART AUTO-HIDE HEADER (SAAT SCROLL DOWN & SAAT KEYBOARD HP MUNCUL)
+     *************************************************************************/
+    let lastScrollY = window.scrollY;
+    let isInputFocused = false;
+
+    function setHeaderHiddenState(hide) {
+      const header = document.getElementById('main-header');
+      const miniBar = document.getElementById('mini-floating-bar');
+      if (!header || !miniBar) return;
+
+      if (hide) {
+        header.classList.add('header-hidden');
+        miniBar.classList.remove('hidden');
+        miniBar.classList.add('flex');
+      } else {
+        header.classList.remove('header-hidden');
+        miniBar.classList.add('hidden');
+        miniBar.classList.remove('flex');
+      }
+    }
+
+    function manualHideHeader() {
+      setHeaderHiddenState(true);
+    }
+
+    function forceShowHeader() {
+      isInputFocused = false;
+      setHeaderHiddenState(false);
+    }
+
+    // Saat pengguna mengetuk kotak input jawaban di HP (Keyboard Virtual muncul)
+    function handleInputFocusOnMobile(idx) {
+      isInputFocused = true;
+      // Sembunyikan header otomatis supaya layar penuh untuk soal & keyboard
+      setHeaderHiddenState(true);
+
+      // Pastikan kartu soal yang sedang diisi bergeser pas di atas keyboard
+      setTimeout(() => {
+        const card = document.getElementById(`question-card-${idx}`);
+        if (card) {
+          const y = card.getBoundingClientRect().top + window.scrollY - 12;
+          window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+        }
+      }, 220);
+    }
+
+    // Deteksi Scroll: Scroll ke bawah -> sembunyikan header; Scroll ke atas / paling atas -> tampilkan
+    window.addEventListener('scroll', () => {
+      const currentY = window.scrollY;
+
+      // Jika sedang di paling atas halaman dan tidak sedang mengetik di HP
+      if (currentY < 40 && !isInputFocused) {
+        setHeaderHiddenState(false);
+        lastScrollY = currentY;
+        return;
+      }
+
+      // Jika scroll ke bawah lebih dari 12px -> sembunyikan header
+      if (currentY > lastScrollY + 12 && currentY > 70) {
+        setHeaderHiddenState(true);
+      } 
+      // Jika scroll ke atas cukup jauh (> 25px) dan keyboard tidak sedang memaksa tutup
+      else if (currentY < lastScrollY - 25 && !isInputFocused) {
+        setHeaderHiddenState(false);
+      }
+
+      lastScrollY = currentY;
+    }, { passive: true });
+
+    // Lepaskan status fokus input saat pengguna selesai mengetik
+    document.addEventListener('focusout', (e) => {
+      if (e.target && e.target.tagName === 'INPUT') {
+        setTimeout(() => {
+          if (!document.activeElement || document.activeElement.tagName !== 'INPUT') {
+            isInputFocused = false;
+          }
+        }, 150);
+      }
+    });
 
     // Inisialisasi Saat Halaman Dimuat
     window.addEventListener('DOMContentLoaded', () => {
