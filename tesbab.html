@@ -1,0 +1,1354 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>BabMaster ID - Tes Simulasi Bahasa Jepang Bab 1 - 10 (Full Hiragana & Katakana Tanpa Kanji)</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Inter & Noto Sans JP -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            jp: ['"Noto Sans JP"', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* CRITICAL: Anti-Tertutup Header di HP & PC */
+    html {
+      scroll-padding-top: 92px;
+    }
+    @media (min-width: 768px) {
+      html {
+        scroll-padding-top: 128px;
+      }
+    }
+    .scroll-safe-card {
+      scroll-margin-top: 92px;
+    }
+    @media (min-width: 768px) {
+      .scroll-safe-card {
+        scroll-margin-top: 128px;
+      }
+    }
+
+    /* Smart Auto-Hide Header Transition */
+    #main-header {
+      transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease;
+      will-change: transform;
+    }
+    #main-header.header-hidden {
+      transform: translateY(-108%);
+      pointer-events: none;
+    }
+
+    /* Highlight Warna Halus untuk Hiragana vs Katakana */
+    .kata-chip {
+      color: #0369a1;
+      font-weight: 800;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 7px;
+      height: 7px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col selection:bg-indigo-600 selection:text-white">
+
+  <!-- ================= MINI FLOATING PILL (MUNCUL SAAT HEADER AUTO-HIDE DI HP/PC) ================= -->
+  <div id="mini-floating-bar" class="fixed top-2 right-2.5 z-50 hidden items-center gap-2 bg-slate-900/95 backdrop-blur-md text-white px-3.5 py-1.5 rounded-full shadow-xl border border-slate-700 text-xs font-bold transition-all">
+    <span id="mini-bab-badge" class="text-indigo-300 pr-2 border-r border-slate-700">
+      Bab 1
+    </span>
+    <span id="mini-progress-badge" class="text-emerald-400 pr-2 border-r border-slate-700">
+      0/10
+    </span>
+    <span id="mini-timer-badge" class="hidden items-center gap-1 text-amber-400 font-mono pr-2 border-r border-slate-700">
+      <i class="fa-regular fa-clock text-[10px]"></i>
+      <span id="mini-timer-text">15:00</span>
+    </span>
+    <button onclick="openRoadmapModal()" class="text-slate-200 hover:text-white pr-2 border-r border-slate-700" title="Peta Bab 1-10">
+      <i class="fa-solid fa-map"></i>
+    </button>
+    <button onclick="forceShowHeader()" class="flex items-center gap-1 text-indigo-300 hover:text-white transition" title="Tampilkan Header">
+      <i class="fa-solid fa-chevron-down text-[10px]"></i>
+      <span>Menu</span>
+    </button>
+  </div>
+
+  <!-- ================= STICKY HEADER NAVIGATION (SMART AUTO-HIDE & RAMPING DI HP) ================= -->
+  <header id="main-header" class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
+    <div class="max-w-6xl mx-auto px-2.5 sm:px-6">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between py-1.5 sm:py-2.5 gap-1.5 sm:gap-2">
+
+        <!-- Brand & Mobile Actions -->
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-indigo-600 via-violet-600 to-fuchsia-600 flex items-center justify-center text-white font-jp font-black text-xs sm:text-base shadow-sm shrink-0">
+              あア
+            </div>
+            <div>
+              <h1 class="text-sm sm:text-lg font-extrabold tracking-tight text-slate-900 leading-tight flex items-center gap-1.5">
+                <span>BabMaster <span class="text-indigo-600">ID</span></span>
+                <span class="px-1.5 py-0.5 text-[10px] rounded-md bg-emerald-50 text-emerald-700 font-extrabold border border-emerald-200">100% Tanpa Kanji</span>
+              </h1>
+              <p class="hidden sm:block text-xs text-slate-500 font-medium">
+                Simulasi Bab 1–10 (200 Bank Soal Hiragana & Katakana • Lulus Skor ≥ 80)
+              </p>
+            </div>
+          </div>
+
+          <!-- Tombol Mobile Cepat: Peta Bab & Tutup Header -->
+          <div class="flex sm:hidden items-center gap-1">
+            <button onclick="openRoadmapModal()" class="px-2 py-1 rounded-lg bg-indigo-50 text-indigo-700 text-[11px] font-bold border border-indigo-200 flex items-center gap-1">
+              <i class="fa-solid fa-layer-group"></i>
+              <span>Peta Bab</span>
+            </button>
+            <button onclick="manualHideHeader()" class="px-2 py-1 rounded-lg bg-slate-100 hover:bg-rose-100 text-slate-600 hover:text-rose-700 text-[11px] font-bold transition">
+              <i class="fa-solid fa-chevron-up"></i>
+              <span>Tutup</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Barisan Tombol Cepat Bab 1 - 10 (Scrollable Horizontal di HP) -->
+        <div class="flex items-center gap-1 overflow-x-auto pb-1 sm:pb-0 no-scrollbar" id="header-bab-tabs">
+          <!-- Dirender dinamis via JS -->
+        </div>
+
+      </div>
+    </div>
+
+    <!-- SUB-BAR INFO PROGRES BAB, MODE WAKTU, SHUFFLE & UNLOCK MODE -->
+    <div class="bg-slate-900 text-white border-t border-slate-800">
+      <div class="max-w-6xl mx-auto px-2.5 sm:px-6 py-1.5 flex flex-wrap items-center justify-between gap-2 text-[11px] sm:text-xs">
+
+        <!-- Status Bab Lulus & Mode Waktu -->
+        <div class="flex items-center gap-2">
+          <span class="px-2 py-0.5 rounded bg-indigo-500/20 border border-indigo-400/30 text-indigo-300 font-extrabold flex items-center gap-1">
+            <i class="fa-solid fa-trophy text-amber-400"></i>
+            <span id="header-passed-summary">Lulus: 0/10 Bab</span>
+          </span>
+
+          <div class="inline-flex bg-slate-800 p-0.5 rounded-lg border border-slate-700">
+            <button id="mode-btn-normal" onclick="setTimerMode('normal')" class="px-2 py-0.5 rounded font-bold transition bg-emerald-600 text-white">
+              Normal
+            </button>
+            <button id="mode-btn-timed" onclick="setTimerMode('timed')" class="px-2 py-0.5 rounded font-bold transition text-slate-300 hover:text-white">
+              Timer 15m
+            </button>
+          </div>
+        </div>
+
+        <!-- Info Terjawab, Timer, Shuffle Ulang & Peta Progres -->
+        <div class="flex items-center gap-1.5 ml-auto">
+          <span class="text-slate-300 hidden md:inline">
+            Terjawab: <strong id="header-answered-count" class="text-white">0 / 10</strong>
+          </span>
+
+          <div id="header-timer-box" class="px-2 py-0.5 rounded-lg bg-slate-800 border border-slate-700 text-emerald-400 font-mono font-bold flex items-center gap-1">
+            <i class="fa-regular fa-clock"></i>
+            <span id="header-timer-text">Santai</span>
+          </div>
+
+          <button onclick="retryAndShuffleCurrentChapter()" class="px-2.5 py-1 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-bold transition flex items-center gap-1 shadow-sm" title="Acak 10 Soal Baru dari 20 Bank Soal Bab Ini">
+            <i class="fa-solid fa-shuffle"></i>
+            <span>Shuffle Soal</span>
+          </button>
+
+          <button onclick="openRoadmapModal()" class="hidden sm:inline-flex px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 font-bold transition items-center gap-1">
+            <i class="fa-solid fa-map"></i>
+            <span>Peta 10 Bab</span>
+          </button>
+
+          <button onclick="manualHideHeader()" class="hidden sm:inline-flex px-2 py-1 rounded-lg bg-slate-800 hover:bg-rose-600 text-slate-300 hover:text-white transition" title="Sembunyikan Header">
+            <i class="fa-solid fa-chevron-up"></i>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= MAIN CONTENT CONTAINER ================= -->
+  <main class="flex-1 max-w-5xl w-full mx-auto px-3 sm:px-6 pt-4 pb-24 space-y-5">
+
+    <!-- DASHBOARD RINGKAS BAB AKTIF & SYARAT KELULUSAN SKOR >= 80 -->
+    <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 sm:p-6 space-y-4">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-slate-100 pb-4">
+        <div class="space-y-1">
+          <div class="flex flex-wrap items-center gap-2">
+            <span id="active-bab-pill" class="px-3 py-0.5 rounded-full text-xs font-extrabold bg-indigo-600 text-white">
+              BAB 1 DARI 10
+            </span>
+            <span class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-50 text-amber-800 border border-amber-200">
+              <i class="fa-solid fa-bullseye mr-1"></i>Syarat Lulus: Minimal Skor 80 (8/10 Benar)
+            </span>
+            <span id="active-bab-best-badge" class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-100 text-slate-700">
+              Skor Terbaik: Belum Ada
+            </span>
+          </div>
+
+          <h2 id="active-bab-title" class="text-lg sm:text-2xl font-extrabold text-slate-900">
+            Bab 1: Perkenalan Diri, Negara & Pekerjaan (わたし は ～ です)
+          </h2>
+          <p id="active-bab-desc" class="text-xs sm:text-sm text-slate-600">
+            Menampilkan <strong>10 soal acak (shuffle)</strong> dari <strong>20 bank soal Bab 1</strong>. Seluruh kalimat ditulis 100% dengan huruf Hiragana & Katakana (tanpa Kanji).
+          </p>
+        </div>
+
+        <!-- Kontrol Cepat: Buka Kunci Semua Bab (Mode Bebas) & Kecepatan Suara -->
+        <div class="flex flex-wrap items-center gap-2 shrink-0">
+          <button id="toggle-free-mode-btn" onclick="toggleUnlockAllChapters()" class="px-3 py-2 rounded-xl border border-slate-200 bg-slate-50 hover:bg-indigo-50 text-slate-700 hover:text-indigo-700 text-xs font-bold transition flex items-center gap-1.5">
+            <i class="fa-solid fa-lock" id="unlock-mode-icon"></i>
+            <span id="unlock-mode-label">Mode Bertahap (Bab Terkunci)</span>
+          </button>
+
+          <button onclick="openRoadmapModal()" class="px-3 py-2 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 border border-indigo-200 text-xs font-extrabold transition flex items-center gap-1.5">
+            <i class="fa-solid fa-table-list"></i>
+            <span>Lihat Semua Bab (1–10)</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- Bar Progres Pengerjaan 10 Soal Bab Ini -->
+      <div class="space-y-1.5">
+        <div class="flex items-center justify-between text-xs font-bold">
+          <span class="text-slate-600">Progres Pengerjaan Soal Bab Ini:</span>
+          <span id="progress-text-detail" class="text-indigo-600">0 dari 10 Soal Terjawab (0%)</span>
+        </div>
+        <div class="w-full h-2.5 bg-slate-100 rounded-full overflow-hidden">
+          <div id="progress-bar-fill" class="h-full bg-gradient-to-r from-indigo-600 to-violet-500 transition-all duration-300" style="width: 0%"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= BANNER HASIL KELULUSAN / MENGULANG BAB (MUNCUL SAAT SUBMIT) ================= -->
+    <section id="result-evaluation-banner" class="hidden rounded-3xl p-5 sm:p-7 text-white shadow-xl scroll-safe-card transition-all">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div class="space-y-2">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 text-xs font-extrabold uppercase tracking-wider">
+            <i id="res-status-icon" class="fa-solid fa-trophy text-amber-300"></i>
+            <span id="res-status-badge">HASIL UJIAN BAB</span>
+          </div>
+
+          <h3 id="res-score-headline" class="text-2xl sm:text-4xl font-black">
+            Skor Anda: 90 / 100 — LULUS (ごうかく)!
+          </h3>
+
+          <p id="res-score-message" class="text-xs sm:text-sm text-white/90 font-medium leading-relaxed">
+            Selamat! Skor Anda mencapai minimal 80. Bab berikutnya telah terbuka! Silakan pelajari pembahasan di bawah atau langsung lanjut ke Bab berikutnya.
+          </p>
+        </div>
+
+        <!-- Tombol Aksi Sesuai Hasil (Lanjut Bab Berikutnya ATAU Ulangi & Shuffle Soal) -->
+        <div class="flex flex-wrap items-center gap-3 shrink-0">
+          <button onclick="retryAndShuffleCurrentChapter()" class="px-5 py-3 rounded-2xl bg-white/15 hover:bg-white/25 text-white border border-white/30 font-extrabold text-xs sm:text-sm transition flex items-center gap-2">
+            <i class="fa-solid fa-shuffle"></i>
+            <span id="res-retry-btn-text">Ulangi Bab & Shuffle 10 Soal Baru</span>
+          </button>
+
+          <button id="res-next-bab-btn" onclick="goToNextChapter()" class="hidden px-6 py-3.5 rounded-2xl bg-amber-400 hover:bg-amber-300 text-slate-950 font-black text-xs sm:text-sm shadow-lg transition items-center gap-2">
+            <span>Lanjut ke Bab Berikutnya</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================= DAFTAR 10 SOAL BAB AKTIF (FULL HIRAGANA & KATAKANA) ================= -->
+    <section id="questions-list-container" class="space-y-4">
+      <!-- Dirender via JS -->
+    </section>
+
+    <!-- ================= PANEL SUBMIT BAWAH ================= -->
+    <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="text-xs sm:text-sm text-slate-600 font-medium">
+        <i class="fa-solid fa-circle-check text-indigo-600 mr-1"></i>
+        Pastikan ke-10 soal telah dijawab. Skor <strong>≥ 80</strong> untuk lulus dan membuka Bab selanjutnya!
+      </div>
+
+      <div class="flex items-center gap-2.5 w-full sm:w-auto justify-end">
+        <button onclick="retryAndShuffleCurrentChapter()" class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition flex items-center gap-1.5">
+          <i class="fa-solid fa-shuffle"></i>
+          <span>Acak Ulang</span>
+        </button>
+
+        <button id="submit-bab-btn" onclick="submitCurrentChapterExam()" class="flex-1 sm:flex-initial px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold text-xs sm:text-sm shadow-md transition flex items-center justify-center gap-2">
+          <i class="fa-solid fa-paper-plane"></i>
+          <span>Kumpulkan Jawaban & Cek Kelulusan</span>
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================= MODAL PETA PROGRES BAB 1 - 10 (ROADMAP) ================= -->
+  <div id="roadmap-modal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-3">
+    <div class="bg-white rounded-3xl max-w-4xl w-full max-h-[88vh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden">
+      <div class="p-4 sm:p-6 border-b border-slate-100 flex items-center justify-between">
+        <div>
+          <h3 class="text-base sm:text-xl font-extrabold text-slate-900 flex items-center gap-2">
+            <i class="fa-solid fa-map-location-dot text-indigo-600"></i>
+            <span>Peta Progres Simulasi Bab 1 – 10 (Full Hiragana & Katakana)</span>
+          </h3>
+          <p class="text-xs text-slate-500 mt-0.5">
+            Raih skor minimal <strong>80 / 100</strong> di setiap bab untuk membuka bab berikutnya. Setiap bab memiliki 20 bank soal yang di-shuffle menjadi 10 soal.
+          </p>
+        </div>
+        <button onclick="closeRoadmapModal()" class="w-9 h-9 rounded-xl bg-slate-100 hover:bg-rose-100 text-slate-600 hover:text-rose-600 flex items-center justify-center">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div id="roadmap-grid-container" class="p-4 sm:p-6 overflow-y-auto grid grid-cols-1 sm:grid-cols-2 gap-3.5">
+        <!-- Dirender via JS -->
+      </div>
+
+      <div class="p-4 bg-slate-50 border-t border-slate-100 flex flex-wrap items-center justify-between gap-2">
+        <button onclick="resetAllProgress()" class="px-3.5 py-2 rounded-xl bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold text-xs transition flex items-center gap-1.5">
+          <i class="fa-solid fa-trash-can"></i>
+          <span>Reset Semua Progres</span>
+        </button>
+
+        <div class="flex items-center gap-2">
+          <button onclick="toggleUnlockAllChapters(); renderRoadmapModalContent();" class="px-4 py-2 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold text-xs transition">
+            <i class="fa-solid fa-unlock-keyhole mr-1"></i>Buka / Kunci Mode Bebas
+          </button>
+          <button onclick="closeRoadmapModal()" class="px-5 py-2 rounded-xl bg-slate-900 text-white font-bold text-xs">
+            Tutup
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= TOAST NOTIFICATION ================= -->
+  <div id="toast-box" class="fixed bottom-4 right-4 z-50 hidden">
+    <div class="bg-slate-900 text-white px-4 py-2.5 rounded-xl shadow-xl border border-slate-700 flex items-center gap-2.5 text-xs sm:text-sm font-semibold">
+      <i class="fa-solid fa-circle-info text-indigo-400"></i>
+      <span id="toast-message">Notifikasi</span>
+    </div>
+  </div>
+
+  <!-- ================= JAVASCRIPT ENGINE & 200 BANK SOAL FULL KANA (TANPA KANJI) ================= -->
+  <script>
+    /********************************************************************************
+     * 1. BANK SOAL 200 SOAL (BAB 1 S/D BAB 10 • MASING-MASING 20 SOAL UNIK)
+     * WAJIB 100% HIRAGANA & KATAKANA (NOL KANJI)
+     * Format per soal: [kalimatSoal, [opsiBenar, opsi2, opsi3, opsi4], pembahasanIndonesia]
+     ********************************************************************************/
+    const CHAPTERS_DATA = [
+      // ==================== BAB 1 (20 SOAL) ====================
+      {
+        bab: 1,
+        title: "Bab 1: Perkenalan Diri, Negara & Pekerjaan",
+        subtitle: "わたし は ～ です • ～ じゃ ありません • ～ か • ～ も • ～ じん",
+        questions: [
+          ["わたし（　　）マイク・ミラー です。", ["は", "を", "に", "へ"], "Partikel は (wa) digunakan sebagai penanda topik kalimat: 'Saya adalah Mike Miller.'"],
+          ["サントスさん は ブラジル（　　）です。", ["じん", "ご", "ひと", "かた"], "Akhiran ～じん (jin) ditambahkan setelah nama negara untuk menyatakan warga negara (ブラジルじん = orang Brasil)."],
+          ["わたし は かいしゃいん です。やまもとさん（　　）かいしゃいん です。", ["も", "は", "の", "か"], "Partikel も (mo) berarti 'juga' untuk predikat yang sama."],
+          ["ミラーさん は がくせい ですか。… いいえ、がくせい（　　）。", ["じゃ ありません", "です", "でした", "も ありません"], "Bentuk negatif sopan dari です adalah じゃ ありません (bukan mahasiswa)."],
+          ["あのかた は（　　）ですか。… ワットさん です。", ["どなた", "なに", "どこ", "いつ"], "あのかた (bentuk sopan dari あのひと) berpasangan dengan kata tanya sopan どなた (siapa)."],
+          ["わたし は さくらだいがく（　　）がくせい です。", ["の", "は", "も", "と"], "Partikel の (no) menghubungkan dua kata benda untuk menyatakan afiliasi/kepemilikan (mahasiswa Universitas Sakura)."],
+          ["はじめまして。どうぞ よろしく（　　）。", ["おねがいします", "ありがとうございます", "すみません", "ごめんなさい"], "Salam penutup perkenalan diri adalah どうぞ よろしく おねがいします."],
+          ["たろうちゃん は（　　）ですか。… ８さい です。", ["なんさい", "なんじ", "なんばん", "なに"], "Untuk menanyakan umur digunakan なんさい (nansai) atau おいくつ."],
+          ["佐藤（さとう）さん は せんせい ですか。… はい、（　　）です。", ["せんせい", "がくせい", "いしゃ", "ぎんこういん"], "Jika menjawab はい (ya), maka predikatnya diulang sesuai pertanyaan: はい、せんせい です."],
+          ["ワットさん は アメリカじん です。わたし は インドネシア（　　）です。", ["じん", "ご", "さん", "さい"], "インドネシアじん = Orang Indonesia."],
+          ["ワンさん は びょういん の（　　）です。", ["いしゃ", "ぎんこう", "だいがく", "でんき"], "Di rumah sakit (びょういん), profesi yang tepat adalah いしゃ (dokter)."],
+          ["あのひと は（　　）ですか。… キムさん です。", ["だれ", "なに", "どこ", "どれ"], "あのひと (orang itu) menggunakan kata tanya だれ (siapa)."],
+          ["しつれいですが、おなまえ は？ …（　　）は カリナ です。", ["わたし", "あなた", "かれ", "だれ"], "Menjawab pertanyaan nama sendiri: わたし は カリナ です (Saya Karina)."],
+          ["ヤマトさん は エンジニア ですか。… いいえ、エンジニア（　　）。", ["では ありません", "です", "ですか", "も です"], "では ありません (atau じゃ ありません) adalah bentuk negatif dari です."],
+          ["おいくつ ですか。… ２４（　　）です。", ["さい", "じん", "ばん", "かい"], "Satuan umur dalam bahasa Jepang adalah ～さい (sai): ２４さい (nijuu-yon-sai)."],
+          ["こちら は ミラー（　　）です。", ["さん", "じん", "さい", "ご"], "Akhiran ～さん digunakan untuk menyebut nama orang lain dengan sopan."],
+          ["わたし は（　　）です。IMC の しゃいん じゃ ありません。", ["がくせい", "ブラジル", "アメリカ", "２０さい の"], "Kalimat menyangkal sebagai karyawan IMC, sehingga predikat profesi yang tepat adalah がくせい (mahasiswa/pelajar)."],
+          ["タワポンさん は タイ（　　）きました。", ["から", "まで", "でも", "の"], "～から きました = datang/berasal dari ~ (タイ から きました = berasal dari Thailand)."],
+          ["シュミットさん は ドイツじん（　　）。", ["ですか", "ますか", "の です", "じゃ です"], "Kalimat tanya untuk kata benda diakhiri dengan ですか."],
+          ["わたし は ぎんこういん です。（　　）は わたし の せんせい です。", ["あのかた", "どこ", "なに", "いつ"], "あのかた (beliau itu) adalah kata ganti orang yang tepat untuk memperkenalkan guru."]
+        ]
+      },
+
+      // ==================== BAB 2 (20 SOAL) ====================
+      {
+        bab: 2,
+        title: "Bab 2: Benda di Sekitar & Kepemilikan",
+        subtitle: "これ • それ • あれ • この • その • あの • なん の • だれ の",
+        questions: [
+          ["（　　）は じしょ ですか。… はい、そう です。", ["これ", "この", "ここ", "こう"], "Sebelum partikel は harus berupa kata tunjuk benda mandiri: これ / それ / あれ (bukan この)."],
+          ["（　　）かばん は だれ の ですか。… わたし の です。", ["この", "これ", "ここ", "どれ"], "Di depan kata benda (かばん) wajib menggunakan kata tunjuk この / その / あの."],
+          ["それ は なん の ざっし ですか。…（　　）の ざっし です。", ["くるま", "わたし", "ミラーさん", "きのう"], "なん の ざっし menanyakan 'majalah tentang apa', dijawab dengan topik/jenis: くるま の ざっし (majalah mobil)."],
+          ["あれ は（　　）の かさ ですか。… サントスさん の かさ です。", ["だれ", "なん", "どこ", "いつ"], "Karena jawabannya adalah pemilik (サントスさん の), maka kata tanyanya adalah だれ の (milik siapa)."],
+          ["これ は ボールペン ですか、シャープペンシル ですか。…（　　）です。", ["シャープペンシル", "はい、そう", "いいえ、ちがいます", "わたし の"], "Pertanyaan pilihan 'A ですか、B ですか' tidak dijawab はい/いいえ, melainkan langsung memilih salah satu bendanya."],
+          ["この とけい は あなた の ですか。… いいえ、わたし の（　　）。", ["じゃ ありません", "です", "の です", "も です"], "Menyangkal kepemilikan: いいえ、わたし の じゃ ありません (Bukan milik saya)."],
+          ["それ は（　　）ですか。… これ は デジタルカメラ です。", ["なん", "だれ", "どこ", "どの"], "Menanyakan nama benda: それ は なん ですか (Itu apa?)."],
+          ["この ほん は わたし の です。その ノート（　　）わたし の です。", ["も", "は", "の", "か"], "Buku ini milik saya. Buku catatan itu JUGA (も) milik saya."],
+          ["あの くるま は ミラーさん（　　）ですか。", ["の", "は", "を", "に"], "ミラーさん の = milik Sdr. Miller."],
+          ["これ、ほんの きもち です。どうぞ。… どうも（　　）。", ["ありがとうございます", "すみません でした", "おねがいします", "しつれいします"], "Saat diberi buah tangan (これ、ほんの きもち です), kita menjawab どうも ありがとうございます."],
+          ["それ は えいご の じしょ ですか。… いいえ、（　　）の じしょ です。", ["にほんご", "つくえ", "えんぴつ", "かさ"], "Bukan kamus bahasa Inggris, melainkan kamus bahasa Jepang (にほんご の じしょ)."],
+          ["（　　）しんぶん は なん の しんぶん ですか。", ["その", "それ", "そこ", "そう"], "Karena diikuti kata benda しんぶん (koran), gunakan その."],
+          ["これ は コンピューター の ほん ですか。… はい、（　　）です。", ["そう", "これ", "ほん", "ちがいます"], "Pertanyaan nomina dengan これ/それ/あれ dapat dijawab singkat: はい、そう です (Ya, betul)."],
+          ["あれ は せんせい の つくえ ですか。… いいえ、（　　）。がくせい の です。", ["ちがいます", "そう です", "せんせい です", "わかりません"], "いいえ、ちがいます = Bukan / Salah (melainkan meja murid)."],
+          ["この かぎ は（　　）の かぎ です。", ["じどうしゃ", "さかな", "コーヒー", "しんぶん"], "Kunci yang masuk akal adalah じどうしゃ の かぎ (kunci mobil)."],
+          ["それ は テレホンカード ですか。… はい、（　　）は テレホンカード です。", ["これ", "それ", "あれ", "この"], "Benda yang dekat dengan lawan bicara (それ) ketika dijawab oleh pemegang benda disebut これ (ini)."],
+          ["あそこ に ある あれ は（　　）ですか。… テレビ です。", ["なん", "だれ", "いつ", "どこ"], "Menanyakan benda yang jauh dari kedua pembicara: あれ は なん ですか."],
+          ["この ケータイ は たなかさん の ですか、やまださん の ですか。…（　　）です。", ["やまださん の", "はい、たなかさん", "いいえ、ちがいます", "ケータイ"], "Kalimat tanya pilihan kepemilikan dijawab: やまださん の です (Milik Yamada-san)."],
+          ["（　　）は わたし の あたらしい パソコン です。", ["これ", "この", "ここ", "どの"], "Di depan partikel は tanpa kata benda pengikut langsung menggunakan これ."],
+          ["その おみやげ は（　　）ですか。… チョコレート です。", ["なん", "だれ", "どこ", "どれ"], "Menanyakan isi oleh-oleh (おみやげ): なん ですか → チョコレート です."]
+        ]
+      },
+
+      // ==================== BAB 3 (20 SOAL) ====================
+      {
+        bab: 3,
+        title: "Bab 3: Tempat, Lokasi & Harga Barang",
+        subtitle: "ここ • そこ • あそこ • どこ • こちら • いくら • ～ かい / ～ がい",
+        questions: [
+          ["すみません、おてあらい は（　　）ですか。… あそこ です。", ["どこ", "だれ", "なに", "いつ"], "Menanyakan tempat/lokasi menggunakan どこ (di mana)."],
+          ["エレベーター は（　　）です。", ["あちら", "あれ", "あの", "だれ"], "Bentuk sopan dari あそこ (di sana) adalah あちら."],
+          ["この ネクタイ は（　　）ですか。… １,５００えん です。", ["いくら", "いくつ", "なんばん", "どこ"], "Menanyakan harga menggunakan いくら (berapa harganya?)."],
+          ["靴（くつ）の うりば は なんがい ですか。…（　　）です。", ["３がい", "３えん", "３じ", "３さい"], "Menanyakan lantai gedung (なんがい) dijawab dengan ～がい/～かい: ３がい (lantai 3)."],
+          ["（　　）は しょくどう です。", ["ここ", "これ", "この", "こう"], "Menunjukkan tempat: ここ は しょくどう です (Di sini adalah kantin)."],
+          ["これ は（　　）の ワイン ですか。… フランス の ワイン です。", ["どこ", "だれ", "なん", "いつ"], "どこ の + Barang digunakan untuk menanyakan negara/tempat asal buatan barang tersebut."],
+          ["その カメラ は どこの（　　）ですか。… ソニー の です。", ["カメラ", "ひと", "くに", "かいしゃ"], "どこの カメラ ですか menanyakan buatan negara/perusahaan mana kamera itu."],
+          ["うけつけ は １かい ですか、２かい ですか。…（　　）です。", ["１かい", "はい、１かい", "いいえ、２かい", "あそこ"], "Pertanyaan pilihan lantai dijawab langsung: １かい です (Lantai 1)."],
+          ["すみません、その ワイン を（　　）ください。", ["みせて", "みて", "きいて", "のんで"], "Di toko, ungkapan 'Tolong perlihatkan ~ itu' adalah ～ を みせて ください."],
+          ["じゃ、この くつ を（　　）。", ["ください", "おねがい", "みせます", "あります"], "Saat memutuskan membeli barang di toko: これ を ください (Saya ambil/beli yang ini)."],
+          ["お국（おくに）は（　　）ですか。… インドネシア です。", ["どちら", "どれ", "どなた", "なに"], "Bentuk sopan dari どこ untuk menanyakan asal negara adalah どちら."],
+          ["やまもとさん は（　　）ですか。… かいぎしつ です。", ["どこ", "だれ", "なん", "どれ"], "Menanyakan keberadaan seseorang di suatu ruangan: やまもとさん は どこ ですか → Di ruang rapat."],
+          ["コンピューター の うりば は ちか（　　）です。", ["１かい", "１えん", "１じ", "１ばん"], "ちか １かい (chika ikkai) = Lantai bawah tanah 1 (Basement 1)."],
+          ["この かばん は いくら ですか。… ２まん ５せん（　　）です。", ["えん", "かい", "ばん", "さい"], "Mata uang Jepang adalah えん (Yen): 25.000 Yen."],
+          ["かいしゃ は（　　）ですか。… トヨタ です。", ["どちら", "どなた", "どれ", "なに"], "Menanyakan nama perusahaan tempat seseorang bekerja dengan sopan: かいしゃ は どちら ですか."],
+          ["でんわ は ２かい（　　）です。", ["も", "は", "を", "で"], "２かい です / ２かい も です — Dalam konteks lokasi: でんわ も ２かい です (Telepon juga di lantai 2)."],
+          ["そこ は きょうしつ ですか。… いいえ、（　　）は じむしょ です。", ["ここ", "それ", "この", "あれ"], "Tempat yang ditunjuk lawan bicara dengan そこ (di situ), dijawab oleh orang yang berada di tempat itu dengan ここ (di sini)."],
+          ["あの とけい は スイス（　　）とけい です。", ["の", "は", "に", "へ"], "スイス の とけい = Jam tangan buatan Swiss."],
+          ["すみません、トイレ は どこ ですか。…（　　）です。", ["あそこ", "あれ", "あの", "あちら の"], "Menunjuk tempat: あそこ です (Di sebelah sana)."],
+          ["これ は イタリア の くつ です。（　　）ですか。… １８,０００えん です。", ["いくら", "どこ", "だれ", "なんがい"], "Karena jawabannya 18.000 Yen, pertanyaannya adalah いくら ですか (Berapa harganya?)."]
+        ]
+      },
+
+      // ==================== BAB 4 (20 SOAL) ====================
+      {
+        bab: 4,
+        title: "Bab 4: Jam, Waktu, Hari & Kata Kerja Dasar",
+        subtitle: "いま ～ じ ～ ふん • ～ から ～ まで • ます / ません / ました / ませんでした",
+        questions: [
+          ["いま（　　）ですか。… ４じ はん です。", ["なんじ", "なんぷん", "なんようび", "いつ"], "Menanyakan jam saat ini: いま なんじ ですか (Sekarang jam berapa?)."],
+          ["わたし は まいあさ ６じ（　　）おきます。", ["に", "を", "へ", "で"], "Titik waktu spesifik (jam/hari tanggal) ditandai dengan partikel に."],
+          ["ぎんこう は ９じ（　　）３じ まで です。", ["から", "まで", "に", "と"], "～ から ～ まで = Dari jam ~ sampai jam ~."],
+          ["きのう の ばん、べんきょう（　　）か。", ["しました", "します", "しません", "しましょう"], "きのう の ばん (kemarin malam) adalah waktu lampau, sehingga menggunakan しましたか."],
+          ["あした は にちようび ですから、はたらき（　　）。", ["ません", "ます", "ました", "ませんでした"], "あした (besok) adalah waktu yang akan datang, dan karena hari Minggu maka tidak bekerja: はたらきません."],
+          ["きょう は（　　）ようび ですか。… かようび です。", ["なん", "なに", "いつ", "どこ"], "Menanyakan hari: なんようび ですか (Hari apa?)."],
+          ["まいばん なんじ に（　　）か。… １１じ に ねます。", ["ねます", "おきます", "べんきょうします", "おわります"], "Karena jawabannya １１じ に ねます (tidur jam 11), maka pertanyaannya menggunakan ねますか."],
+          ["おととい、デパート の やすみ（　　）。", ["でした", "です", "ます", "ました"], "おととい (dua hari yang lalu) adalah lampau untuk kata benda やすみ: やすみ でした."],
+          ["ひるやすみ は １２じ から １じ（　　）です。", ["まで", "から", "に", "ごろ"], "から (dari) berpasangan dengan まで (sampai)."],
+          ["きのう は １０じ に ねましたか。… いいえ、１０じ に（　　）。", ["ねませんでした", "ねません", "ねました", "ねます"], "Negatif lampau dari ねました adalah ねませんでした (kemarin tidak tidur jam 10)."],
+          ["テスト は １０じ（　　）おわります。", ["に", "を", "へ", "と"], "Ujian selesai pada (に) jam 10."],
+          ["としょかん の やすみ は げつようび（　　）もくようび です。", ["と", "から", "に", "は"], "Menghubungkan dua kata benda setara ('dan'): げつようび と もくようび (Senin dan Kamis)."],
+          ["いま ９じ １５（　　）です。", ["ふん", "じ", "ばん", "かい"], "Satuan menit adalah ふん / ぷん: １５ふん (juugo-fun)."],
+          ["まいにち（　　）から なんじ まで はたらきますか。", ["なんじ", "なに", "どこ", "だれ"], "なんじ から なんじ まで = Dari jam berapa sampai jam berapa."],
+          ["けさ、６じ に（　　）。", ["おきました", "おきます", "おきません", "ねる"], "けさ (tadi pagi) sudah berlalu, sehingga menggunakan bentuk lampau おきました."],
+          ["すみません、びじゅつかん の でんわばんごう は（　　）ですか。", ["なんばん", "なんじ", "いくら", "どこ"], "Menanyakan nomor telepon: なんばん ですか (Nomor berapa?)."],
+          ["わたし は（　　）ばん べんきょうします。", ["まい", "きのう", "あした", "いま"], "まいばん (maiban) = setiap malam."],
+          ["かいぎ は 午前（ごぜん → ごぜん）９じ（　　）です。", ["はん", "ふん", "まで", "と"], "９じ はん (ku-ji han) = Jam 9 lewat 30 menit (setengah 10)."],
+          ["せんしゅう の どようび、しごと を（　　）。", ["やすみました", "やすみます", "やすみません", "やすむ"], "せんしゅう の どようび (Sabtu minggu lalu) adalah lampau: やすみました (libur bekerja)."],
+          ["ニューヨーク は いま ごご ８じ です。とうきょう は（　　）１０じ です。", ["ごぜん", "ごご", "よる", "ばん"], "Lawan dari ごご (PM/sore-malam) adalah ごぜん (AM/pagi)."]
+        ]
+      },
+
+      // ==================== BAB 5 (20 SOAL) ====================
+      {
+        bab: 5,
+        title: "Bab 5: Pergi, Datang, Pulang & Kendaraan",
+        subtitle: "いきます • きます • かえります • へ • で • と • いつ • たんじょうび",
+        questions: [
+          ["あした、わたし は きょうと（　　）いきます。", ["へ", "を", "で", "と"], "Kata kerja perpindahan (いきます / きます / かえります) menggunakan partikel へ (e) untuk menunjukkan arah tujuan."],
+          ["まいにち、でんしゃ（　　）かいしゃ へ いきます。", ["で", "に", "へ", "を"], "Alat transportasi ditandai dengan partikel で (naik kereta)."],
+          ["わたし は かぞく（　　）にほん へ きました。", ["と", "で", "へ", "に"], "Orang yang menyertai kita melakukan kegiatan ('bersama dengan') ditandai partikel と."],
+          ["きのう、どこ へ いきませんでしたか。… はい、どこ（　　）いきませんでした。", ["へも", "へは", "にも", "でも"], "Menyangkal secara total: どこ へも いきませんでした (Tidak pergi ke mana-mana)."],
+          ["あなた の たんじょうび は（　　）ですか。… ６がつ １５にち です。", ["いつ", "なんじ", "どこ", "だれ"], "Menanyakan waktu secara umum (tanggal/bulan/kapan) menggunakan いつ (kapan)."],
+          ["えき から うち まで（　　）かえります。", ["あるいて", "あるいて で", "あし で", "あるく"], "Berjalan kaki menggunakan ungkapan khusus あるいて (tanpa partikel で)."],
+          ["らいしゅう、だれ（　　）とうきょう へ いきますか。… ひとり で いきます。", ["と", "で", "へ", "に"], "Menanyakan pergi bersama siapa: だれ と いきますか."],
+          ["ひとり（　　）びょういん へ いきます。", ["で", "と", "に", "へ"], "Sendirian menggunakan ひとり で (hitori de), bukan と."],
+          ["せんげつ、ひこうき で アメリカ へ（　　）。", ["いきました", "いきます", "いきません", "いく"], "せんげつ (bulan lalu) adalah waktu lampau: いきました."],
+          ["この でんしゃ は こうべ へ いきますか。… いいえ、つぎ の（　　）ですよ。", ["ふつう", "くるま", "タクシー", "じてんしゃ"], "Jenis kereta di stasiun adalah ふつう (kereta biasa/lokal), きゅうこう (ekspres), dan とっきゅう (ekspres terbatas)."],
+          ["なんがつ（　　）くに へ かえりますか。… １２がつ に かえります。", ["に", "で", "と", "を"], "Titik waktu bulan (なんがつ に) menggunakan partikel に."],
+          ["きょう は（　　）にち ですか。… ４がつ ついたち です。", ["なん", "いつ", "どこ", "なに"], "Tanggal 1 dibaca ついたち, dan ditanyakan dengan なんにち (tanggal berapa)."],
+          ["にちようび、ともだち と どこ へ いきましたか。…（　　）へ いきました。", ["デパート", "バス", "きのう", "ひとり"], "Pertanyaan どこ へ (ke mana) dijawab dengan nama tempat: デパート (department store)."],
+          ["（　　）で スーパー へ いきますか。… じてんしゃ で いきます。", ["なん", "どこ", "だれ", "いつ"], "Menanyakan alat transportasi: なん で いきますか (Pergi naik apa?)."],
+          ["ミラーさん は せんしゅう の どようび に にほん へ（　　）。", ["きました", "きます", "きません", "くる"], "せんしゅう (minggu lalu) adalah lampau: きました (datang)."],
+          ["こんしゅう の きんようび は（　　）にち ですか。… はつか です。", ["なん", "いつ", "いく", "どの"], "はつか = tanggal 20. Ditanyakan dengan なんにち (tanggal berapa)."],
+          ["きのう の よる、なんじ に うち へ（　　）か。", ["かえりました", "かえります", "かえりません", "かえる"], "きのう の よる (tadi malam) adalah lampau: かえりましたか (pulang jam berapa?)."],
+          ["しんかんせん で（　　）へ いきます。", ["おおさか", "たくしー", "ともだち", "らいげつ"], "Tujuan pergi (へ) adalah nama tempat: おおさか (Osaka)."],
+          ["らいねん、恋びと（こいびと）と フランス へ（　　）。", ["いきます", "いきました", "いきませんでした", "きた"], "らいねん (tahun depan) adalah masa depan: いきます."],
+          ["たんじょうび は ８がつ（　　）です。", ["ようか", "はち", "よっつ", "はちじ"], "Tanggal 8 bulan Agustus disebut ８がつ ようか (youka)."]
+        ]
+      },
+
+      // ==================== BAB 6 (20 SOAL) ====================
+      {
+        bab: 6,
+        title: "Bab 6: Kegiatan Sehari-hari, Objek & Ajakan",
+        subtitle: "たべます • のみます • みます • ききます • を • で (tempat) • ～ ませんか • ～ ましょう",
+        questions: [
+          ["まいあさ、パン と たまご（　　）たべます。", ["を", "に", "で", "へ"], "Objek langsung dari kata kerja transitif (たべます) ditandai dengan partikel を (o)."],
+          ["わたし は デパート（　　）とけい を かいました。", ["で", "に", "へ", "を"], "Tempat berlangsungnya suatu aktivitas/tindakan (membeli di mal) ditandai dengan partikel で."],
+          ["あした、いっしょに きょうと へ（　　）。… ええ、いいですね。", ["いきませんか", "いきます", "いきました", "いきませんでした"], "Pola いっしょに ～ ませんか digunakan untuk mengajak lawan bicara dengan sopan."],
+          ["ちょっと やすみませんか。… ええ、（　　）。", ["やすみましょう", "やすみます", "やすみました", "やすみません"], "Menerima ajakan ～ ませんか dijawab dengan bentuk ～ ましょう (Ayo kita istirahat)."],
+          ["けさ、なに を のみましたか。… なに（　　）のみませんでした。", ["も", "を", "は", "で"], "なに も + Kata kerja negatif = Tidak (minum) apa-apa."],
+          ["よる、うち で テレビ を（　　）。", ["みます", "よみます", "ききます", "かきます"], "Pasangan kata kerja untuk テレビ (TV) atau えいが (film) adalah みます (menonton)."],
+          ["まいにち、しんぶん を（　　）か。", ["よみます", "ききます", "のみます", "すいます"], "Pasangan kata kerja untuk しんぶん (koran) atau ほん (buku) adalah よみます (membaca)."],
+          ["にわ で しゃしん を（　　）。", ["とりました", "かきました", "しました", "よみました"], "Memotret foto dalam bahasa Jepang adalah しゃしん を とります / とりました."],
+          ["ともだち と サッカー を（　　）。", ["します", "とります", "かいます", "ききます"], "Bermain olahraga seperti sepak bola menggunakan サッカー を します."],
+          ["どこ で ひるごはん を たべますか。… しょくどう（　　）たべます。", ["で", "に", "へ", "を"], "Tempat melakukan kegiatan makan adalah しょくどう で (di kantin)."],
+          ["きのう、てがみ を（　　）。", ["かきました", "ききました", "のみました", "たべました"], "Menulis surat adalah てがみ を かきます / かきました."],
+          ["わたし は たばこ を（　　）。", ["すいません", "のみません", "たべません", "みません"], "Merokok adalah たばこ を すいます; tidak merokok adalah たばこ を すいません."],
+          ["えき で ともだち に（　　）。", ["あいました", "みました", "ききました", "かいました"], "Bertemu teman menggunakan pola: ともだち に あいます / あいました."],
+          ["土曜日（どようび）の ごご、なに を しますか。… CD を（　　）。", ["ききます", "よみます", "かきます", "たべます"], "Mendengarkan CD / musik menggunakan kata kerja ききます."],
+          ["あさごはん を たべますか。… いいえ、パン と コーヒー（　　）です。", ["だけ", "から", "まで", "でも"], "Menyatakan 'hanya roti dan kopi saja' menggunakan だけ."],
+          ["わたし は まいにち ぎゅうにゅう を（　　）。", ["のみます", "たべます", "よみます", "ききます"], "ぎゅうにゅう (susu sapi) adalah minuman, jadi pasangannya のみます."],
+          ["それから、としょかん で ほん を（　　）。", ["よみます", "のみます", "すいます", "あいます"], "Di perpustakaan (としょかん), kegiatan yang tepat dengan buku adalah よみます (membaca)."],
+          ["にちようび、なに を しましたか。… えいが を（　　）。", ["みました", "よみました", "のみました", "かきました"], "Menonton film pada hari Minggu lalu: えいが を みました."],
+          ["そこ で しゅくだい を（　　）か。", ["します", "とります", "あいます", "すいます"], "Mengerjakan PR adalah しゅくだい を します."],
+          ["いっしょに コーヒー を のみませんか。… ええ、（　　）。", ["のみましょう", "たべましょう", "いきましょう", "みましょう"], "Menerima ajakan minum kopi: ええ、のみましょう (Ya, ayo kita minum)."]
+        ]
+      },
+
+      // ==================== BAB 7 (20 SOAL) ====================
+      {
+        bab: 7,
+        title: "Bab 7: Memberi, Menerima & Alat / Bahasa",
+        subtitle: "あげます • もらいます • かします • かります • おしえます • ならいます • で • もう",
+        questions: [
+          ["わたし は はし（　　）ごはん を たべます。", ["で", "を", "に", "へ"], "Alat yang digunakan untuk melakukan sesuatu (makan dengan sumpit) ditandai partikel で."],
+          ["「ありがとう」は えいご（　　）なん ですか。…「Thank you」です。", ["で", "に", "の", "は"], "Menanyakan kata dalam bahasa tertentu menggunakan: [Bahasa] で なん ですか."],
+          ["わたし は きむらさん（　　）はな を あげました。", ["に", "を", "で", "から"], "Penerima barang pada kata kerja あげます (memberi) ditandai partikel に."],
+          ["わたし は カリナさん に チョコレート を（　　）。", ["もらいました", "あげました", "かしました", "おしえました"], "Konteks menerima hadiah cokelat dari Karina-san: カリナさん に (atau から) チョコレート を もらいました."],
+          ["（　　）しんかんせん の きっぷ を かいましたか。… はい、もう かいました。", ["もう", "まだ", "これから", "いつも"], "Menanyakan 'apakah SUDAH ~?' menggunakan もう ～ ましたか."],
+          ["もう ひるごはん を たべましたか。… いいえ、（　　）です。", ["まだ", "もう", "たべませんでした", "これから"], "Menjawab 'Belum' untuk pertanyaan もう ～ ましたか adalah: いいえ、まだ です."],
+          ["わたし は ワットせんせい に えいご を（　　）。", ["ならいました", "おしえました", "あげました", "かしました"], "Murid belajar/menerima pelajaran bahasa Inggris dari Guru Watt: ならいました."],
+          ["わたし は ボールペン（　　）なまえ を かきます。", ["で", "に", "を", "と"], "Menulis nama dengan menggunakan alat pulpen: ボールペン で."],
+          ["わたし は ともだち に おかね を（　　）。", ["かりました", "ならいました", "ききました", "かけました"], "Meminjam uang dari teman: ともだち に おかね を かりました (atau meminjamkan: かしました)."],
+          ["ちち の ひ に、ちち に ネクタイ を（　　）。", ["あげました", "もらいました", "かりました", "ならいました"], "Pada Hari Ayah, saya memberikan dasi kepada ayah: あげました."],
+          ["パソコン（　　）せんせい に メール を おくりました。", ["で", "に", "を", "へ"], "Mengirim email menggunakan komputer (alat/sarana): パソコン で."],
+          ["わたし は ぎんこう（　　）おかね を かりました。", ["から", "へ", "を", "と"], "Jika sumber pinjaman/pemberian berupa instansi/lembaga seperti bank (ぎんこう), digunakan partikel から."],
+          ["たろうくん に でんわ を（　　）。", ["かけました", "しました", "あげました", "いれました"], "Menelepon seseorang dalam bahasa Jepang adalah でんわ を かけます / かけました."],
+          ["ハサミ（　　）かみ を きります。", ["で", "を", "に", "へ"], "Memotong kertas dengan gunting (alat): ハサミ で."],
+          ["わたし は ワンさん に ちゅうごくご を（　　）。", ["ならいます", "かります", "もらいます", "とります"], "Belajar bahasa Mandarin dari Sdr. Wang: ちゅうごくご を ならいます."],
+          ["だれ（　　）その とけい を もらいましたか。… ちち に もらいました。", ["に", "を", "で", "へ"], "Menanyakan dari siapa menerima barang: だれ に (atau だれ から) もらいましたか."],
+          ["もう にほんご の レポート を おくりましたか。… はい、（　　）おくりました。", ["もう", "まだ", "これから", "ぜんぜん"], "Jika sudah dilakukan: はい、もう おくりました (Ya, sudah dikirim)."],
+          ["あめ ですから、やまださん に かさ を（　　）。", ["かしました", "ならいました", "おしえました", "たべました"], "Karena hujan, meminjamkan payung kepada Yamada-san: かさ を かしました."],
+          ["がくせい に にほんご を（　　）。", ["おしえます", "ならいます", "かります", "もらいます"], "Mengajarkan bahasa Jepang kepada murid: がくせい に にほんご を おしえます."],
+          ["て（　　）パン を たべます。", ["で", "に", "を", "と"], "Makan roti dengan tangan: て で パン を たべます."]
+        ]
+      },
+
+      // ==================== BAB 8 (20 SOAL) ====================
+      {
+        bab: 8,
+        title: "Bab 8: Kata Sifat I (い) & Kata Sifat Na (な)",
+        subtitle: "な-けいようし • い-けいようし • あまり • とても • どう • どんな • が (tetapi)",
+        questions: [
+          ["ワットさん は しんせつ（　　）せんせい です。", ["な", "い", "の", "に"], "しんせつ adalah Kata Sifat-Na. Jika diletakkan di depan kata benda (せんせい), wajib menggunakan な."],
+          ["ふじさん は（　　）やま です。", ["たかい", "たかいな", "たかく", "たかの"], "たかい adalah Kata Sifat-I. Di depan kata benda langsung tertulis たかい やま (tanpa な atau の)."],
+          ["きょう の てんき は あまり（　　）です。", ["よくない", "いいない", "いい", "わるい"], "Bentuk negatif dari いい (bagus/cerah) adalah よくない. Karena ada あまり, wajib negatif: あまり よくない です."],
+          ["この パソコン は あたらしい です（　　）、たかい です。", ["し", "が", "から", "と"], "Dalam Bab 8, menghubungkan dua klausa: あたらしい です が、たかい です (Baru, tetapi mahal)."],
+          ["にほん の せいかつ は（　　）ですか。… まいにち たのしい です。", ["どう", "どんな", "どれ", "どこ"], "Menanyakan kesan/keadaan sesuatu digunakan どう ですか (Bagaimana kehidupan di Jepang?)."],
+          ["なら は（　　）まち ですか。… しずかな まち です。", ["どんな", "どう", "なんの", "どの"], "Di depan kata benda (まち) untuk menanyakan sifat/karakteristik kota digunakan どんな まち ですか."],
+          ["あの レストラン の りょうり は おいしい ですか。… いいえ、あまり（　　）。", ["おいしくない です", "おいしい じゃ ありません", "おいしい です", "おいしかった です"], "Bentuk negatif Kata Sifat-I: huruf い terakhir diubah menjadi くない → おいしくない です."],
+          ["きょうと は きれい（　　）。", ["です", "な です", "い です", "ます"], "Meskipun berakhiran い, きれい adalah Kata Sifat-Na! Predikat sopannya cukup きれい です."],
+          ["この へや は しずか（　　）。", ["じゃ ありません", "くない です", "な ありません", "ない です"], "Bentuk negatif Kata Sifat-Na (しずか) adalah しずか じゃ ありません."],
+          ["あの しろい かばん は（　　）ですか。… わたし の です。", ["だれ の", "どれ", "どの", "どんな"], "Karena jawabannya わたし の です (milik saya), pertanyaannya adalah だれ の ですか."],
+          ["ミラーさん の かさ は（　　）ですか。… あの あおい かさ です。", ["どれ", "どの", "どこ", "どんな"], "Memilih satu benda dari banyak benda tanpa diikuti kata benda langsung: どれ ですか (Yang mana?)."],
+          ["サントスさん は（　　）かさ を もっていますか。… あの くろい かさ です。", ["どの", "どれ", "どこ", "だれ"], "Di depan kata benda (かさ) untuk menanyakan 'payung yang mana' digunakan どの かさ."],
+          ["とうきょう の ちかてつ は べんり です（　　）、ひと が おおい です。", ["が", "から", "も", "で"], "Kereta bawah tanah Tokyo praktis, TETAPI (が) orangnya ramai."],
+          ["この ほん は（　　）おもしろい です。", ["とても", "あまり", "ぜんぜん", "すこし も"], "Karena kalimatnya positif (おもしろい です), kata keterangan tingkat yang tepat adalah とても (sangat)."],
+          ["にほんご は（　　）ですか。… むずかしい です が、おもしろい です。", ["どう", "どんな", "どれ", "なに"], "Menanyakan pendapat/kesan tentang bahasa Jepang: にほんご は どう ですか."],
+          ["ペキン は いま さむい ですか。… はい、とても（　　）です。", ["さむい", "あつい", "さむくない", "しずか"], "Menjawab はい untuk pertanyaan さむい ですか: はい、とても さむい です (Ya, sangat dingin)."],
+          ["さくらだいがく は ゆうめい（　　）だいがく ですか。", ["な", "い", "の", "で"], "ゆうめい (terkenal) adalah Kata Sifat-Na, sehingga di depan だいがく menjadi ゆうめいな だいがく."],
+          ["コーヒー、もう いっぱい（　　）ですか。… いいえ、けっこう です。", ["いかが", "なに", "どれ", "どんな"], "Menawarkan tambah minum dengan sopan: もう いっぱい いかが ですか (Bagaimana kalau nambah secangkir lagi?)."],
+          ["この じしょ は いい ですか。… いいえ、あまり（　　）。", ["よくない です", "いい じゃ ありません", "いくない です", "わるくない です"], "Perubahan negatif khusus untuk いい adalah よくない です."],
+          ["カリナさん は きれい で、しんせつ（　　）ひと です。", ["な", "の", "い", "に"], "しんせつな ひと (orang yang ramah/baik hati)."]
+        ]
+      },
+
+      // ==================== BAB 9 (20 SOAL) ====================
+      {
+        bab: 9,
+        title: "Bab 9: Suka, Pandai, Mengerti & Alasan",
+        subtitle: "すき • きらい • じょうず • へた • わかります • あります • が • から • どうして",
+        questions: [
+          ["わたし は イタリアりょうり（　　）すき です。", ["が", "を", "に", "へ"], "Kata sifat すき (suka) dan きらい (benci) menggunakan partikel が untuk objek yang disukai/dibenci."],
+          ["サントスさん は サッカー（　　）じょうず です。", ["が", "を", "で", "は"], "じょうず (pandai/mahir) dan へた (kurang pandai) menggunakan partikel が."],
+          ["タワポンさん は ひらがな（　　）わかります。", ["が", "を", "に", "で"], "Kata kerja わかります (mengerti) menggunakan partikel が, bukan を."],
+          ["わたし は こまかい おかね（　　）あります。", ["が", "を", "で", "へ"], "Kata kerja kepemilikan あります (punya) menggunakan partikel が."],
+          ["えいご が わかりますか。… いいえ、ぜんぜん（　　）。", ["わかりません", "わかります", "じょうず です", "すき です"], "ぜんぜん (sama sekali) selalu diikuti bentuk negatif: ぜんぜん わかりません."],
+          ["じかん が ありません（　　）、しんぶん を よみません。", ["から", "が", "と", "で"], "Partikel から di akhir klausa pertama menyatakan alasan ('karena tidak ada waktu...')."],
+          ["（　　）きのう はやく かえりましたか。… ようじ が ありましたから。", ["どうして", "どんな", "どうやって", "いくら"], "Menanyakan alasan ('mengapa') yang dijawab dengan ～ から menggunakan kata tanya どうして."],
+          ["ミラーさん は（　　）りょうり が すき ですか。… さかな が すき です。", ["どんな", "どう", "どれ", "なに"], "どんな りょうり = Masakan seperti apa."],
+          ["わたし は うた が（　　）じょうず じゃ ありません。", ["あまり", "とても", "よく", "だいたい"], "Karena kalimatnya negatif (じょうず じゃ ありません), gunakan あまり (tidak begitu pandai)."],
+          ["にほんご が わかりますか。… はい、（　　）わかります。", ["だいたい", "ぜんぜん", "あまり", "すこし も"], "Untuk kalimat positif わかります, kata keterangan yang cocok adalah よく / だいたい / すこし."],
+          ["こんبان、いっしょに ビール を のみませんか。… すみません、きょう は（　　）が ありますから。", ["やくそく", "じしょ", "かさ", "つくえ"], "Menolak ajakan karena sudah ada janji: やくそく が ありますから."],
+          ["スポーツ の なか で、なに が いちばん すき ですか。…（　　）が すき です。", ["やきゅう", "りんご", "ロック", "コーヒー"], "Karena kategori yang ditanyakan adalah スポーツ (olahraga), jawaban yang tepat adalah やきゅう (bisbol)."],
+          ["あした は やすみ です（　　）、こども と こうえん へ いきます。", ["から", "が", "も", "を"], "KARENA (から) besok libur, saya pergi ke taman bersama anak."],
+          ["かれ は ダンス が とても（　　）です。", ["じょうず", "わかります", "あります", "よく"], "ダンス が とても じょうず です (Dia sangat pandai menari)."],
+          ["わたし は ぶたにく が（　　）です。たべません。", ["きらい", "すき", "じょうず", "ほしい"], "Karena kalimat selanjutnya たべません (tidak makan), maka ぶたにく が きらい です (tidak suka daging babi)."],
+          ["おかね が（　　）から、タクシー で かえりません。", ["ありません", "あります", "わかります", "すき です"], "Karena tidak punya uang (おかね が ありませんから), tidak pulang naik taksi."],
+          ["カタカナ が（　　）わかります。", ["すこし", "あまり", "ぜんぜん", "まだ"], "Kalimat positif わかります dapat didahului すこし (mengerti sedikit)."],
+          ["どうして あさごはん を たべませんでしたか。… おなか が いたい です（　　）。", ["から", "が", "よ", "か"], "Menjawab pertanyaan どうして diakhiri dengan ～ から (karena perut sakit)."],
+          ["おんがく は（　　）が すき です。", ["クラシック", "テニス", "さかな", "フランス"], "Jenis musik (おんがく) yang tepat adalah クラシック (musik klasik)."],
+          ["つま が びょうき ですから、（　　）かえります。", ["はやく", "たかく", "おおきく", "あたらしく"], "Karena istri sakit, saya pulang cepat (はやく かえります)."]
+        ]
+      },
+
+      // ==================== BAB 10 (20 SOAL) ====================
+      {
+        bab: 10,
+        title: "Bab 10: Keberadaan Benda, Orang & Posisi",
+        subtitle: "あります (benda) • います (hidup) • うえ • した • なか • となり • ちかく • あいだ • や",
+        questions: [
+          ["あそこ に コンビニ が（　　）。", ["あります", "います", "します", "きます"], "コンビニ (minimarket) adalah benda mati/bangunan, sehingga menggunakan あります."],
+          ["にわ に いぬ が（　　）。", ["います", "あります", "します", "みます"], "いぬ (anjing) adalah makhluk hidup bergerak, sehingga menggunakan います."],
+          ["つくえ の（　　）に しゃしん が あります。", ["うえ", "なか で", "となり を", "だれ"], "つくえ の うえ に = Di atas meja."],
+          ["はこ の なか に メガネ（　　）とけい など が あります。", ["や", "と", "か", "も"], "Partikel や berpasangan dengan など untuk menyebutkan beberapa contoh benda (kacamata, jam tangan, dan lain-lain)."],
+          ["ゆうびんきょく は ぎんこう と スーパー の（　　）に あります。", ["あいだ", "となり", "うえ", "なか"], "A と B の あいだ = Di antara A dan B (di antara bank dan supermarket)."],
+          ["きょうしつ に だれ が いますか。… だれ（　　）いません。", ["も", "か", "が", "は"], "だれ も いません = Tidak ada siapa-siapa di ruang kelas."],
+          ["れいぞうこ の なか に なに が ありますか。… なに（　　）ありません。", ["も", "が", "か", "を"], "なに も ありません = Tidak ada apa-apa di dalam kulkas."],
+          ["ミラーさん は どこ に（　　）か。… じむしょ に います。", ["います", "あります", "します", "いきます"], "Menanyakan keberadaan orang (Miller-san) menggunakan どこ に いますか."],
+          ["えき の（　　）に おおきい ほんや が あります。", ["ちかく", "あいだ", "なか", "した"], "えき の ちかく に = Di dekat stasiun."],
+          ["ぎんこう の（　　）に はなや が あります。", ["となり", "あいだ", "なか", "した"], "ぎんこう の となり に = Di sebelah bank."],
+          ["いす の（　　）に ねこ が います。", ["した", "なか", "あいだ", "みぎ の"], "いす の した に = Di bawah kursi."],
+          ["かばん の（　　）に さいふ と かぎ が あります。", ["なか", "うえ", "あいだ", "うしろ"], "かばん の なか に = Di dalam tas."],
+          ["こうえん に おとこのこ（　　）います。", ["が", "を", "で", "へ"], "Subjek keberadaan pada います / あります ditandai partikel が."],
+          ["すみません、チリソース は あります か。… はい、いちばん（　　）の たな に あります。", ["した", "あいだ", "ちかく", "となり"], "いちばん した の たな = Rak paling bawah."],
+          ["わたし の うち の（　　）に きれいな こうえん が あります。", ["まえ", "なか", "うえ", "あいだ"], "うち の まえ に = Di depan rumah saya."],
+          ["くるま の なか に（　　）が いますか。… タワポンさん が います。", ["だれ", "なに", "どこ", "いつ"], "Karena kata kerjanya います dan jawabannya orang (Tawapon-san), kata tanyanya adalah だれ."],
+          ["テーブル の うえ に りんご や みかん（　　）が あります。", ["など", "だけ", "まで", "から"], "りんご や みかん など = Apel, jeruk, dan sebagainya."],
+          ["うけつけ に ミラーさん が いますか。… いいえ、（　　）。", ["いません", "ありません", "じゃ ありません", "ちがいます"], "Bentuk negatif dari います adalah いません."],
+          ["あの き の（　　）に こども が います。", ["うしろ", "なか", "あいだ", "うえ で"], "き の うしろ に = Di belakang pohon itu."],
+          ["ちか １かい に レストラン が（　　）。", ["あります", "います", "します", "みます"], "レストラン (restoran) adalah benda mati/tempat, sehingga menggunakan あります."]
+        ]
+      }
+    ];
+
+    /********************************************************************************
+     * 2. STATE MANAGEMENT & LOCALSTORAGE PROGRES BAB 1 - 10
+     ********************************************************************************/
+    const STORAGE_KEY = 'babmaster_kana_progress_v1';
+
+    let activeBabNumber = 1; // 1 s/d 10
+    let activeQuestions10 = []; // 10 soal hasil shuffle dari 20 soal bab aktif
+    let userAnswers = {}; // { questionIdx (0..9): optionIdx (0..3) }
+    let isCurrentExamSubmitted = false;
+    let freeUnlockAllMode = false; // Default false: Bab 2-10 terkunci sampai Bab sebelumnya lulus >= 80
+
+    // Mode Waktu: 'normal' (Tanpa Waktu) | 'timed' (15 Menit = 900 detik)
+    let timerMode = 'normal';
+    let timerInterval = null;
+    let remainingSeconds = 900;
+
+    // Struktur progres per bab: { 1: { unlocked: true, passed: false, bestScore: null, attempts: 0 }, ... }
+    let babProgress = {};
+
+    function initProgressState() {
+      const saved = localStorage.getItem(STORAGE_KEY);
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved);
+          babProgress = parsed.babProgress || {};
+          freeUnlockAllMode = !!parsed.freeUnlockAllMode;
+        } catch (e) {
+          babProgress = {};
+        }
+      }
+
+      for (let b = 1; b <= 10; b++) {
+        if (!babProgress[b]) {
+          babProgress[b] = {
+            unlocked: b === 1, // Bab 1 selalu terbuka sejak awal
+            passed: false,
+            bestScore: null,
+            attempts: 0
+          };
+        }
+      }
+      // Pastikan jika Bab X sudah lulus, Bab X+1 pasti unlocked
+      for (let b = 1; b < 10; b++) {
+        if (babProgress[b].passed) {
+          babProgress[b + 1].unlocked = true;
+        }
+      }
+      saveProgressState();
+    }
+
+    function saveProgressState() {
+      try {
+        localStorage.setItem(STORAGE_KEY, JSON.stringify({
+          babProgress,
+          freeUnlockAllMode
+        }));
+      } catch (e) {}
+    }
+
+    function isChapterAccessible(babNum) {
+      if (freeUnlockAllMode) return true;
+      return !!babProgress[babNum]?.unlocked;
+    }
+
+    /********************************************************************************
+     * 3. ALGORITMA SHUFFLE 10 SOAL DARI 20 BANK SOAL + SHUFFLE PILIHAN GANDA
+     ********************************************************************************/
+    function shuffleArray(arr) {
+      const copy = [...arr];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    function loadAndShuffleChapter(babNum, showNotification = false) {
+      if (!isChapterAccessible(babNum)) {
+        showToast(`Bab ${babNum} masih terkunci! Lulus Bab ${babNum - 1} dengan skor minimal 80 terlebih dahulu.`);
+        return;
+      }
+
+      stopAllSpeech();
+      activeBabNumber = babNum;
+      const chapterObj = CHAPTERS_DATA.find(c => c.bab === babNum);
+      if (!chapterObj) return;
+
+      // Ambil 20 soal dari bank soal bab ini, lalu acak dan ambil 10 soal
+      const shuffledPool20 = shuffleArray(chapterObj.questions);
+      const selected10 = shuffledPool20.slice(0, 10);
+
+      // Acak juga posisi pilihan ganda A, B, C, D untuk setiap soal
+      activeQuestions10 = selected10.map((rawQ, idx) => {
+        const promptText = rawQ[0];
+        const rawOptions = rawQ[1];
+        const correctAnswerText = rawOptions[0]; // Indeks 0 di raw adalah kunci jawaban
+        const shuffledOptions = shuffleArray(rawOptions);
+        const newCorrectIdx = shuffledOptions.indexOf(correctAnswerText);
+
+        return {
+          qNum: idx + 1,
+          prompt: promptText,
+          options: shuffledOptions,
+          correctIdx: newCorrectIdx,
+          correctText: correctAnswerText,
+          explanation: rawQ[2]
+        };
+      });
+
+      userAnswers = {};
+      isCurrentExamSubmitted = false;
+
+      // Sembunyikan banner hasil sebelumnya
+      document.getElementById('result-evaluation-banner').classList.add('hidden');
+      document.getElementById('submit-bab-btn').classList.remove('hidden');
+
+      if (timerMode === 'timed') {
+        startChapterTimer();
+      } else {
+        stopChapterTimer();
+      }
+
+      renderHeaderBabTabs();
+      updateChapterDashboardInfo();
+      renderQuestionsList();
+      updateProgressUI();
+
+      if (showNotification) {
+        showToast(`Bab ${babNum}: Mengacak 10 soal baru dari 20 bank soal Full Hiragana & Katakana!`);
+      }
+    }
+
+    function retryAndShuffleCurrentChapter() {
+      loadAndShuffleChapter(activeBabNumber, true);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function goToNextChapter() {
+      if (activeBabNumber < 10) {
+        loadAndShuffleChapter(activeBabNumber + 1, true);
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } else {
+        openRoadmapModal();
+        showToast("Selamat! Anda telah menyelesaikan seluruh Bab 1 sampai Bab 10!");
+      }
+    }
+
+    /********************************************************************************
+     * 4. RENDER HEADER TABS BAB 1-10 & INFO DASHBOARD
+     ********************************************************************************/
+    function renderHeaderBabTabs() {
+      const container = document.getElementById('header-bab-tabs');
+      if (!container) return;
+
+      let passedTotal = 0;
+      for (let b = 1; b <= 10; b++) {
+        if (babProgress[b]?.passed) passedTotal++;
+      }
+      document.getElementById('header-passed-summary').textContent = `Lulus: ${passedTotal}/10 Bab`;
+
+      container.innerHTML = CHAPTERS_DATA.map(ch => {
+        const b = ch.bab;
+        const prog = babProgress[b];
+        const accessible = isChapterAccessible(b);
+        const isCurrent = b === activeBabNumber;
+
+        let btnClass = "bg-slate-100 text-slate-600 hover:bg-slate-200 border-slate-200";
+        let iconHtml = `<i class="fa-solid fa-lock text-[10px] text-slate-400"></i>`;
+
+        if (prog?.passed) {
+          iconHtml = `<i class="fa-solid fa-circle-check text-[10px] text-emerald-500"></i>`;
+          btnClass = "bg-emerald-50 text-emerald-800 border-emerald-200 hover:bg-emerald-100";
+        } else if (accessible) {
+          iconHtml = `<i class="fa-solid fa-unlock text-[10px] text-indigo-500"></i>`;
+          btnClass = "bg-indigo-50/70 text-indigo-800 border-indigo-200 hover:bg-indigo-100";
+        }
+
+        if (isCurrent) {
+          btnClass = "bg-indigo-600 text-white border-indigo-600 shadow-sm ring-2 ring-indigo-300";
+          iconHtml = prog?.passed
+            ? `<i class="fa-solid fa-trophy text-[10px] text-amber-300"></i>`
+            : `<i class="fa-solid fa-pen-to-square text-[10px] text-white"></i>`;
+        }
+
+        return `
+          <button onclick="loadAndShuffleChapter(${b}, false)"
+                  class="px-2.5 py-1.5 rounded-xl border text-[11px] sm:text-xs font-extrabold transition shrink-0 flex items-center gap-1 ${btnClass} ${!accessible ? 'opacity-60 cursor-not-allowed' : ''}">
+            ${iconHtml}
+            <span>Bab ${b}</span>
+          </button>
+        `;
+      }).join('');
+
+      // Update tombol Mode Bertahap vs Mode Bebas
+      const unlockIcon = document.getElementById('unlock-mode-icon');
+      const unlockLabel = document.getElementById('unlock-mode-label');
+      if (unlockIcon && unlockLabel) {
+        if (freeUnlockAllMode) {
+          unlockIcon.className = "fa-solid fa-unlock text-emerald-600";
+          unlockLabel.textContent = "Mode Bebas (Semua Bab Terbuka)";
+        } else {
+          unlockIcon.className = "fa-solid fa-lock text-indigo-600";
+          unlockLabel.textContent = "Mode Bertahap (Lulus ≥ 80)";
+        }
+      }
+    }
+
+    function updateChapterDashboardInfo() {
+      const ch = CHAPTERS_DATA.find(c => c.bab === activeBabNumber);
+      const prog = babProgress[activeBabNumber];
+      if (!ch) return;
+
+      document.getElementById('active-bab-pill').textContent = `BAB ${ch.bab} DARI 10`;
+      document.getElementById('mini-bab-badge').textContent = `Bab ${ch.bab}`;
+      document.getElementById('active-bab-title').textContent = ch.title;
+      document.getElementById('active-bab-desc').innerHTML =
+        `Pola Kalimat: <strong class="font-jp text-indigo-700">${ch.subtitle}</strong> • Menampilkan <strong>10 soal shuffle</strong> dari 20 bank soal Bab ${ch.bab} (100% Hiragana & Katakana).`;
+
+      const bestBadge = document.getElementById('active-bab-best-badge');
+      if (prog && prog.bestScore !== null) {
+        if (prog.passed) {
+          bestBadge.className = "px-2.5 py-0.5 rounded-full text-xs font-extrabold bg-emerald-100 text-emerald-800 border border-emerald-300";
+          bestBadge.innerHTML = `<i class="fa-solid fa-check-circle mr-1"></i>LULUS • Skor Terbaik: ${prog.bestScore}/100`;
+        } else {
+          bestBadge.className = "px-2.5 py-0.5 rounded-full text-xs font-extrabold bg-rose-100 text-rose-800 border border-rose-300";
+          bestBadge.innerHTML = `Belum Lulus • Skor Tertinggi: ${prog.bestScore}/100`;
+        }
+      } else {
+        bestBadge.className = "px-2.5 py-0.5 rounded-full text-xs font-bold bg-slate-100 text-slate-700";
+        bestBadge.textContent = "Skor Terbaik: Belum Ada";
+      }
+    }
+
+    function updateProgressUI() {
+      const answeredCount = Object.keys(userAnswers).length;
+      const total = activeQuestions10.length || 10;
+      const pct = Math.round((answeredCount / total) * 100);
+
+      document.getElementById('header-answered-count').textContent = `${answeredCount} / ${total}`;
+      document.getElementById('mini-progress-badge').textContent = `${answeredCount}/${total}`;
+      document.getElementById('progress-text-detail').textContent = `${answeredCount} dari ${total} Soal Terjawab (${pct}%)`;
+      document.getElementById('progress-bar-fill').style.width = `${pct}%`;
+    }
+
+    /********************************************************************************
+     * 5. RENDER 10 SOAL FULL HIRAGANA & KATAKANA
+     ********************************************************************************/
+    function highlightKatakanaInText(text) {
+      // Beri warna biru lembut pada deretan huruf Katakana agar pembelajar mudah membedakan Hiragana & Katakana
+      return text.replace(/([ァ-ヶー]+)/g, '<span class="kata-chip">$1</span>');
+    }
+
+    function renderQuestionsList() {
+      const container = document.getElementById('questions-list-container');
+      if (!container) return;
+
+      const letters = ['A', 'B', 'C', 'D'];
+
+      container.innerHTML = activeQuestions10.map((q, idx) => {
+        const picked = userAnswers[idx];
+        const isCorrect = picked === q.correctIdx;
+
+        let cardBorder = "border-slate-200";
+        if (isCurrentExamSubmitted) {
+          cardBorder = isCorrect
+            ? "border-emerald-400 ring-2 ring-emerald-100"
+            : "border-rose-400 ring-2 ring-rose-100";
+        } else if (picked !== undefined) {
+          cardBorder = "border-indigo-400";
+        }
+
+        // Bersihkan teks untuk fitur suara TTS
+        const cleanSpeechText = q.prompt.replace(/（　　）/g, ' 、 ');
+
+        return `
+          <article id="bab-q-card-${idx}" class="scroll-safe-card bg-white rounded-2xl shadow-sm border ${cardBorder} p-4 sm:p-6 space-y-4 transition-all">
+            <!-- Bar Atas Nomor Soal & Tombol Audio -->
+            <div class="flex items-center justify-between gap-2 border-b border-slate-100 pb-3">
+              <div class="flex items-center gap-2">
+                <span class="px-3 py-1 rounded-xl bg-slate-900 text-white font-extrabold text-xs">
+                  Soal ${q.qNum} / 10
+                </span>
+                <span class="px-2.5 py-1 rounded-lg bg-indigo-50 text-indigo-700 font-bold text-xs border border-indigo-200">
+                  Bab ${activeBabNumber} • 10 Poin
+                </span>
+              </div>
+
+              <div class="flex items-center gap-2">
+                <button onclick="speakJapaneseText('${cleanSpeechText.replace(/'/g, "\\'")}')"
+                        class="px-3 py-1 rounded-xl bg-slate-100 hover:bg-indigo-100 text-slate-700 hover:text-indigo-700 font-bold text-xs transition flex items-center gap-1.5"
+                        title="Dengarkan Pelafalan Soal">
+                  <i class="fa-solid fa-volume-high text-indigo-600"></i>
+                  <span>Dengarkan</span>
+                </button>
+
+                ${isCurrentExamSubmitted ? (
+                  isCorrect
+                    ? `<span class="px-2.5 py-1 rounded-lg bg-emerald-100 text-emerald-800 font-extrabold text-xs"><i class="fa-solid fa-check mr-1"></i>+10 Poin</span>`
+                    : `<span class="px-2.5 py-1 rounded-lg bg-rose-100 text-rose-800 font-extrabold text-xs"><i class="fa-solid fa-xmark mr-1"></i>0 Poin</span>`
+                ) : ''}
+              </div>
+            </div>
+
+            <!-- Teks Pertanyaan Full Hiragana & Katakana -->
+            <div class="font-jp text-base sm:text-xl font-bold text-slate-900 leading-relaxed tracking-wide">
+              ${highlightKatakanaInText(q.prompt)}
+            </div>
+
+            <!-- Pilihan Ganda A, B, C, D -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
+              ${q.options.map((opt, oIdx) => {
+                let btnCls = "bg-slate-50 hover:bg-indigo-50/70 text-slate-800 border-slate-200";
+                let badgeCls = "bg-white text-slate-600 border-slate-300";
+
+                if (isCurrentExamSubmitted) {
+                  if (oIdx === q.correctIdx) {
+                    btnCls = "bg-emerald-50 border-emerald-500 text-emerald-950 font-extrabold ring-1 ring-emerald-400";
+                    badgeCls = "bg-emerald-600 text-white border-emerald-600";
+                  } else if (oIdx === picked && picked !== q.correctIdx) {
+                    btnCls = "bg-rose-50 border-rose-400 text-rose-900 font-bold";
+                    badgeCls = "bg-rose-600 text-white border-rose-600";
+                  }
+                } else if (oIdx === picked) {
+                  btnCls = "bg-indigo-50 border-indigo-600 text-indigo-950 font-extrabold ring-1 ring-indigo-500";
+                  badgeCls = "bg-indigo-600 text-white border-indigo-600";
+                }
+
+                return `
+                  <button onclick="selectOption(${idx}, ${oIdx})"
+                          class="p-3 sm:p-3.5 rounded-xl border text-left transition flex items-center justify-between gap-3 ${btnCls}">
+                    <div class="flex items-center gap-2.5">
+                      <span class="w-6 h-6 rounded-lg border text-xs font-extrabold flex items-center justify-center shrink-0 ${badgeCls}">
+                        ${letters[oIdx]}
+                      </span>
+                      <span class="font-jp text-sm sm:text-base font-bold">${highlightKatakanaInText(opt)}</span>
+                    </div>
+                    ${isCurrentExamSubmitted && oIdx === q.correctIdx ? '<i class="fa-solid fa-circle-check text-emerald-600 shrink-0"></i>' : ''}
+                  </button>
+                `;
+              }).join('')}
+            </div>
+
+            <!-- Kotak Pembahasan Setelah Dikumpulkan -->
+            ${isCurrentExamSubmitted ? `
+              <div class="bg-slate-50 rounded-xl p-3.5 border border-slate-200 text-xs sm:text-sm space-y-1">
+                <div class="font-extrabold text-indigo-700 flex items-center gap-1.5 font-jp">
+                  <i class="fa-solid fa-lightbulb text-amber-500"></i>
+                  <span>Jawaban Benar: ${letters[q.correctIdx]}. ${q.correctText}</span>
+                </div>
+                <p class="text-slate-700 leading-relaxed">${q.explanation}</p>
+              </div>
+            ` : ''}
+          </article>
+        `;
+      }).join('');
+    }
+
+    function selectOption(qIdx, optIdx) {
+      if (isCurrentExamSubmitted) return;
+
+      // Di HP, otomatis sembunyikan header saat user aktif menjawab agar layar lega
+      if (window.innerWidth < 768) {
+        setHeaderHiddenState(true);
+      }
+
+      userAnswers[qIdx] = optIdx;
+      updateProgressUI();
+      renderQuestionsList();
+    }
+
+    /********************************************************************************
+     * 6. EVALUASI KELULUSAN BAB (SKOR >= 80 LULUS & BUKA BAB BERIKUTNYA)
+     ********************************************************************************/
+    function submitCurrentChapterExam(autoSubmittedByTimer = false) {
+      if (isCurrentExamSubmitted) return;
+
+      const answeredCount = Object.keys(userAnswers).length;
+      if (!autoSubmittedByTimer && answeredCount < activeQuestions10.length) {
+        const unansweredIdx = activeQuestions10.findIndex((_, i) => userAnswers[i] === undefined);
+        showToast(`Masih ada ${activeQuestions10.length - answeredCount} soal yang belum dijawab! Silakan lengkapi dulu.`);
+        if (unansweredIdx !== -1) {
+          document.getElementById(`bab-q-card-${unansweredIdx}`)?.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        }
+        return;
+      }
+
+      stopChapterTimer();
+      isCurrentExamSubmitted = true;
+
+      let correctCount = 0;
+      activeQuestions10.forEach((q, idx) => {
+        if (userAnswers[idx] === q.correctIdx) {
+          correctCount++;
+        }
+      });
+
+      const finalScore = correctCount * 10; // Skala 0 - 100
+      const isPassed = finalScore >= 80; // Minimal 80 untuk lulus
+
+      // Update riwayat progres bab
+      const prog = babProgress[activeBabNumber];
+      prog.attempts = (prog.attempts || 0) + 1;
+      if (prog.bestScore === null || finalScore > prog.bestScore) {
+        prog.bestScore = finalScore;
+      }
+      if (isPassed) {
+        prog.passed = true;
+        if (activeBabNumber < 10) {
+          babProgress[activeBabNumber + 1].unlocked = true;
+        }
+      }
+      saveProgressState();
+
+      // Tampilkan Banner Evaluasi Kelulusan
+      const banner = document.getElementById('result-evaluation-banner');
+      const iconEl = document.getElementById('res-status-icon');
+      const badgeEl = document.getElementById('res-status-badge');
+      const headlineEl = document.getElementById('res-score-headline');
+      const msgEl = document.getElementById('res-score-message');
+      const nextBtn = document.getElementById('res-next-bab-btn');
+      const retryBtnText = document.getElementById('res-retry-btn-text');
+
+      banner.classList.remove('hidden');
+
+      if (isPassed) {
+        banner.className = "bg-gradient-to-r from-emerald-600 via-teal-600 to-indigo-700 rounded-3xl p-5 sm:p-7 text-white shadow-xl scroll-safe-card transition-all";
+        iconEl.className = "fa-solid fa-trophy text-amber-300";
+        badgeEl.textContent = `BAB ${activeBabNumber} LULUS • ごうかく (SKOR ≥ 80)`;
+        headlineEl.textContent = `Skor Anda: ${finalScore} / 100 — LULUS! 🎉`;
+
+        if (activeBabNumber < 10) {
+          msgEl.innerHTML = `Luar biasa! Anda menjawab benar <strong>${correctCount} dari 10 soal</strong>. Karena skor mencapai minimal 80, <strong>Bab ${activeBabNumber + 1} kini telah terbuka!</strong>`;
+          nextBtn.classList.remove('hidden');
+          nextBtn.classList.add('inline-flex');
+          nextBtn.innerHTML = `<span>Lanjut ke Bab ${activeBabNumber + 1}</span><i class="fa-solid fa-arrow-right"></i>`;
+        } else {
+          msgEl.innerHTML = `Selamat! Anda telah menaklukkan <strong>Bab 10 (Bab Terakhir)</strong> dengan skor <strong>${finalScore}/100</strong>!`;
+          nextBtn.classList.remove('hidden');
+          nextBtn.classList.add('inline-flex');
+          nextBtn.innerHTML = `<span>Lihat Sertifikat / Peta 10 Bab</span><i class="fa-solid fa-award"></i>`;
+        }
+        retryBtnText.textContent = "Latihan Lagi Bab Ini (Shuffle Soal)";
+      } else {
+        banner.className = "bg-gradient-to-r from-rose-600 via-red-600 to-orange-600 rounded-3xl p-5 sm:p-7 text-white shadow-xl scroll-safe-card transition-all";
+        iconEl.className = "fa-solid fa-triangle-exclamation text-amber-200";
+        badgeEl.textContent = `BAB ${activeBabNumber} BELUM LULUS • ふごうかく (SKOR < 80)`;
+        headlineEl.textContent = `Skor Anda: ${finalScore} / 100 — Wajib Mengulang Bab ${activeBabNumber}`;
+        msgEl.innerHTML = `Anda menjawab benar <strong>${correctCount} dari 10 soal</strong> (kurang ${80 - finalScore} poin lagi dari syarat lulus 80). Pelajari pembahasan di bawah, lalu klik <strong>"Ulangi Bab ${activeBabNumber} (Shuffle Soal Baru)"</strong> untuk mencoba kembali dengan soal yang diacak ulang!`;
+        nextBtn.classList.add('hidden');
+        nextBtn.classList.remove('inline-flex');
+        retryBtnText.textContent = `Ulangi Bab ${activeBabNumber} (Shuffle 10 Soal Baru)`;
+      }
+
+      renderHeaderBabTabs();
+      updateChapterDashboardInfo();
+      renderQuestionsList();
+      banner.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    /********************************************************************************
+     * 7. MODAL PETA PROGRES BAB 1 - 10 & FITUR BUKA KUNCI SEMUA BAB
+     ********************************************************************************/
+    function openRoadmapModal() {
+      renderRoadmapModalContent();
+      document.getElementById('roadmap-modal')?.classList.remove('hidden');
+    }
+
+    function closeRoadmapModal() {
+      document.getElementById('roadmap-modal')?.classList.add('hidden');
+    }
+
+    function renderRoadmapModalContent() {
+      const grid = document.getElementById('roadmap-grid-container');
+      if (!grid) return;
+
+      grid.innerHTML = CHAPTERS_DATA.map(ch => {
+        const b = ch.bab;
+        const prog = babProgress[b];
+        const accessible = isChapterAccessible(b);
+        const isCurrent = b === activeBabNumber;
+
+        let statusBadge = `<span class="px-2 py-0.5 rounded-md text-[10px] font-extrabold bg-slate-200 text-slate-600"><i class="fa-solid fa-lock mr-1"></i>Terkunci</span>`;
+        let cardCls = "border-slate-200 bg-slate-50/70";
+
+        if (prog?.passed) {
+          statusBadge = `<span class="px-2 py-0.5 rounded-md text-[10px] font-extrabold bg-emerald-100 text-emerald-800 border border-emerald-300"><i class="fa-solid fa-check mr-1"></i>LULUS (${prog.bestScore} Poin)</span>`;
+          cardCls = "border-emerald-300 bg-emerald-50/30";
+        } else if (accessible) {
+          statusBadge = `<span class="px-2 py-0.5 rounded-md text-[10px] font-extrabold bg-indigo-100 text-indigo-800 border border-indigo-200"><i class="fa-solid fa-unlock mr-1"></i>Terbuka</span>`;
+          cardCls = "border-indigo-200 bg-white";
+        }
+
+        if (isCurrent) {
+          cardCls += " ring-2 ring-indigo-500";
+        }
+
+        return `
+          <div class="rounded-2xl border ${cardCls} p-4 flex flex-col justify-between gap-3 transition">
+            <div class="space-y-1.5">
+              <div class="flex items-center justify-between gap-2">
+                <span class="text-xs font-black text-indigo-600 uppercase">Bab ${b} • 20 Bank Soal</span>
+                ${statusBadge}
+              </div>
+              <h4 class="text-sm font-extrabold text-slate-900">${ch.title}</h4>
+              <p class="text-xs font-jp text-slate-500">${ch.subtitle}</p>
+            </div>
+
+            <div class="flex items-center justify-between pt-2 border-t border-slate-200/70 text-xs">
+              <span class="text-slate-500 font-semibold">
+                Percobaan: <strong>${prog?.attempts || 0}x</strong>
+                ${prog?.bestScore !== null ? ` • Terbaik: <strong>${prog.bestScore}</strong>` : ''}
+              </span>
+
+              <button onclick="selectChapterFromModal(${b})"
+                      class="px-3.5 py-1.5 rounded-xl font-extrabold transition ${accessible ? 'bg-indigo-600 hover:bg-indigo-500 text-white shadow-sm' : 'bg-slate-200 text-slate-500 cursor-not-allowed'}">
+                ${accessible ? (prog?.passed ? 'Latihan Lagi' : 'Mulai Tes') : 'Terkunci'}
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function selectChapterFromModal(babNum) {
+      if (!isChapterAccessible(babNum)) {
+        showToast(`Bab ${babNum} masih terkunci! Selesaikan Bab ${babNum - 1} dengan skor ≥ 80 atau aktifkan Mode Bebas.`);
+        return;
+      }
+      closeRoadmapModal();
+      loadAndShuffleChapter(babNum, true);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function toggleUnlockAllChapters() {
+      freeUnlockAllMode = !freeUnlockAllMode;
+      saveProgressState();
+      renderHeaderBabTabs();
+      showToast(freeUnlockAllMode
+        ? "Mode Bebas Aktif: Seluruh Bab 1 s/d Bab 10 kini dapat diakses langsung!"
+        : "Mode Bertahap Aktif: Bab terbuka secara berurutan setelah lulus skor ≥ 80.");
+    }
+
+    function resetAllProgress() {
+      localStorage.removeItem(STORAGE_KEY);
+      freeUnlockAllMode = false;
+      babProgress = {};
+      initProgressState();
+      loadAndShuffleChapter(1, false);
+      renderRoadmapModalContent();
+      showToast("Seluruh progres Bab 1–10 berhasil di-reset kembali ke Bab 1.");
+    }
+
+    /********************************************************************************
+     * 8. TIMER OPSIONAL (15 MENIT PER BAB) & WEB SPEECH API (SUARA JEPANG)
+     ********************************************************************************/
+    function setTimerMode(mode) {
+      timerMode = mode;
+      const nBtn = document.getElementById('mode-btn-normal');
+      const tBtn = document.getElementById('mode-btn-timed');
+
+      if (mode === 'normal') {
+        nBtn.className = "px-2 py-0.5 rounded font-bold transition bg-emerald-600 text-white";
+        tBtn.className = "px-2 py-0.5 rounded font-bold transition text-slate-300 hover:text-white";
+        stopChapterTimer();
+        showToast("Mode Normal: Tanpa batas waktu pengerjaan.");
+      } else {
+        tBtn.className = "px-2 py-0.5 rounded font-bold transition bg-rose-600 text-white";
+        nBtn.className = "px-2 py-0.5 rounded font-bold transition text-slate-300 hover:text-white";
+        startChapterTimer();
+        showToast("Mode Timer 15 Menit diaktifkan untuk Bab ini!");
+      }
+    }
+
+    function startChapterTimer() {
+      if (timerInterval) clearInterval(timerInterval);
+      remainingSeconds = 900; // 15 menit
+      updateTimerDisplay();
+
+      timerInterval = setInterval(() => {
+        if (isCurrentExamSubmitted || timerMode !== 'timed') return;
+        remainingSeconds--;
+        updateTimerDisplay();
+
+        if (remainingSeconds <= 0) {
+          clearInterval(timerInterval);
+          showToast("Waktu 15 menit habis! Jawaban Anda sedang dievaluasi...");
+          submitCurrentChapterExam(true);
+        }
+      }, 1000);
+    }
+
+    function stopChapterTimer() {
+      if (timerInterval) clearInterval(timerInterval);
+      const hTxt = document.getElementById('header-timer-text');
+      const mBadge = document.getElementById('mini-timer-badge');
+      if (hTxt) hTxt.textContent = "Santai";
+      if (mBadge) mBadge.classList.add('hidden');
+    }
+
+    function updateTimerDisplay() {
+      const m = Math.floor(remainingSeconds / 60);
+      const s = remainingSeconds % 60;
+      const str = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+
+      const hTxt = document.getElementById('header-timer-text');
+      const mBadge = document.getElementById('mini-timer-badge');
+      const mTxt = document.getElementById('mini-timer-text');
+
+      if (hTxt) hTxt.textContent = str;
+      if (mBadge) {
+        mBadge.classList.remove('hidden');
+        mBadge.classList.add('inline-flex');
+      }
+      if (mTxt) mTxt.textContent = str;
+    }
+
+    function stopAllSpeech() {
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+    }
+
+    function speakJapaneseText(text) {
+      if (!('speechSynthesis' in window)) {
+        showToast("Browser Anda tidak mendukung fitur suara Jepang.");
+        return;
+      }
+      stopAllSpeech();
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = 'ja-JP';
+      u.rate = 0.92;
+      window.speechSynthesis.speak(u);
+    }
+
+    /********************************************************************************
+     * 9. SMART AUTO-HIDE HEADER (HP & PC) & TOAST
+     ********************************************************************************/
+    let lastScrollY = window.scrollY;
+
+    function setHeaderHiddenState(hide) {
+      const header = document.getElementById('main-header');
+      const miniBar = document.getElementById('mini-floating-bar');
+      if (!header || !miniBar) return;
+
+      if (hide) {
+        header.classList.add('header-hidden');
+        miniBar.classList.remove('hidden');
+        miniBar.classList.add('flex');
+      } else {
+        header.classList.remove('header-hidden');
+        miniBar.classList.add('hidden');
+        miniBar.classList.remove('flex');
+      }
+    }
+
+    function manualHideHeader() {
+      setHeaderHiddenState(true);
+    }
+
+    function forceShowHeader() {
+      setHeaderHiddenState(false);
+    }
+
+    window.addEventListener('scroll', () => {
+      const currentY = window.scrollY;
+      if (currentY < 40) {
+        setHeaderHiddenState(false);
+        lastScrollY = currentY;
+        return;
+      }
+      if (currentY > lastScrollY + 14 && currentY > 75) {
+        setHeaderHiddenState(true);
+      } else if (currentY < lastScrollY - 25) {
+        setHeaderHiddenState(false);
+      }
+      lastScrollY = currentY;
+    }, { passive: true });
+
+    let toastTimeout = null;
+    function showToast(msg) {
+      const box = document.getElementById('toast-box');
+      const txt = document.getElementById('toast-message');
+      if (!box || !txt) return;
+      txt.textContent = msg;
+      box.classList.remove('hidden');
+      if (toastTimeout) clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => box.classList.add('hidden'), 3200);
+    }
+
+    // Inisialisasi aplikasi saat halaman selesai dimuat
+    window.addEventListener('DOMContentLoaded', () => {
+      initProgressState();
+      loadAndShuffleChapter(1, false);
+    });
+  </script>
+</body>
+</html>
