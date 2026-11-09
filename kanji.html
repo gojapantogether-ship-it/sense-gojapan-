@@ -1,0 +1,2197 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>KanjiMaster ID - Latihan Kanji JLPT N5 (105), N4 (200) & Kanji Gabungan (Jukugo)</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Inter & Noto Sans JP / Noto Serif JP -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;700;900&family=Noto+Serif+JP:wght@600;700;900&display=swap" rel="stylesheet">
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            jp: ['"Noto Sans JP"', 'sans-serif'],
+            kanji: ['"Noto Serif JP"', '"Noto Sans JP"', 'serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* CRITICAL: Anti-Tertutup Header di HP & PC */
+    html {
+      scroll-padding-top: 84px;
+    }
+    @media (min-width: 768px) {
+      html {
+        scroll-padding-top: 118px;
+      }
+    }
+    .scroll-safe-card {
+      scroll-margin-top: 84px;
+    }
+    @media (min-width: 768px) {
+      .scroll-safe-card {
+        scroll-margin-top: 118px;
+      }
+    }
+
+    /* Smart Auto-Hide Header Transition */
+    #main-header {
+      transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease;
+      will-change: transform;
+    }
+    #main-header.header-hidden {
+      transform: translateY(-108%);
+      pointer-events: none;
+    }
+
+    /* 3D Flashcard Flip Animation */
+    .perspective-1000 {
+      perspective: 1200px;
+    }
+    .transform-style-3d {
+      transform-style: preserve-3d;
+      transition: transform 0.55s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+    .backface-hidden {
+      backface-visibility: hidden;
+      -webkit-backface-visibility: hidden;
+    }
+    .rotate-y-180 {
+      transform: rotateY(180deg);
+    }
+
+    /* Kotak Latihan Tulis Kanji / Hanzi (Mi Zi Ge / Tian Zi Ge Grid) */
+    .kanji-grid-bg {
+      touch-action: none;
+      background-color: #ffffff;
+      background-image:
+        linear-gradient(to right, rgba(99, 102, 241, 0.2) 1px, transparent 1px),
+        linear-gradient(to bottom, rgba(99, 102, 241, 0.2) 1px, transparent 1px),
+        linear-gradient(45deg, transparent 49.5%, rgba(244, 63, 94, 0.14) 49.5%, rgba(244, 63, 94, 0.14) 50.5%, transparent 50.5%),
+        linear-gradient(-45deg, transparent 49.5%, rgba(244, 63, 94, 0.14) 49.5%, rgba(244, 63, 94, 0.14) 50.5%, transparent 50.5%);
+      background-size: 50% 50%, 50% 50%, 100% 100%, 100% 100%;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 7px;
+      height: 7px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col selection:bg-indigo-600 selection:text-white">
+
+  <!-- ================= MINI FLOATING PILL (MUNCUL SAAT HEADER AUTO-HIDE DI HP/PC) ================= -->
+  <div id="mini-floating-bar" class="fixed top-2 right-2.5 z-50 hidden items-center gap-1.5 bg-slate-900/90 backdrop-blur-md text-white px-3 py-1.5 rounded-full shadow-lg border border-slate-700/80 text-xs font-bold transition-all">
+    <span id="mini-timer-badge" class="hidden items-center gap-1 text-amber-400 font-mono pr-1.5 border-r border-slate-700">
+      <i class="fa-regular fa-clock text-[10px]"></i>
+      <span id="mini-timer-text">30:00</span>
+    </span>
+    <button onclick="forceShowHeader()" class="flex items-center gap-1 text-indigo-300 hover:text-white transition" title="Tampilkan Menu Navigasi Atas">
+      <i class="fa-solid fa-chevron-down text-[10px]"></i>
+      <span>Menu</span>
+    </button>
+  </div>
+
+  <!-- ================= STICKY HEADER NAVIGATION (SMART AUTO-HIDE & RAMPING DI HP) ================= -->
+  <header id="main-header" class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
+    <div class="max-w-6xl mx-auto px-2.5 sm:px-6">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between py-1.5 sm:py-2.5 gap-1.5 sm:gap-2">
+        <!-- Brand & Title -->
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-indigo-600 via-purple-600 to-rose-500 flex items-center justify-center text-white font-kanji font-black text-base sm:text-xl shadow-sm shrink-0">
+              字
+            </div>
+            <div>
+              <h1 class="text-sm sm:text-lg font-extrabold tracking-tight text-slate-900 leading-tight flex items-center gap-1.5">
+                <span>KanjiMaster <span class="text-indigo-600">ID</span></span>
+                <span class="px-1.5 py-0.5 text-[10px] rounded-md bg-indigo-50 text-indigo-700 font-bold border border-indigo-200">JLPT & JFT</span>
+              </h1>
+              <p class="hidden sm:block text-xs text-slate-500 font-medium">
+                105 Kanji N5 • 200 Kanji N4 • 108 Kanji Gabungan 2-3 Huruf (図書館, 銀行, dll)
+              </p>
+            </div>
+          </div>
+
+          <!-- Tombol Aksi Cepat Mobile (Tutup Header Manual) -->
+          <div class="flex sm:hidden items-center gap-1">
+            <span id="mobile-mastered-pill" class="px-2 py-1 rounded-lg bg-emerald-50 text-emerald-700 text-[11px] font-bold border border-emerald-200">
+              <i class="fa-solid fa-check-circle mr-0.5"></i><span id="mobile-mastered-count">0</span> Hafal
+            </span>
+            <button onclick="manualHideHeader()" class="inline-flex items-center gap-1 px-2 py-1 rounded-lg text-[11px] font-semibold bg-slate-100 hover:bg-rose-100 text-slate-600 hover:text-rose-700 transition" title="Sembunyikan Header (Mode Fokus)">
+              <i class="fa-solid fa-chevron-up"></i>
+              <span>Tutup</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 4 Tab Navigasi Utama -->
+        <div class="grid grid-cols-4 sm:flex items-center gap-1 sm:gap-1.5">
+          <button id="nav-tab-flashcard" onclick="switchMainView('flashcard')" class="px-2 py-1.5 sm:px-3 sm:py-2 rounded-xl text-[11px] sm:text-xs font-bold transition-all bg-indigo-600 text-white shadow-sm flex items-center justify-center gap-1.5">
+            <i class="fa-solid fa-clone"></i>
+            <span>Flashcard</span>
+          </button>
+
+          <button id="nav-tab-stroke" onclick="switchMainView('stroke')" class="px-2 py-1.5 sm:px-3 sm:py-2 rounded-xl text-[11px] sm:text-xs font-bold transition-all bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center justify-center gap-1.5">
+            <i class="fa-solid fa-paintbrush"></i>
+            <span>Cara Tulis</span>
+          </button>
+
+          <button id="nav-tab-quiz" onclick="switchMainView('quiz')" class="px-2 py-1.5 sm:px-3 sm:py-2 rounded-xl text-[11px] sm:text-xs font-bold transition-all bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center justify-center gap-1.5">
+            <i class="fa-solid fa-bolt"></i>
+            <span>Latihan Soal</span>
+          </button>
+
+          <button id="nav-tab-dict" onclick="switchMainView('dict')" class="px-2 py-1.5 sm:px-3 sm:py-2 rounded-xl text-[11px] sm:text-xs font-bold transition-all bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center justify-center gap-1.5">
+            <i class="fa-solid fa-book"></i>
+            <span>Kamus (413)</span>
+          </button>
+
+          <!-- Tombol Sembunyikan Header (PC) -->
+          <button onclick="manualHideHeader()" class="hidden sm:inline-flex items-center gap-1 px-2.5 py-2 rounded-xl text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-600 transition" title="Sembunyikan Header (Mode Fokus)">
+            <i class="fa-solid fa-chevron-up"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- SUB-BAR FILTER DECK & STATUS RINGKAS -->
+    <div class="bg-slate-900 text-white border-t border-slate-800">
+      <div class="max-w-6xl mx-auto px-2.5 sm:px-6 py-1.5 flex items-center justify-between gap-2 overflow-x-auto no-scrollbar text-[11px] sm:text-xs">
+        <div class="flex items-center gap-1 sm:gap-1.5 shrink-0">
+          <span class="text-slate-400 hidden md:inline mr-1">Pilih Materi:</span>
+          <button onclick="setGlobalCategoryFilter('jukugo')" id="filter-btn-jukugo" class="px-2.5 py-1 rounded-lg font-bold transition bg-rose-600 text-white shadow-sm flex items-center gap-1">
+            <i class="fa-solid fa-cubes-stacked"></i>
+            <span>Kanji Gabungan 2-3 Huruf (108)</span>
+          </button>
+          <button onclick="setGlobalCategoryFilter('n5')" id="filter-btn-n5" class="px-2.5 py-1 rounded-lg font-bold transition bg-slate-800 text-slate-300 hover:bg-slate-700">
+            JLPT N5 (105)
+          </button>
+          <button onclick="setGlobalCategoryFilter('n4')" id="filter-btn-n4" class="px-2.5 py-1 rounded-lg font-bold transition bg-slate-800 text-slate-300 hover:bg-slate-700">
+            JLPT N4 (200)
+          </button>
+          <button onclick="setGlobalCategoryFilter('all')" id="filter-btn-all" class="px-2.5 py-1 rounded-lg font-bold transition bg-slate-800 text-slate-300 hover:bg-slate-700">
+            Semua (413)
+          </button>
+        </div>
+
+        <div class="hidden sm:flex items-center gap-3 shrink-0 text-slate-300">
+          <span>Dikuasai: <strong id="desktop-mastered-count" class="text-emerald-400">0</strong> / 413</span>
+        </div>
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= MAIN CONTENT CONTAINER ================= -->
+  <main class="flex-1 max-w-6xl w-full mx-auto px-3 sm:px-6 pt-4 pb-20">
+
+    <!-- ======================================================================= -->
+    <!-- VIEW 1: MODE 3D FLASHCARD INTERAKTIF (TUNGGAL & JUKUGO 2-3 KANJI)       -->
+    <!-- ======================================================================= -->
+    <section id="view-flashcard" class="space-y-5">
+      <!-- Top Control Bar Flashcard -->
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 sm:p-5 flex flex-col md:flex-row md:items-center justify-between gap-3">
+        <div>
+          <div class="flex items-center gap-2">
+            <span id="fc-active-deck-badge" class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-rose-50 text-rose-700 border border-rose-200">
+              Kanji Gabungan 2-3 Huruf (Jukugo)
+            </span>
+            <span class="text-xs font-bold text-slate-400" id="fc-counter-label">Kartu 1 / 108</span>
+          </div>
+          <h2 class="text-base sm:text-xl font-extrabold text-slate-900 mt-1">
+            Mode Flashcard 3D Interaktif (Klik Kartu untuk Membalik)
+          </h2>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2">
+          <label class="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-700 bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-200 cursor-pointer">
+            <input type="checkbox" id="fc-only-unmastered" onchange="rebuildFlashcardDeck()" class="rounded text-indigo-600 focus:ring-indigo-500 w-3.5 h-3.5" />
+            <span>Hanya yang Belum Hafal</span>
+          </label>
+          <button onclick="shuffleFlashcardDeck()" class="px-3 py-1.5 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold text-xs transition flex items-center gap-1.5">
+            <i class="fa-solid fa-shuffle"></i>
+            <span>Acak Urutan</span>
+          </button>
+          <button onclick="openCurrentFlashcardInStrokeView()" class="px-3 py-1.5 rounded-xl bg-amber-50 hover:bg-amber-100 text-amber-800 border border-amber-200 font-bold text-xs transition flex items-center gap-1.5">
+            <i class="fa-solid fa-paintbrush"></i>
+            <span>Latih Cara Tulis Kanji Ini</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- 3D Flip Card Area -->
+      <div class="max-w-2xl mx-auto">
+        <div class="perspective-1000 w-full h-[390px] sm:h-[430px] cursor-pointer select-none" onclick="flipFlashcard()">
+          <div id="fc-inner-3d" class="transform-style-3d relative w-full h-full">
+
+            <!-- SISI DEPAN FLASHCARD -->
+            <div class="backface-hidden absolute inset-0 bg-white rounded-3xl shadow-md border-2 border-slate-200 hover:border-indigo-300 p-5 sm:p-8 flex flex-col justify-between transition-colors">
+              <div class="flex items-center justify-between">
+                <span id="fc-front-badge" class="px-3 py-1 rounded-xl text-xs font-extrabold bg-rose-100 text-rose-800">
+                  JUKUGO (3 KANJI)
+                </span>
+                <div class="flex items-center gap-2" onclick="event.stopPropagation()">
+                  <span id="fc-mastered-indicator" class="hidden px-2.5 py-1 rounded-lg bg-emerald-100 text-emerald-800 text-xs font-bold">
+                    <i class="fa-solid fa-check mr-1"></i>Sudah Hafal
+                  </span>
+                  <button onclick="speakCurrentFlashcard()" class="w-10 h-10 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-600 flex items-center justify-center transition shadow-sm" title="Dengarkan Pelafalan Jepang">
+                    <i class="fa-solid fa-volume-high text-base"></i>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Karakter Kanji / Jukugo Raksasa -->
+              <div class="my-auto text-center space-y-3">
+                <div id="fc-front-kanji" class="font-kanji font-black text-6xl sm:text-8xl text-slate-900 tracking-wider leading-tight">
+                  図書館
+                </div>
+                <p id="fc-front-hint" class="text-xs sm:text-sm font-medium text-slate-400">
+                  Ketuk kartu atau tekan <kbd class="px-1.5 py-0.5 rounded bg-slate-100 border border-slate-300 text-slate-600 text-[11px]">Spasi</kbd> untuk melihat Cara Baca & Arti
+                </p>
+              </div>
+
+              <div class="flex items-center justify-between text-xs text-slate-400 border-t border-slate-100 pt-3" onclick="event.stopPropagation()">
+                <span id="fc-front-strokes"><i class="fa-solid fa-pen-fancy mr-1"></i>Urutan Goresan Tersedia</span>
+                <button onclick="openCurrentFlashcardInStrokeView()" class="text-indigo-600 hover:text-indigo-800 font-bold flex items-center gap-1">
+                  <span>Lihat Animasi Goresan Hanzi/Kanji</span>
+                  <i class="fa-solid fa-arrow-right"></i>
+                </button>
+              </div>
+            </div>
+
+            <!-- SISI BELAKANG FLASHCARD -->
+            <div class="backface-hidden rotate-y-180 absolute inset-0 bg-gradient-to-br from-slate-900 via-indigo-950 to-slate-900 text-white rounded-3xl shadow-xl border-2 border-indigo-500/40 p-5 sm:p-7 flex flex-col justify-between overflow-y-auto">
+              <div class="flex items-center justify-between border-b border-white/10 pb-3">
+                <div class="flex items-center gap-3">
+                  <span id="fc-back-kanji-small" class="font-kanji font-black text-2xl sm:text-3xl text-amber-300">図書館</span>
+                  <div>
+                    <div id="fc-back-reading" class="font-jp font-extrabold text-lg sm:text-xl text-white">としょかん</div>
+                    <div id="fc-back-romaji" class="text-xs font-bold text-indigo-300 uppercase tracking-wider">toshokan</div>
+                  </div>
+                </div>
+
+                <div class="flex items-center gap-2" onclick="event.stopPropagation()">
+                  <button onclick="speakCurrentFlashcard()" class="px-3 py-1.5 rounded-xl bg-white/10 hover:bg-white/20 text-white text-xs font-bold flex items-center gap-1.5 transition">
+                    <i class="fa-solid fa-volume-high text-amber-300"></i>
+                    <span>Suara</span>
+                  </button>
+                  <button onclick="openCurrentFlashcardInStrokeView()" class="px-3 py-1.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 text-xs font-extrabold flex items-center gap-1.5 transition">
+                    <i class="fa-solid fa-paintbrush"></i>
+                    <span>Cara Tulis</span>
+                  </button>
+                </div>
+              </div>
+
+              <!-- Arti Utama & Bedah Komponen Kanji -->
+              <div class="my-auto py-3 space-y-3">
+                <div class="bg-white/10 rounded-2xl p-3.5 border border-white/10">
+                  <div class="text-[11px] font-bold uppercase tracking-wider text-indigo-300">Arti Bahasa Indonesia:</div>
+                  <div id="fc-back-meaning" class="text-xl sm:text-2xl font-extrabold text-emerald-300 mt-0.5">
+                    Perpustakaan
+                  </div>
+                </div>
+
+                <!-- Bedah Per-Kanji (Untuk Jukugo) atau Onyomi/Kunyomi (Untuk Kanji Tunggal) -->
+                <div id="fc-back-breakdown" class="bg-white/5 rounded-2xl p-3.5 border border-white/10 text-xs sm:text-sm space-y-1.5">
+                  <!-- Diisi via JS -->
+                </div>
+
+                <!-- Contoh Pemakaian / Kalimat -->
+                <div class="bg-indigo-900/40 rounded-2xl p-3 border border-indigo-400/20 text-xs space-y-1">
+                  <div class="text-indigo-300 font-bold uppercase text-[10px] tracking-wider">Contoh Penggunaan (JLPT / JFT):</div>
+                  <div id="fc-back-example" class="font-jp text-white text-xs sm:text-sm font-medium"></div>
+                </div>
+              </div>
+
+              <div class="text-center text-[11px] text-slate-400 pt-1">
+                Ketuk kartu untuk kembali ke sisi depan
+              </div>
+            </div>
+
+          </div>
+        </div>
+
+        <!-- Navigasi Bawah Flashcard -->
+        <div class="mt-4 grid grid-cols-2 sm:grid-cols-4 gap-2">
+          <button onclick="prevFlashcard()" class="px-4 py-3 rounded-2xl bg-white hover:bg-slate-100 text-slate-700 font-bold text-xs sm:text-sm border border-slate-200 shadow-sm transition flex items-center justify-center gap-2">
+            <i class="fa-solid fa-arrow-left"></i>
+            <span>Sebelumnya</span>
+          </button>
+
+          <button onclick="markCurrentFlashcardMastered(false)" class="px-4 py-3 rounded-2xl bg-rose-50 hover:bg-rose-100 text-rose-700 font-bold text-xs sm:text-sm border border-rose-200 shadow-sm transition flex items-center justify-center gap-2">
+            <i class="fa-solid fa-rotate-left"></i>
+            <span>Belum Hafal</span>
+          </button>
+
+          <button onclick="markCurrentFlashcardMastered(true)" class="px-4 py-3 rounded-2xl bg-emerald-600 hover:bg-emerald-500 text-white font-bold text-xs sm:text-sm shadow-sm transition flex items-center justify-center gap-2">
+            <i class="fa-solid fa-check"></i>
+            <span>Sudah Hafal!</span>
+          </button>
+
+          <button onclick="nextFlashcard()" class="px-4 py-3 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs sm:text-sm shadow-sm transition flex items-center justify-center gap-2">
+            <span>Berikutnya</span>
+            <i class="fa-solid fa-arrow-right"></i>
+          </button>
+        </div>
+      </div>
+
+      <!-- Daftar Cepat Kisi Kartu di Deck Saat Ini -->
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 sm:p-5 space-y-3">
+        <div class="flex items-center justify-between">
+          <h3 class="text-xs sm:text-sm font-extrabold text-slate-800 uppercase tracking-wider">
+            <i class="fa-solid fa-grip text-indigo-600 mr-1.5"></i>Lompat Cepat Kartu dalam Deck Ini:
+          </h3>
+          <span class="text-xs text-slate-500">Klik item untuk langsung membuka kartu</span>
+        </div>
+        <div id="fc-quick-grid" class="flex flex-wrap gap-1.5 max-h-48 overflow-y-auto p-1">
+          <!-- Di-render via JS -->
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ======================================================================= -->
+    <!-- VIEW 2: CARA PENULISAN KANJI / HANZI (ANIMASI GORESAN & KANVAS TULIS)    -->
+    <!-- ======================================================================= -->
+    <section id="view-stroke" class="hidden space-y-5">
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 sm:p-6 space-y-4">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-slate-100 pb-4">
+          <div>
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-amber-50 text-amber-800 border border-amber-200 mb-1">
+              <i class="fa-solid fa-pen-nib"></i>
+              <span>Animasi Urutan Goresan (Stroke Order) & Kanvas Latihan Menulis</span>
+            </span>
+            <h2 class="text-lg sm:text-2xl font-extrabold text-slate-900">
+              Cara Penulisan Kanji / Hanzi (Tunggal & Gabungan 2-3 Huruf)
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-600">
+              Pilih kosakata Kanji gabungan (seperti <strong>図書館</strong>, <strong>銀行</strong>, <strong>新幹線</strong>) atau ketik Kanji apa saja untuk melihat <strong>animasi urutan goresan bernomor (1, 2, 3...)</strong> sekaligus berlatih menulis di kotak kanvas!
+            </p>
+          </div>
+
+          <!-- Input Cari / Ketik Kanji Cepat -->
+          <div class="flex items-center gap-2 shrink-0">
+            <input
+              type="text"
+              id="custom-stroke-input"
+              onfocus="handleMobileFocusAutoHide()"
+              placeholder="Ketik Kanji (cth: 図書館 / 銀行)"
+              class="px-3.5 py-2 rounded-xl border border-slate-300 focus:border-indigo-600 focus:outline-none font-jp font-bold text-sm w-48 sm:w-56"
+            />
+            <button onclick="loadCustomKanjiIntoStrokeViewer()" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs sm:text-sm transition shrink-0">
+              Tampilkan
+            </button>
+          </div>
+        </div>
+
+        <!-- Bar Pilihan Cepat Jukugo & Kanji Populer -->
+        <div class="space-y-1.5">
+          <div class="text-xs font-bold text-slate-500">Pilih Cepat Kanji Gabungan (Jukugo) & Kanji Populer:</div>
+          <div id="stroke-preset-pills" class="flex items-center gap-1.5 overflow-x-auto pb-1">
+            <!-- Di-render via JS -->
+          </div>
+        </div>
+
+        <!-- Info Kosakata yang Sedang Dipilih & Tab Per-Huruf Kanji -->
+        <div class="bg-slate-900 text-white rounded-2xl p-4 flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div class="flex items-center gap-4">
+            <div id="stroke-word-title" class="font-kanji font-black text-3xl sm:text-4xl text-amber-300 tracking-wider">
+              図書館
+            </div>
+            <div>
+              <div class="flex items-center gap-2">
+                <span id="stroke-word-reading" class="font-jp font-bold text-base sm:text-lg text-white">としょかん (toshokan)</span>
+                <button onclick="speakText(currentStrokeWordObj.kanji)" class="w-7 h-7 rounded-lg bg-white/10 hover:bg-white/20 text-amber-300 flex items-center justify-center text-xs">
+                  <i class="fa-solid fa-volume-high"></i>
+                </button>
+              </div>
+              <div id="stroke-word-meaning" class="text-xs sm:text-sm font-bold text-emerald-400">
+                Arti: Perpustakaan
+              </div>
+            </div>
+          </div>
+
+          <!-- Tab Pemilih Huruf ke-1, ke-2, ke-3 dalam Kata Gabungan -->
+          <div class="flex flex-wrap items-center gap-2">
+            <span class="text-xs text-slate-400 font-semibold">Pilih Huruf untuk Dianimasikan:</span>
+            <div id="stroke-char-tabs" class="flex items-center gap-1.5">
+              <!-- Contoh: [1. 図] [2. 書] [3. 館] -->
+            </div>
+          </div>
+        </div>
+
+        <!-- Grid Dua Kolom: Kiri = Animasi Urutan Goresan SVG, Kanan = Kanvas Tulis Tangan Interaktif -->
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6 pt-2">
+
+          <!-- PANEL KIRI: ANIMASI URUTAN GORESAN (STROKE ORDER) -->
+          <div class="bg-slate-50 rounded-2xl p-4 sm:p-5 border border-slate-200 flex flex-col justify-between space-y-4">
+            <div class="flex items-center justify-between">
+              <div>
+                <span class="text-xs font-extrabold uppercase tracking-wider text-indigo-600 block">Panduan Urutan Goresan (Hanzi / Kanji)</span>
+                <h3 id="active-char-info-title" class="text-base sm:text-lg font-extrabold text-slate-900">
+                  Huruf: 図 (Jumlah Goresan: 7)
+                </h3>
+              </div>
+              <span id="stroke-status-pill" class="px-2.5 py-1 rounded-lg bg-indigo-100 text-indigo-800 font-bold text-xs">
+                Goresan 7 / 7
+              </span>
+            </div>
+
+            <!-- Kotak SVG Animasi Goresan (KanjiVG + Fallback Otomatis) -->
+            <div class="relative w-64 h-64 sm:w-72 sm:h-72 mx-auto rounded-2xl border-2 border-indigo-300 shadow-inner kanji-grid-bg flex items-center justify-center overflow-hidden">
+              <div id="kanjivg-svg-stage" class="w-full h-full flex items-center justify-center p-2">
+                <!-- SVG Goresan Dirender di Sini -->
+              </div>
+            </div>
+
+            <!-- Tombol Kontrol Animasi Goresan -->
+            <div class="space-y-2.5">
+              <div class="grid grid-cols-4 gap-2">
+                <button onclick="stepStrokeOrder(-1)" class="px-3 py-2.5 rounded-xl bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 font-bold text-xs transition flex items-center justify-center gap-1">
+                  <i class="fa-solid fa-backward-step"></i>
+                  <span>Mundur</span>
+                </button>
+                <button onclick="animateActiveKanjiStrokes()" class="col-span-2 px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold text-xs sm:text-sm shadow-sm transition flex items-center justify-center gap-2">
+                  <i class="fa-solid fa-play"></i>
+                  <span>Putar Animasi Goresan</span>
+                </button>
+                <button onclick="stepStrokeOrder(1)" class="px-3 py-2.5 rounded-xl bg-white hover:bg-slate-100 text-slate-700 border border-slate-200 font-bold text-xs transition flex items-center justify-center gap-1">
+                  <span>Maju</span>
+                  <i class="fa-solid fa-forward-step"></i>
+                </button>
+              </div>
+
+              <div class="flex flex-wrap items-center justify-between gap-2 text-xs pt-1">
+                <label class="inline-flex items-center gap-1.5 font-semibold text-slate-700 cursor-pointer">
+                  <input type="checkbox" id="toggle-stroke-numbers" checked onchange="renderCurrentStrokeFrame()" class="rounded text-indigo-600" />
+                  <span>Tampilkan Nomor Urutan (1, 2, 3...)</span>
+                </label>
+
+                <div class="flex items-center gap-1 bg-white px-2.5 py-1 rounded-lg border border-slate-200">
+                  <span class="text-slate-500 font-semibold">Kecepatan:</span>
+                  <button onclick="setStrokeAnimSpeed(900, this)" class="speed-btn px-2 py-0.5 rounded text-slate-600 hover:bg-slate-100">0.5x</button>
+                  <button onclick="setStrokeAnimSpeed(520, this)" class="speed-btn px-2 py-0.5 rounded bg-indigo-600 text-white font-bold">1x</button>
+                  <button onclick="setStrokeAnimSpeed(260, this)" class="speed-btn px-2 py-0.5 rounded text-slate-600 hover:bg-slate-100">2x</button>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- PANEL KANAN: KANVAS LATIHAN MENULIS TANGAN INTERAKTIF -->
+          <div class="bg-slate-50 rounded-2xl p-4 sm:p-5 border border-slate-200 flex flex-col justify-between space-y-4">
+            <div class="flex items-center justify-between">
+              <div>
+                <span class="text-xs font-extrabold uppercase tracking-wider text-rose-600 block">Kanvas Latihan Goresan Tangan</span>
+                <h3 class="text-base sm:text-lg font-extrabold text-slate-900">
+                  Tirukan Goresan dengan Jari (HP) / Mouse (PC)
+                </h3>
+              </div>
+              <div class="flex items-center gap-1.5">
+                <button onclick="undoPracticeCanvasStroke()" class="px-2.5 py-1 rounded-lg bg-white border border-slate-200 hover:bg-slate-100 text-slate-700 font-bold text-xs" title="Undo 1 Goresan">
+                  <i class="fa-solid fa-rotate-left mr-1"></i>Undo
+                </button>
+                <button onclick="clearPracticeCanvas()" class="px-2.5 py-1 rounded-lg bg-rose-100 hover:bg-rose-200 text-rose-700 font-bold text-xs">
+                  <i class="fa-solid fa-eraser mr-1"></i>Hapus
+                </button>
+              </div>
+            </div>
+
+            <!-- Kotak Kanvas Tulis Tangan dengan Bayangan Kanji (Tracing) -->
+            <div class="relative w-64 h-64 sm:w-72 sm:h-72 mx-auto rounded-2xl border-2 border-rose-300 shadow-inner kanji-grid-bg overflow-hidden">
+              <!-- Bayangan Kanji untuk Ditebali -->
+              <div id="practice-shadow-char" class="absolute inset-0 flex items-center justify-center pointer-events-none select-none font-kanji font-black text-[175px] sm:text-[195px] text-slate-200/80 leading-none">
+                図
+              </div>
+              <canvas id="kanji-practice-canvas" width="288" height="288" class="relative z-10 w-full h-full cursor-crosshair"></canvas>
+            </div>
+
+            <!-- Kontrol Ketebalan Kuas & Bayangan -->
+            <div class="flex flex-wrap items-center justify-between gap-2 text-xs">
+              <label class="inline-flex items-center gap-1.5 font-semibold text-slate-700 cursor-pointer">
+                <input type="checkbox" id="toggle-practice-shadow" checked onchange="togglePracticeShadowChar()" class="rounded text-rose-600" />
+                <span>Tampilkan Bayangan Huruf (Tracing)</span>
+              </label>
+
+              <div class="flex items-center gap-2">
+                <span class="text-slate-500 font-semibold">Tebal Kuas:</span>
+                <input type="range" id="brush-size-slider" min="4" max="16" value="9" class="w-24 accent-rose-600 cursor-pointer" />
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+    <!-- ======================================================================= -->
+    <!-- VIEW 3: LATIHAN SOAL & KUIS KANJI / JUKUGO (MODE NORMAL & HARD 30 MENIT)-->
+    <!-- ======================================================================= -->
+    <section id="view-quiz" class="hidden space-y-5">
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 sm:p-6 space-y-4">
+        <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-slate-100 pb-4">
+          <div>
+            <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-bold bg-indigo-50 text-indigo-700 mb-1">
+              <i class="fa-solid fa-graduation-cap"></i>
+              <span>Simulasi Ujian JLPT N5/N4 & JFT-Basic A2</span>
+            </span>
+            <h2 class="text-lg sm:text-2xl font-extrabold text-slate-900">
+              Latihan Soal Kanji Tunggal & Kanji Gabungan (Jukugo)
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-600">
+              Uji penguasaan cara baca (Hiragana) dan arti bahasa Indonesia untuk Kanji N5, N4, serta Jukugo 2–3 huruf (seperti 図書館, 銀行, 郵便局). Tersedia <strong>Mode Normal (Tanpa Waktu)</strong> dan <strong>Mode Hard (Timer 30 Menit)</strong>!
+            </p>
+          </div>
+
+          <!-- Pilihan Mode Normal vs Mode Hard 30 Menit -->
+          <div class="flex flex-wrap items-center gap-2 shrink-0">
+            <div class="bg-slate-100 p-1 rounded-xl flex items-center gap-1">
+              <button id="qmode-normal-btn" onclick="setKanjiQuizMode('normal')" class="px-3 py-2 rounded-lg text-xs font-bold transition bg-white text-slate-900 shadow-sm flex items-center gap-1.5">
+                <i class="fa-solid fa-mug-hot text-emerald-600"></i>
+                <span>Mode Normal (Santai)</span>
+              </button>
+              <button id="qmode-hard-btn" onclick="setKanjiQuizMode('hard')" class="px-3 py-2 rounded-lg text-xs font-bold transition text-slate-600 hover:text-slate-900 flex items-center gap-1.5">
+                <i class="fa-solid fa-fire text-rose-500"></i>
+                <span>Mode Hard (30 Menit)</span>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Bar Pengaturan Sesi Kuis & Timer -->
+        <div class="flex flex-wrap items-center justify-between gap-3">
+          <div class="flex flex-wrap items-center gap-2 text-xs">
+            <label class="bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-200 font-semibold text-slate-700 flex items-center gap-1.5">
+              <span>Jumlah Soal Shuffle:</span>
+              <select id="quiz-count-select" onchange="generateNewKanjiQuiz()" class="bg-transparent font-extrabold text-indigo-600 focus:outline-none">
+                <option value="10" selected>10 Soal Acak</option>
+                <option value="20">20 Soal Acak</option>
+                <option value="30">30 Soal Acak</option>
+                <option value="50">50 Soal Acak</option>
+              </select>
+            </label>
+
+            <label class="bg-slate-50 px-3 py-1.5 rounded-xl border border-slate-200 font-semibold text-slate-700 flex items-center gap-1.5">
+              <span>Tipe Pertanyaan:</span>
+              <select id="quiz-type-select" onchange="generateNewKanjiQuiz()" class="bg-transparent font-extrabold text-indigo-600 focus:outline-none">
+                <option value="mixed" selected>Campuran (Cara Baca + Arti)</option>
+                <option value="reading">Tebak Cara Baca (Hiragana)</option>
+                <option value="meaning">Tebak Arti Indonesia</option>
+              </select>
+            </label>
+          </div>
+
+          <div class="flex items-center gap-2.5">
+            <div id="quiz-timer-pill" class="px-3 py-1.5 rounded-xl bg-slate-900 text-emerald-400 font-mono text-xs font-bold flex items-center gap-1.5">
+              <i class="fa-regular fa-clock"></i>
+              <span id="quiz-timer-text">Tanpa Batas Waktu</span>
+            </div>
+            <button onclick="generateNewKanjiQuiz()" class="px-3.5 py-1.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs transition flex items-center gap-1.5">
+              <i class="fa-solid fa-shuffle"></i>
+              <span>Acak Soal Baru</span>
+            </button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Banner Hasil Skor Kuis -->
+      <div id="kanji-quiz-result" class="hidden bg-gradient-to-r from-indigo-600 via-purple-600 to-rose-600 rounded-2xl p-5 text-white shadow-lg scroll-safe-card">
+        <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+          <div>
+            <span class="px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-white/20 uppercase">Hasil Evaluasi Kuis Kanji</span>
+            <h3 id="kq-score-heading" class="text-2xl sm:text-3xl font-black mt-1">Skor Anda: 100 / 100</h3>
+            <p id="kq-score-sub" class="text-xs sm:text-sm text-indigo-100">Benar 10 dari 10 soal.</p>
+          </div>
+          <button onclick="generateNewKanjiQuiz()" class="px-5 py-3 rounded-xl bg-white text-indigo-700 hover:bg-indigo-50 font-extrabold text-xs sm:text-sm shadow transition shrink-0">
+            <i class="fa-solid fa-rotate-right mr-1"></i>Main Lagi (Shuffle Soal Baru)
+          </button>
+        </div>
+      </div>
+
+      <!-- Daftar Kartu Soal Kuis -->
+      <div id="kanji-quiz-list" class="space-y-4">
+        <!-- Dirender via JS -->
+      </div>
+
+      <!-- Tombol Kumpulkan Semua Jawaban -->
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 flex flex-col sm:flex-row items-center justify-between gap-3">
+        <span class="text-xs sm:text-sm text-slate-600 font-medium">
+          Sudah selesai memilih jawaban? Klik tombol di samping untuk melihat nilai akhir.
+        </span>
+        <button onclick="submitAllKanjiQuiz()" class="w-full sm:w-auto px-6 py-3 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold text-xs sm:text-sm shadow transition">
+          <i class="fa-solid fa-check-double mr-1.5"></i>Periksa Semua Jawaban
+        </button>
+      </div>
+    </section>
+
+
+    <!-- ======================================================================= -->
+    <!-- VIEW 4: KAMUS & TABEL LENGKAP (105 N5 + 200 N4 + 108 JUKUGO)            -->
+    <!-- ======================================================================= -->
+    <section id="view-dict" class="hidden space-y-5">
+      <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 sm:p-6 space-y-4">
+        <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+          <div>
+            <h2 class="text-lg sm:text-2xl font-extrabold text-slate-900">
+              Kamus Lengkap 413 Kanji N5, N4 & Kosakata Gabungan (Jukugo)
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-600">
+              Cari berdasarkan huruf Kanji, cara baca Romaji (misal: <code>toshokan</code>, <code>ginkou</code>, <code>shinkansen</code>), Hiragana, atau arti bahasa Indonesia. Klik kartu untuk melihat <strong>Cara Penulisan (Urutan Goresan)</strong>!
+            </p>
+          </div>
+
+          <div class="relative w-full md:w-80">
+            <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400 text-sm"></i>
+            <input
+              type="text"
+              id="dict-search-input"
+              onfocus="handleMobileFocusAutoHide()"
+              oninput="renderDictionaryGrid()"
+              placeholder="Cari: toshokan, ginkou, perpustakaan, 銀..."
+              class="w-full pl-9 pr-4 py-2.5 rounded-xl border border-slate-300 focus:border-indigo-600 focus:outline-none text-xs sm:text-sm font-medium"
+            />
+          </div>
+        </div>
+
+        <div id="dict-count-info" class="text-xs font-bold text-slate-500">
+          Menampilkan 413 entri
+        </div>
+
+        <!-- Grid Kartu Kamus -->
+        <div id="dict-grid-container" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-3">
+          <!-- Dirender via JS -->
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================= TOAST NOTIFICATION ================= -->
+  <div id="toast-box" class="fixed bottom-4 right-4 z-50 hidden">
+    <div class="bg-slate-900 text-white px-4 py-2.5 rounded-xl shadow-xl border border-slate-700 flex items-center gap-2.5 text-xs sm:text-sm font-semibold">
+      <i class="fa-solid fa-circle-check text-emerald-400"></i>
+      <span id="toast-message">Notifikasi</span>
+    </div>
+  </div>
+
+  <!-- ================= JAVASCRIPT DATA & ENGINE ================= -->
+  <script>
+    /*************************************************************************
+     * 1. DATASET LENGKAP:
+     *    - 108 KANJI GABUNGAN 2-3 HURUF (JUKUGO SERING KELUAR DI JLPT/JFT)
+     *    - 105 KANJI JLPT N5 FULL
+     *    - 200 KANJI JLPT N4 FULL
+     *************************************************************************/
+
+    // A. 108 Kosakata Kanji Gabungan 2-3 Huruf (Jukugo) Populer JLPT N5/N4 & JFT-Basic
+    // Format: [kanji, readingHiragana, romaji, meaningID, breakdownComponent, exampleJP]
+    const RAW_JUKUGO_DATA = [
+      ["図書館", "としょかん", "toshokan", "Perpustakaan", "図 (peta/gambar) + 書 (buku/tulis) + 館 (gedung)", "図書館で本を借ります (Meminjam buku di perpustakaan)"],
+      ["銀行", "ぎんこう", "ginkou", "Bank", "銀 (perak/uang) + 行 (pergi/usaha)", "銀行でお金を下ろします (Mengambil uang di bank)"],
+      ["大使館", "たいしかん", "taishikan", "Kedutaan Besar", "大 (besar) + 使 (utusan) + 館 (gedung)", "インドネシア大使館へ行きます (Pergi ke Kedubes Indonesia)"],
+      ["映画館", "えいがかん", "eigakan", "Gedung Bioskop", "映 (proyeksi) + 画 (gambar) + 館 (gedung)", "映画館で日本の映画を見ます (Menonton film Jepang di bioskop)"],
+      ["美術館", "びじゅつかん", "bijutsukan", "Museum Seni", "美 (indah) + 術 (seni) + 館 (gedung)", "週末に美術館へ行きました (Akhir pekan pergi ke museum seni)"],
+      ["動物園", "どうぶつえん", "doubutsuen", "Kebun Binatang", "動 (gerak) + 物 (makhluk) + 園 (taman)", "動物園でパンダを見ました (Melihat panda di kebun binatang)"],
+      ["郵便局", "ゆうびんきょく", "yuubinkyoku", "Kantor Pos", "郵 (pos) + 便 (kiriman) + 局 (kantor)", "郵便局で切手を買います (Membeli perangko di kantor pos)"],
+      ["体育館", "たいいくかん", "taiikukan", "Gedung Olahraga (GOR)", "体 (tubuh) + 育 (didik) + 館 (gedung)", "体育館でバスケットをします (Bermain basket di GOR)"],
+      ["水族館", "すいぞくかん", "suizokukan", "Akuarium Raksasa", "水 (air) + 族 (keluarga) + 館 (gedung)", "沖縄の水族館は有名です (Akuarium Okinawa terkenal)"],
+      ["旅館", "りょかん", "ryokan", "Penginapan Tradisional Jepang", "旅 (perjalanan) + 館 (gedung)", "京都の旅館に泊まります (Menginap di ryokan Kyoto)"],
+      ["病院", "びょういん", "byouin", "Rumah Sakit", "病 (sakit) + 院 (institusi)", "病院で医者に診てもらいます (Diperiksa dokter di RS)"],
+      ["美容院", "びよういん", "biyouin", "Salon Kecantikan", "美 (indah) + 容 (wajah) + 院 (institusi)", "美容院で髪を切ります (Memotong rambut di salon)"],
+      ["入院", "にゅういん", "nyuuin", "Masuk RS (Rawat Inap)", "入 (masuk) + 院 (rumah sakit)", "先週から入院しています (Dirawat inap sejak minggu lalu)"],
+      ["退院", "たいいん", "taiin", "Keluar dari Rumah Sakit", "退 (mundur/keluar) + 院 (RS)", "明日退院することができます (Besok bisa keluar dari RS)"],
+      ["大学", "だいがく", "daigaku", "Universitas", "大 (besar) + 学 (belajar)", "日本の大学で勉強したいです (Ingin belajar di universitas Jepang)"],
+      ["大学院", "だいがくいん", "daigakuin", "Pascasarjana (S2/S3)", "大 (besar) + 学 (belajar) + 院 (institusi)", "兄は大学院の研究者です (Kakak peneliti di pascasarjana)"],
+      ["留学生", "りゅうがくせい", "ryuugakusei", "Pelajar/Mahasiswa Asing", "留 (tinggal) + 学 (belajar) + 生 (murid)", "私はインドネシアの留学生です (Saya pelajar asing dari Indonesia)"],
+      ["大学生", "だいがくせい", "daigakusei", "Mahasiswa", "大 (besar) + 学 (belajar) + 生 (murid)", "大学生のときアルバイトをしました (Saat mahasiswa bekerja paruh waktu)"],
+      ["高校生", "こうこうせい", "koukousei", "Siswa SMA", "高 (tinggi) + 校 (sekolah) + 生 (murid)", "弟はまだ高校生です (Adik laki-laki masih siswa SMA)"],
+      ["中学校", "ちゅうがっこう", "chuugakkou", "Sekolah Menengah Pertama (SMP)", "中 (tengah) + 学 (belajar) + 校 (sekolah)", "家の近くに中学校があります (Di dekat rumah ada SMP)"],
+      ["小学校", "しょうがっこう", "shougakkou", "Sekolah Dasar (SD)", "小 (kecil) + 学 (belajar) + 校 (sekolah)", "小学校の先生になりたいです (Ingin menjadi guru SD)"],
+      ["先生", "せんせい", "sensei", "Guru / Dokter / Pengajar", "先 (lebih dulu) + 生 (lahir/hidup)", "田中先生はとても親切です (Guru Tanaka sangat ramah)"],
+      ["入学", "にゅうがく", "nyuugaku", "Masuk Sekolah / Kuliah", "入 (masuk) + 学 (sekolah)", "四月に大学へ入学します (Bulan April masuk universitas)"],
+      ["卒業", "そつぎょう", "sotsugyou", "Lulus Sekolah / Kuliah", "卒 (selesai) + 業 (studi/usaha)", "来年日本語学校を卒業します (Tahun depan lulus sekolah bahasa Jepang)"],
+      ["新幹線", "しんかんせん", "shinkansen", "Kereta Cepat Shinkansen", "新 (baru) + 幹 (batang utama) + 線 (jalur)", "新幹線で東京から京都へ行きます (Naik Shinkansen dari Tokyo ke Kyoto)"],
+      ["地下鉄", "ちかてつ", "chikatetsu", "Kereta Bawah Tanah (MRT)", "地 (tanah) + 下 (bawah) + 鉄 (besi)", "東京の地下鉄はとても便利です (MRT Tokyo sangat praktis)"],
+      ["飛行機", "ひこうき", "hikouki", "Pesawat Terbang", "飛 (terbang) + 行 (pergi) + 機 (mesin)", "飛行機でジャカルタへ帰ります (Pulang ke Jakarta naik pesawat)"],
+      ["自転車", "じてんしゃ", "jitensha", "Sepeda", "自 (sendiri) + 転 (berputar) + 車 (kendaraan)", "毎日自転車で駅まで行きます (Setiap hari ke stasiun naik sepeda)"],
+      ["自動車", "じどうしゃ", "jidousha", "Mobil (Otomobil)", "自 (sendiri) + 動 (bergerak) + 車 (kendaraan)", "日本の自動車会社で働きます (Bekerja di perusahaan mobil Jepang)"],
+      ["電車", "でんしゃ", "densha", "Kereta Listrik", "電 (listrik) + 車 (kereta)", "満員電車に乗るのは大変です (Naik kereta penuh sesak itu berat)"],
+      ["空港", "くうこう", "kuukou", "Bandara (Airport)", "空 (langit) + 港 (pelabuhan)", "成田空港に着きました (Telah tiba di Bandara Narita)"],
+      ["駐車場", "ちゅうしゃじょう", "chuushajou", "Tempat Parkir", "駐 (parkir) + 車 (mobil) + 場 (tempat)", "駐車場に車を止めてください (Tolong parkir mobil di tempat parkir)"],
+      ["交通", "こうつう", "koutsuu", "Lalu Lintas / Transportasi", "交 (silang/bergaul) + 通 (lewat)", "交通ルールを守りましょう (Mari patuhi aturan lalu lintas)"],
+      ["信号", "しんごう", "shingou", "Lampu Lalu Lintas", "信 (sinyal) + 号 (tanda)", "信号を右へ曲がってください (Belok kanan di lampu lalu lintas)"],
+      ["交差点", "こうさてん", "kousaten", "Persimpangan Jalan", "交 (silang) + 差 (beda) + 点 (titik)", "あの交差点を渡ります (Menyeberangi persimpangan itu)"],
+      ["乗車券", "じょうしゃけん", "joushaken", "Tiket Kereta / Kendaraan", "乗 (naik) + 車 (kereta) + 券 (tiket)", "改札口で乗車券を入れます (Memasukkan tiket di gerbang pemeriksaan)"],
+      ["会社員", "かいしゃいん", "kaishain", "Karyawan Perusahaan", "会 (kumpul) + 社 (perusahaan) + 員 (anggota)", "父は貿易会社の会社員です (Ayah karyawan perusahaan dagang)"],
+      ["店員", "てんいん", "tenin", "Pegawai Toko / Pelayan", "店 (toko) + 員 (anggota)", "コンビニの店員に道を聞きます (Bertanya jalan pada pegawai konbini)"],
+      ["駅員", "えきいん", "ekiin", "Petugas Stasiun", "駅 (stasiun) + 員 (petugas)", "駅員に忘れ物を届けました (Melaporkan barang tertinggal ke petugas stasiun)"],
+      ["公務員", "こうむいん", "koumuin", "Pegawai Negeri Sipil (PNS)", "公 (umum) + 務 (tugas) + 員 (pegawai)", "姉は市役所の公務員です (Kakak perempuan PNS di balai kota)"],
+      ["警察署", "けいさつしょ", "keisatsusho", "Kantor Polisi", "警 (waspada) + 察 (periksa) + 署 (kantor)", "警察署で免許証を更新します (Memperbarui SIM di kantor polisi)"],
+      ["市役所", "しやくしょ", "shiyakusho", "Kantor Balai Kota", "市 (kota) + 役 (tugas) + 所 (tempat)", "市役所で住民票をもらいます (Mengambil surat domisili di balai kota)"],
+      ["事務所", "じむしょ", "jimusho", "Kantor Administrasi", "事 (urusan) + 務 (tugas) + 所 (tempat)", "２階の事務所へ来てください (Silakan datang ke kantor lantai 2)"],
+      ["会議室", "かいぎしつ", "kaigishitsu", "Ruang Rapat", "会 (kumpul) + 議 (diskusi) + 室 (ruang)", "午後から会議室でミーティングがあります (Sore ada rapat di ruang rapat)"],
+      ["教室", "きょうしつ", "kyoushitsu", "Ruang Kelas", "教 (ajar) + 室 (ruang)", "教室で日本語を練習します (Berlatih bahasa Jepang di ruang kelas)"],
+      ["食堂", "しょくどう", "shokudou", "Kantin / Ruang Makan", "食 (makan) + 堂 (aula/ruang)", "会社の食堂で昼ご飯を食べます (Makan siang di kantin kantor)"],
+      ["運動場", "うんどうじょう", "undoujou", "Lapangan Olahraga", "運 (gerak) + 動 (gerak) + 場 (tempat)", "運動場を三周走ります (Lari tiga putaran di lapangan olahraga)"],
+      ["工場", "こうじょう", "koujou", "Pabrik", "工 (teknik/kerja) + 場 (tempat)", "食品の工場で働いています (Bekerja di pabrik makanan)"],
+      ["会場", "かいじょう", "kaijou", "Tempat Acara (Venue)", "会 (pertemuan) + 場 (tempat)", "試験の会場はあちらです (Tempat ujiannya di sebelah sana)"],
+      ["売り場", "うりば", "uriba", "Konter Penjualan / Bagian Toko", "売 (jual) + り + 場 (tempat)", "靴の売り場は何階ですか (Konter sepatu ada di lantai berapa?)"],
+      ["電話番号", "でんわばんごう", "denwabangou", "Nomor Telepon", "電 (listrik) + 話 (bicara) + 番 (nomor) + 号 (angka)", "電話番号を教えてください (Tolong beritahu nomor telepon Anda)"],
+      ["携帯電話", "けいたいでんわ", "keitaidenwa", "Telepon Genggam (HP)", "携 (bawa) + 帯 (sabuk) + 電 (listrik) + 話 (bicara)", "電車の中で携帯電話を使いません (Tidak memakai HP di dalam kereta)"],
+      ["冷蔵庫", "れいぞうこ", "reizouko", "Kulkas / Lemari Es", "冷 (dingin) + 蔵 (simpan) + 庫 (gudang)", "冷蔵庫に牛乳と卵があります (Di kulkas ada susu dan telur)"],
+      ["洗濯機", "せんたくき", "sentakuki", "Mesin Cuci", "洗 (cuci) + 濯 (bilas) + 機 (mesin)", "新しい洗濯機を買いました (Membeli mesin cuci baru)"],
+      ["掃除機", "そうじき", "soujiki", "Penyedot Debu (Vacuum Cleaner)", "掃 (sapu) + 除 (bersihkan) + 機 (mesin)", "掃除機で部屋をきれいにします (Membersihkan kamar dengan vacuum cleaner)"],
+      ["扇風機", "せんぷうき", "senpuuki", "Kipas Angin", "扇 (kipas) + 風 (angin) + 機 (mesin)", "夏は扇風機とエアコンを使います (Musim panas memakai kipas angin & AC)"],
+      ["自動販売機", "じどうはんばいき", "jidouhanbaiki", "Mesin Penjual Otomatis", "自 (sendiri) + 動 (gerak) + 販 (jual) + 売 (jual) + 機 (mesin)", "自動販売機で冷たいお茶を買います (Membeli teh dingin di vending machine)"],
+      ["食べ物", "たべもの", "tabemono", "Makanan", "食 (makan) + べ + 物 (benda)", "日本の食べ物で寿司が一番好きです (Makanan Jepang yang paling saya suka adalah sushi)"],
+      ["飲み物", "のみもの", "nomimono", "Minuman", "飲 (minum) + み + 物 (benda)", "冷たい飲み物をください (Tolong beri minuman dingin)"],
+      ["買い物", "かいもの", "kaimono", "Belanja / Barang Belanjaan", "買 (beli) + い + 物 (barang)", "スーパーへ買い物に行きます (Pergi berbelanja ke supermarket)"],
+      ["建物", "たてもの", "tatemono", "Bangunan / Gedung", "建 (bangun) + て + 物 (benda)", "あそこに高い建物が見えます (Di sana terlihat bangunan tinggi)"],
+      ["着物", "きもの", "kimono", "Kimono (Pakaian Tradisional)", "着 (pakai) + 物 (benda)", "お祭りで着物を着ました (Memakai kimono saat festival)"],
+      ["荷物", "にもつ", "nimotsu", "Barang Bawaan / Paket", "荷 (muatan) + 物 (barang)", "重い荷物を運びます (Mengangkut barang bawaan yang berat)"],
+      ["忘れ物", "わすれもの", "wasuremono", "Barang Tertinggal", "忘 (lupa) + れ + 物 (barang)", "電車に忘れ物をしてしまいました (Tidak sengaja meninggalkan barang di kereta)"],
+      ["品物", "しなもの", "shinamono", "Barang Dagangan", "品 (produk) + 物 (barang)", "この店は品物が豊富です (Toko ini barang dagangannya lengkap)"],
+      ["食料品", "しょくりょうひん", "shokuryouhin", "Bahan Makanan", "食 (makan) + 料 (bahan) + 品 (barang)", "地下１階で食料品を買います (Membeli bahan makanan di lantai B1)"],
+      ["日用品", "にちようひん", "nichiyouhin", "Barang Kebutuhan Sehari-hari", "日 (hari) + 用 (pakai) + 品 (barang)", "ドラッグストアで日用品を買います (Membeli kebutuhan harian di drugstore)"],
+      ["家族", "かぞく", "kazoku", "Keluarga", "家 (rumah) + 族 (kaum/keluarga)", "私の家族は四人です (Keluarga saya empat orang)"],
+      ["両親", "りょうしん", "ryoushin", "Kedua Orang Tua", "両 (kedua) + 親 (orang tua)", "両親はインドネシアにいます (Kedua orang tua berada di Indonesia)"],
+      ["兄弟", "きょうだい", "kyoudai", "Saudara Kandung", "兄 (kakak laki) + 弟 (adik laki)", "兄弟は兄が一人と妹が一人です (Saudara kandung ada 1 kakak laki & 1 adik perempuan)"],
+      ["姉妹", "しまい", "shimai", "Saudara Perempuan", "姉 (kakak perempuan) + 妹 (adik perempuan)", "彼女たちはとても仲がいい姉妹です (Mereka saudari yang sangat akrab)"],
+      ["友達", "ともだち", "tomodachi", "Teman / Sahabat", "友 (teman) + 達 (jamak/capai)", "週末に友達とカフェへ行きます (Akhir pekan pergi ke kafe bersama teman)"],
+      ["外国人", "がいこくじん", "gaikokujin", "Orang Asing (WNA)", "外 (luar) + 国 (negara) + 人 (orang)", "この町には外国人がたくさん住んでいます (Di kota ini tinggal banyak WNA)"],
+      ["日本語", "にほんご", "nihongo", "Bahasa Jepang", "日 (matahari) + 本 (asal) + 語 (bahasa)", "日本語の漢字はおもしろいです (Kanji bahasa Jepang itu menarik)"],
+      ["英語", "えいご", "eigo", "Bahasa Inggris", "英 (Inggris) + 語 (bahasa)", "英語と日本語が話せます (Bisa berbicara bahasa Inggris dan Jepang)"],
+      ["勉強", "べんきょう", "benkyou", "Belajar", "勉 (usaha keras) + 強 (kuat)", "毎日二時間漢字を勉強します (Setiap hari belajar kanji 2 jam)"],
+      ["仕事", "しごと", "shigoto", "Pekerjaan", "仕 (melayani) + 事 (urusan)", "今の仕事はとてもやりがいがあります (Pekerjaan sekarang sangat bermakna)"],
+      ["料理", "りょうり", "ryouri", "Masakan / Memasak", "料 (bahan) + 理 (mengolah)", "母の料理は世界一おいしいです (Masakan ibu paling enak sedunia)"],
+      ["写真", "しゃしん", "shashin", "Foto", "写 (salin) + 真 (asli/kebenaran)", "スマートフォンのカメラで写真を撮ります (Mengambil foto dengan kamera HP)"],
+      ["地図", "ちず", "chizu", "Peta", "地 (bumi/tanah) + 図 (gambar)", "スマートフォンの地図アプリを見ます (Melihat aplikasi peta di HP)"],
+      ["計画", "けいかく", "keikaku", "Rencana / Proyek", "計 (ukur/rencana) + 画 (rancang)", "夏休みの旅行の計画を立てます (Menyusun rencana wisata liburan musim panas)"],
+      ["経験", "けいけん", "keiken", "Pengalaman", "経 (melewati) + 験 (uji/alami)", "日本で働くのはいい経験になります (Bekerja di Jepang menjadi pengalaman bagus)"],
+      ["習慣", "しゅうかん", "shuukan", "Kebiasaan / Adat", "習 (belajar) + 慣 (terbiasa)", "日本の生活の習慣に慣れました (Sudah terbiasa dengan kebiasaan hidup di Jepang)"],
+      ["説明", "せつめい", "setsumei", "Penjelasan", "説 (uraian) + 明 (terang)", "使い方をわかりやすく説明します (Menjelaskan cara pakai dengan mudah dipahami)"],
+      ["準備", "じゅんび", "junbi", "Persiapan", "準 (standar/siap) + 備 (sediakan)", "会議の資料を準備してください (Tolong siapkan dokumen rapat)"],
+      ["予約", "よやく", "yoyaku", "Reservasi / Pemesanan", "予 (sebelumnya) + 約 (janji)", "インターネットでホテルを予約します (Reservasi hotel melalui internet)"],
+      ["約束", "やくそく", "yakusoku", "Janji", "約 (janji) + 束 (ikat)", "友達と映画を見る約束があります (Ada janji menonton film dengan teman)"],
+      ["受付", "うけつけ", "uketsuke", "Resepsionis / Meja Informasi", "受 (terima) + 付 (tempel/layan)", "受付で名前と電話番号を書きます (Menulis nama & no telepon di resepsionis)"],
+      ["入り口", "いりぐち", "iriguchi", "Pintu Masuk", "入 (masuk) + り + 口 (pintu/mulut)", "建物の入り口はあちらです (Pintu masuk gedung ada di sebelah sana)"],
+      ["出口", "でぐち", "deguchi", "Pintu Keluar", "出 (keluar) + 口 (pintu)", "駅の西口と東口の出口 (Pintu keluar barat dan timur stasiun)"],
+      ["非常口", "ひじょうぐち", "hijouguchi", "Pintu Darurat", "非 (bukan) + 常 (biasa) + 口 (pintu)", "ホテルの非常口を確認します (Memeriksa pintu darurat hotel)"],
+      ["天気", "てんき", "tenki", "Cuaca", "天 (langit) + 気 (udara/energi)", "明日はいい天気になるでしょう (Besok cuacanya mungkin akan cerah)"],
+      ["天気予報", "てんきよほう", "tenkiyohou", "Prakiraan Cuaca", "天 (langit) + 気 (cuaca) + 予 (sebelumnya) + 報 (kabar)", "毎朝テレビで天気予報を見ます (Setiap pagi menonton prakiraan cuaca di TV)"],
+      ["電気", "でんき", "denki", "Listrik / Lampu", "電 (listrik) + 気 (energi)", "部屋の電気を消して寝ます (Mematikan lampu kamar lalu tidur)"],
+      ["元気", "げんき", "genki", "Sehat / Bersemangat", "元 (asal) + 気 (energi)", "いつも元気にあいさつをします (Selalu memberi salam dengan bersemangat)"],
+      ["病気", "びょうき", "byouki", "Sakit (Penyakit)", "病 (sakit) + 気 (kondisi)", "病気のときは会社を休みます (Saat sakit libur dari kantor)"],
+      ["宿題", "しゅくだい", "shukudai", "Pekerjaan Rumah (PR)", "宿 (inap/rumah) + 題 (soal/topik)", "漢字の宿題を全部終わらせました (Telah menyelesaikan semua PR Kanji)"],
+      ["試験", "しけん", "shiken", "Ujian", "試 (coba) + 験 (uji)", "来月日本語能力試験があります (Bulan depan ada ujian JLPT)"],
+      ["質問", "しつもん", "shitsumon", "Pertanyaan", "質 (tanya/kualitas) + 問 (tanya)", "わからないとき先生に質問します (Saat tidak paham bertanya kepada guru)"],
+      ["問題", "もんだい", "mondai", "Masalah / Soal Ujian", "問 (tanya) + 題 (topik)", "この問題は少し難しいです (Soal ini sedikit sulit)"],
+      ["注意", "ちゅうい", "chuui", "Perhatian / Peringatan", "注 (tuang/fokus) + 意 (pikiran)", "足元に注意してください (Harap perhatikan langkah kaki Anda)"],
+      ["禁止", "きんし", "kinshi", "Dilarang (Larangan)", "禁 (larang) + 止 (berhenti)", "ここは駐車禁止です (Di sini dilarang parkir)"],
+      ["安全", "あんぜん", "anzen", "Aman / Keselamatan", "安 (aman/tenang) + 全 (seluruh)", "安全第一で仕事をしましょう (Mari bekerja dengan mengutamakan keselamatan)"],
+      ["危険", "きけん", "kiken", "Bahaya / Berbahaya", "危 (bahaya) + 険 (curam)", "危険ですから触らないでください (Karena berbahaya tolong jangan disentuh)"],
+      ["故障", "こしょう", "koshou", "Rusak (Mesin/Alat)", "故 (sebab) + 障 (halangan)", "エレベーターが故障しています (Lift sedang mengalami kerusakan)"],
+      ["連絡", "れんらく", "renraku", "Hubungi / Kontak / Kabar", "連 (hubung) + 絡 (jalin)", "遅れるときは会社に連絡します (Saat terlambat menghubungi kantor)"],
+      ["相談", "そうだん", "soudan", "Konsultasi / Diskusi", "相 (saling) + 談 (bicara)", "先輩に仕事の相談をします (Berkonsultasi soal pekerjaan kepada senior)"],
+      ["案内", "あんない", "annai", "Panduan / Memandu", "案 (usul/pandu) + 内 (dalam)", "工場の中をご案内します (Memandu Anda berkeliling di dalam pabrik)"]
+    ];
+
+    // B. 105 Kanji JLPT N5 Lengkap
+    // Format: [kanji, readingMain, romaji, meaningID, onyomi, kunyomi, exampleWord]
+    const RAW_N5_DATA = [
+      ["一", "いち / ひと(つ)", "ichi / hitotsu", "Satu", "イチ", "ひと(つ)", "一つ (ひとつ - 1 buah), 一月 (いちがつ - Januari)"],
+      ["二", "に / ふた(つ)", "ni / futatsu", "Dua", "ニ", "ふた(つ)", "二つ (ふたつ - 2 buah), 二人 (ふたり - 2 orang)"],
+      ["三", "さん / みっ(つ)", "san / mittsu", "Tiga", "サン", "みっ(つ)", "三つ (みっつ - 3 buah), 三月 (さんがつ - Maret)"],
+      ["四", "よん / し / よっ(つ)", "yon / shi / yottsu", "Empat", "シ", "よん・よっ(つ)", "四つ (よっつ - 4 buah), 四月 (しがつ - April)"],
+      ["五", "ご / いつ(つ)", "go / itsutsu", "Lima", "ゴ", "いつ(つ)", "五つ (いつつ - 5 buah), 五月 (ごがつ - Mei)"],
+      ["六", "ろく / むっ(つ)", "roku / muttsu", "Enam", "ロク", "むっ(つ)", "六つ (むっつ - 6 buah), 六百 (ろっぴゃく - 600)"],
+      ["七", "なな / しち", "nana / shichi", "Tujuh", "シチ", "なな(つ)", "七つ (ななつ - 7 buah), 七時 (しちじ - Jam 7)"],
+      ["八", "はち / やっ(つ)", "hachi / yattsu", "Delapan", "ハチ", "やっ(つ)", "八つ (やっつ - 8 buah), 八百屋 (やおや - Toko sayur)"],
+      ["九", "きゅう / ここの(つ)", "kyuu / kokonotsu", "Sembilan", "キュウ・ク", "ここの(つ)", "九つ (ここのつ - 9 buah), 九月 (くがつ - September)"],
+      ["十", "じゅう / とお", "juu / too", "Sepuluh", "ジュウ", "とお", "十日 (とおか - Tanggal 10), 十分 (じゅっぷん - 10 menit)"],
+      ["百", "ひゃく", "hyaku", "Seratus", "ヒャク", "-", "三百 (さんびゃく - 300), 百円 (ひゃくえん - 100 Yen)"],
+      ["千", "せん", "sen", "Seribu", "セン", "ち", "三千円 (さんぜんえん - 3000 Yen), 千葉県 (ちばけん)"],
+      ["万", "まん", "man", "Sepuluh Ribu", "マン・バン", "-", "一万円 (いちまんえん - 10.000 Yen)"],
+      ["円", "えん / まる(い)", "en / marui", "Yen (Mata Uang) / Bulat", "エン", "まる(い)", "百円玉 (ひゃくえんだま - Koin 100 Yen)"],
+      ["日", "ひ / にち / び", "hi / nichi", "Hari / Matahari / Jepang", "ニチ・ジツ", "ひ・か", "日曜日 (にちようび - Minggu), 日本 (にほん - Jepang)"],
+      ["月", "つき / がつ / げつ", "tsuki / gatsu", "Bulan / Rembulan", "ゲツ・ガツ", "つき", "月曜日 (げつようび - Senin), 今月 (こんげつ - Bulan ini)"],
+      ["火", "ひ / か", "hi / ka", "Api / Selasa", "カ", "ひ", "火曜日 (かようび - Selasa), 花火 (はなび - Kembang api)"],
+      ["水", "みず / すい", "mizu / sui", "Air / Rabu", "スイ", "みず", "水曜日 (すいようび - Rabu), 水泳 (すいえい - Renang)"],
+      ["木", "き / もく", "ki / moku", "Pohon / Kayu / Kamis", "モク・ボク", "き", "木曜日 (もくようび - Kamis), 木 (き - Pohon)"],
+      ["金", "かね / きん", "kane / kin", "Emas / Uang / Jumat", "キン・コン", "かね", "金曜日 (きんようび - Jumat), お金 (おかね - Uang)"],
+      ["土", "つち / ど", "tsuchi / do", "Tanah / Sabtu", "ド・ト", "つち", "土曜日 (どようび - Sabtu), お土産 (おみやげ - Oleh-oleh)"],
+      ["曜", "よう", "you", "Hari dalam Seminggu", "ヨウ", "-", "何曜日 (なんようび - Hari apa?)"],
+      ["年", "とし / ねん", "toshi / nen", "Tahun", "ネン", "とし", "今年 (ことし - Tahun ini), 来年 (らいねん - Tahun depan)"],
+      ["時", "とき / じ", "toki / ji", "Waktu / Jam", "ジ", "とき", "時計 (とけい - Jam), 時間 (じかん - Waktu)"],
+      ["分", "ふん / わ(かる)", "fun / wakaru", "Menit / Mengerti / Bagi", "ブン・フン", "わ(かる)", "五分 (ごふん - 5 menit), 分かる (わかる - Mengerti)"],
+      ["半", "はん", "han", "Setengah", "ハン", "なか(ば)", "九時半 (くじはん - Jam 9 lewat 30), 半分 (はんぶん - Setengah)"],
+      ["今", "いま / こん", "ima / kon", "Sekarang", "コン・キン", "いま", "今日 (きょう - Hari ini), 今週 (こんしゅう - Minggu ini)"],
+      ["先", "さき / せん", "saki / sen", "Terdahulu / Depan", "セン", "さき", "先生 (せんせい - Guru), 先月 (せんげつ - Bulan lalu)"],
+      ["来", "く(る) / らい", "kuru / rai", "Datang / Yang Akan Datang", "ライ", "く(る)", "来週 (らいしゅう - Minggu depan), 来る (くる - Datang)"],
+      ["毎", "まい", "mai", "Setiap", "マイ", "-", "毎日 (まいにち - Setiap hari), 毎朝 (まいあさ - Setiap pagi)"],
+      ["何", "なに / なん", "nani / nan", "Apa / Berapa", "カ", "なに・なん", "何時 (なんじ - Jam berapa?), 何 (なに - Apa)"],
+      ["人", "ひと / じん / にん", "hito / jin", "Orang / Manusia", "ジン・ニン", "ひと", "日本人 (にほんじん - Orang Jepang), 三人 (さんにん - 3 orang)"],
+      ["男", "おとこ / だん", "otoko / dan", "Laki-laki", "ダン・ナン", "おとこ", "男の人 (おとこのひと - Pria), 男性 (だんせい - Laki-laki)"],
+      ["女", "おんな / じょ", "onna / jo", "Perempuan", "ジョ・ニョ", "おんな", "女の人 (おんなのひと - Wanita), 彼女 (かのじょ - Dia perempuan)"],
+      ["子", "こ / し", "ko / shi", "Anak", "シ・ス", "こ", "子ども (こども - Anak-anak), 女の子 (おんなのこ - Anak perempuan)"],
+      ["父", "ちち / おとう(さん)", "chichi / otousan", "Ayah", "フ", "ちち", "お父さん (おとうさん - Ayah), 父母 (ふぼ - Ayah & Ibu)"],
+      ["母", "はは / おかあ(さん)", "haha / okaasan", "Ibu", "ボ", "はは", "お母さん (おかあさん - Ibu), 母国 (ぼこく - Tanah air)"],
+      ["友", "とも / ゆう", "tomo / yuu", "Teman", "ユウ", "とも", "友達 (ともだち - Teman), 友人 (ゆうじん - Sahabat)"],
+      ["私", "わたし / わたくし", "watashi", "Saya / Pribadi", "シ", "わたし", "私たち (わたしたち - Kami), 私立 (しりつ - Swasta)"],
+      ["目", "め / もく", "me / moku", "Mata / Urutan", "モク", "め", "目薬 (めぐすり - Obat tetes mata), 一番目 (いちばんめ - Pertama)"],
+      ["耳", "みみ", "mimi", "Telinga", "ジ", "みみ", "耳 (みみ - Telinga), 耳鼻科 (じびか - THT)"],
+      ["口", "くち / ぐち", "kuchi / guchi", "Mulut / Pintu", "コウ・ク", "くち", "入り口 (いりぐち - Pintu masuk), 人口 (じんこう - Populasi)"],
+      ["手", "て / しゅ", "te / shu", "Tangan", "シュ", "て", "手紙 (てがみ - Surat), 上手 (じょうず - Pandai/Mahir)"],
+      ["足", "あし / た(りる)", "ashi / tariru", "Kaki / Cukup", "ソク", "あし・た(す)", "足 (あし - Kaki), 足りる (たりる - Cukup)"],
+      ["上", "うえ / あ(げる)", "ue / ageru", "Atas / Naik", "ジョウ", "うえ・のぼ(る)", "机の上 (つくえのうえ - Atas meja), 上手 (じょうず - Mahir)"],
+      ["下", "した / さ(げる)", "shita / sageru", "Bawah / Turun", "カ・ゲ", "した・くだ(さい)", "地下鉄 (ちかてつ - MRT), 下手 (へた - Kurang mahir)"],
+      ["中", "なか / ちゅう", "naka / chuu", "Dalam / Tengah", "チュウ", "なか", "かばんの中 (Dalam tas), 一日中 (いちにちじゅう - Seharian)"],
+      ["外", "そと / がい", "soto / gai", "Luar / Asing", "ガイ・ゲ", "そと・ほか", "外国 (がいこく - Luar negeri), 外出 (がいしゅつ - Keluar)"],
+      ["右", "みぎ / う", "migi / u", "Kanan", "ウ・ユウ", "みぎ", "右手 (みぎて - Tangan kanan), 右側 (みぎがわ - Sisi kanan)"],
+      ["左", "ひだり / さ", "hidari / sa", "Kiri", "サ", "ひだり", "左手 (ひだりて - Tangan kiri), 左折 (させつ - Belok kiri)"],
+      ["前", "まえ / ぜん", "mae / zen", "Depan / Sebelum", "ゼン", "まえ", "名前 (なまえ - Nama), 午前 (ごぜん - Pagi/AM)"],
+      ["後", "うし(ろ) / あと / ご", "ushiro / ato / go", "Belakang / Setelah", "ゴ・コウ", "うし(ろ)・あと", "午後 (ごご - Sore/PM), 後で (あとで - Nanti)"],
+      ["北", "きた / ほく", "kita / hoku", "Utara", "ホク", "きた", "北海道 (ほっかいどう - Hokkaido), 北口 (きたぐち - Pintu utara)"],
+      ["南", "みなみ / なん", "minami / nan", "Selatan", "ナン", "みなみ", "南口 (みなみぐち - Pintu selatan), 東南アジア (Asia Tenggara)"],
+      ["東", "ひがし / とう", "higashi / tou", "Timur", "トウ", "ひがし", "東京 (とうきょう - Tokyo), 東口 (ひがしぐち - Pintu timur)"],
+      ["西", "にし / せい", "nishi / sei", "Barat", "セイ・サイ", "にし", "西口 (にしぐち - Pintu barat), 関西 (かんさい - Kansai)"],
+      ["山", "やま / さん", "yama / san", "Gunung", "サン", "やま", "富士山 (ふじさん - Gunung Fuji), 山登り (やまのぼり - Mendaki)"],
+      ["川", "かわ / がわ", "kawa / gawa", "Sungai", "セン", "かわ", "川 (かわ - Sungai), 小川 (おがわ - Anak sungai)"],
+      ["天", "てん / あま", "ten / ama", "Langit / Surga", "テン", "あま", "天気 (てんき - Cuaca), 天ぷら (てんぷら - Tempura)"],
+      ["気", "き / け", "ki / ke", "Energi / Perasaan / Udara", "キ・ケ", "-", "元気 (げんき - Sehat), 気をつける (Berhati-hati)"],
+      ["雨", "あめ / う", "ame / u", "Hujan", "ウ", "あめ", "大雨 (おおあめ - Hujan deras), 雨季 (うき - Musim hujan)"],
+      ["空", "そら / くう / あ(く)", "sora / kuu / aku", "Langit / Kosong", "クウ", "そら・あ(く)", "空港 (くうこう - Bandara), 青空 (あおぞら - Langit biru)"],
+      ["花", "はな / か", "hana / ka", "Bunga", "カ", "はな", "花見 (はなみ - Melihat bunga sakura), 花屋 (はなや - Toko bunga)"],
+      ["草", "くさ / そう", "kusa / sou", "Rumput", "ソウ", "くさ", "草 (くさ - Rumput), 草原 (そうげん - Padang rumput)"],
+      ["虫", "むし / ちゅう", "mushi / chuu", "Serangga", "チュウ", "むし", "虫 (むし - Serangga)"],
+      ["犬", "いぬ / けん", "inu / ken", "Anjing", "ケン", "いぬ", "子犬 (こいぬ - Anak anjing), 番犬 (ばんけん - Anjing penjaga)"],
+      ["魚", "さかな / ぎょ", "sakana / gyo", "Ikan", "ギョ", "さかな", "焼き魚 (やきざかな - Ikan bakar), 金魚 (きんぎょ - Ikan mas)"],
+      ["貝", "かい", "kai", "Kerang", "バイ", "かい", "貝 (かい - Kerang)"],
+      ["大", "おお(きい) / だい", "ookii / dai", "Besar", "ダイ・タイ", "おお(きい)", "大きい (おおきい - Besar), 大学 (だいがく - Universitas)"],
+      ["小", "ちい(さい) / しょう", "chiisai / shou", "Kecil", "ショウ", "ちい(さい)・こ", "小さい (ちいさい - Kecil), 小学校 (しょうがっこう - SD)"],
+      ["高", "たか(い) / こう", "takai / kou", "Tinggi / Mahal", "コウ", "たか(い)", "高い (たかい - Tinggi/Mahal), 高校 (こうこう - SMA)"],
+      ["安", "やす(い) / あん", "yasui / an", "Murah / Aman", "アン", "やす(い)", "安い (やすい - Murah), 安心 (あんしん - Lega/Tenang)"],
+      ["新", "あたら(しい) / しん", "atarashii / shin", "Baru", "シン", "あたら(しい)", "新しい (あたらしい - Baru), 新聞 (しんぶん - Koran)"],
+      ["古", "ふる(い) / こ", "furui / ko", "Lama / Tua (Benda)", "コ", "ふる(い)", "古い (ふるい - Lama/Kuno), 中古 (ちゅうこ - Barang bekas)"],
+      ["長", "なが(い) / ちょう", "nagai / chou", "Panjang / Ketua", "チョウ", "なが(い)", "長い (ながい - Panjang), 社長 (しゃちょう - Direktur)"],
+      ["多", "おお(い) / た", "ooi / ta", "Banyak", "タ", "おお(い)", "多い (おおい - Banyak), 多分 (たぶん - Mungkin)"],
+      ["少", "すく(ない) / すこ(し)", "sukunai / sukoshi", "Sedikit", "ショウ", "すく(ない)・すこ(し)", "少し (すこし - Sedikit), 少ない (すくない - Jarang)"],
+      ["早", "はや(い) / そう", "hayai / sou", "Cepat / Dini", "ソウ", "はや(い)", "早い (はやい - Cepat/Pagi), 早朝 (そうちょう - Pagi buta)"],
+      ["白", "しろ(い) / はく", "shiroi / haku", "Putih", "ハク", "しろ(い)", "白い (しろい - Putih), 白紙 (はくし - Kertas kosong)"],
+      ["赤", "あか(い) / せき", "akai / seki", "Merah", "セキ", "あか(い)", "赤い (あかい - Merah), 赤ちゃん (あかちゃん - Bayi)"],
+      ["青", "あお(い) / せい", "aoi / sei", "Biru", "セイ", "あお(い)", "青い (あおい - Biru), 青年 (せいねん - Pemuda)"],
+      ["行", "い(く) / こう", "iku / kou", "Pergi / Baris", "コウ・ギョウ", "い(く)・おこな(う)", "行く (いく - Pergi), 旅行 (りょこう - Wisata)"],
+      ["来", "く(る) / らい", "kuru / rai", "Datang", "ライ", "く(る)", "来月 (らいげつ - Bulan depan)"],
+      ["帰", "かえ(る) / き", "kaeru / ki", "Pulang", "キ", "かえ(る)", "帰る (かえる - Pulang), 帰国 (きこく - Pulang ke tanah air)"],
+      ["食", "た(べる) / しょく", "taberu / shoku", "Makan", "ショク", "た(べる)", "食べる (たべる - Makan), 食事 (しょくじ - Makan bersama)"],
+      ["飲", "の(む) / いん", "nomu / in", "Minum", "イン", "の(む)", "飲む (のむ - Minum), 飲料 (いんりょう - Minuman)"],
+      ["見", "み(る) / けん", "miru / ken", "Melihat", "ケン", "み(る)", "見る (みる - Melihat), 見学 (けんがく - Kunjungan studi)"],
+      ["聞", "き(く) / ぶん", "kiku / bun", "Mendengar / Bertanya", "ブン・モン", "き(く)", "聞く (きく - Mendengar), 新聞 (しんぶん - Koran)"],
+      ["読", "よ(む) / どく", "yomu / doku", "Membaca", "ドク", "よ(む)", "読む (よむ - Membaca), 読書 (どくしょ - Membaca buku)"],
+      ["書", "か(く) / しょ", "kaku / sho", "Menulis / Buku", "ショ", "か(く)", "書く (かく - Menulis), 辞書 (じしょ - Kamus)"],
+      ["話", "はな(す) / わ", "hanasu / wa", "Berbicara / Cerita", "ワ", "はな(す)・はなし", "話す (はなす - Berbicara), 電話 (でんわ - Telepon)"],
+      ["買", "か(う) / ばい", "kau / bai", "Membeli", "バイ", "か(う)", "買う (かう - Membeli), 買い物 (かいもの - Belanja)"],
+      ["休", "やす(む) / きゅう", "yasumu / kyuu", "Istirahat / Libur", "キュウ", "やす(む)", "休む (やすむ - Istirahat), 休日 (きゅうじつ - Hari libur)"],
+      ["立", "た(つ) / りつ", "tatsu / ritsu", "Berdiri", "リツ", "た(つ)", "立つ (たつ - Berdiri), 国立 (こくりつ - Negeri/Nasional)"],
+      ["入", "はい(る) / い(れる)", "hairu / ireru", "Masuk / Memasukkan", "ニュウ", "はい(る)・い(れる)", "入る (はいる - Masuk), 入口 (いりぐち - Pintu masuk)"],
+      ["出", "で(る) / だ(す)", "deru / dasu", "Keluar / Mengeluarkan", "シュツ", "で(る)・だ(す)", "出る (でる - Keluar), 出かける (でかける - Pergi keluar)"],
+      ["会", "あ(う) / かい", "au / kai", "Bertemu / Perkumpulan", "カイ", "あ(う)", "会う (あう - Bertemu), 会社 (かいしゃ - Perusahaan)"],
+      ["学", "まな(ぶ) / がく", "manabu / gaku", "Belajar / Ilmu", "ガク", "まな(ぶ)", "学生 (がくせい - Pelajar), 学校 (がっこう - Sekolah)"],
+      ["校", "こう", "kou", "Sekolah", "コウ", "-", "学校 (がっこう - Sekolah), 校長 (こうちょう - Kepala sekolah)"],
+      ["生", "い(きる) / う(まれる)", "ikiru / umareru", "Hidup / Lahir / Murid", "セイ・ショウ", "い(きる)・う(まれる)", "生活 (せいかつ - Kehidupan), 誕生日 (たんじょうび - Ulang tahun)"],
+      ["店", "みせ / てん", "mise / ten", "Toko", "テン", "みせ", "店 (みせ - Toko), 売店 (ばいてん - Kios)"],
+      ["駅", "えき", "eki", "Stasiun", "エキ", "-", "駅前 (えきまえ - Depan stasiun), 東京駅 (とうきょうえき)"],
+      ["社", "しゃ / やしろ", "sha / yashiro", "Perusahaan / Kuil Shinto", "シャ", "やしろ", "会社 (かいしゃ - Perusahaan), 神社 (じんじゃ - Kuil)"],
+      ["国", "くに / こく", "kuni / koku", "Negara", "コク", "くに", "外国 (がいこく - Luar negeri), 国 (くに - Negara)"],
+      ["車", "くるま / しゃ", "kuruma / sha", "Mobil / Kendaraan / Roda", "シャ", "くるま", "車 (くるま - Mobil), 電車 (でんしゃ - Kereta listrik)"]
+    ];
+
+    // C. 200 Kanji JLPT N4 Lengkap (Sering Keluar di JLPT N4 & JFT-Basic A2)
+    // Format: [kanji, readingMain, romaji, meaningID, onyomi, kunyomi]
+    const RAW_N4_DATA = [
+      ["家", "いえ / うち / か", "ie / uchi / ka", "Rumah / Keluarga", "カ・ケ", "いえ・うち"],
+      ["族", "ぞく", "zoku", "Keluarga / Suku", "ゾク", "-"],
+      ["親", "おや / した(しい)", "oya / shitashii", "Orang Tua / Akrab", "シン", "おや・した(しい)"],
+      ["兄", "あに / きょう", "ani / kyou", "Kakak Laki-laki", "ケイ・キョウ", "あに"],
+      ["弟", "おとうと / だい", "otouto / dai", "Adik Laki-laki", "テイ・ダイ", "おとうと"],
+      ["姉", "あね / し", "ane / shi", "Kakak Perempuan", "シ", "あね"],
+      ["妹", "いもうと / まい", "imouto / mai", "Adik Perempuan", "マイ", "いもうと"],
+      ["自", "じ / みずか(ら)", "ji / mizukara", "Diri Sendiri", "ジ・シ", "みずか(ら)"],
+      ["分", "ぶん / わ(ける)", "bun / wakeru", "Bagian / Membagi", "ブン・フン", "わ(ける)"],
+      ["体", "からだ / たい", "karada / tai", "Tubuh / Badan", "タイ", "からだ"],
+      ["頭", "あたま / ず", "atama / zu", "Kepala", "トウ・ズ", "あたま"],
+      ["顔", "かお / がん", "kao / gan", "Wajah", "ガン", "かお"],
+      ["首", "くび / しゅ", "kubi / shu", "Leher", "シュ", "くび"],
+      ["心", "こころ / しん", "kokoro / shin", "Hati / Pikiran", "シン", "こころ"],
+      ["声", "こえ / せい", "koe / sei", "Suara (Makhluk Hidup)", "セイ", "こえ"],
+      ["音", "おと / おん", "oto / on", "Bunyi / Musik", "オン", "おと・ね"],
+      ["力", "ちから / りょく", "chikara / ryoku", "Tenaga / Kekuatan", "リョク・リキ", "ちから"],
+      ["病", "びょう / やまい", "byou / yamai", "Sakit / Penyakit", "ビョウ", "や(む)"],
+      ["院", "いん", "in", "Institusi / Rumah Sakit", "イン", "-"],
+      ["医", "い", "i", "Medis / Dokter", "イ", "-"],
+      ["者", "しゃ / もの", "sha / mono", "Orang / Pelaku Profesi", "シャ", "もの"],
+      ["薬", "くすり / やく", "kusuri / yaku", "Obat", "ヤク", "くすり"],
+      ["元", "もと / げん", "moto / gen", "Asal / Awal / Sehat", "ゲン・ガン", "もと"],
+      ["死", "し(ぬ) / し", "shinu / shi", "Mati / Kematian", "シ", "し(ぬ)"],
+      ["生", "う(む) / なま", "umu / nama", "Melahirkan / Mentah", "セイ", "う(む)・なま"],
+      ["歩", "ある(く) / ほ", "aruku / ho", "Berjalan Kaki", "ホ・ブ", "ある(く)"],
+      ["走", "はし(る) / そう", "hashiru / sou", "Berlari", "ソウ", "はし(る)"],
+      ["止", "と(まる) / し", "tomaru / shi", "Berhenti", "シ", "と(まる)・と(める)"],
+      ["動", "うご(く) / どう", "ugoku / dou", "Bergerak", "ドウ", "うご(く)"],
+      ["働", "はたら(く) / どう", "hataraku / dou", "Bekerja", "ドウ", "はたら(く)"],
+      ["作", "つく(る) / さく", "tsukuru / saku", "Membuat / Karya", "サク・サ", "つく(る)"],
+      ["使", "つか(う) / し", "tsukau / shi", "Menggunakan / Utusan", "シ", "つか(う)"],
+      ["借", "か(りる) / しゃく", "kariru / shaku", "Meminjam", "シャク", "か(りる)"],
+      ["貸", "か(す) / たい", "kasu / tai", "Meminjamkan", "タイ", "か(す)"],
+      ["返", "かえ(す) / へん", "kaesu / hen", "Mengembalikan / Balas", "ヘン", "かえ(す)"],
+      ["送", "おく(る) / そう", "okuru / sou", "Mengirim / Mengantar", "ソウ", "おく(る)"],
+      ["届", "とど(く) / とど(ける)", "todoku / todokeru", "Sampai / Mengantarkan", "-", "とど(く)"],
+      ["持", "も(つ) / じ", "motsu / ji", "Membawa / Memegang", "ジ", "も(つ)"],
+      ["待", "ま(つ) / たい", "matsu / tai", "Menunggu", "タイ", "ま(つ)"],
+      ["急", "いそ(ぐ) / きゅう", "isogu / kyuu", "Buru-buru / Darurat", "キュウ", "いそ(ぐ)"],
+      ["乗", "の(る) / じょう", "noru / jou", "Naik Kendaraan", "ジョウ", "の(る)"],
+      ["降", "お(りる) / ふ(る)", "oriru / furu", "Turun (Kendaraan/Hujan)", "コウ", "お(りる)・ふ(る)"],
+      ["運", "はこ(ぶ) / うん", "hakobu / un", "Mengangkut / Nasib / Olahraga", "ウン", "はこ(ぶ)"],
+      ["転", "ころ(がる) / てん", "korogaru / ten", "Berputar / Jatuh", "テン", "ころ(がる)"],
+      ["通", "とお(る) / かよ(う)", "tooru / kayou", "Melewati / Pulang-Pergi", "ツウ", "とお(る)・かよ(う)"],
+      ["進", "すす(む) / しん", "susumu / shin", "Maju", "シン", "すす(む)"],
+      ["集", "あつ(まる) / しゅう", "atsumaru / shuu", "Berkumpul / Koleksi", "シュウ", "あつ(まる)"],
+      ["並", "なら(ぶ) / へい", "narabu / hei", "Berbaris / Berjajar", "ヘイ", "なら(ぶ)"],
+      ["開", "あ(く) / ひら(く)", "aku / hiraku", "Membuka / Buka", "カイ", "あ(く)・ひら(く)"],
+      ["閉", "し(まる) / と(じる)", "shimaru / tojiru", "Menutup / Tutup", "ヘイ", "し(まる)・と(じる)"],
+      ["始", "はじ(まる) / し", "hajimaru / shi", "Mulai", "シ", "はじ(まる)"],
+      ["終", "お(わる) / しゅう", "owaru / shuu", "Selesai / Akhir", "シュウ", "お(わる)"],
+      ["起", "お(きる) / き", "okiru / ki", "Bangun Tidur / Terjadi", "キ", "お(きる)"],
+      ["寝", "ね(る) / しん", "neru / shin", "Tidur / Berbaring", "シン", "ね(る)"],
+      ["着", "き(る) / つ(く)", "kiru / tsuku", "Memakai Baju / Tiba", "チャク", "き(る)・つ(く)"],
+      ["脱", "ぬ(ぐ) / だつ", "nugu / datsu", "Melepas Pakaian", "ダツ", "ぬ(ぐ)"],
+      ["洗", "あら(う) / せん", "arau / sen", "Mencuci", "セン", "あら(う)"],
+      ["切", "き(る) / せつ", "kiru / setsu", "Memotong / Penting", "セツ", "き(る)"],
+      ["焼", "や(く) / しょう", "yaku / shou", "Memanggang / Membakar", "ショウ", "や(く)"],
+      ["沸", "わ(く) / ふつ", "waku / futsu", "Mendidih", "フツ", "わ(く)"],
+      ["売", "う(る) / ばい", "uru / bai", "Menjual", "バイ", "う(る)"],
+      ["払", "はら(う) / ふつ", "harau / futsu", "Membayar", "フツ", "はら(う)"],
+      ["換", "か(える) / かん", "kaeru / kan", "Menukar / Mengganti", "カン", "か(える)"],
+      ["選", "えら(ぶ) / せん", "erabu / sen", "Memilih", "セン", "えら(ぶ)"],
+      ["決", "き(める) / けつ", "kimeru / ketsu", "Memutuskan", "ケツ", "き(める)"],
+      ["知", "し(る) / ち", "shiru / chi", "Mengetahui / Pengetahuan", "チ", "し(る)"],
+      ["思", "おも(う) / し", "omou / shi", "Berpikir / Mengira", "シ", "おも(う)"],
+      ["考", "かんが(える) / こう", "kangaeru / kou", "Memikirkan / Pertimbangan", "コウ", "かんが(える)"],
+      ["教", "おし(える) / きょう", "oshieru / kyou", "Mengajar / Memberitahu", "キョウ", "おし(える)"],
+      ["習", "なら(う) / しゅう", "narau / shuu", "Belajar dari Guru / Latihan", "シュウ", "なら(う)"],
+      ["勉", "べん", "ben", "Berusaha Keras", "ベン", "-"],
+      ["強", "つよ(い) / きょう", "tsuyoi / kyou", "Kuat / Belajar", "キョウ・ゴウ", "つよ(い)"],
+      ["弱", "よわ(い) / じゃく", "yowai / jaku", "Lemah", "ジャク", "よわ(い)"],
+      ["問", "と(う) / もん", "tou / mon", "Bertanya / Masalah", "モン", "と(う)"],
+      ["題", "だい", "dai", "Topik / Judul / Soal", "ダイ", "-"],
+      ["答", "こた(える) / とう", "kotaeru / tou", "Menjawab / Jawaban", "トウ", "こた(える)"],
+      ["試", "ため(す) / し", "tamesu / shi", "Mencoba / Ujian", "シ", "ため(す)"],
+      ["験", "けん", "ken", "Ujian / Pengalaman", "ケン", "-"],
+      ["宿", "やど / しゅく", "yado / shuku", "Penginapan / PR", "シュク", "やど"],
+      ["文", "ぶん / もん", "bun / mon", "Kalimat / Sastra / Budaya", "ブン・モン", "ふみ"],
+      ["字", "じ / あざ", "ji / aza", "Huruf / Karakter", "ジ", "-"],
+      ["漢", "かん", "kan", "Tiongkok / Kanji", "カン", "-"],
+      ["英", "えい", "ei", "Inggris / Unggul", "エイ", "-"],
+      ["語", "かた(る) / ご", "kataru / go", "Bahasa / Kata", "ゴ", "かた(る)"],
+      ["紙", "かみ / し", "kami / shi", "Kertas", "シ", "かみ"],
+      ["手", "て / しゅ", "te / shu", "Tangan / Surat", "シュ", "て"],
+      ["図", "ず / はか(る)", "zu / hakaru", "Gambar / Peta / Diagram", "ズ・ト", "はか(る)"],
+      ["館", "かん / やかた", "kan / yakata", "Gedung Besar / Aula", "カン", "やかた"],
+      ["室", "しつ / むろ", "shitsu / muro", "Ruangan / Kamar", "シツ", "むろ"],
+      ["堂", "どう", "dou", "Aula / Gedung", "ドウ", "-"],
+      ["場", "ば / じょう", "ba / jou", "Tempat / Arena", "ジョウ", "ば"],
+      ["所", "ところ / しょ", "tokoro / sho", "Tempat / Lokasi", "ショ", "ところ"],
+      ["屋", "や", "ya", "Toko / Atap / Ruangan", "オク", "や"],
+      ["階", "かい", "kai", "Lantai Gedung / Tingkat", "カイ", "-"],
+      ["建", "た(てる) / けん", "tateru / ken", "Membangun", "ケン", "た(てる)"],
+      ["物", "もの / ぶつ", "mono / butsu", "Benda / Barang", "ブツ・モツ", "もの"],
+      ["品", "しな / ひん", "shina / hin", "Barang / Produk", "ヒン", "しな"],
+      ["料", "りょう", "ryou", "Bahan / Biaya", "リョウ", "-"],
+      ["理", "り", "ri", "Akal / Logika / Mengolah", "リ", "-"],
+      ["味", "あじ / み", "aji / mi", "Rasa / Makna", "ミ", "あじ"],
+      ["色", "いろ / しょく", "iro / shoku", "Warna", "ショク・シキ", "いろ"],
+      ["黒", "くろ(い) / こく", "kuroi / koku", "Hitam", "コク", "くろ(い)"],
+      ["茶", "ちゃ", "cha", "Teh / Cokelat", "チャ・サ", "-"],
+      ["肉", "にく", "niku", "Daging", "ニク", "-"],
+      ["鳥", "とり / ちょう", "tori / chou", "Burung / Ayam", "チョウ", "とり"],
+      ["牛", "うし / ぎゅう", "ushi / gyuu", "Sapi", "ギュウ", "うし"],
+      ["豚", "ぶた / とん", "buta / ton", "Babi", "トン", "ぶた"],
+      ["飯", "めし / はん", "meshi / han", "Nasi / Makanan", "ハン", "めし"],
+      ["野", "の / や", "no / ya", "Ladang / Lapangan", "ヤ", "の"],
+      ["菜", "な / さい", "na / sai", "Sayur / Lauk", "サイ", "な"],
+      ["果", "か / は(たす)", "ka / hatasu", "Buah / Hasil", "カ", "は(たす)"],
+      ["氷", "こおり / ひょう", "koori / hyou", "Es", "ヒョウ", "こおり"],
+      ["湯", "ゆ / とう", "yu / tou", "Air Panas", "トウ", "ゆ"],
+      ["町", "まち / ちょう", "machi / chou", "Kota Kecil / Jalan", "チョウ", "まち"],
+      ["市", "し / いち", "shi / ichi", "Kota / Pasar", "シ", "いち"],
+      ["区", "く", "ku", "Distrik / Wilayah Kota", "ク", "-"],
+      ["県", "けん", "ken", "Prefektur / Provinsi", "ケン", "-"],
+      ["都", "と / みやこ", "to / miyako", "Ibu Kota / Metropolis", "ト・ツ", "みやこ"],
+      ["道", "みち / どう", "michi / dou", "Jalan / Cara", "ドウ", "みち"],
+      ["京", "きょう / けい", "kyou / kei", "Ibu Kota", "キョウ・ケイ", "-"],
+      ["界", "かい", "kai", "Dunia / Batas", "カイ", "-"],
+      ["世", "よ / せい", "yo / sei", "Dunia / Generasi", "セイ・セ", "よ"],
+      ["民", "たみ / みん", "tami / min", "Rakyat / Warga", "ミン", "たみ"],
+      ["주", "ぬし / しゅ", "nushi / shu", "Pemilik / Utama", "シュ", "ぬし・おも", "主"],
+      ["住", "す(む) / じゅう", "sumu / juu", "Tinggal / Menetap", "ジュウ", "す(む)"],
+      ["地", "ち / じ", "chi / ji", "Tanah / Bumi / Daratan", "チ・ジ", "-"],
+      ["池", "いけ / ち", "ike / chi", "Kolam", "チ", "いけ"],
+      ["海", "うみ / かい", "umi / kai", "Laut / Pantai", "カイ", "うみ"],
+      ["洋", "よう", "you", "Samudra / Gaya Barat", "ヨウ", "-"],
+      ["港", "みなと / こう", "minato / kou", "Pelabuhan", "コウ", "みなと"],
+      ["島", "しま / とう", "shima / tou", "Pulau", "トウ", "しま"],
+      ["森", "もり / しん", "mori / shin", "Hutan Lebat", "シン", "もり"],
+      ["林", "はやし / りん", "hayashi / rin", "Hutan Kecil / Pepohonan", "リン", "はやし"],
+      ["田", "た / でん", "ta / den", "Sawah", "デン", "た"],
+      ["石", "いし / せき", "ishi / seki", "Batu", "セキ", "いし"],
+      ["砂", "すな / さ", "suna / sa", "Pasir", "サ・シャ", "すな"],
+      ["銀", "ぎん", "gin", "Perak / Bank", "ギン", "-"],
+      ["鉄", "てつ", "tetsu", "Besi", "テツ", "-"],
+      ["風", "かぜ / ふう", "kaze / fuu", "Angin / Gaya", "フウ", "かぜ"],
+      ["雪", "ゆき / せつ", "yuki / setsu", "Salju", "セツ", "ゆき"],
+      ["雲", "くも / うん", "kumo / un", "Awan", "ウン", "くも"],
+      ["雷", "かみなり / らい", "kaminari / rai", "Petir / Guntur", "ライ", "かみなり"],
+      ["晴", "は(れる) / せい", "hareru / sei", "Cerah", "セイ", "は(れる)"],
+      ["曇", "くも(る) / どん", "kumoru / don", "Mendung / Berawan", "ドン", "くも(る)"],
+      ["寒", "さむ(い) / かん", "samui / kan", "Dingin (Cuaca)", "カン", "さむ(い)"],
+      ["暑", "あつ(い) / しょ", "atsui / sho", "Panas (Cuaca)", "ショ", "あつ(い)"],
+      ["暖", "あたた(かい) / だん", "atatakai / dan", "Hangat", "ダン", "あたた(かい)"],
+      ["涼", "すず(しい) / りょう", "suzushii / ryou", "Sejuk", "リョウ", "すず(しい)"],
+      ["春", "はる / しゅん", "haru / shun", "Musim Semi", "シュン", "はる"],
+      ["夏", "なつ / か", "natsu / ka", "Musim Panas", "カ", "なつ"],
+      ["秋", "あき / しゅう", "aki / shuu", "Musim Gugur", "シュウ", "あき"],
+      ["冬", "ふゆ / とう", "fuyu / tou", "Musim Dingin", "トウ", "ふゆ"],
+      ["朝", "あさ / ちょう", "asa / chou", "Pagi", "チョウ", "あさ"],
+      ["昼", "ひる / ちゅう", "hiru / chuu", "Siang", "チュウ", "ひる"],
+      ["夕", "ゆう / せき", "yuu / seki", "Sore / Petang", "セキ", "ゆう"],
+      ["方", "かた / ほう", "kata / hou", "Arah / Cara / Orang (Sopan)", "ホウ", "かた"],
+      ["夜", "よる / や", "yoru / ya", "Malam", "ヤ", "よる・よ"],
+      ["晩", "ばん", "ban", "Malam Hari", "バン", "-"],
+      ["週", "しゅう", "shuu", "Minggu (Pekan)", "シュウ", "-"],
+      ["去", "さ(る) / きょ", "saru / kyo", "Lalu / Meninggalkan", "キョ・コ", "さ(る)"],
+      ["明", "あか(るい) / めい", "akarui / mei", "Terang / Besok / Jelas", "メイ・ミョウ", "あか(るい)"],
+      ["暗", "くら(い) / あん", "kurai / an", "Gelap", "アン", "くら(い)"],
+      ["広", "ひろ(い) / こう", "hiroi / kou", "Luas", "コウ", "ひろ(い)"],
+      ["狭", "せま(い) / きょう", "semai / kyou", "Sempit", "キョウ", "せま(い)"],
+      ["遠", "とお(い) / えん", "tooi / en", "Jauh", "エン", "とお(い)"],
+      ["近", "ちか(い) / きん", "chikai / kin", "Dekat", "キン", "ちか(い)"],
+      ["重", "おも(い) / じゅう", "omoi / juu", "Berat / Bertumpuk", "ジュウ・チョウ", "おも(い)・かさ(ねる)"],
+      ["軽", "かる(い) / けい", "karui / kei", "Ringan", "ケイ", "かる(い)"],
+      ["太", "ふと(い) / たい", "futoi / tai", "Gemuk / Tebal", "タイ・タ", "ふと(い)"],
+      ["細", "ほそ(い) / さい", "hosoi / sai", "Tipis / Ramping / Detail", "サイ", "ほそ(い)・こま(かい)"],
+      ["短", "みじか(い) / たん", "mijikai / tan", "Pendek", "タン", "みじか(い)"],
+      ["低", "ひく(い) / てい", "hikui / tei", "Rendah", "テイ", "ひく(い)"],
+      ["深", "ふか(い) / しん", "fukai / shin", "Dalam (Kedalaman)", "シン", "ふか(い)"],
+      ["浅", "あさ(い) / せん", "asai / sen", "Dangkal", "セン", "あさ(い)"],
+      ["وص", "あつ(い) / こう", "atsui / kou", "Tebal (Benda/Buku)", "コウ", "あつ(い)", "厚"],
+      ["薄", "うす(い) / はく", "usui / haku", "Tipis / Encer", "ハク", "うす(い)"],
+      ["甘", "あま(い) / かん", "amai / kan", "Manis", "カン", "あま(い)"],
+      ["辛", "から(い) / しん", "karai / shin", "Pedas / Berat", "シン", "から(い)・つら(い)"],
+      ["苦", "にが(い) / くる(しい)", "nigai / kurushii", "Pahit / Menderita", "ク", "にが(い)・くる(しい)"],
+      ["汚", "きたな(い) / お", "kitanai / o", "Kotor", "オ", "きたな(い)・よご(れる)"],
+      ["美", "うつく(しい) / び", "utsukushii / bi", "Indah / Cantik", "ビ", "うつく(しい)"],
+      ["楽", "たの(しい) / がく", "tanoshii / gaku", "Menyenangkan / Mudah / Musik", "ガク・ラク", "たの(しい)"],
+      ["嬉", "うれ(しい) / き", "ureshii / ki", "Senang / Gembira", "キ", "うれ(しい)"],
+      ["悲", "かな(しい) / ひ", "kanashii / hi", "Sedih", "ヒ", "かな(しい)"],
+      ["忙", "いそが(しい) / ぼう", "isogashii / bou", "Sibuk", "ボウ", "いそが(しい)"],
+      ["危", "あぶ(ない) / き", "abunai / ki", "Berbahaya", "キ", "あぶ(ない)"],
+      ["難", "むずか(しい) / なん", "muzukashii / nan", "Sulit / Kesulitan", "ナン", "むずか(しい)"],
+      ["易", "やさ(しい) / えき", "yasashii / eki", "Mudah", "イ・エキ", "やさ(しい)"],
+      ["正", "ただ(しい) / せい", "tadashii / sei", "Benar / Tepat", "セイ・ショウ", "ただ(しい)"],
+      ["同", "おな(じ) / どう", "onaji / dou", "Sama", "ドウ", "おな(じ)"],
+      ["違", "ちが(う) / い", "chigau / i", "Berbeda / Salah", "イ", "ちが(う)"],
+      ["特", "とく", "toku", "Khusus / Spesial", "トク", "-"],
+      ["別", "わか(れる) / べつ", "wakareru / betsu", "Terpisah / Lain / Berbeda", "ベツ", "わか(れる)"],
+      ["有", "あ(る) / ゆう", "aru / yuu", "Ada / Memiliki / Terkenal", "ユウ・ウ", "あ(る)"],
+      ["無", "な(い) / む", "nai / mu", "Tidak Ada / Gratis", "ム・ブ", "な(い)"],
+      ["便", "べん / たよ(り)", "ben / tayori", "Praktis / Kabar / Penerbangan", "ベン・ビン", "たよ(り)"],
+      ["利", "り / き(く)", "ri / kiku", "Untung / Berguna", "リ", "き(く)"],
+      ["不", "ふ / ぶ", "fu / bu", "Tidak / Kurang (Awalan)", "フ・ブ", "-"],
+      ["要", "い(る) / よう", "iru / you", "Perlu / Penting", "ヨウ", "い(る)"],
+      ["전", "まった(く) / ぜん", "mattaku / zen", "Seluruh / Semua", "ゼン", "まった(く)", "全"]
+    ];
+
+    // Gabungkan Semua Data Menjadi Satu Array Terstruktur
+    const ALL_KANJI_ITEMS = [];
+
+    RAW_JUKUGO_DATA.forEach((row, i) => {
+      ALL_KANJI_ITEMS.push({
+        id: `jukugo-${i + 1}`,
+        category: 'jukugo',
+        badge: `JUKUGO (${row[0].length} KANJI)`,
+        kanji: row[0],
+        reading: row[1],
+        romaji: row[2],
+        meaning: row[3],
+        breakdown: row[4],
+        example: row[5]
+      });
+    });
+
+    RAW_N5_DATA.forEach((row, i) => {
+      ALL_KANJI_ITEMS.push({
+        id: `n5-${i + 1}`,
+        category: 'n5',
+        badge: 'JLPT N5',
+        kanji: row[0],
+        reading: row[1],
+        romaji: row[2],
+        meaning: row[3],
+        onyomi: row[4],
+        kunyomi: row[5],
+        example: row[6]
+      });
+    });
+
+    RAW_N4_DATA.forEach((row, i) => {
+      const cleanKanji = row[6] ? row[6] : row[0];
+      ALL_KANJI_ITEMS.push({
+        id: `n4-${i + 1}`,
+        category: 'n4',
+        badge: 'JLPT N4',
+        kanji: cleanKanji,
+        reading: row[1],
+        romaji: row[2],
+        meaning: row[3],
+        onyomi: row[4],
+        kunyomi: row[5],
+        example: `Kosakata JLPT N4 & JFT-Basic dengan huruf ${cleanKanji} (${row[3]})`
+      });
+    });
+
+    /*************************************************************************
+     * 2. STATE GLOBAL & LOCALSTORAGE PROGRESS
+     *************************************************************************/
+    let activeView = 'flashcard'; // 'flashcard' | 'stroke' | 'quiz' | 'dict'
+    let activeCategory = 'jukugo'; // Default ke Jukugo 2-3 huruf sesuai permintaan user
+    let masteredSet = new Set();
+
+    // Load progress dari localStorage
+    try {
+      const saved = localStorage.getItem('kanjimaster_id_mastered');
+      if (saved) {
+        masteredSet = new Set(JSON.parse(saved));
+      }
+    } catch (e) {}
+
+    function saveMasteredProgress() {
+      try {
+        localStorage.setItem('kanjimaster_id_mastered', JSON.stringify([...masteredSet]));
+      } catch (e) {}
+      updateMasteredCountersUI();
+    }
+
+    function updateMasteredCountersUI() {
+      const c = masteredSet.size;
+      const mEl = document.getElementById('mobile-mastered-count');
+      const dEl = document.getElementById('desktop-mastered-count');
+      if (mEl) mEl.textContent = c;
+      if (dEl) dEl.textContent = c;
+    }
+
+    /*************************************************************************
+     * 3. NAVIGASI TAB UTAMA & FILTER KATEGORI
+     *************************************************************************/
+    function switchMainView(view) {
+      activeView = view;
+      const views = ['flashcard', 'stroke', 'quiz', 'dict'];
+      views.forEach(v => {
+        const sec = document.getElementById(`view-${v}`);
+        const btn = document.getElementById(`nav-tab-${v}`);
+        if (v === view) {
+          sec.classList.remove('hidden');
+          btn.className = "px-2 py-1.5 sm:px-3 sm:py-2 rounded-xl text-[11px] sm:text-xs font-bold transition-all bg-indigo-600 text-white shadow-sm flex items-center justify-center gap-1.5";
+        } else {
+          sec.classList.add('hidden');
+          btn.className = "px-2 py-1.5 sm:px-3 sm:py-2 rounded-xl text-[11px] sm:text-xs font-bold transition-all bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center justify-center gap-1.5";
+        }
+      });
+
+      if (view === 'stroke') {
+        initPracticeCanvas();
+        renderCurrentStrokeFrame();
+      } else if (view === 'dict') {
+        renderDictionaryGrid();
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function setGlobalCategoryFilter(cat) {
+      activeCategory = cat;
+      const cats = ['jukugo', 'n5', 'n4', 'all'];
+      cats.forEach(c => {
+        const btn = document.getElementById(`filter-btn-${c}`);
+        if (!btn) return;
+        if (c === cat) {
+          btn.className = "px-2.5 py-1 rounded-lg font-bold transition bg-rose-600 text-white shadow-sm flex items-center gap-1";
+        } else {
+          btn.className = "px-2.5 py-1 rounded-lg font-bold transition bg-slate-800 text-slate-300 hover:bg-slate-700 flex items-center gap-1";
+        }
+      });
+
+      rebuildFlashcardDeck();
+      generateNewKanjiQuiz();
+      renderDictionaryGrid();
+    }
+
+    function getFilteredItemsByCategory() {
+      if (activeCategory === 'all') return [...ALL_KANJI_ITEMS];
+      return ALL_KANJI_ITEMS.filter(item => item.category === activeCategory);
+    }
+
+    /*************************************************************************
+     * 4. ENGINE MODE 1: 3D FLASHCARD INTERAKTIF
+     *************************************************************************/
+    let flashcardDeck = [];
+    let currentCardIndex = 0;
+    let isCardFlipped = false;
+
+    function rebuildFlashcardDeck() {
+      let base = getFilteredItemsByCategory();
+      const onlyUnmastered = document.getElementById('fc-only-unmastered');
+      if (onlyUnmastered && onlyUnmastered.checked) {
+        base = base.filter(item => !masteredSet.has(item.id));
+      }
+      if (base.length === 0) {
+        showToast("Semua kartu di kategori ini sudah ditandai Hafal! Menampilkan kembali semua kartu.");
+        if (onlyUnmastered) onlyUnmastered.checked = false;
+        base = getFilteredItemsByCategory();
+      }
+
+      flashcardDeck = base;
+      currentCardIndex = 0;
+      isCardFlipped = false;
+      updateFlashcardUI();
+      renderFlashcardQuickGrid();
+    }
+
+    function shuffleFlashcardDeck() {
+      for (let i = flashcardDeck.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [flashcardDeck[i], flashcardDeck[j]] = [flashcardDeck[j], flashcardDeck[i]];
+      }
+      currentCardIndex = 0;
+      isCardFlipped = false;
+      updateFlashcardUI();
+      renderFlashcardQuickGrid();
+      showToast("Urutan kartu Flashcard berhasil diacak!");
+    }
+
+    function flipFlashcard() {
+      isCardFlipped = !isCardFlipped;
+      const inner = document.getElementById('fc-inner-3d');
+      if (inner) {
+        if (isCardFlipped) {
+          inner.classList.add('rotate-y-180');
+        } else {
+          inner.classList.remove('rotate-y-180');
+        }
+      }
+    }
+
+    function updateFlashcardUI() {
+      if (!flashcardDeck.length) return;
+      const item = flashcardDeck[currentCardIndex];
+
+      // Reset flip state visual
+      const inner = document.getElementById('fc-inner-3d');
+      if (inner) {
+        if (isCardFlipped) inner.classList.add('rotate-y-180');
+        else inner.classList.remove('rotate-y-180');
+      }
+
+      // Deck label
+      const catNames = {
+        jukugo: 'Kanji Gabungan 2-3 Huruf (Jukugo)',
+        n5: 'Kanji JLPT N5 Lengkap',
+        n4: 'Kanji JLPT N4 Lengkap',
+        all: 'Semua Kanji N5, N4 & Jukugo'
+      };
+      document.getElementById('fc-active-deck-badge').textContent = catNames[activeCategory] || 'Deck Kanji';
+      document.getElementById('fc-counter-label').textContent = `Kartu ${currentCardIndex + 1} / ${flashcardDeck.length}`;
+
+      // Front side
+      document.getElementById('fc-front-badge').textContent = item.badge;
+      const frontKanji = document.getElementById('fc-front-kanji');
+      frontKanji.textContent = item.kanji;
+      frontKanji.className = item.kanji.length >= 3
+        ? "font-kanji font-black text-5xl sm:text-7xl text-slate-900 tracking-wider leading-tight"
+        : "font-kanji font-black text-7xl sm:text-8xl text-slate-900 tracking-wider leading-tight";
+
+      const mastInd = document.getElementById('fc-mastered-indicator');
+      if (masteredSet.has(item.id)) {
+        mastInd.classList.remove('hidden');
+      } else {
+        mastInd.classList.add('hidden');
+      }
+
+      // Back side
+      document.getElementById('fc-back-kanji-small').textContent = item.kanji;
+      document.getElementById('fc-back-reading').textContent = item.reading;
+      document.getElementById('fc-back-romaji').textContent = item.romaji;
+      document.getElementById('fc-back-meaning').textContent = item.meaning;
+      document.getElementById('fc-back-example').textContent = item.example || `${item.kanji} (${item.reading}) - ${item.meaning}`;
+
+      const breakdownBox = document.getElementById('fc-back-breakdown');
+      if (item.category === 'jukugo') {
+        breakdownBox.innerHTML = `
+          <div class="text-[11px] font-bold uppercase tracking-wider text-amber-300">Bedah Susunan Kanji (Jukugo):</div>
+          <div class="font-jp font-semibold text-white">${item.breakdown}</div>
+        `;
+      } else {
+        breakdownBox.innerHTML = `
+          <div class="grid grid-cols-2 gap-2">
+            <div>
+              <span class="text-[10px] uppercase font-bold text-indigo-300 block">On'yomi (Bacaan Cina):</span>
+              <span class="font-jp font-bold text-amber-300">${item.onyomi || '-'}</span>
+            </div>
+            <div>
+              <span class="text-[10px] uppercase font-bold text-indigo-300 block">Kun'yomi (Bacaan Jepang):</span>
+              <span class="font-jp font-bold text-emerald-300">${item.kunyomi || '-'}</span>
+            </div>
+          </div>
+        `;
+      }
+
+      renderFlashcardQuickGrid();
+    }
+
+    function prevFlashcard() {
+      if (!flashcardDeck.length) return;
+      currentCardIndex = (currentCardIndex - 1 + flashcardDeck.length) % flashcardDeck.length;
+      isCardFlipped = false;
+      updateFlashcardUI();
+    }
+
+    function nextFlashcard() {
+      if (!flashcardDeck.length) return;
+      currentCardIndex = (currentCardIndex + 1) % flashcardDeck.length;
+      isCardFlipped = false;
+      updateFlashcardUI();
+    }
+
+    function markCurrentFlashcardMastered(isMastered) {
+      if (!flashcardDeck.length) return;
+      const item = flashcardDeck[currentCardIndex];
+      if (isMastered) {
+        masteredSet.add(item.id);
+        showToast(`"${item.kanji} (${item.meaning})" ditandai Sudah Hafal!`);
+      } else {
+        masteredSet.delete(item.id);
+        showToast(`"${item.kanji}" dimasukkan kembali ke daftar latihan.`);
+      }
+      saveMasteredProgress();
+      nextFlashcard();
+    }
+
+    function speakCurrentFlashcard() {
+      if (!flashcardDeck.length) return;
+      const item = flashcardDeck[currentCardIndex];
+      speakText(item.kanji);
+    }
+
+    function renderFlashcardQuickGrid() {
+      const container = document.getElementById('fc-quick-grid');
+      if (!container) return;
+
+      container.innerHTML = flashcardDeck.map((item, idx) => {
+        const isCurrent = idx === currentCardIndex;
+        const isDone = masteredSet.has(item.id);
+        let cls = "bg-slate-50 hover:bg-indigo-50 text-slate-700 border-slate-200";
+        if (isCurrent) {
+          cls = "bg-indigo-600 text-white border-indigo-600 shadow-sm";
+        } else if (isDone) {
+          cls = "bg-emerald-50 text-emerald-800 border-emerald-300";
+        }
+        return `
+          <button onclick="jumpToFlashcardIndex(${idx})"
+                  class="px-2.5 py-1 rounded-lg border font-jp font-bold text-xs transition ${cls}"
+                  title="${item.reading} - ${item.meaning}">
+            ${item.kanji}
+          </button>
+        `;
+      }).join('');
+    }
+
+    function jumpToFlashcardIndex(idx) {
+      currentCardIndex = idx;
+      isCardFlipped = false;
+      updateFlashcardUI();
+    }
+
+    function openCurrentFlashcardInStrokeView() {
+      if (!flashcardDeck.length) return;
+      const item = flashcardDeck[currentCardIndex];
+      loadWordIntoStrokeViewer(item);
+      switchMainView('stroke');
+    }
+
+    /*************************************************************************
+     * 5. ENGINE MODE 2: CARA PENULISAN KANJI / HANZI (KANJIVG SVG + FALLBACK)
+     *    & KANVAS LATIHAN TULIS TANGAN (TRACING)
+     *************************************************************************/
+    let currentStrokeWordObj = ALL_KANJI_ITEMS[0]; // Default: 図書館
+    let activeCharIndexInWord = 0;
+    let currentCharStrokePaths = []; // Array of SVG path 'd' strings
+    let currentVisibleStrokes = 0;
+    let strokeAnimTimer = null;
+    let strokeStepDuration = 520; // ms per stroke
+    const kanjiVgCache = {};
+
+    function renderStrokePresetPills() {
+      const presets = ALL_KANJI_ITEMS.slice(0, 24); // 24 Jukugo populer (図書館, 銀行, 大使館, 映画館, 新幹線, dll)
+      const container = document.getElementById('stroke-preset-pills');
+      if (!container) return;
+
+      container.innerHTML = presets.map(item => `
+        <button onclick="selectPresetForStroke('${item.id}')"
+                class="px-3 py-1.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-indigo-50 hover:border-indigo-300 text-xs font-bold shrink-0 transition flex items-center gap-1.5">
+          <span class="font-kanji text-slate-900 text-sm">${item.kanji}</span>
+          <span class="text-slate-500">(${item.romaji})</span>
+        </button>
+      `).join('');
+    }
+
+    function selectPresetForStroke(id) {
+      const found = ALL_KANJI_ITEMS.find(x => x.id === id);
+      if (found) {
+        loadWordIntoStrokeViewer(found);
+      }
+    }
+
+    function loadCustomKanjiIntoStrokeViewer() {
+      const input = document.getElementById('custom-stroke-input');
+      const val = (input.value || '').trim();
+      if (!val) {
+        showToast("Silakan ketik huruf Kanji terlebih dahulu.");
+        return;
+      }
+
+      // Cek apakah ada di database kita
+      const match = ALL_KANJI_ITEMS.find(
+        x => x.kanji === val || x.romaji.toLowerCase() === val.toLowerCase()
+      );
+      if (match) {
+        loadWordIntoStrokeViewer(match);
+      } else {
+        loadWordIntoStrokeViewer({
+          id: 'custom',
+          category: 'custom',
+          kanji: val,
+          reading: val,
+          romaji: 'Custom Kanji',
+          meaning: 'Kanji Pilihan Pengguna'
+        });
+      }
+    }
+
+    function loadWordIntoStrokeViewer(wordObj) {
+      currentStrokeWordObj = wordObj;
+      activeCharIndexInWord = 0;
+
+      document.getElementById('stroke-word-title').textContent = wordObj.kanji;
+      document.getElementById('stroke-word-reading').textContent = `${wordObj.reading} (${wordObj.romaji})`;
+      document.getElementById('stroke-word-meaning').textContent = `Arti: ${wordObj.meaning}`;
+
+      renderStrokeCharacterTabs();
+      selectCharacterInWord(0);
+    }
+
+    function renderStrokeCharacterTabs() {
+      const chars = Array.from(currentStrokeWordObj.kanji);
+      const tabContainer = document.getElementById('stroke-char-tabs');
+      if (!tabContainer) return;
+
+      tabContainer.innerHTML = chars.map((ch, idx) => {
+        const isActive = idx === activeCharIndexInWord;
+        const cls = isActive
+          ? "bg-amber-400 text-slate-950 font-black shadow-sm"
+          : "bg-slate-800 text-slate-300 hover:bg-slate-700 font-bold";
+        return `
+          <button onclick="selectCharacterInWord(${idx})"
+                  class="px-3 py-1.5 rounded-xl text-xs sm:text-sm transition flex items-center gap-1.5 ${cls}">
+            <span class="opacity-70">${idx + 1}.</span>
+            <span class="font-kanji text-base sm:text-lg">${ch}</span>
+          </button>
+        `;
+      }).join('');
+    }
+
+    async function selectCharacterInWord(charIdx) {
+      if (strokeAnimTimer) clearInterval(strokeAnimTimer);
+      activeCharIndexInWord = charIdx;
+      renderStrokeCharacterTabs();
+
+      const chars = Array.from(currentStrokeWordObj.kanji);
+      const targetChar = chars[charIdx] || chars[0];
+
+      // Update bayangan di kanvas latihan kanan
+      const shadowEl = document.getElementById('practice-shadow-char');
+      if (shadowEl) shadowEl.textContent = targetChar;
+      clearPracticeCanvas();
+
+      // Ambil data urutan goresan SVG dari KanjiVG CDN (atau cache)
+      const paths = await fetchKanjiVgStrokePaths(targetChar);
+      currentCharStrokePaths = paths;
+      currentVisibleStrokes = paths.length;
+
+      document.getElementById('active-char-info-title').textContent =
+        `Huruf: ${targetChar} (${ paths.length > 0 ? `Jumlah Goresan: ${paths.length}` : 'Panduan Kaligrafi' })`;
+
+      renderCurrentStrokeFrame();
+      // Otomatis putar animasi urutan goresan saat huruf dipilih
+      animateActiveKanjiStrokes();
+    }
+
+    async function fetchKanjiVgStrokePaths(char) {
+      if (kanjiVgCache[char]) return kanjiVgCache[char];
+
+      const hexCode = char.codePointAt(0).toString(16).padStart(5, '0');
+      const url = `https://cdn.jsdelivr.net/gh/KanjiVG/kanjivg@master/kanji/${hexCode}.svg`;
+
+      try {
+        const res = await fetch(url);
+        if (!res.ok) throw new Error("Not found");
+        const svgText = await res.text();
+        const parser = new DOMParser();
+        const doc = parser.parseFromString(svgText, "image/svg+xml");
+        const pathNodes = doc.querySelectorAll('path[d]');
+        const extracted = [];
+        pathNodes.forEach(p => {
+          const d = p.getAttribute('d');
+          if (d) extracted.push(d);
+        });
+        if (extracted.length > 0) {
+          kanjiVgCache[char] = extracted;
+          return extracted;
+        }
+      } catch (err) {
+        // Fallback jika offline
+      }
+      return [];
+    }
+
+    // Ekstrak koordinat awal (x, y) dari atribut path SVG 'M x,y ...' untuk menaruh nomor urutan goresan
+    function getStartPointFromSvgPath(dStr) {
+      const match = dStr.match(/[Mm]\s*([0-9.]+)[\s,]+([0-9.]+)/);
+      if (match) {
+        return { x: parseFloat(match[1]), y: parseFloat(match[2]) };
+      }
+      return { x: 50, y: 50 };
+    }
+
+    function renderCurrentStrokeFrame(animatingIndex = -1) {
+      const stage = document.getElementById('kanjivg-svg-stage');
+      if (!stage) return;
+
+      const chars = Array.from(currentStrokeWordObj.kanji);
+      const targetChar = chars[activeCharIndexInWord] || chars[0];
+      const showNums = document.getElementById('toggle-stroke-numbers')?.checked;
+
+      const pill = document.getElementById('stroke-status-pill');
+
+      // Jika data SVG KanjiVG tersedia
+      if (currentCharStrokePaths.length > 0) {
+        const total = currentCharStrokePaths.length;
+        if (pill) pill.textContent = `Goresan ${currentVisibleStrokes} / ${total}`;
+
+        // Bangun SVG 109x109 standar KanjiVG
+        let bgPaths = '';
+        let activePaths = '';
+        let numberBadges = '';
+
+        currentCharStrokePaths.forEach((d, idx) => {
+          // Bayangan tipis semua goresan di belakang
+          bgPaths += `<path d="${d}" fill="none" stroke="#e2e8f0" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" />`;
+
+          if (idx < currentVisibleStrokes) {
+            const isNewest = idx === animatingIndex || (animatingIndex === -1 && idx === currentVisibleStrokes - 1);
+            const color = isNewest ? '#e11d48' : '#1e1b4b';
+            const extraAttr = (idx === animatingIndex)
+              ? `stroke-dasharray="300" stroke-dashoffset="300" style="animation: drawStrokePath ${strokeStepDuration}ms ease forwards;"`
+              : '';
+
+            activePaths += `<path d="${d}" fill="none" stroke="${color}" stroke-width="5.2" stroke-linecap="round" stroke-linejoin="round" ${extraAttr} />`;
+
+            if (showNums) {
+              const pt = getStartPointFromSvgPath(d);
+              numberBadges += `
+                <g transform="translate(${pt.x}, ${pt.y})">
+                  <circle r="4.8" fill="${isNewest ? '#e11d48' : '#4f46e5'}" />
+                  <text text-anchor="middle" dy="2.1" fill="#ffffff" font-size="6" font-weight="800" font-family="Inter, sans-serif">${idx + 1}</text>
+                </g>
+              `;
+            }
+          }
+        });
+
+        stage.innerHTML = `
+          <style>
+            @keyframes drawStrokePath {
+              to { stroke-dashoffset: 0; }
+            }
+          </style>
+          <svg viewBox="0 0 109 109" class="w-full h-full">
+            ${bgPaths}
+            ${activePaths}
+            ${numberBadges}
+          </svg>
+        `;
+      } else {
+        // Fallback Kaligrafi jika sedang offline tanpa internet
+        if (pill) pill.textContent = `Mode Kaligrafi`;
+        stage.innerHTML = `
+          <div class="font-kanji font-black text-[165px] text-indigo-950 select-none leading-none">
+            ${targetChar}
+          </div>
+        `;
+      }
+    }
+
+    function animateActiveKanjiStrokes() {
+      if (strokeAnimTimer) clearInterval(strokeAnimTimer);
+      if (currentCharStrokePaths.length === 0) {
+        renderCurrentStrokeFrame();
+        return;
+      }
+
+      currentVisibleStrokes = 1;
+      renderCurrentStrokeFrame(0);
+
+      strokeAnimTimer = setInterval(() => {
+        if (currentVisibleStrokes < currentCharStrokePaths.length) {
+          currentVisibleStrokes++;
+          renderCurrentStrokeFrame(currentVisibleStrokes - 1);
+        } else {
+          clearInterval(strokeAnimTimer);
+          renderCurrentStrokeFrame(-1);
+        }
+      }, strokeStepDuration);
+    }
+
+    function stepStrokeOrder(delta) {
+      if (strokeAnimTimer) clearInterval(strokeAnimTimer);
+      const total = currentCharStrokePaths.length;
+      if (total === 0) return;
+
+      currentVisibleStrokes = Math.max(1, Math.min(total, currentVisibleStrokes + delta));
+      renderCurrentStrokeFrame(-1);
+    }
+
+    function setStrokeAnimSpeed(ms, btnEl) {
+      strokeStepDuration = ms;
+      document.querySelectorAll('.speed-btn').forEach(b => {
+        b.className = "speed-btn px-2 py-0.5 rounded text-slate-600 hover:bg-slate-100";
+      });
+      if (btnEl) {
+        btnEl.className = "speed-btn px-2 py-0.5 rounded bg-indigo-600 text-white font-bold";
+      }
+      animateActiveKanjiStrokes();
+    }
+
+    // Kanvas Latihan Menulis Tangan (Panel Kanan)
+    let practiceCanvasInitialized = false;
+    let practiceStrokeHistory = [];
+
+    function initPracticeCanvas() {
+      const canvas = document.getElementById('kanji-practice-canvas');
+      if (!canvas || practiceCanvasInitialized) return;
+      practiceCanvasInitialized = true;
+
+      const ctx = canvas.getContext('2d');
+      let drawing = false;
+      let currentPathPoints = [];
+
+      const getCoords = (e) => {
+        const rect = canvas.getBoundingClientRect();
+        const scaleX = canvas.width / rect.width;
+        const scaleY = canvas.height / rect.height;
+        if (e.touches && e.touches.length > 0) {
+          return {
+            x: (e.touches[0].clientX - rect.left) * scaleX,
+            y: (e.touches[0].clientY - rect.top) * scaleY
+          };
+        }
+        return {
+          x: (e.clientX - rect.left) * scaleX,
+          y: (e.clientY - rect.top) * scaleY
+        };
+      };
+
+      const start = (e) => {
+        if (window.innerWidth < 768) setHeaderHiddenState(true);
+        drawing = true;
+        const pt = getCoords(e);
+        const sizeSlider = document.getElementById('brush-size-slider');
+        const width = sizeSlider ? parseInt(sizeSlider.value, 10) : 9;
+        currentPathPoints = [{ x: pt.x, y: pt.y, w: width }];
+
+        ctx.lineWidth = width;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        ctx.strokeStyle = '#1e1b4b';
+        ctx.beginPath();
+        ctx.moveTo(pt.x, pt.y);
+      };
+
+      const move = (e) => {
+        if (!drawing) return;
+        e.preventDefault();
+        const pt = getCoords(e);
+        currentPathPoints.push(pt);
+        ctx.lineTo(pt.x, pt.y);
+        ctx.stroke();
+      };
+
+      const end = () => {
+        if (!drawing) return;
+        drawing = false;
+        if (currentPathPoints.length > 0) {
+          practiceStrokeHistory.push([...currentPathPoints]);
+        }
+      };
+
+      canvas.addEventListener('mousedown', start);
+      canvas.addEventListener('mousemove', move);
+      window.addEventListener('mouseup', end);
+
+      canvas.addEventListener('touchstart', start, { passive: false });
+      canvas.addEventListener('touchmove', move, { passive: false });
+      canvas.addEventListener('touchend', end);
+    }
+
+    function redrawPracticeCanvasFromHistory() {
+      const canvas = document.getElementById('kanji-practice-canvas');
+      if (!canvas) return;
+      const ctx = canvas.getContext('2d');
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      practiceStrokeHistory.forEach(strokePts => {
+        if (!strokePts.length) return;
+        ctx.lineWidth = strokePts[0].w || 9;
+        ctx.lineCap = 'round';
+        ctx.lineJoin = 'round';
+        ctx.strokeStyle = '#1e1b4b';
+        ctx.beginPath();
+        ctx.moveTo(strokePts[0].x, strokePts[0].y);
+        for (let i = 1; i < strokePts.length; i++) {
+          ctx.lineTo(strokePts[i].x, strokePts[i].y);
+        }
+        ctx.stroke();
+      });
+    }
+
+    function undoPracticeCanvasStroke() {
+      practiceStrokeHistory.pop();
+      redrawPracticeCanvasFromHistory();
+    }
+
+    function clearPracticeCanvas() {
+      practiceStrokeHistory = [];
+      redrawPracticeCanvasFromHistory();
+    }
+
+    function togglePracticeShadowChar() {
+      const chk = document.getElementById('toggle-practice-shadow');
+      const el = document.getElementById('practice-shadow-char');
+      if (chk && el) {
+        el.style.opacity = chk.checked ? '1' : '0';
+      }
+    }
+
+    /*************************************************************************
+     * 6. ENGINE MODE 3: LATIHAN SOAL & KUIS (MODE NORMAL & HARD 30 MENIT)
+     *************************************************************************/
+    let kanjiQuizMode = 'normal'; // 'normal' | 'hard'
+    let currentQuizItems = [];
+    let userQuizSelections = {};
+    let quizTimerInterval = null;
+    let quizSecondsRemaining = 1800; // 30 menit
+    let isKanjiQuizSubmitted = false;
+
+    function setKanjiQuizMode(mode) {
+      kanjiQuizMode = mode;
+      const nBtn = document.getElementById('qmode-normal-btn');
+      const hBtn = document.getElementById('qmode-hard-btn');
+
+      if (mode === 'normal') {
+        nBtn.className = "px-3 py-2 rounded-lg text-xs font-bold transition bg-white text-slate-900 shadow-sm flex items-center gap-1.5";
+        hBtn.className = "px-3 py-2 rounded-lg text-xs font-bold transition text-slate-600 hover:text-slate-900 flex items-center gap-1.5";
+        showToast("Mode Normal aktif: Tanpa batas waktu.");
+      } else {
+        hBtn.className = "px-3 py-2 rounded-lg text-xs font-bold transition bg-rose-600 text-white shadow-sm flex items-center gap-1.5";
+        nBtn.className = "px-3 py-2 rounded-lg text-xs font-bold transition text-slate-600 hover:text-slate-900 flex items-center gap-1.5";
+        showToast("Mode Hard aktif! Timer 30 menit dimulai.");
+      }
+      generateNewKanjiQuiz();
+    }
+
+    function shuffleArray(arr) {
+      const copy = [...arr];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    function generateNewKanjiQuiz() {
+      const count = parseInt(document.getElementById('quiz-count-select')?.value || '10', 10);
+      const qType = document.getElementById('quiz-type-select')?.value || 'mixed';
+      const pool = getFilteredItemsByCategory();
+      const selectedPool = shuffleArray(pool).slice(0, count);
+
+      userQuizSelections = {};
+      isKanjiQuizSubmitted = false;
+      document.getElementById('kanji-quiz-result').classList.add('hidden');
+
+      currentQuizItems = selectedPool.map((item, idx) => {
+        const askReading = qType === 'reading' ? true : (qType === 'meaning' ? false : (idx % 2 === 0));
+        const otherItems = shuffleArray(pool.filter(x => x.id !== item.id)).slice(0, 3);
+        const optionsRaw = shuffleArray([item, ...otherItems]);
+        const correctOptionIdx = optionsRaw.findIndex(x => x.id === item.id);
+
+        return {
+          index: idx,
+          item,
+          askReading,
+          options: optionsRaw.map(opt => askReading ? `${opt.reading} (${opt.romaji})` : opt.meaning),
+          correctOptionIdx
+        };
+      });
+
+      renderKanjiQuizCards();
+      startKanjiQuizTimer();
+    }
+
+    function startKanjiQuizTimer() {
+      if (quizTimerInterval) clearInterval(quizTimerInterval);
+      quizSecondsRemaining = 1800;
+      const timerText = document.getElementById('quiz-timer-text');
+      const miniBadge = document.getElementById('mini-timer-badge');
+
+      if (kanjiQuizMode === 'normal') {
+        if (timerText) timerText.textContent = "Tanpa Batas Waktu";
+        if (miniBadge) miniBadge.classList.add('hidden');
+      } else {
+        if (miniBadge) {
+          miniBadge.classList.remove('hidden');
+          miniBadge.classList.add('inline-flex');
+        }
+        updateKanjiQuizTimerLabel();
+        quizTimerInterval = setInterval(() => {
+          if (isKanjiQuizSubmitted) return;
+          quizSecondsRemaining--;
+          updateKanjiQuizTimerLabel();
+          if (quizSecondsRemaining <= 0) {
+            clearInterval(quizTimerInterval);
+            showToast("Waktu 30 Menit Habis! Jawaban otomatis diperiksa.");
+            submitAllKanjiQuiz();
+          }
+        }, 1000);
+      }
+    }
+
+    function updateKanjiQuizTimerLabel() {
+      const m = Math.floor(quizSecondsRemaining / 60);
+      const s = quizSecondsRemaining % 60;
+      const str = `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+      const timerText = document.getElementById('quiz-timer-text');
+      const miniText = document.getElementById('mini-timer-text');
+      if (timerText) timerText.textContent = `Sisa Waktu: ${str}`;
+      if (miniText) miniText.textContent = str;
+    }
+
+    function renderKanjiQuizCards() {
+      const list = document.getElementById('kanji-quiz-list');
+      if (!list) return;
+
+      list.innerHTML = currentQuizItems.map((q, qIdx) => {
+        const picked = userQuizSelections[qIdx];
+
+        return `
+          <article id="kquiz-card-${qIdx}" class="scroll-safe-card bg-white rounded-2xl shadow-sm border border-slate-200 p-4 sm:p-5 space-y-3">
+            <div class="flex items-center justify-between border-b border-slate-100 pb-2.5">
+              <div class="flex items-center gap-2">
+                <span class="px-2.5 py-1 rounded-lg bg-indigo-600 text-white font-extrabold text-xs">
+                  Soal ${qIdx + 1} / ${currentQuizItems.length}
+                </span>
+                <span class="px-2 py-0.5 rounded bg-slate-100 text-slate-600 font-bold text-[11px]">
+                  ${q.item.badge}
+                </span>
+              </div>
+              <button onclick="loadWordIntoStrokeViewerById('${q.item.id}')" class="text-xs font-bold text-indigo-600 hover:text-indigo-800 flex items-center gap-1">
+                <i class="fa-solid fa-paintbrush"></i>
+                <span>Lihat Cara Tulis</span>
+              </button>
+            </div>
+
+            <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3 py-1">
+              <div>
+                <div class="text-xs font-bold text-slate-500 uppercase">
+                  ${q.askReading ? 'Pilih Cara Baca (Hiragana) yang Tepat:' : 'Pilih Arti Bahasa Indonesia yang Tepat:'}
+                </div>
+                <div class="font-kanji font-black text-4xl sm:text-5xl text-slate-900 mt-1">
+                  ${q.item.kanji}
+                </div>
+                ${!q.askReading ? `<div class="text-xs font-bold text-indigo-600 mt-0.5">${q.item.reading} (${q.item.romaji})</div>` : ''}
+              </div>
+
+              <button onclick="speakText('${q.item.kanji}')" class="self-start sm:self-center px-3 py-1.5 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-bold text-xs flex items-center gap-1.5">
+                <i class="fa-solid fa-volume-high"></i>
+                <span>Dengar Audio</span>
+              </button>
+            </div>
+
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2">
+              ${q.options.map((optText, oIdx) => {
+                let btnStyle = "bg-slate-50 hover:bg-indigo-50 text-slate-800 border-slate-200";
+                if (picked !== undefined) {
+                  if (oIdx === q.correctOptionIdx) {
+                    btnStyle = "bg-emerald-50 border-emerald-500 text-emerald-950 font-extrabold ring-1 ring-emerald-400";
+                  } else if (oIdx === picked && picked !== q.correctOptionIdx) {
+                    btnStyle = "bg-rose-50 border-rose-400 text-rose-900 font-bold";
+                  }
+                }
+                return `
+                  <button onclick="selectKanjiQuizOption(${qIdx}, ${oIdx})"
+                          class="px-4 py-3 rounded-xl border text-left text-xs sm:text-sm transition flex items-center justify-between gap-2 ${btnStyle}">
+                    <span class="font-jp">${optText}</span>
+                    ${picked !== undefined && oIdx === q.correctOptionIdx ? '<i class="fa-solid fa-circle-check text-emerald-600"></i>' : ''}
+                  </button>
+                `;
+              }).join('')}
+            </div>
+          </article>
+        `;
+      }).join('');
+    }
+
+    function selectKanjiQuizOption(qIdx, oIdx) {
+      if (window.innerWidth < 768) setHeaderHiddenState(true);
+      userQuizSelections[qIdx] = oIdx;
+      renderKanjiQuizCards();
+    }
+
+    function submitAllKanjiQuiz() {
+      isKanjiQuizSubmitted = true;
+      let correct = 0;
+      currentQuizItems.forEach((q, idx) => {
+        if (userQuizSelections[idx] === q.correctOptionIdx) {
+          correct++;
+        } else if (userQuizSelections[idx] === undefined) {
+          userQuizSelections[idx] = -1;
+        }
+      });
+
+      renderKanjiQuizCards();
+      const total = currentQuizItems.length;
+      const score = Math.round((correct / total) * 100);
+
+      const resBox = document.getElementById('kanji-quiz-result');
+      document.getElementById('kq-score-heading').textContent = `Skor Anda: ${score} / 100`;
+      document.getElementById('kq-score-sub').textContent = `Anda menjawab benar ${correct} dari ${total} soal Kanji & Jukugo.`;
+      resBox.classList.remove('hidden');
+      resBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function loadWordIntoStrokeViewerById(id) {
+      const item = ALL_KANJI_ITEMS.find(x => x.id === id);
+      if (item) {
+        loadWordIntoStrokeViewer(item);
+        switchMainView('stroke');
+      }
+    }
+
+    /*************************************************************************
+     * 7. ENGINE MODE 4: KAMUS LENGKAP (413 ENTRI)
+     *************************************************************************/
+    function renderDictionaryGrid() {
+      const container = document.getElementById('dict-grid-container');
+      if (!container) return;
+
+      const query = (document.getElementById('dict-search-input')?.value || '').trim().toLowerCase();
+      let list = getFilteredItemsByCategory();
+
+      if (query) {
+        list = ALL_KANJI_ITEMS.filter(item =>
+          item.kanji.toLowerCase().includes(query) ||
+          item.reading.toLowerCase().includes(query) ||
+          item.romaji.toLowerCase().includes(query) ||
+          item.meaning.toLowerCase().includes(query)
+        );
+      }
+
+      document.getElementById('dict-count-info').textContent = `Menampilkan ${list.length} entri Kanji & Jukugo`;
+
+      container.innerHTML = list.map(item => {
+        const isDone = masteredSet.has(item.id);
+        return `
+          <div class="bg-white rounded-2xl border ${isDone ? 'border-emerald-300' : 'border-slate-200'} p-4 shadow-sm hover:border-indigo-400 transition flex flex-col justify-between gap-3">
+            <div class="flex items-start justify-between gap-3">
+              <div class="flex items-center gap-3">
+                <div class="px-3 py-2 rounded-xl bg-slate-100 font-kanji font-black text-2xl sm:text-3xl text-slate-900">
+                  ${item.kanji}
+                </div>
+                <div>
+                  <span class="px-2 py-0.5 rounded text-[10px] font-extrabold bg-indigo-50 text-indigo-700">${item.badge}</span>
+                  <div class="font-jp font-bold text-sm text-slate-900 mt-0.5">${item.reading}</div>
+                  <div class="text-xs font-semibold text-slate-400">${item.romaji}</div>
+                </div>
+              </div>
+              <button onclick="speakText('${item.kanji}')" class="w-8 h-8 rounded-lg bg-slate-100 hover:bg-indigo-100 text-indigo-600 flex items-center justify-center text-xs shrink-0">
+                <i class="fa-solid fa-volume-high"></i>
+              </button>
+            </div>
+
+            <div class="text-xs sm:text-sm font-extrabold text-emerald-700">
+              ${item.meaning}
+            </div>
+
+            ${item.breakdown ? `<div class="text-[11px] text-slate-500 bg-slate-50 p-2 rounded-lg font-jp">${item.breakdown}</div>` : ''}
+
+            <div class="flex items-center justify-between pt-2 border-t border-slate-100 text-xs">
+              <button onclick="loadWordIntoStrokeViewerById('${item.id}')" class="font-bold text-indigo-600 hover:text-indigo-800 flex items-center gap-1">
+                <i class="fa-solid fa-paintbrush"></i>
+                <span>Cara Tulis & Urutan Goresan</span>
+              </button>
+              <button onclick="toggleMasteredById('${item.id}')" class="px-2 py-1 rounded-lg font-bold ${isDone ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-100 text-slate-600'}">
+                ${isDone ? '✓ Hafal' : '+ Tandai Hafal'}
+              </button>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function toggleMasteredById(id) {
+      if (masteredSet.has(id)) masteredSet.delete(id);
+      else masteredSet.add(id);
+      saveMasteredProgress();
+      renderDictionaryGrid();
+    }
+
+    /*************************************************************************
+     * 8. TEXT-TO-SPEECH JEPANG, KEYBOARD SHORTCUT, & SMART AUTO-HIDE HEADER
+     *************************************************************************/
+    function speakText(text) {
+      if (!('speechSynthesis' in window)) return;
+      window.speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = 'ja-JP';
+      u.rate = 0.92;
+      window.speechSynthesis.speak(u);
+    }
+
+    let toastTimer = null;
+    function showToast(msg) {
+      const box = document.getElementById('toast-box');
+      const txt = document.getElementById('toast-message');
+      if (!box || !txt) return;
+      txt.textContent = msg;
+      box.classList.remove('hidden');
+      if (toastTimer) clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => box.classList.add('hidden'), 2800);
+    }
+
+    // Keyboard Shortcuts untuk Flashcard (Spasi = Balik, Panah Kiri/Kanan = Navigasi)
+    window.addEventListener('keydown', (e) => {
+      if (e.target && (e.target.tagName === 'INPUT' || e.target.tagName === 'SELECT')) return;
+      if (activeView === 'flashcard') {
+        if (e.code === 'Space') {
+          e.preventDefault();
+          flipFlashcard();
+        } else if (e.code === 'ArrowRight') {
+          nextFlashcard();
+        } else if (e.code === 'ArrowLeft') {
+          prevFlashcard();
+        }
+      }
+    });
+
+    // SMART AUTO-HIDE HEADER (Otomatis sembunyi saat scroll ke bawah atau fokus input di HP)
+    let lastScrollY = window.scrollY;
+    let isMobileInputFocused = false;
+
+    function setHeaderHiddenState(hide) {
+      const header = document.getElementById('main-header');
+      const miniBar = document.getElementById('mini-floating-bar');
+      if (!header || !miniBar) return;
+
+      if (hide) {
+        header.classList.add('header-hidden');
+        miniBar.classList.remove('hidden');
+        miniBar.classList.add('flex');
+      } else {
+        header.classList.remove('header-hidden');
+        miniBar.classList.add('hidden');
+        miniBar.classList.remove('flex');
+      }
+    }
+
+    function manualHideHeader() {
+      setHeaderHiddenState(true);
+    }
+
+    function forceShowHeader() {
+      isMobileInputFocused = false;
+      setHeaderHiddenState(false);
+    }
+
+    function handleMobileFocusAutoHide() {
+      if (window.innerWidth < 768) {
+        isMobileInputFocused = true;
+        setHeaderHiddenState(true);
+      }
+    }
+
+    window.addEventListener('scroll', () => {
+      const currentY = window.scrollY;
+      if (currentY < 35 && !isMobileInputFocused) {
+        setHeaderHiddenState(false);
+        lastScrollY = currentY;
+        return;
+      }
+      if (currentY > lastScrollY + 12 && currentY > 65) {
+        setHeaderHiddenState(true);
+      } else if (currentY < lastScrollY - 24 && !isMobileInputFocused) {
+        setHeaderHiddenState(false);
+      }
+      lastScrollY = currentY;
+    }, { passive: true });
+
+    // Inisialisasi Aplikasi
+    window.addEventListener('DOMContentLoaded', () => {
+      updateMasteredCountersUI();
+      rebuildFlashcardDeck();
+      renderStrokePresetPills();
+      loadWordIntoStrokeViewer(ALL_KANJI_ITEMS[0]); // Default: 図書館 (toshokan)
+      initPracticeCanvas();
+      generateNewKanjiQuiz();
+    });
+  </script>
+</body>
+</html>
