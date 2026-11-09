@@ -1,0 +1,2505 @@
+<!DOCTYPE html>
+<html lang="id" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JLPTMaster ID - Latihan & Tes JLPT N5 (100), N4 (100) & Choukai Cewek-Cowok (80)</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Inter & Noto Sans JP -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=Noto+Sans+JP:wght@400;500;700;900&display=swap" rel="stylesheet">
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            jp: ['"Noto Sans JP"', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    /* CRITICAL: Anti-Tertutup Header di HP & PC */
+    html {
+      scroll-padding-top: 90px;
+    }
+    @media (min-width: 768px) {
+      html {
+        scroll-padding-top: 124px;
+      }
+    }
+    .scroll-safe-card {
+      scroll-margin-top: 90px;
+    }
+    @media (min-width: 768px) {
+      .scroll-safe-card {
+        scroll-margin-top: 124px;
+      }
+    }
+
+    /* Smart Auto-Hide Header Transition */
+    #main-header {
+      transition: transform 0.28s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.2s ease;
+      will-change: transform;
+    }
+    #main-header.header-hidden {
+      transform: translateY(-108%);
+      pointer-events: none;
+    }
+
+    /* Animasi Gelombang Audio Choukai */
+    @keyframes wavePulse {
+      0%, 100% { transform: scaleY(0.35); }
+      50% { transform: scaleY(1); }
+    }
+    .wave-bar {
+      animation: wavePulse 0.85s ease-in-out infinite;
+      transform-origin: bottom;
+    }
+    .wave-bar:nth-child(2) { animation-delay: 0.15s; }
+    .wave-bar:nth-child(3) { animation-delay: 0.3s; }
+    .wave-bar:nth-child(4) { animation-delay: 0.45s; }
+    .wave-bar:nth-child(5) { animation-delay: 0.2s; }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 7px;
+      height: 7px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 9999px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 font-sans min-h-screen flex flex-col selection:bg-indigo-600 selection:text-white">
+
+  <!-- ================= MINI FLOATING PILL (MUNCUL SAAT HEADER AUTO-HIDE DI HP/PC) ================= -->
+  <div id="mini-floating-bar" class="fixed top-2 right-2.5 z-50 hidden items-center gap-2 bg-slate-900/95 backdrop-blur-md text-white px-3.5 py-1.5 rounded-full shadow-xl border border-slate-700 text-xs font-bold transition-all">
+    <span id="mini-progress-badge" class="text-emerald-400 pr-2 border-r border-slate-700">
+      0/100
+    </span>
+    <span id="mini-timer-badge" class="hidden items-center gap-1 text-amber-400 font-mono pr-2 border-r border-slate-700">
+      <i class="fa-regular fa-clock text-[10px]"></i>
+      <span id="mini-timer-text">60:00</span>
+    </span>
+    <button onclick="openQuestionMapModal()" class="text-slate-200 hover:text-white pr-2 border-r border-slate-700" title="Peta Nomor Soal">
+      <i class="fa-solid fa-table-cells"></i>
+    </button>
+    <button onclick="forceShowHeader()" class="flex items-center gap-1 text-indigo-300 hover:text-white transition" title="Tampilkan Header">
+      <i class="fa-solid fa-chevron-down text-[10px]"></i>
+      <span>Menu</span>
+    </button>
+  </div>
+
+  <!-- ================= STICKY HEADER NAVIGATION (SMART AUTO-HIDE & RAMPING DI HP) ================= -->
+  <header id="main-header" class="sticky top-0 z-40 bg-white/95 backdrop-blur-md border-b border-slate-200 shadow-sm">
+    <div class="max-w-6xl mx-auto px-2.5 sm:px-6">
+      <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between py-1.5 sm:py-2.5 gap-1.5 sm:gap-2">
+
+        <!-- Brand & Mobile Actions -->
+        <div class="flex items-center justify-between">
+          <div class="flex items-center gap-2">
+            <div class="w-8 h-8 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-indigo-600 via-violet-600 to-rose-500 flex items-center justify-center text-white font-jp font-black text-xs sm:text-base shadow-sm shrink-0">
+              JLPT
+            </div>
+            <div>
+              <h1 class="text-sm sm:text-lg font-extrabold tracking-tight text-slate-900 leading-tight flex items-center gap-1.5">
+                <span>JLPTMaster <span class="text-indigo-600">ID</span></span>
+                <span class="px-1.5 py-0.5 text-[10px] rounded-md bg-indigo-50 text-indigo-700 font-bold border border-indigo-200">280 Soal</span>
+              </h1>
+              <p class="hidden sm:block text-xs text-slate-500 font-medium">
+                100 Soal N5 • 100 Soal N4 • 40 Choukai N5 • 40 Choukai N4 (Suara Cewek & Cowok)
+              </p>
+            </div>
+          </div>
+
+          <!-- Tombol Mobile Cepat: Peta Soal & Tutup Header -->
+          <div class="flex sm:hidden items-center gap-1">
+            <button onclick="openQuestionMapModal()" class="px-2 py-1 rounded-lg bg-indigo-50 text-indigo-700 text-[11px] font-bold border border-indigo-200 flex items-center gap-1">
+              <i class="fa-solid fa-table-cells"></i>
+              <span>No. Soal</span>
+            </button>
+            <button onclick="manualHideHeader()" class="px-2 py-1 rounded-lg bg-slate-100 hover:bg-rose-100 text-slate-600 hover:text-rose-700 text-[11px] font-bold transition">
+              <i class="fa-solid fa-chevron-up"></i>
+              <span>Tutup</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- 4 Tab Utama Materi Ujian -->
+        <div class="grid grid-cols-4 sm:flex items-center gap-1 sm:gap-1.5">
+          <button id="tab-n5_written" onclick="switchExamSection('n5_written')" class="px-2 py-1.5 sm:px-3 sm:py-2 rounded-xl text-[11px] sm:text-xs font-bold transition-all bg-indigo-600 text-white shadow-sm flex items-center justify-center gap-1">
+            <i class="fa-solid fa-file-pen"></i>
+            <span>N5 (100)</span>
+          </button>
+
+          <button id="tab-n4_written" onclick="switchExamSection('n4_written')" class="px-2 py-1.5 sm:px-3 sm:py-2 rounded-xl text-[11px] sm:text-xs font-bold transition-all bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center justify-center gap-1">
+            <i class="fa-solid fa-book-open-reader"></i>
+            <span>N4 (100)</span>
+          </button>
+
+          <button id="tab-n5_choukai" onclick="switchExamSection('n5_choukai')" class="px-2 py-1.5 sm:px-3 sm:py-2 rounded-xl text-[11px] sm:text-xs font-bold transition-all bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center justify-center gap-1">
+            <i class="fa-solid fa-headphones"></i>
+            <span>Choukai N5 (40)</span>
+          </button>
+
+          <button id="tab-n4_choukai" onclick="switchExamSection('n4_choukai')" class="px-2 py-1.5 sm:px-3 sm:py-2 rounded-xl text-[11px] sm:text-xs font-bold transition-all bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center justify-center gap-1">
+            <i class="fa-solid fa-ear-listen"></i>
+            <span>Choukai N4 (40)</span>
+          </button>
+
+          <button onclick="manualHideHeader()" class="hidden sm:inline-flex items-center gap-1 px-2.5 py-2 rounded-xl text-xs font-semibold bg-slate-100 hover:bg-slate-200 text-slate-600 transition" title="Sembunyikan Header">
+            <i class="fa-solid fa-chevron-up"></i>
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+    <!-- SUB-BAR MODE LATIHAN VS MODE TES (1 JAM) + SHUFFLE + TIMER -->
+    <div class="bg-slate-900 text-white border-t border-slate-800">
+      <div class="max-w-6xl mx-auto px-2.5 sm:px-6 py-1.5 flex flex-wrap items-center justify-between gap-2 text-[11px] sm:text-xs">
+
+        <!-- Saklar Mode Latihan vs Mode Tes 1 Jam -->
+        <div class="flex items-center gap-1.5">
+          <span class="text-slate-400 hidden md:inline">Mode:</span>
+          <div class="inline-flex bg-slate-800 p-0.5 rounded-lg border border-slate-700">
+            <button id="mode-btn-practice" onclick="setExamMode('practice')" class="px-2.5 py-1 rounded-md font-bold transition bg-emerald-600 text-white shadow-sm flex items-center gap-1">
+              <i class="fa-solid fa-graduation-cap"></i>
+              <span>Mode Latihan (Santai)</span>
+            </button>
+            <button id="mode-btn-test" onclick="setExamMode('test')" class="px-2.5 py-1 rounded-md font-bold transition text-slate-300 hover:text-white flex items-center gap-1">
+              <i class="fa-solid fa-stopwatch"></i>
+              <span>Mode Tes (1 Jam)</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Info Terjawab, Timer 60:00, Shuffle & Peta Soal -->
+        <div class="flex items-center gap-2 ml-auto">
+          <span class="text-slate-300 hidden sm:inline">
+            Terjawab: <strong id="header-answered-count" class="text-white">0 / 100</strong>
+          </span>
+
+          <div id="header-timer-box" class="px-2.5 py-1 rounded-lg bg-slate-800 border border-slate-700 text-emerald-400 font-mono font-bold flex items-center gap-1.5">
+            <i class="fa-regular fa-clock"></i>
+            <span id="header-timer-text">Tanpa Waktu</span>
+          </div>
+
+          <button onclick="shuffleCurrentSectionQuestions()" class="px-2.5 py-1 rounded-lg bg-indigo-600 hover:bg-indigo-500 text-white font-bold transition flex items-center gap-1 shadow-sm" title="Acak Urutan Soal & Pilihan">
+            <i class="fa-solid fa-shuffle"></i>
+            <span>Shuffle</span>
+          </button>
+
+          <button onclick="openQuestionMapModal()" class="hidden sm:inline-flex px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 border border-slate-700 text-slate-200 font-bold transition items-center gap-1">
+            <i class="fa-solid fa-table-cells"></i>
+            <span>Peta Soal</span>
+          </button>
+        </div>
+
+      </div>
+    </div>
+  </header>
+
+  <!-- ================= MAIN CONTENT CONTAINER ================= -->
+  <main class="flex-1 max-w-6xl w-full mx-auto px-3 sm:px-6 pt-4 pb-24 space-y-5">
+
+    <!-- BANNER KONTROL & INFO BAGIAN AKTIF -->
+    <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 sm:p-6 space-y-4">
+      <div class="flex flex-col lg:flex-row lg:items-center justify-between gap-4 border-b border-slate-100 pb-4">
+        <div>
+          <div class="flex flex-wrap items-center gap-2 mb-1">
+            <span id="section-badge" class="px-2.5 py-0.5 rounded-full text-xs font-extrabold bg-indigo-50 text-indigo-700 border border-indigo-200">
+              JLPT N5 TERTULIS • 100 SOAL
+            </span>
+            <span id="mode-status-badge" class="px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200">
+              Mode Latihan: Pembahasan Langsung Muncul
+            </span>
+          </div>
+          <h2 id="section-title" class="text-lg sm:text-2xl font-extrabold text-slate-900">
+            Simulasi JLPT N5 Lengkap (Moji, Goi, Bunpou & Dokkai) - 100 Soal
+          </h2>
+          <p id="section-desc" class="text-xs sm:text-sm text-slate-600 mt-0.5">
+            mencakup 100 soal bacaan Kanji N5, kosakata, partikel, tata bahasa, dan pemahaman kalimat. Klik tombol <strong>Shuffle</strong> kapan saja untuk mengacak urutan 100 soal!
+          </p>
+        </div>
+
+        <!-- Pengaturan Jumlah Soal Shuffle & Kecepatan Suara Choukai -->
+        <div class="flex flex-wrap items-center gap-2 shrink-0">
+          <label class="bg-slate-50 px-3 py-2 rounded-xl border border-slate-200 text-xs font-bold text-slate-700 flex items-center gap-1.5">
+            <span>Paket Soal:</span>
+            <select id="pool-size-select" onchange="changeQuestionPoolSize()" class="bg-transparent font-extrabold text-indigo-600 focus:outline-none cursor-pointer">
+              <option value="all" selected>Semua Soal Penuh (100 / 40)</option>
+              <option value="50">Shuffle 50 Soal</option>
+              <option value="25">Shuffle 25 Soal</option>
+              <option value="10">Shuffle 10 Soal Cepat</option>
+            </select>
+          </label>
+
+          <label class="bg-slate-50 px-3 py-2 rounded-xl border border-slate-200 text-xs font-bold text-slate-700 flex items-center gap-1.5">
+            <i class="fa-solid fa-gauge-high text-indigo-600"></i>
+            <span>Audio:</span>
+            <select id="audio-speed-select" class="bg-transparent font-extrabold text-indigo-600 focus:outline-none cursor-pointer">
+              <option value="0.85">0.85x (Lambat Jelas)</option>
+              <option value="1.0" selected>1.0x (Normal Ujian)</option>
+              <option value="1.15">1.15x (Cepat)</option>
+            </select>
+          </label>
+        </div>
+      </div>
+
+      <!-- Filter Kategori Sub-Bagian & Status Audio Choukai -->
+      <div class="flex flex-wrap items-center justify-between gap-3">
+        <div id="sub-category-pills" class="flex flex-wrap items-center gap-1.5">
+          <!-- Di-render via JS -->
+        </div>
+
+        <div class="flex items-center gap-2 ml-auto">
+          <button onclick="stopAllSpeech()" id="stop-audio-btn" class="hidden px-3 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs items-center gap-1.5 shadow-sm">
+            <i class="fa-solid fa-stop"></i>
+            <span>Hentikan Suara</span>
+          </button>
+
+          <button onclick="submitExamAndShowScore()" class="px-4 py-2 rounded-xl bg-emerald-600 hover:bg-emerald-500 text-white font-extrabold text-xs shadow-sm transition flex items-center gap-1.5">
+            <i class="fa-solid fa-flag-checkered"></i>
+            <span>Selesai & Lihat Skor</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- BANNER HASIL EVALUASI SKOR UJIAN (MUNCUL SAAT SELESAI / WAKTU 1 JAM HABIS) -->
+    <section id="exam-result-banner" class="hidden bg-gradient-to-r from-indigo-700 via-violet-700 to-rose-600 rounded-3xl p-5 sm:p-7 text-white shadow-xl scroll-safe-card">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-6">
+        <div class="space-y-2">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-white/20 text-xs font-extrabold uppercase tracking-wider">
+            <i class="fa-solid fa-award text-amber-300"></i>
+            <span id="res-mode-badge">Hasil Evaluasi Simulasi JLPT</span>
+          </div>
+          <h3 id="res-score-title" class="text-2xl sm:text-4xl font-black">
+            Skor Anda: 85 / 100 (LULUS / 合格)
+          </h3>
+          <p id="res-score-detail" class="text-xs sm:text-sm text-indigo-100 font-medium">
+            Menjawab benar 85 dari 100 soal. Semua kunci jawaban, terjemahan, dan naskah Choukai di bawah kini telah dibuka!
+          </p>
+        </div>
+
+        <div class="flex flex-wrap items-center gap-2.5 shrink-0">
+          <button onclick="shuffleCurrentSectionQuestions()" class="px-5 py-3 rounded-2xl bg-white text-indigo-800 hover:bg-indigo-50 font-extrabold text-xs sm:text-sm shadow-md transition flex items-center gap-2">
+            <i class="fa-solid fa-shuffle"></i>
+            <span>Ulangi & Acak Soal Baru</span>
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- DAFTAR KARTU SOAL -->
+    <section id="questions-container" class="space-y-4">
+      <!-- Dirender secara dinamis via JS -->
+    </section>
+
+    <!-- PAGINASI BAWAH & TOMBOL KUMPULKAN -->
+    <section class="bg-white rounded-2xl shadow-sm border border-slate-200 p-4 sm:p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
+      <div class="flex items-center gap-2" id="pagination-controls">
+        <!-- Dirender via JS -->
+      </div>
+
+      <div class="flex items-center gap-2 w-full sm:w-auto justify-end">
+        <button onclick="window.scrollTo({top: 0, behavior: 'smooth'})" class="px-4 py-2.5 rounded-xl bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold text-xs transition">
+          <i class="fa-solid fa-arrow-up mr-1"></i>Ke Atas
+        </button>
+        <button onclick="submitExamAndShowScore()" class="flex-1 sm:flex-initial px-6 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white font-extrabold text-xs sm:text-sm shadow transition">
+          <i class="fa-solid fa-check-double mr-1.5"></i>Kumpulkan & Cek Nilai Akhir
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================= MODAL PETA NOMOR SOAL (QUESTION NAVIGATOR) ================= -->
+  <div id="question-map-modal" class="fixed inset-0 z-50 hidden bg-slate-900/60 backdrop-blur-sm flex items-center justify-center p-3">
+    <div class="bg-white rounded-3xl max-w-2xl w-full max-h-[85vh] flex flex-col shadow-2xl border border-slate-200 overflow-hidden">
+      <div class="p-4 sm:p-5 border-b border-slate-100 flex items-center justify-between">
+        <div>
+          <h3 class="text-base sm:text-lg font-extrabold text-slate-900">Peta Navigasi Nomor Soal</h3>
+          <p class="text-xs text-slate-500">Klik nomor soal untuk langsung melompat ke soal tersebut tanpa tertutup header.</p>
+        </div>
+        <button onclick="closeQuestionMapModal()" class="w-8 h-8 rounded-xl bg-slate-100 hover:bg-rose-100 text-slate-600 hover:text-rose-600 flex items-center justify-center">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div class="p-4 sm:p-5 overflow-y-auto space-y-4">
+        <div class="flex flex-wrap items-center gap-3 text-xs font-bold">
+          <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-indigo-600 inline-block"></span> Sudah Dijawab</span>
+          <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-emerald-600 inline-block"></span> Benar</span>
+          <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-rose-600 inline-block"></span> Salah</span>
+          <span class="flex items-center gap-1.5"><span class="w-3 h-3 rounded bg-slate-200 inline-block"></span> Belum Dijawab</span>
+        </div>
+
+        <div id="question-map-grid" class="grid grid-cols-5 sm:grid-cols-10 gap-2">
+          <!-- Dirender via JS -->
+        </div>
+      </div>
+
+      <div class="p-4 bg-slate-50 border-t border-slate-100 flex items-center justify-between">
+        <button onclick="shuffleCurrentSectionQuestions(); closeQuestionMapModal();" class="px-4 py-2 rounded-xl bg-indigo-50 text-indigo-700 font-bold text-xs">
+          <i class="fa-solid fa-shuffle mr-1"></i>Acak Ulang Semua Soal
+        </button>
+        <button onclick="closeQuestionMapModal()" class="px-5 py-2 rounded-xl bg-slate-900 text-white font-bold text-xs">
+          Tutup Peta
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ================= TOAST NOTIFICATION ================= -->
+  <div id="toast-box" class="fixed bottom-4 right-4 z-50 hidden">
+    <div class="bg-slate-900 text-white px-4 py-2.5 rounded-xl shadow-xl border border-slate-700 flex items-center gap-2.5 text-xs sm:text-sm font-semibold">
+      <i class="fa-solid fa-circle-info text-indigo-400"></i>
+      <span id="toast-message">Notifikasi</span>
+    </div>
+  </div>
+
+  <!-- ================= JAVASCRIPT ENGINE & 280 BANK SOAL ================= -->
+  <script>
+    /********************************************************************************
+     * 1. BANK SOAL 100 SOAL JLPT N5 TERTULIS (MOJI, GOI, BUNPOU, DOKKAI)
+     * Format kompak: [kategori, kalimatSoal, [opsiA, opsiB, opsiC, opsiD], indexBenar, pembahasanID]
+     ********************************************************************************/
+    const RAW_N5_WRITTEN_100 = [
+      // --- BAGIAN 1: KANJI READING (MOJI) No. 1 - 30 ---
+      ["Moji (Bacaan Kanji)", "毎朝、６時に【起きます】。", ["おきます", "ききます", "あきます", "いきます"], 0, "起きます (okimasu) = bangun tidur. Artinya: Setiap pagi bangun jam 6."],
+      ["Moji (Bacaan Kanji)", "きのう、【新しい】かばんを買いました。", ["あたらしい", "あたたかい", "やさしい", "めずらしい"], 0, "新しい (atarashii) = baru. Membeli tas baru kemarin."],
+      ["Moji (Bacaan Kanji)", "この【電車】は東京へ行きますか。", ["でんしゃ", "じてんしゃ", "じどうしゃ", "きしゃ"], 0, "電車 (densha) = kereta listrik."],
+      ["Moji (Bacaan Kanji)", "【来週】の金曜日にテストがあります。", ["らいしゅう", "せんしゅう", "こんしゅう", "まいしゅう"], 0, "来週 (raishuu) = minggu depan."],
+      ["Moji (Bacaan Kanji)", "駅の【前】で友だちに会いました。", ["まえ", "うしろ", "となり", "ちかく"], 0, "前 (mae) = depan. Bertemu teman di depan stasiun."],
+      ["Moji (Bacaan Kanji)", "部屋の中に【男の子】が三人います。", ["おとこのこ", "おんなのこ", "おとこのひと", "こども"], 0, "男の子 (otokonoko) = anak laki-laki."],
+      ["Moji (Bacaan Kanji)", "このシャツは【三千円】です。", ["さんぜんえん", "さんびゃくえん", "さんまんえん", "لبせんえん"], 0, "三千円 (sanzen-en) = 3.000 Yen."],
+      ["Moji (Bacaan Kanji)", "日本の【食べ物】はおいしいです。", ["たべもの", "のみもの", "かいもの", "くだもの"], 0, "食べ物 (tabemono) = makanan."],
+      ["Moji (Bacaan Kanji)", "【天気】がいいですから、散歩しましょう。", ["てんき", "でんき", "げんき", "びょうき"], 0, "天気 (tenki) = cuaca."],
+      ["Moji (Bacaan Kanji)", "【白い】紙に名前を書いてください。", ["しろい", "くろい", "あかい", "あおい"], 0, "白い (shiroi) = putih."],
+      ["Moji (Bacaan Kanji)", "父は毎日【新聞】を読みます。", ["しんぶん", "ざっし", "てがみ", "ほん"], 0, "新聞 (shinbun) = koran / surat kabar."],
+      ["Moji (Bacaan Kanji)", "【土曜日】は学校が休みです。", ["どようび", "かようび", "수ようび", "もくようび"], 0, "土曜日 (doyoubi) = hari Sabtu."],
+      ["Moji (Bacaan Kanji)", "あそこに【高い】山があります。", ["たかい", "ひくい", "おおきい", "ながい"], 0, "高い (takai) = tinggi / mahal."],
+      ["Moji (Bacaan Kanji)", "【右手】をあげてください。", ["みぎて", "ひだりて", "りょうて", "かたて"], 0, "右手 (migite) = tangan kanan."],
+      ["Moji (Bacaan Kanji)", "【来月】、国へ帰ります。", ["らいげつ", "せんげつ", "こんげつ", "まいげつ"], 0, "来月 (raigetsu) = bulan depan."],
+      ["Moji (Bacaan Kanji)", "【先生】に質問を聞きました。", ["せんせい", "がくせい", "かいしゃいん", "いしゃ"], 0, "先生 (sensei) = guru / pengajar."],
+      ["Moji (Bacaan Kanji)", "もっと【大きい】声で話してください。", ["おおきい", "ちいさい", "はやい", "おそい"], 0, "大きい (ookii) = besar."],
+      ["Moji (Bacaan Kanji)", "【北口】から出てください。", ["きたぐち", "みなみぐち", "ひがしぐち", "にしぐち"], 0, "北口 (kitaguchi) = pintu utara."],
+      ["Moji (Bacaan Kanji)", "【八月】はとても暑いです。", ["はちがつ", "しちがつ", "くがつ", "ろくがつ"], 0, "八月 (hachigatsu) = bulan Agustus."],
+      ["Moji (Bacaan Kanji)", "冷たい【水】を飲みました。", ["みず", "おゆ", "おちゃ", "ぎゅうにゅう"], 0, "水 (mizu) = air."],
+      ["Moji (Bacaan Kanji)", "【半分】だけ食べました。", ["はんぶん", "ぜんぶ", "じゅっぷん", "すこし"], 0, "半分 (hanbun) = setengah."],
+      ["Moji (Bacaan Kanji)", "図書館で本を【読みます】。", ["よみます", "かきます", "かいます", "みます"], 0, "読みます (yomimasu) = membaca."],
+      ["Moji (Bacaan Kanji)", "【外国】へ旅行に行きたいです。", ["がいこく", "ちゅうごく", "ぼこく", "ぜんこく"], 0, "外国 (gaikoku) = luar negeri."],
+      ["Moji (Bacaan Kanji)", "母は【花】が大好きです。", ["はな", "き", "くさ", "やま"], 0, "花 (hana) = bunga."],
+      ["Moji (Bacaan Kanji)", "【午後】二時に会いましょう。", ["ごご", "ごぜん", "あさ", "よる"], 0, "午後 (gogo) = sore / PM."],
+      ["Moji (Bacaan Kanji)", "りんごを【四つ】買いました。", ["よっつ", "みっつ", "いつつ", "むっつ"], 0, "四つ (yottsu) = empat buah."],
+      ["Moji (Bacaan Kanji)", "【長い】えんぴつを使います。", ["ながい", "みじかい", "ふるい", "やすい"], 0, "長い (nagai) = panjang."],
+      ["Moji (Bacaan Kanji)", "毎日【友だち】と勉強します。", ["ともだち", "かぞく", "きょうだい", "りょうしん"], 0, "友だち (tomodachi) = teman."],
+      ["Moji (Bacaan Kanji)", "【雨】が降っています。", ["あめ", "ゆき", "かぜ", "くも"], 0, "雨 (ame) = hujan."],
+      ["Moji (Bacaan Kanji)", "【六百円】の切手を買いました。", ["ろっぴゃくえん", "ろくひゃくえん", "はっぴゃくえん", "さんびゃくえん"], 0, "六百円 (roppyaku-en) = 600 Yen (bunyi berubah menjadi roppyaku)."],
+
+      // --- BAGIAN 2: KOSAKATA (GOI) No. 31 - 60 ---
+      ["Goi (Kosakata)", "おなかが（　　）から、何か食べましょう。", ["すきました", "かわきました", "つかれました", "ねむりました"], 0, "おなかがすきました (onaka ga sukimashita) = perut lapar."],
+      ["Goi (Kosakata)", "のどが（　　）から、水を飲みます。", ["かわきました", "すきました", "いたみました", "はれました"], 0, "のどがかわきました (nodo ga kawakimashita) = tenggorokan haus."],
+      ["Goi (Kosakata)", "部屋が暗いですから、電気を（　　）ください。", ["つけて", "けして", "あけて", "しめて"], 0, "電気をつけて (denki wo tsukete) = menyalakan lampu."],
+      ["Goi (Kosakata)", "寒いですね。窓を（　　）もいいですか。", ["しめて", "あけて", "けして", "つけて"], 0, "窓をしめて (mado wo shimete) = menutup jendela."],
+      ["Goi (Kosakata)", "毎朝、シャワーを（　　）から学校へ行きます。", ["あびて", "あらって", "はいって", "きて"], 0, "シャワーをあびる (shawaa wo abiru) = mandi shower."],
+      ["Goi (Kosakata)", "ここで靴を（　　）ください。", ["ぬいで", "きて", "かぶって", "かけて"], 0, "靴をぬぐ (kutsu wo nugu) = melepas sepatu."],
+      ["Goi (Kosakata)", "兄はめがねを（　　）います。", ["かけて", "きて", "はいて", "かぶって"], 0, "めがねをかける (megane wo kakeru) = memakai kacamata."],
+      ["Goi (Kosakata)", "その白いぼうしを（　　）人はだれですか。", ["かぶっている", "きている", "はいている", "かけている"], 0, "ぼうしをかぶる (boushi wo kaburu) = memakai topi."],
+      ["Goi (Kosakata)", "すみません、塩を（　　）ください。", ["とって", "まって", "のって", "たって"], 0, "塩をとってください = tolong ambilkan garam."],
+      ["Goi (Kosakata)", "漢字の読み方がわかりませんから、（　　）で調べます。", ["じしょ", "しんぶん", "てちょう", "ざっし"], 0, "辞書 (jisho) = kamus."],
+      ["Goi (Kosakata)", "郵便局へ行って、（　　）を買いました。", ["きって", "きっぷ", "おつり", "さいふ"], 0, "切手 (kitte) = perangko (dibeli di kantor pos). きっぷ = tiket kereta."],
+      ["Goi (Kosakata)", "エレベーターで５階へ（　　）。", ["あがります", "のぼります", "はいります", "でます"], 0, "階へあがります (agarimasu) = naik ke lantai atas."],
+      ["Goi (Kosakata)", "テストの前に、名前と（　　）を書いてください。", ["ばんごう", "でんわ", "じゅうしょ", "てがみ"], 0, "番号 (bangou) = nomor (nomor ujian/absen)."],
+      ["Goi (Kosakata)", "この料理はあまり（　　）ないですね。甘いです。", ["からく", "おもく", "たかく", "ながく"], 0, "からくない (tidak pedas). Kalimat berikutnya: rasanya manis."],
+      ["Goi (Kosakata)", "きのうの夜はよく（　　）か。", ["ねむれました", "おきました", "やすみました", "あそびました"], 0, "よく眠れましたか (yoku nemuremashita ka) = apakah tadi malam bisa tidur nyenyak?"],
+      ["Goi (Kosakata)", "駅の階段を（　　）とき、気をつけてください。", ["おりる", "おちる", "さげる", "しめる"], 0, "階段をおりる (kaidan wo oriru) = menuruni tangga."],
+      ["Goi (Kosakata)", "机の上に本が（　　）あります。片づけましょう。", ["たくさん", "すこし", "あまり", "ぜんぜん"], 0, "たくさん (takusan) = banyak."],
+      ["Goi (Kosakata)", "コーヒーに砂糖を（　　）飲みます。", ["いれて", "だして", "きって", "うって"], 0, "砂糖をいれて (satou wo irete) = memasukkan gula."],
+      ["Goi (Kosakata)", "デパートで母の誕生日プレゼントを（　　）。", ["えらびました", "ならびました", "よびました", "とびました"], 0, "えらびました (erabimashita) = memilih hadiah."],
+      ["Goi (Kosakata)", "バスを（　　）とき、ボタンを押します。", ["おりる", "のる", "でる", "はいる"], 0, "バスをおりる (basu wo oriru) = turun dari bus."],
+      ["Goi (Kosakata)", "風邪をひいて、（　　）があります。", ["ねつ", "くすり", "びょういん", "げんき"], 0, "熱があります (netsu ga arimasu) = demam."],
+      ["Goi (Kosakata)", "映画は７時に（　　）ます。", ["はじまり", "あき", "お(き)", "で"], 0, "はじまります (hajimarimasu) = mulai."],
+      ["Goi (Kosakata)", "このセーターはとても（　　）ですね。", ["あたたかい", "あつい", "すずしい", "つめたい"], 0, "あたたかい (atatakai) = hangat (untuk pakaian/cuaca)."],
+      ["Goi (Kosakata)", "（　　）歩きましょう。時間がありません。", ["はやく", "おそく", "ゆっくり", "だんだん"], 0, "はやく (hayaku) = dengan cepat."],
+      ["Goi (Kosakata)", "部屋を（　　）掃除しました。", ["きれいに", "げんきに", "しずかに", "ゆうめいに"], 0, "きれいに掃除しました = membersihkan dengan bersih/rapi."],
+      ["Goi (Kosakata)", "角を右へ（　　）と、銀行があります。", ["まがる", "わたる", "とおる", "はしる"], 0, "角をまがる (kado wo magaru) = belok di tikungan."],
+      ["Goi (Kosakata)", "橋を（　　）から、まっすぐ行ってください。", ["わたって", "まがって", "のぼって", "とまって"], 0, "橋をわたる (hashi wo wataru) = menyeberangi jembatan."],
+      ["Goi (Kosakata)", "財布を（　　）しまいました。お金がありません。", ["なくして", "わすれて", "かえして", "かして"], 0, "財布をなくす (saifu wo nakusu) = kehilangan dompet."],
+      ["Goi (Kosakata)", "写真を撮りますから、そこに（　　）ください。", ["ならんで", "あそんで", "よんで", "のんで"], 0, "ならんでください (narande kudasai) = tolong berbaris."],
+      ["Goi (Kosakata)", "日本語が（　　）上手になりましたね。", ["だんだん", "ぜんぜん", "あまり", "まだ"], 0, "だんだん (dandan) = lama-kelamaan / berangsur-angsur."],
+
+      // --- BAGIAN 3: TATA BAHASA & PARTIKEL (BUNPOU) No. 61 - 90 ---
+      ["Bunpou (Tata Bahasa)", "私は毎日バス（　　）会社へ行きます。", ["で", "に", "を", "へ"], 0, "Partikel で (de) digunakan untuk menunjukkan alat transportasi."],
+      ["Bunpou (Tata Bahasa)", "あそこに犬（　　）いますよ。", ["が", "を", "で", "へ"], 0, "Kata kerja keberadaan います/あります menggunakan partikel が untuk subjek."],
+      ["Bunpou (Tata Bahasa)", "東京は大阪（　　）人が多くてにぎやかです。", ["より", "ほど", "から", "まで"], 0, "A は B より ... = A lebih ... daripada B."],
+      ["Bunpou (Tata Bahasa)", "きのうは雨（　　）でした。", ["だった", "でした", "じゃない", "くない"], 1, "Bentuk lampau sopan untuk kata benda 雨 adalah 雨でした (seharusnya kalimat: きのうは激しい雨でした)."],
+      ["Bunpou (Tata Bahasa)", "この映画はあまり（　　）。", ["おもしろくないです", "おもしろいです", "おもしろくないでした", "おもしろじゃありません"], 0, "あまり selalu diikuti bentuk negatif: おもしろくないです (tidak begitu menarik)."],
+      ["Bunpou (Tata Bahasa)", "ここでタバコを（　　）はいけません。", ["すって", "すわない", "すいます", "すう"], 0, "Pola larangan: Kata kerja bentuk て + はいけません (Dilarang merokok)."],
+      ["Bunpou (Tata Bahasa)", "明日、いっしょに映画を（　　）に行きませんか。", ["見", "見る", "見て", "見た"], 0, "Tujuan pergi: Kata kerja bentuk Masu-stem (見) + に行きます."],
+      ["Bunpou (Tata Bahasa)", "寝る（　　）、歯をみがきます。", ["まえに", "あとで", "ながら", "とき"], 0, "Kamus + まえに (sebelum): 寝るまえに = sebelum tidur."],
+      ["Bunpou (Tata Bahasa)", "ごはんを食べた（　　）、薬を飲みます。", ["あとで", "まえに", "ながら", "からに"], 0, "Bentuk た + あとで (setelah): 食べたあとで = setelah makan."],
+      ["Bunpou (Tata Bahasa)", "音楽を（　　）ながら、歩きます。", ["きき", "きく", "きいて", "きいた"], 0, "Sambil melakukan 2 aktivitas: Bentuk Masu-stem (きき) + ながら."],
+      ["Bunpou (Tata Bahasa)", "私は富士山に（　　）ことがあります。", ["のぼった", "のぼる", "のぼって", "のぼり"], 0, "Pengalaman: Bentuk た + ことがあります (pernah mendaki Gunung Fuji)."],
+      ["Bunpou (Tata Bahasa)", "休みの日は本を（　　）、テレビを見たりします。", ["読んだり", "読んで", "読むと", "読んだら"], 0, "Pola ～たり、～たりします untuk menyebutkan beberapa contoh kegiatan."],
+      ["Bunpou (Tata Bahasa)", "新しいパソコンが（　　）です。", ["ほしい", "ほしがる", "たい", "たがる"], 0, "Ingin memiliki benda: Benda + が + ほしいです."],
+      ["Bunpou (Tata Bahasa)", "日本へ（　　）たいです。", ["行き", "行く", "行って", "行った"], 0, "Ingin melakukan: Bentuk Masu-stem (行き) + たいです."],
+      ["Bunpou (Tata Bahasa)", "母は私に時計を（　　）。", ["くれました", "あげました", "もらいました", "やりました"], 0, "Orang lain memberi kepada saya (私に): くれました."],
+      ["Bunpou (Tata Bahasa)", "あの白いシャツを（　　）人は田中さんです。", ["着ている", "着る", "着た", "着てある"], 0, "Keadaan sedang memakai baju: 着ている (yang memodifikasi kata benda 人)."],
+      ["Bunpou (Tata Bahasa)", "もう宿題を（　　）か。― いいえ、まだです。", ["しました", "します", "しています", "しません"], 0, "もう + bentuk lampau (しましたか) = Apakah sudah mengerjakan PR?"],
+      ["Bunpou (Tata Bahasa)", "明日は雨が（　　）でしょう。", ["ふる", "ふり", "ふって", "ふった"], 0, "Kemungkinan: Bentuk biasa (ふる) + でしょう."],
+      ["Bunpou (Tata Bahasa)", "頭が痛いです（　　）、早く帰ります。", ["から", "ても", "たり", "ながら"], 0, "Partikel から menyatakan alasan (karena sakit kepala, pulang cepat)."],
+      ["Bunpou (Tata Bahasa)", "名前を（　　）から、テストを始めてください。", ["書いて", "書く", "書いた", "書き"], 0, "Bentuk て + から = setelah menulis nama, silakan mulai tes."],
+      ["Bunpou (Tata Bahasa)", "もう少し（　　）話してください。", ["ゆっくり", "しずかな", "はやいに", "おおきくで"], 0, "ゆっくり (yukkuri) adalah kata keterangan: tolong bicara lebih pelan."],
+      ["Bunpou (Tata Bahasa)", "日曜日はどこ（　　）行きませんでした。", ["へも", "へは", "にも", "でも"], 0, "どこへも + negatif = tidak pergi ke mana-mana."],
+      ["Bunpou (Tata Bahasa)", "スポーツの中で、何が（　　）好きですか。", ["いちばん", "もっと", "ずっと", "とても"], 0, "の中で、何がいちばん... = Di antara olahraga, apa yang paling disukai?"],
+      ["Bunpou (Tata Bahasa)", "暗いから、気をつけて（　　）ね。", ["帰って", "帰る", "帰った", "帰り"], 0, "Permintaan akrab: Bentuk て + ね (帰ってね)."],
+      ["Bunpou (Tata Bahasa)", "今日は早く（　　）なければなりません。", ["起き", "起きる", "起きて", "起きた"], 0, "Keharusan: Bentuk Nai tanpa い (起き) + なければなりません = harus bangun cepat."],
+      ["Bunpou (Tata Bahasa)", "明日は休みですから、会社へ（　　）もいいです。", ["行かなくて", "行かないで", "行くなくて", "行かない"], 0, "Tidak perlu: Bentuk ない -> なくて + もいいです (行かなくてもいいです)."],
+      ["Bunpou (Tata Bahasa)", "教室にだれ（　　）いません。", ["も", "か", "が", "は"], 0, "だれもいません = tidak ada siapa-siapa di ruang kelas."],
+      ["Bunpou (Tata Bahasa)", "日本へ来る（　　）、日本語を３か月勉強しました。", ["まえに", "あとで", "ときに", "から"], 0, "来るまえに = sebelum datang ke Jepang."],
+      ["Bunpou (Tata Bahasa)", "このバスは東京駅（　　）行きますか。", ["まで", "から", "より", "ほど"], 0, "まで (made) = sampai. Apakah bus ini pergi sampai Stasiun Tokyo?"],
+      ["Bunpou (Tata Bahasa)", "ペンがありませんから、えんぴつ（　　）書きます。", ["で", "に", "を", "と"], 0, "Partikel で menunjukkan alat yang dipakai (menulis dengan pensil)."],
+
+      // --- BAGIAN 4: PEMAHAMAN BACAAN (DOKKAI) No. 91 - 100 ---
+      ["Dokkai (Bacaan N5)", "【メモ】「田中さんへ。３時の会議は４時に変わりました。場所も第１会議室ではなく、第２会議室です。」\n会議は何時からどこでありますか。", ["４時から第２会議室", "３時から第１会議室", "４時から第１会議室", "３時から第２会議室"], 0, "Memo menyebutkan rapat jam 3 berubah menjadi jam 4, dan tempatnya bukan Ruang Rapat 1 melainkan Ruang Rapat 2."],
+      ["Dokkai (Bacaan N5)", "「私は毎朝パンと卵を食べます。でも、日曜日は朝遅く起きますから、朝ごはんを食べないで昼ごはんを食べます。」\n日曜日の朝、何をしますか。", ["朝ごはんを食べません", "パンと卵を食べます", "早く起きます", "牛乳だけ飲みます"], 0, "Pada hari Minggu karena bangun siang, tidak makan pagi (朝ごはんを食べないで)."],
+      ["Dokkai (Bacaan N5)", "「この図書館は月曜日から土曜日まで、朝９時から夜７時まで開いています。日曜日は休みです。」\nいつ本を借りることができますか。", ["水曜日の午後３時", "日曜日の午前１０時", "火曜日の夜８時", "土曜日の朝８時"], 0, "Buka Senin–Sabtu jam 09:00–19:00. Jadi Rabu jam 3 sore buka."],
+      ["Dokkai (Bacaan N5)", "「きのう、デパートで３０００円のシャツと２０００円のネクタイを買いました。５０００円出しました。」\nおつりはいくらですか。", ["０円", "１０００円", "２０００円", "３０００円"], 0, "Total belanja 3000 + 2000 = 5000 Yen. Membayar 5000 Yen, jadi kembaliannya 0 Yen."],
+      ["Dokkai (Bacaan N5)", "「私の家から駅まで歩いて１５分かかります。自転車なら５分です。今日は雨が降っていますから、歩いて行きます。」\n今日は駅まで何分かかりますか。", ["１５分", "５分", "２０分", "１０分"], 0, "Karena hari ini hujan, ia berjalan kaki (歩いて行きます) yang memakan waktu 15 menit."],
+      ["Dokkai (Bacaan N5)", "「リーさんは中国から来ました。英語も日本語も上手です。今、日本の大学で経済を勉強しています。」\nリーさんは今、何をしていますか。", ["日本の大学で勉強しています", "中国の大学で働いています", "英語の先生をしています", "日本へ旅行に来ています"], 0, "Kalimat terakhir menjelaskan Lee-san sekarang sedang belajar ekonomi di universitas Jepang."],
+      ["Dokkai (Bacaan N5)", "【張り紙】「エレベーターは今、修理中です。２階と３階へ行く方は階段を使ってください。」\n３階へ行く人はどうしますか。", ["階段を使います", "エレベーターに乗ります", "１階で待ちます", "別の建物へ行きます"], 0, "Karena lift sedang diperbaiki, orang yang menuju lantai 2 dan 3 diminta memakai tangga."],
+      ["Dokkai (Bacaan N5)", "「あしたの遠足は、お弁当と飲み物を持ってきてください。お菓子は５００円までいいですが、ゲームは持ってこないでください。」\n持っていってはいけないものは何ですか。", ["ゲーム", "お弁当", "飲み物", "３００円のお菓子"], 0, "ゲームは持ってこないでください = Tolong jangan membawa game."],
+      ["Dokkai (Bacaan N5)", "「母の誕生日に、姉は花をあげました。私はケーキを作りました。父はレストランで晩ごはんをごちそうしました。」\n「私」は母に何をしましたか。", ["ケーキを作りました", "花をあげました", "レストランへ連れていきました", "かばんを買いました"], 0, "Teks menyatakan: 私はケーキを作りました (Saya membuat kue)."],
+      ["Dokkai (Bacaan N5)", "「病院の受付は午前８時半から１１時半までです。午後は休診です。保険証を忘れないでください。」\n病院へ行くとき、何が必要ですか。", ["保険証", "学生証", "パスポート", "運転免許証"], 0, "保険証を忘れないでください = Jangan lupa membawa kartu asuransi kesehatan (hokenshou)."]
+    ];
+
+    /********************************************************************************
+     * 2. BANK SOAL 100 SOAL JLPT N4 TERTULIS (MOJI, GOI, BUNPOU, DOKKAI)
+     ********************************************************************************/
+    const RAW_N4_WRITTEN_100 = [
+      // --- BAGIAN 1: KANJI & MOJI N4 No. 1 - 30 ---
+      ["Moji N4 (Kanji)", "【図書館】で日本の歴史の本を借りました。", ["としょかん", "ずしょかん", "としょやかた", "ずしょやかた"], 0, "図書館 (toshokan) = perpustakaan."],
+      ["Moji N4 (Kanji)", "この【銀行】は午後３時に閉まります。", ["ぎんこう", "ぎんぎょう", "きんこう", "きんぎょう"], 0, "銀行 (ginkou) = bank."],
+      ["Moji N4 (Kanji)", "来週の会議の【準備】をしてください。", ["じゅんび", "ようい", "けいかく", "よやく"], 0, "準備 (junbi) = persiapan."],
+      ["Moji N4 (Kanji)", "日本で働くのはいい【経験】になります。", ["けいけん", "しけん", "じっけん", "たいけん"], 0, "経験 (keiken) = pengalaman."],
+      ["Moji N4 (Kanji)", "使い方をわかりやすく【説明】します。", ["せつめい", "しょうめい", "はつめい", "あんない"], 0, "説明 (setsumei) = penjelasan."],
+      ["Moji (Kanji N4)", "【新幹線】で京都へ出張します。", ["しんかんせん", "しん간せん", "ちかてつ", "とっきゅう"], 0, "新幹線 (shinkansen) = kereta cepat Shinkansen."],
+      ["Moji (Kanji N4)", "駅の近くに新しい【病院】ができました。", ["びょういん", "びよういん", "だいがくいん", "ぎいん"], 0, "病院 (byouin) = rumah sakit."],
+      ["Moji (Kanji N4)", "【郵便局】で荷物を送りました。", ["ゆうびんきょく", "けいさつしょ", "しやくしょ", "じむしょ"], 0, "郵便局 (yuubinkyoku) = kantor pos."],
+      ["Moji (Kanji N4)", "【冷蔵庫】の中に冷たいお茶があります。", ["れいぞうこ", "せんたくき", "そうじき", "せんぷうき"], 0, "冷蔵庫 (reizouko) = kulkas."],
+      ["Moji (Kanji N4)", "【交差点】を左に曲がってください。", ["こうさてん", "しんごう", "おうだんほどう", "ちゅうしゃじょう"], 0, "交差点 (kousaten) = persimpangan jalan."],
+      ["Moji (Kanji N4)", "日本の生活の【習慣】に慣れました。", ["しゅうかん", "しゅうきょう", "れんしゅう", "ふくしゅう"], 0, "習慣 (shuukan) = kebiasaan / adat."],
+      ["Moji (Kanji N4)", "【特急】電車に乗れば、早く着きます。", ["とっきゅう", "きゅうこう", "ふつう", "かくえき"], 0, "特急 (tokkyuu) = kereta ekspres terbatas."],
+      ["Moji (Kanji N4)", "エレベーターが【故障】しています。", ["こしょう", "じこ", "しゅうり", "ちゅうし"], 0, "故障 (koshou) = rusak (mesin/alat)."],
+      ["Moji (Kanji N4)", "遅れるときは、必ず会社に【連絡】してください。", ["れんらく", "そうだん", "ほうこく", "へんじ"], 0, "連絡 (renraku) = menghubungi / kabar."],
+      ["Moji (Kanji N4)", "【警察署】で運転免許証を更新しました。", ["けいさつしょ", "しょうぼうしょ", "しやくしょ", "ぜいむしょ"], 0, "警察署 (keisatsusho) = kantor polisi."],
+      ["Moji (Kanji N4)", "ここは駐車【禁止】です。", ["きんし", "ちゅうい", "あんぜん", "きけん"], 0, "禁止 (kinshi) = dilarang."],
+      ["Moji (Kanji N4)", "【会場】の入り口でチケットを見せてください。", ["かいじょう", "こうじょう", "うんどうじょう", "うりば"], 0, "会場 (kaijou) = tempat acara (venue)."],
+      ["Moji (Kanji N4)", "インターネットでホテルを【予約】しました。", ["よやく", "やくそく", "よてい", "よほう"], 0, "予約 (yoyaku) = reservasi / pemesanan."],
+      ["Moji (Kanji N4)", "先輩に仕事の【相談】をしました。", ["そうだん", "しつもん", "きょうりょく", "あいさつ"], 0, "相談 (soudan) = konsultasi / diskusi."],
+      ["Moji (Kanji N4)", "【食料品】の売り場は地下１階です。", ["しょくりょうひん", "にちようひん", "しなもの", "たべもの"], 0, "食料品 (shokuryouhin) = bahan makanan."],
+      ["Moji (Kanji N4)", "兄は【公務員】として市役所で働いています。", ["こうむいん", "かいしゃいん", "てんいん", "ぎんこういん"], 0, "公務員 (koumuin) = Pegawai Negeri Sipil (PNS)."],
+      ["Moji (Kanji N4)", "毎朝、テレビで【天気予報】を見ます。", ["てんきよほう", "てんきよてい", "てんきほうこく", "てんきしんぶん"], 0, "天気予報 (tenkiyohou) = prakiraan cuaca."],
+      ["Moji (Kanji N4)", "【非常口】の場所を確認してください。", ["ひじょうぐち", "いりぐち", "でぐち", "まどぐち"], 0, "非常口 (hijouguchi) = pintu darurat."],
+      ["Moji (Kanji N4)", "来週から新しい【工場】で働きます。", ["こうじょう", "かいじょう", "ぼくじょう", "ひろば"], 0, "工場 (koujou) = pabrik."],
+      ["Moji (Kanji N4)", "【留学】のために日本語を勉強しています。", ["りゅうがく", "にゅうがく", "しんがく", "たいがく"], 0, "留学 (ryuugaku) = belajar di luar negeri."],
+      ["Moji (Kanji N4)", "この薬は食後に【飲む】ようにしてください。", ["のむ", "たべる", "かむ", "すう"], 0, "飲む (nomu) = minum (termasuk minum obat)."],
+      ["Moji (Kanji N4)", "電車に【忘れ物】をしてしまいました。", ["わすれもの", "おとしもの", "のりもの", "おくりのも"], 0, "忘れ物 (wasuremono) = barang tertinggal."],
+      ["Moji (Kanji N4)", "【両親】に手紙を書きました。", ["りょうしん", "きょうだい", "かぞく", "しんせき"], 0, "両親 (ryoushin) = kedua orang tua."],
+      ["Moji (Kanji N4)", "明日【退院】することになりました。", ["たいいん", "にゅういん", "つういん", "びょういん"], 0, "退院 (taiin) = keluar dari rumah sakit."],
+      ["Moji (Kanji N4)", "【美術館】で有名な絵を見ました。", ["びじゅつかん", "はくぶつかん", "どうぶつえん", "すいぞくかん"], 0, "美術館 (bijutsukan) = museum seni."],
+
+      // --- BAGIAN 2: KOSAKATA (GOI N4) No. 31 - 60 ---
+      ["Goi N4 (Kosakata)", "電車の時間に（　　）ように、早く家を出ました。", ["まにあう", "おくれる", "のりかえる", "まちがえる"], 0, "間に合う (maniau) = sempat / tepat waktu mengejar jadwal."],
+      ["Goi N4 (Kosakata)", "新宿駅で山手線に（　　）ください。", ["のりかえて", "とりかえて", "きがえて", "ふりかえて"], 0, "乗り換える (norikaeru) = transit / ganti kereta."],
+      ["Goi N4 (Kosakata)", "ゴミは燃えるゴミと燃えないゴミに（　　）出します。", ["わけて", "すてて", "あつめて", "かたづけて"], 0, "分けて (wakete) = memisahkan / memilah sampah."],
+      ["Goi N4 (Kosakata)", "シャワーのお湯が出ないので、管理人さんに（　　）もらいました。", ["なおして", "こわして", "つくって", "かえて"], 0, "直す (naosu) = memperbaiki."],
+      ["Goi N4 (Kosakata)", "風邪が（　　）から、明日から学校へ行けます。", ["なおった", "なおした", "かかった", "ついた"], 0, "病気が治る (naoru - intransitif) = penyakitnya sembuh."],
+      ["Goi N4 (Kosakata)", "テストの点数が悪くて、（　　）しました。", ["がっかり", "びっくり", "しっかり", "はっきり"], 0, "がっかりする = kecewa."],
+      ["Goi N4 (Kosakata)", "富士山が（　　）見えますね。", ["はっきり", "すっかり", "うっかり", "のんびり"], 0, "はっきり = dengan jelas."],
+      ["Goi N4 (Kosakata)", "約束の時間を（　　）忘れていました。", ["うっかり", "しっかり", "はっきり", "ゆっくり"], 0, "うっかり = tidak sengaja / kelupaan."],
+      ["Goi N4 (Kosakata)", "休みの日は家で（　　）過ごしたいです。", ["のんびり", "びっくり", "がっかり", "ぎっしり"], 0, "のんびり = bersantai / tenang."],
+      ["Goi N4 (Kosakata)", "急にお湯が出なくなって、（　　）しました。", ["びっくり", "にっこり", "ぐっすり", "ぴったり"], 0, "びっくりする = terkejut / kaget."],
+      ["Goi N4 (Kosakata)", "この靴は私の足に（　　）です。", ["ぴったり", "はっきり", "すっかり", "しっかり"], 0, "ぴったり = pas sekali ukurannya."],
+      ["Goi N4 (Kosakata)", "新しい仕事はもう（　　）か。", ["なれました", "ならいました", "なおしました", "なくしました"], 0, "慣れる (nareru) = menjadi terbiasa."],
+      ["Goi N4 (Kosakata)", "火事のときは、すぐに１１９番に（　　）ください。", ["しらせて", "しらべて", "あわせて", "きかせて"], 0, "知らせる (shiraseru) = memberitahukan / melaporkan."],
+      ["Goi N4 (Kosakata)", "日本語の小説が読めるようになって、（　　）です。", ["うれしい", "かなしい", "さびしい", "はずかしい"], 0, "うれしい (ureshii) = senang / gembira."],
+      ["Goi N4 (Kosakata)", "大勢の前でスピーチをするのは（　　）です。", ["はずかしい", "うらやましい", "なつかしい", "すばらしい"], 0, "はずかしい (hazukashii) = malu / gugup."],
+      ["Goi N4 (Kosakata)", "子どものころの写真を見て、（　　）気持ちになりました。", ["なつかしい", "めずらしい", "きびしい", "おそろしい"], 0, "なつかしい (natsukashii) = rindu masa lalu / bernostalgia."],
+      ["Goi N4 (Kosakata)", "彼はいつも時間を（　　）まじめな人です。", ["まもる", "やぶる", "かざる", "いのる"], 0, "時間を守る (jikan wo mamoru) = menepati waktu."],
+      ["Goi N4 (Kosakata)", "お湯が（　　）から、お茶を入れましょう。", ["わいた", "やけた", "にえた", "ひえた"], 0, "お湯が沸く (oyu ga waku) = air mendidih."],
+      ["Goi N4 (Kosakata)", "会議の資料を３０部（　　）してください。", ["コピー", "ファックス", "チェック", "タイプ"], 0, "コピーする = memfotokopi dokumen."],
+      ["Goi N4 (Kosakata)", "来週のパーティーに（　　）しますか。", ["しゅっせき", "けっせき", "せいこう", "しっぱい"], 0, "出席する (shusseki suru) = menghadiri acara."],
+      ["Goi N4 (Kosakata)", "雨が降りそうですから、洗濯物を家の中に（　　）ください。", ["いれて", "ほして", "たたんで", "あらって"], 0, "洗濯物を入れる = memasukkan jemuran ke dalam rumah."],
+      ["Goi N4 (Kosakata)", "エアコンの温度を少し（　　）もいいですか。", ["さげて", "おりて", "おちて", "ひえて"], 0, "温度を下げる (ondo wo sageru - transitif) = menurunkan suhu."],
+      ["Goi N4 (Kosakata)", "人口が毎年（　　）います。", ["ふえて", "ふやして", "あつめて", "ためて"], 0, "増える (fueru - intransitif) = bertambah."],
+      ["Goi N4 (Kosakata)", "将来のためにお金を（　　）います。", ["ためて", "たまって", "のこって", "つづいて"], 0, "お金を貯める (okane wo tameru) = menabung uang."],
+      ["Goi N4 (Kosakata)", "試験に（　　）するように、毎日勉強しています。", ["ごうかく", "しっぱい", "そつぎょう", "にゅうがく"], 0, "合格する (goukaku suru) = lulus ujian."],
+      ["Goi N4 (Kosakata)", "ストーブの火を（　　）から寝てください。", ["けして", "きえて", "しめて", "とじて"], 0, "火を消す (hi wo kesu - transitif) = mematikan api."],
+      ["Goi N4 (Kosakata)", "道が（　　）いて、バスがなかなか来ません。", ["こんで", "すいて", "あいて", "つづいて"], 0, "道が混んでいる (michi ga konde iru) = jalannya macet / padat."],
+      ["Goi N4 (Kosakata)", "わからない言葉をインターネットで（　　）。", ["しらべました", "おぼえました", "くらべました", "ならべました"], 0, "調べる (shiraberu) = mencari tahu / memeriksa."],
+      ["Goi N4 (Kosakata)", "引っ越しの（　　）を手伝ってもらいました。", ["かたづけ", "みまい", "おいわい", "おみやげ"], 0, "片付け (katadzuke) = beres-beres."],
+      ["Goi N4 (Kosakata)", "入院している友だちの（　　）に行きます。", ["おみまい", "おいわい", "おれい", "おわび"], 0, "お見舞い (omimai) = menjenguk orang sakit."],
+
+      // --- BAGIAN 3: TATA BAHASA N4 (BUNPOU) No. 61 - 90 ---
+      ["Bunpou N4 (Tata Bahasa)", "私は日本語で手紙を（　　）ことができます。", ["書く", "書ける", "書いて", "書いた"], 0, "Bentuk kamus (書く) + ことができます = bisa menulis."],
+      ["Bunpou N4 (Tata Bahasa)", "毎日練習したので、泳げる（　　）なりました。", ["ように", "ことに", "そうに", "ために"], 0, "Perubahan kemampuan: Kata kerja potensial (泳げる) + ようになりました = menjadi bisa berenang."],
+      ["Bunpou N4 (Tata Bahasa)", "健康のために、毎日野菜を（　　）ようにしています。", ["食べる", "食べた", "食べて", "食べよう"], 0, "Kebiasaan yang diusahakan: Bentuk kamus/nai + ようにしています."],
+      ["Bunpou N4 (Tata Bahasa)", "来月から大阪の支社で（　　）ことになりました。", ["働く", "働いた", "働いて", "働こう"], 0, "Keputusan organisasi/pihak luar: Bentuk kamus + ことになりました (diputuskan akan bekerja)."],
+      ["Bunpou N4 (Tata Bahasa)", "空が暗くなってきました。雨が（　　）そうです。", ["降り", "降る", "降って", "降った"], 0, "Tampak akan terjadi (pengamatan visual): Masu-stem (降り) + そうです."],
+      ["Bunpou N4 (Tata Bahasa)", "天気予報によると、明日は雨が（　　）そうです。", ["降る", "降り", "降って", "降ろう"], 0, "Katanya / Kabar burung (伝聞): Bentuk biasa (降る) + そうです."],
+      ["Bunpou N4 (Tata Bahasa)", "このケーキはとても（　　）そうですね。", ["おいし", "おいしい", "おいしく", "おいしかった"], 0, "Kata sifat-i + そうです: hilangkan い menjadi おいしそうです (kelihatan enak)."],
+      ["Bunpou N4 (Tata Bahasa)", "子どもに野菜を（　　）のは大変です。", ["食べさせる", "食べられる", "食べれる", "食べがる"], 0, "Bentuk Kausatif (menyuruh/membuat anak makan): 食べさせる."],
+      ["Bunpou N4 (Tata Bahasa)", "満員電車で足を（　　）しまいました。", ["踏まれて", "踏ませて", "踏めて", "踏んで"], 0, "Bentuk Pasif (kakinya terinjak orang lain): 踏まれる -> 踏まれてしまいました."],
+      ["Bunpou N4 (Tata Bahasa)", "母に日記を（　　）、恥ずかしかったです。", ["読まれて", "読ませて", "読めて", "読んで"], 0, "Pasif penderitaan (diari saya dibaca oleh ibu): 読まれて."],
+      ["Bunpou N4 (Tata Bahasa)", "社長はもう（　　）になりましたか。", ["お帰り", "帰られ", "帰って", "お帰る"], 0, "Sonkeigo (Hormat): お + Masu-stem (帰り) + になる = Apakah Pak Direktur sudah pulang?"],
+      ["Bunpou N4 (Tata Bahasa)", "先生、荷物をお持ち（　　）か。", ["しましょう", "になりましょう", "られましょう", "いたされましょう"], 0, "Kenjougo (Merendah menawarkan bantuan): お + Masu-stem + しましょうか."],
+      ["Bunpou N4 (Tata Bahasa)", "部長、どうぞ先に（　　）ください。", ["めしあがって", "いただいて", "たべられて", "もうして"], 0, "召し上がる (meshiagaru) adalah bentuk hormat (Sonkeigo) dari 食べる/飲む."],
+      ["Bunpou N4 (Tata Bahasa)", "私は昨年、田中先生に一度お目に（　　）ことがあります。", ["かかった", "なった", "いたした", "なさった"], 0, "お目にかかる adalah bentuk Kenjougo (merendah) dari 会う (bertemu)."],
+      ["Bunpou N4 (Tata Bahasa)", "春に（　　）、桜が咲きます。", ["なると", "なって", "なれば", "なら"], 0, "Kepastian alam: ～と (春になると = begitu tiba musim semi, sakura mekar)."],
+      ["Bunpou N4 (Tata Bahasa)", "安（　　）、買いたいと思います。", ["ければ", "かったら", "いと", "いなら"], 0, "Syarat pengandaian kata sifat-i: 安い -> 安ければ (Jika murah, ingin beli)."],
+      ["Bunpou N4 (Tata Bahasa)", "京都へ（　　）なら、新幹線が便利ですよ。", ["行く", "行って", "行った", "行けば"], 0, "Memberi saran atas topik lawan bicara: Bentuk kamus + なら (Kalau mau pergi ke Kyoto...)."],
+      ["Bunpou N4 (Tata Bahasa)", "薬を（　　）のに、まだ頭が痛いです。", ["飲んだ", "飲む", "飲んで", "飲み"], 0, "Padahal (kontradiksi): Bentuk biasa (飲んだ) + のに (Padahal sudah minum obat, masih sakit kepala)."],
+      ["Bunpou N4 (Tata Bahasa)", "雨が（　　）ても、サッカーの試合は行います。", ["降っ", "降る", "降り", "降れ"], 0, "Walaupun: Bentuk て + も (雨が降っても = walaupun turun hujan)."],
+      ["Bunpou N4 (Tata Bahasa)", "電車が遅れた（　　）、会議に遅刻しました。", ["ために", "ように", "そうに", "ことに"], 0, "Penyebab (karena kereta terlambat): 遅れたために."],
+      ["Bunpou N4 (Tata Bahasa)", "新しい家を（　　）ために、貯金しています。", ["買う", "買った", "買って", "買える"], 0, "Tujuan: Bentuk kamus (買う) + ために (Demi membeli rumah baru)."],
+      ["Bunpou N4 (Tata Bahasa)", "このハサミは紙を（　　）のに使います。", ["切る", "切った", "切って", "切り"], 0, "Kegunaan alat: Bentuk kamus + のに (dipakai untuk memotong kertas)."],
+      ["Bunpou N4 (Tata Bahasa)", "窓が（　　）いますから、閉めてください。", ["開いて", "開けて", "閉まって", "閉めて"], 0, "Keadaan hasil kata kerja intransitif: 窓が開いています (jendelanya sedang terbuka)."],
+      ["Bunpou N4 (Tata Bahasa)", "壁にカレンダーが（　　）あります。", ["かけて", "かかって", "かいて", "かって"], 0, "Keadaan hasil tindakan sengaja (transitif + てあります): かけてあります (sudah dipasang)."],
+      ["Bunpou N4 (Tata Bahasa)", "旅行の前に、ホテルを予約して（　　）ます。", ["おき", "あり", "い", "み"], 0, "Persiapan terlebih dahulu: Bentuk て + おきます (予約しておきます)."],
+      ["Bunpou N4 (Tata Bahasa)", "この靴、ちょっと（　　）みてもいいですか。", ["はいて", "きて", "かぶって", "かけて"], 0, "Mencoba melakukan: Bentuk て + みる (はいてみる = mencoba memakai sepatu)."],
+      ["Bunpou N4 (Tata Bahasa)", "宿題を全部（　　）しまいました。", ["やって", "やり", "やる", "やった"], 0, "Menyelesaikan sampai tuntas: Bentuk て + しまいました (やってしまいました)."],
+      ["Bunpou N4 (Tata Bahasa)", "きのうは忙しくて、テレビを見る時間が（　　）。", ["ありませんでした", "いませんでした", "ないでいました", "なかったですに"], 0, "時間がありませんでした = tidak ada waktu untuk menonton TV."],
+      ["Bunpou N4 (Tata Bahasa)", "先生が何と言った（　　）、わかりませんでした。", ["か", "を", "が", "と"], 0, "Kalimat tanya tidak langsung di dalam kalimat: 何と言ったか、わかりませんでした."],
+      ["Bunpou N4 (Tata Bahasa)", "このセーターは（　　）すぎて、着られません。", ["小さ", "小さい", "小さく", "小さくて"], 0, "Terlalu: Kata sifat-i tanpa い + すぎる (小さすぎて = terlalu kecil)."],
+
+      // --- BAGIAN 4: DOKKAI N4 (PEMAHAMAN BACAAN) No. 91 - 100 ---
+      ["Dokkai N4 (Bacaan)", "【社内メール】「来週の月曜日（１０日）は、ビルの電気点検のため、午後６時以降はエレベーターもパソコンも使えなくなります。全員５時半までに仕事を終えて帰ってください。」\n社員は月曜日にどうしなければなりませんか。", ["午後５時半までに帰る", "午後６時まで残業する", "火曜日に会社を休む", "階段でパソコンを運ぶ"], 0, "Email meminta seluruh karyawan menyelesaikan pekerjaan dan pulang paling lambat jam 17:30 (５時半までに)."],
+      ["Dokkai N4 (Bacaan)", "「以前は毎朝コーヒーを飲んでいましたが、最近胃の調子がよくないので、医者に言われて紅茶か温かいお湯を飲むようにしています。」\nこの人は今、朝何を飲んでいますか。", ["紅茶か温かいお湯", "コーヒーと牛乳", "冷たい水", "胃の薬だけ"], 0, "Sekarang ia mengusahakan minum teh hitam atau air hangat (紅茶か温かいお湯を飲むようにしています)."],
+      ["Dokkai N4 (Bacaan)", "【案内】「美術館の入場料は大人１０００円、学生５００円です。ただし、１０人以上のグループで来られた場合は、全員２割引になります。」\n大学生が１２人で来館する場合、一人いくら払いますか。", ["４００円", "５００円", "８００円", "１０００円"], 0, "Tarif mahasiswa 500 Yen. Karena datang 12 orang (lebih dari 10 orang), diskon 20% (2割引) menjadi 400 Yen."],
+      ["Dokkai N4 (Bacaan)", "「日本の夏は蒸し暑いので、エアコンを使うことが多いです。しかし、冷やしすぎると体に悪いので、私は温度を２８度にして、扇風機も一緒に使うようにしています。」\nこの人は夏にどうしていますか。", ["エアコンと扇風機を一緒に使う", "エアコンを使わないで窓を開ける", "エアコンを一番低い温度にする", "扇風機だけを使って寝る"], 0, "Teks menyebutkan mengatur AC di 28 derajat dan memakainya bersama kipas angin (扇風機も一緒に使う)."],
+      ["Dokkai N4 (Bacaan)", "「山田さん、お借りしていた本を机の上に置いておきます。とてもおもしろかったです。特に最後の章に感動しました。ありがとうございました。」\nこのメモを書いた人は何をしましたか。", ["借りていた本を返した", "山田さんに本を貸した", "本屋で本を買った", "本の最後の章を書いた"], 0, "お借りしていた本を机の上に置いておきます = Meletakkan (mengembalikan) buku yang dipinjam di atas meja Yamada-san."],
+      ["Dokkai N4 (Bacaan)", "「駅の近くに新しいスーパーができました。品物の種類が多くて値段も安いですが、駐車場が狭いので、車ではなく自転車か歩いて行ったほうがいいです。」\n新しいスーパーについて正しいものはどれですか。", ["車で来ないほうがいい", "品物の値段が高い", "駅からとても遠い", "駐車場がとても広い"], 0, "Karena tempat parkirnya sempit, disarankan datang naik sepeda atau jalan kaki, bukan mobil."],
+      ["Dokkai N4 (Bacaan)", "「先月、スマートフォンを新しくしました。カメラの性能がよくなったので、休みの日に公園で花や鳥の写真を撮るのが今の楽しみです。」\nこの人の今の楽しみは何ですか。", ["スマホで花や鳥の写真を撮ること", "毎週新しいスマホを買うこと", "公園で鳥にエサをやること", "家で映画を見ること"], 0, "Kalimat kedua menyatakan kesenangannya sekarang adalah memotret bunga dan burung di taman."],
+      ["Dokkai N4 (Bacaan)", "【お知らせ】「明日予定していた運動会は、雨の予報が出ているため、来週の日曜日に延期します。なお、明日は通常の授業を行います。」\n明日はどうなりますか。", ["運動会はなくて、普通の授業がある", "雨でも運動会を行う", "学校が休みになる", "体育館で運動会をする"], 0, "Festival olahraga ditunda ke Minggu depan, dan besok diadakan pelajaran sekolah biasa (通常の授業を行います)."],
+      ["Dokkai N4 (Bacaan)", "「私は料理が好きですが、平日は仕事から帰るのが遅いので、週末に１週間分のおかずをまとめて作って、冷蔵庫に入れておくようにしています。」\nこの人はいつおかずを作りますか。", ["週末にまとめて作る", "毎晩仕事から帰ってから作る", "毎朝早く起きて作る", "作らないで毎日弁当を買う"], 0, "週末に１週間分のおかずをまとめて作って = Membuat lauk untuk 1 minggu sekaligus pada akhir pekan."],
+      ["Dokkai N4 (Bacaan)", "「予約していた新幹線の時間に遅れそうだったので、駅からタクシーに乗ろうとしましたが、道が混んでいたので、走って駅まで行きました。おかげでギリギリ間に合いました。」\nこの人はどうやって駅へ行きましたか。", ["走って行った", "タクシーで行った", "バスで行った", "自転車で行った"], 0, "Karena jalanan macet, ia batal naik taksi dan berlari ke stasiun (走って駅まで行きました)."]
+    ];
+
+    /********************************************************************************
+     * 3. BANK SOAL 40 SOAL CHOUKAI N5 (PEMBICARA CEWEK & COWOK DUAL-VOICE)
+     * Setiap item memiliki dialog: [{speaker: 'F'|'M'|'N', text: '...'}]
+     ********************************************************************************/
+    const RAW_N5_CHOUKAI_40 = [
+      {
+        context: "デパートで女の人が店員（男の人）と話しています。",
+        dialogue: [
+          { speaker: "F", text: "すみません、時計の売り場は何階ですか。" },
+          { speaker: "M", text: "時計は３階でございます。２階は靴で、４階は本屋です。" },
+          { speaker: "F", text: "ありがとうございます。３階へ行きます。" }
+        ],
+        question: "女の人はこれから何階へ行きますか。",
+        options: ["３階", "２階", "４階", "１階"],
+        correct: 0,
+        explanation: "Pegawai pria mengatakan konter jam tangan ada di lantai 3 (３階), dan wanita itu menuju lantai 3."
+      },
+      {
+        context: "教室で先生（女の人）と学生（男の人）が話しています。",
+        dialogue: [
+          { speaker: "F", text: "みなさん、明日のテストは黒いえんぴつを使ってください。ボールペンは使わないでください。" },
+          { speaker: "M", text: "先生、消しゴムも持ってきますか。" },
+          { speaker: "F", text: "はい、えんぴつと消しゴムを持ってきてください。" }
+        ],
+        question: "学生は明日、何を持ってきますか。",
+        options: ["えんぴつと消しゴム", "ボールペンと消しゴム", "えんぴつと辞書", "ボールペンだけ"],
+        correct: 0,
+        explanation: "Guru wanita meminta murid membawa pensil hitam dan penghapus (えんぴつと消しゴム)."
+      },
+      {
+        context: "電話で男の人と女の人が映画の約束をしています。",
+        dialogue: [
+          { speaker: "M", text: "明日、何時に駅で会いましょうか。映画は２時からです。" },
+          { speaker: "F", text: "じゃあ、その前に昼ごはんを食べませんか。１２時はどうですか。" },
+          { speaker: "M", text: "いいですね。じゃあ、１２時に駅の北口で会いましょう。" }
+        ],
+        question: "二人は何時に会いますか。",
+        options: ["１２時", "２時", "１時", "１１時"],
+        correct: 0,
+        explanation: "Mereka sepakat bertemu jam 12:00 (１２時) di pintu utara stasiun untuk makan siang sebelum film jam 2."
+      },
+      {
+        context: "レストランで男の人と女の人が注文しています。",
+        dialogue: [
+          { speaker: "F", text: "私はカレーライスとアイスコーヒーにします。田中さんは？" },
+          { speaker: "M", text: "ぼくもカレーライスにします。飲み物は熱いお茶にします。" },
+          { speaker: "F", text: "すみません、これをお願いします。" }
+        ],
+        question: "男の人は何を注文しましたか。",
+        options: ["カレーライスと熱いお茶", "カレーライスとアイスコーヒー", "ラーメンと熱いお茶", "パンとコーヒー"],
+        correct: 0,
+        explanation: "Pria itu memesan nasi kari yang sama dan minuman teh panas (カレーライスと熱いお茶)."
+      },
+      {
+        context: "病院で医者（男の人）と女の人が話しています。",
+        dialogue: [
+          { speaker: "M", text: "風邪ですね。この白い薬は、朝と夜の２回、ごはんの後に飲んでください。" },
+          { speaker: "F", text: "昼は飲まなくてもいいですか。" },
+          { speaker: "M", text: "はい、昼は飲まないでください。それから今日はお風呂に入らないで、早く寝てください。" }
+        ],
+        question: "女の人は白い薬をいつ飲みますか。",
+        options: ["朝と夜のごはんの後", "朝と昼と夜の３回", "寝る前に１回だけ", "ごはんの前に毎回"],
+        correct: 0,
+        explanation: "Dokter pria menginstruksikan obat putih diminum 2 kali sehari: pagi dan malam setelah makan."
+      },
+      {
+        context: "パン屋で女の人が店員（男の人）と買い物しています。",
+        dialogue: [
+          { speaker: "F", text: "すみません、このサンドイッチを二つと、１００円のメロンパンを一つください。" },
+          { speaker: "M", text: "はい。サンドイッチは一つ２００円ですから、全部で５００円になります。" },
+          { speaker: "F", text: "はい、５００円です。" }
+        ],
+        question: "女の人は全部でいくら払いましたか。",
+        options: ["５００円", "３００円", "４００円", "６００円"],
+        correct: 0,
+        explanation: "2 sandwich (@200 Yen = 400 Yen) + 1 roti melon (100 Yen) = 500 Yen."
+      },
+      {
+        context: "駅で男の人と女の人が電車のホームについて話しています。",
+        dialogue: [
+          { speaker: "M", text: "すみません、京都行きの電車は何番ホームですか。" },
+          { speaker: "F", text: "京都行きは４番ホームですよ。ここの２番ホームは大阪行きです。" },
+          { speaker: "M", text: "そうですか。どうもありがとうございます。" }
+        ],
+        question: "男の人は何番ホームへ行きますか。",
+        options: ["４番ホーム", "２番ホーム", "１番ホーム", "３番ホーム"],
+        correct: 0,
+        explanation: "Kereta tujuan Kyoto berangkat dari peron nomor 4 (４番ホーム)."
+      },
+      {
+        context: "家で母（女の人）と息子（男の人）が話しています。",
+        dialogue: [
+          { speaker: "F", text: "ケンちゃん、スーパーへ行って、牛乳と卵を買ってきてくれない？" },
+          { speaker: "M", text: "いいよ。りんごも買う？" },
+          { speaker: "F", text: "りんごはまだ冷蔵庫にあるから、買わなくていいわ。お願いね。" }
+        ],
+        question: "男の人はスーパーで何を買いますか。",
+        options: ["牛乳と卵", "牛乳とりんご", "卵とりんご", "牛乳だけ"],
+        correct: 0,
+        explanation: "Ibu meminta membeli susu dan telur (牛乳と卵), sedangkan apel masih ada di kulkas."
+      },
+      {
+        context: "会社で男の人と女の人が休みの日のことを話しています。",
+        dialogue: [
+          { speaker: "F", text: "山田さんは、きのうの日曜日、どこかへ行きましたか。" },
+          { speaker: "M", text: "海へ行きたかったんですが、雨が降ったので、家で本を読んでいました。" },
+          { speaker: "F", text: "そうですか。私も家で映画を見ました。" }
+        ],
+        question: "男の人はきのう、何をしましたか。",
+        options: ["家で本を読みました", "海へ泳ぎに行きました", "映画館へ行きました", "会社で働きました"],
+        correct: 0,
+        explanation: "Karena hujan, pria itu tidak jadi ke laut dan membaca buku di rumah (家で本を読んでいました)."
+      },
+      {
+        context: "図書館で受付の女の人と男の人が話しています。",
+        dialogue: [
+          { speaker: "M", text: "この３冊の本を借りたいんですが、いつまで借りられますか。" },
+          { speaker: "F", text: "２週間までです。今日は５日ですから、１９日までに返してください。" },
+          { speaker: "M", text: "わかりました。１９日ですね。" }
+        ],
+        question: "男の人はいつまでに本を返さなければなりませんか。",
+        options: ["１９日", "５日", "１２日", "２５日"],
+        correct: 0,
+        explanation: "Batas peminjaman 2 minggu dari tanggal 5, yaitu tanggal 19 (１９日までに)."
+      },
+      {
+        context: "道で女の人が警察官（男の人）に道を聞いています。",
+        dialogue: [
+          { speaker: "F", text: "すみません、みどり銀行はどこですか。" },
+          { speaker: "M", text: "この道をまっすぐ行って、一つ目の信号を左へ曲がってください。郵便局の隣にありますよ。" },
+          { speaker: "F", text: "信号を左ですね。ありがとうございます。" }
+        ],
+        question: "銀行はどこにありますか。",
+        options: ["郵便局の隣", "信号の右", "警察署の後ろ", "駅の２階"],
+        correct: 0,
+        explanation: "Polisi pria menjelaskan bank ada di sebelah kantor pos (郵便局の隣)."
+      },
+      {
+        context: "学校で男の人と女の人が誕生日のプレゼントについて話しています。",
+        dialogue: [
+          { speaker: "M", text: "来週はリーさんの誕生日ですね。何をあげますか。" },
+          { speaker: "F", text: "リーさんは音楽が好きだから、ＣＤはどうですか。" },
+          { speaker: "M", text: "ＣＤはもうたくさん持っていますよ。料理の本はどうですか。最近料理を始めたそうです。" },
+          { speaker: "F", text: "いいですね！そうしましょう。" }
+        ],
+        question: "二人はリーさんに何をあげますか。",
+        options: ["料理の本", "音楽のＣＤ", "新しいかばん", "花とケーキ"],
+        correct: 0,
+        explanation: "Mereka akhirnya setuju memberikan buku masakan (料理の本)."
+      },
+      {
+        context: "花屋で男の人と店員（女の人）が話しています。",
+        dialogue: [
+          { speaker: "M", text: "母の日にあげる花を買いたいんですが。" },
+          { speaker: "F", text: "こちらの赤い花と黄色い花がよく売れていますよ。" },
+          { speaker: "M", text: "母は赤が一番好きだから、赤い花を５本ください。" }
+        ],
+        question: "男の人はどの花を買いますか。",
+        options: ["赤い花を５本", "黄色い花を５本", "赤い花と黄色い花", "白い花を１０本"],
+        correct: 0,
+        explanation: "Karena ibunya paling suka warna merah, pria itu membeli 5 tangkai bunga merah (赤い花を５本)."
+      },
+      {
+        context: "オフィスで男の人と女の人がエアコンについて話しています。",
+        dialogue: [
+          { speaker: "F", text: "すみません、ちょっと部屋が寒いんですが。" },
+          { speaker: "M", text: "あ、すみません。エアコンを消しましょうか。" },
+          { speaker: "F", text: "消すと暑くなりますから、温度を少し上げてください。" },
+          { speaker: "M", text: "わかりました。" }
+        ],
+        question: "男の人はこれから何をしますか。",
+        options: ["エアコンの温度を上げる", "エアコンを消す", "窓を全部開ける", "扇風機をつける"],
+        correct: 0,
+        explanation: "Wanita itu meminta menaikkan sedikit suhu AC (温度を少し上げてください), bukan mematikannya."
+      },
+      {
+        context: "ホテルで受付の男の人と客（女の人）が話しています。",
+        dialogue: [
+          { speaker: "M", text: "お部屋は５階の５０３号室です。朝ごはんは１階の食堂で、朝７時から９時までです。" },
+          { speaker: "F", text: "わかりました。あのう、インターネットは使えますか。" },
+          { speaker: "M", text: "はい、お部屋で無料で使えますよ。" }
+        ],
+        question: "朝ごはんはどこで食べますか。",
+        options: ["１階の食堂", "５階の部屋", "２階のカフェ", "ホテルの外"],
+        correct: 0,
+        explanation: "Sarapan disediakan di kantin lantai 1 (１階の食堂)."
+      },
+      {
+        context: "バス停で女の人と男の人が話しています。",
+        dialogue: [
+          { speaker: "F", text: "あのう、市民病院へ行くバスはもう来ましたか。" },
+          { speaker: "M", text: "いいえ、まだですよ。あと５分ぐらいで来ると思います。" },
+          { speaker: "F", text: "よかった。ありがとうございます。" }
+        ],
+        question: "バスはいつ来ますか。",
+        options: ["あと５分ぐらいで来る", "５分前に行った", "あと３０分来ない", "今日は休み"],
+        correct: 0,
+        explanation: "Pria itu mengatakan bus belum lewat dan akan tiba sekitar 5 menit lagi."
+      },
+      {
+        context: "教室で男の人と女の人が宿題について話しています。",
+        dialogue: [
+          { speaker: "M", text: "今日の漢字の宿題は何ページからですか。" },
+          { speaker: "F", text: "１０ページから１２ページまでですよ。１３ページは来週です。" },
+          { speaker: "M", text: "ありがとう。今晩やります。" }
+        ],
+        question: "今日の宿題は何ページですか。",
+        options: ["１０ページから１２ページ", "１０ページだけ", "１２ページから１３ページ", "１ページから１０ページ"],
+        correct: 0,
+        explanation: "PR Kanji hari ini adalah halaman 10 sampai 12 (１０ページから１２ページまで)."
+      },
+      {
+        context: "店で女の人が店員（男の人）にシャツを見せています。",
+        dialogue: [
+          { speaker: "F", text: "すみません、この青いシャツのもう少し小さいサイズはありますか。" },
+          { speaker: "M", text: "少々お待ちください。…申し訳ありません、青は大きいサイズしかありません。白なら小さいサイズがあります。" },
+          { speaker: "F", text: "じゃあ、白の小さいサイズをください。" }
+        ],
+        question: "女の人はどのシャツを買いますか。",
+        options: ["白の小さいサイズ", "青の小さいサイズ", "青の大きいサイズ", "白の大きいサイズ"],
+        correct: 0,
+        explanation: "Karena ukuran kecil warna biru habis, wanita itu membeli kemeja putih ukuran kecil."
+      },
+      {
+        context: "電話で男の人と女の人がパーティーの飲み物について話しています。",
+        dialogue: [
+          { speaker: "M", text: "今からパーティーの飲み物を買っていきます。ジュースを３本買いますね。" },
+          { speaker: "F", text: "ジュースはもうここにたくさんありますよ。お茶と氷を買ってきてください。" },
+          { speaker: "M", text: "わかりました。そうします。" }
+        ],
+        question: "男の人は何を買っていきますか。",
+        options: ["お茶と氷", "ジュース３本", "ジュースとお茶", "ケーキと果物"],
+        correct: 0,
+        explanation: "Karena jus sudah banyak, wanita itu meminta dibelikan teh dan es batu (お茶と氷)."
+      },
+      {
+        context: "写真屋で男の人と店員（女の人）が話しています。",
+        dialogue: [
+          { speaker: "M", text: "パスポート用の写真を撮りたいんですが、今日すぐできますか。" },
+          { speaker: "F", text: "はい、１５分でお渡しできますよ。" },
+          { speaker: "M", text: "じゃあ、お願いします。" }
+        ],
+        question: "写真はどのくらいでできますか。",
+        options: ["１５分", "５分", "１時間", "明日"],
+        correct: 0,
+        explanation: "Pegawai wanita mengatakan foto paspor selesai dalam 15 menit (１５分)."
+      },
+      {
+        context: "駅で女の人と男の人が通勤方法について話しています。",
+        dialogue: [
+          { speaker: "F", text: "佐藤さんは毎日、電車で会社へ来ますか。" },
+          { speaker: "M", text: "ええ。でも、家から駅まで遠いから、駅までは自転車で行きます。" },
+          { speaker: "F", text: "私は家から会社までバス１本で来ます。" }
+        ],
+        question: "男の人はどうやって会社へ来ますか。",
+        options: ["自転車と電車", "電車だけ", "バスだけ", "自転車とバス"],
+        correct: 0,
+        explanation: "Pria itu naik sepeda dari rumah ke stasiun, lalu naik kereta ke kantor (自転車と電車)."
+      },
+      {
+        context: "カフェで女の人と男の人がスポーツについて話しています。",
+        dialogue: [
+          { speaker: "M", text: "週末はいつもテニスをしています。いっしょにしませんか。" },
+          { speaker: "F", text: "テニスはしたことがないんです。私は毎週プールで泳いでいます。" },
+          { speaker: "M", text: "水泳ですか。いいですね。" }
+        ],
+        question: "女の人は毎週何のスポーツをしていますか。",
+        options: ["水泳（泳ぐこと）", "テニス", "サッカー", "バスケットボール"],
+        correct: 0,
+        explanation: "Wanita itu berenang di kolam renang setiap minggu (毎週プールで泳いでいます)."
+      },
+      {
+        context: "家で男の人と女の人が晩ごはんの相談をしています。",
+        dialogue: [
+          { speaker: "M", text: "今日の晩ごはんは魚を焼こうか。" },
+          { speaker: "F", text: "昼ごはんにお弁当で焼き魚を食べたから、夜は肉料理がいいな。" },
+          { speaker: "M", text: "じゃあ、鶏肉と野菜を炒めよう。" }
+        ],
+        question: "今日の晩ごはんは何にしますか。",
+        options: ["鶏肉と野菜の料理", "焼き魚", "魚のスープ", "うどん"],
+        correct: 0,
+        explanation: "Karena siang sudah makan ikan bakar, malam ini mereka memasak tumis daging ayam dan sayur."
+      },
+      {
+        context: "会社で女の人が男の人にかさを借りています。",
+        dialogue: [
+          { speaker: "F", text: "外は雨が降っていますね。かさを忘れてしまいました。" },
+          { speaker: "M", text: "ぼくの部屋に黒い傘とビニール傘が２本ありますから、ビニール傘を使ってください。" },
+          { speaker: "F", text: "ありがとうございます。明日返しますね。" }
+        ],
+        question: "女の人はどのかさを借りますか。",
+        options: ["ビニール傘", "黒い傘", "赤い傘", "折りたたみ傘"],
+        correct: 0,
+        explanation: "Pria itu meminjamkan payung plastik transparan (ビニール傘)."
+      },
+      {
+        context: "本屋で男の人と店員（女の人）が話しています。",
+        dialogue: [
+          { speaker: "M", text: "すみません、旅行の雑誌はどこにありますか。" },
+          { speaker: "F", text: "あちらの窓の近くに、料理の本と並んで置いてあります。" },
+          { speaker: "M", text: "ああ、あそこですね。ありがとうございます。" }
+        ],
+        question: "旅行の雑誌はどこにありますか。",
+        options: ["窓の近く", "入り口の横", "レジの前", "２階の奥"],
+        correct: 0,
+        explanation: "Majalah wisata diletakkan di dekat jendela berjajar dengan buku masakan."
+      },
+      {
+        context: "教室で先生（男の人）と学生（女の人）が掃除について話しています。",
+        dialogue: [
+          { speaker: "M", text: "今から教室の掃除をします。机を運ぶ前に、まず窓を全部開けてください。" },
+          { speaker: "F", text: "はい、わかりました。黒板も消しますか。" },
+          { speaker: "M", text: "黒板は後で私が消しますから、まず窓を開けてください。" }
+        ],
+        question: "女の人はまず何をしますか。",
+        options: ["窓を開ける", "机を運ぶ", "黒板を消す", "ゴミを捨てる"],
+        correct: 0,
+        explanation: "Guru pria meminta murid membuka semua jendela terlebih dahulu (まず窓を開けてください)."
+      },
+      {
+        context: "電話で女の人と歯医者（男の人）が予約の話をしています。",
+        dialogue: [
+          { speaker: "F", text: "すみません、歯が痛いので今日診てもらえますか。" },
+          { speaker: "M", text: "今日は午後４時なら空いていますよ。" },
+          { speaker: "F", text: "４時はまだ仕事中なんです。５時半はどうですか。" },
+          { speaker: "M", text: "はい、５時半でも大丈夫ですよ。" }
+        ],
+        question: "女の人は何時に歯医者へ行きますか。",
+        options: ["午後５時半", "午後４時", "午後５時", "明日の朝"],
+        correct: 0,
+        explanation: "Karena jam 4 masih bekerja, mereka sepakat reservasi jam 5 lewat 30 sore (５時半)."
+      },
+      {
+        context: "駅で男の人と駅員（女の人）が切符について話しています。",
+        dialogue: [
+          { speaker: "M", text: "すみません、さくら駅までの切符はいくらですか。" },
+          { speaker: "F", text: "おとな１枚２３０円です。こどもは半分の値段ですが、お一人ですか。" },
+          { speaker: "M", text: "はい、おとな１枚だけです。" }
+        ],
+        question: "男の人はいくら払いますか。",
+        options: ["２３０円", "１１５円", "３４５円", "４６０円"],
+        correct: 0,
+        explanation: "Pria itu pergi sendiri (1 tiket dewasa), sehingga membayar 230 Yen."
+      },
+      {
+        context: "公園で女の人と男の人が犬について話しています。",
+        dialogue: [
+          { speaker: "F", text: "かわいい犬ですね。何歳ですか。" },
+          { speaker: "M", text: "３歳です。毎日朝と夕方に３０分ずつ公園を散歩しています。" },
+          { speaker: "F", text: "元気ですね。" }
+        ],
+        question: "男の人は１日にどのくらい犬と散歩しますか。",
+        options: ["朝と夕方に３０分ずつ（合計１時間）", "朝だけ３０分", "夕方だけ１時間", "週に１回３０分"],
+        correct: 0,
+        explanation: "Setiap hari pagi dan sore masing-masing 30 menit (total 1 jam)."
+      },
+      {
+        context: "果物屋で女の人と店員（男の人）が話しています。",
+        dialogue: [
+          { speaker: "F", text: "このみかんは１袋いくらですか。" },
+          { speaker: "M", text: "１袋４００円ですが、２袋買うと７００円になりますよ。" },
+          { speaker: "F", text: "安いですね！じゃあ、２袋ください。" }
+        ],
+        question: "女の人はいくら払いますか。",
+        options: ["７００円", "４００円", "８００円", "６００円"],
+        correct: 0,
+        explanation: "Beli 2 kantong jeruk mendapat harga diskon menjadi 700 Yen."
+      },
+      {
+        context: "会社で男の人と女の人がコピー機について話しています。",
+        dialogue: [
+          { speaker: "M", text: "あれ、コピー機が動きませんね。紙がないのかな。" },
+          { speaker: "F", text: "紙はさっき入れましたよ。あ、電源が入っていませんね。" },
+          { speaker: "M", text: "本当だ。スイッチを入れます。" }
+        ],
+        question: "どうしてコピー機が動きませんでしたか。",
+        options: ["電源が入っていなかったから", "紙がなかったから", "故障していたから", "インクがなかったから"],
+        correct: 0,
+        explanation: "Mesin fotokopi tidak menyala karena tombol dayanya belum dinyalakan (電源が入っていません)."
+      },
+      {
+        context: "家で男の人と女の人が時計を探しています。",
+        dialogue: [
+          { speaker: "M", text: "あれ、ぼくの腕時計を知らない？机の上に置いたんだけど。" },
+          { speaker: "F", text: "さっき掃除したとき、テレビの横に移したわよ。" },
+          { speaker: "M", text: "あ、あった。ありがとう。" }
+        ],
+        question: "腕時計はどこにありましたか。",
+        options: ["テレビの横", "机の上", "かばんの中", "ベッドの下"],
+        correct: 0,
+        explanation: "Saat membersihkan kamar, wanita itu memindahkan jam tangan ke samping TV (テレビの横)."
+      },
+      {
+        context: "受付で女の人と男の人が申込書について話しています。",
+        dialogue: [
+          { speaker: "F", text: "日本語クラスの申込書を書きました。お願いします。" },
+          { speaker: "M", text: "ありがとうございます。あ、お名前と電話番号は書いてありますが、ご住所がまだですね。ここに書いてください。" },
+          { speaker: "F", text: "あ、すみません。今書きます。" }
+        ],
+        question: "女の人はこれから何を書きますか。",
+        options: ["住所", "名前", "電話番号", "生年月日"],
+        correct: 0,
+        explanation: "Nama dan nomor telepon sudah ditulis, tinggal alamat (住所) yang belum ditulis."
+      },
+      {
+        context: "映画館の前で男の人と女の人が話しています。",
+        dialogue: [
+          { speaker: "M", text: "ポップコーンを買おうか。塩味とキャラメル味、どっちがいい？" },
+          { speaker: "F", text: "私は甘いのが好きだから、キャラメル味がいいわ。" },
+          { speaker: "M", text: "わかった。じゃあ、それを一つ買って、二人で食べよう。" }
+        ],
+        question: "二人はどのポップコーンを買いますか。",
+        options: ["キャラメル味を一つ", "塩味を一つ", "塩味とキャラメル味を一つずつ", "ポップコーンは買わない"],
+        correct: 0,
+        explanation: "Mereka membeli 1 popcorn rasa karamel untuk dimakan berdua."
+      },
+      {
+        context: "学校で女の人と男の人が夏休みの予定を話しています。",
+        dialogue: [
+          { speaker: "F", text: "夏休みは国へ帰りますか。" },
+          { speaker: "M", text: "いいえ、今年の夏は北海道へ旅行に行きます。冬休みに国へ帰ります。" },
+          { speaker: "F", text: "そうですか。北海道は涼しくていいですね。" }
+        ],
+        question: "男の人は夏休みに何をしますか。",
+        options: ["北海道へ旅行に行く", "国へ帰る", "東京でアルバイトをする", "毎日学校へ行く"],
+        correct: 0,
+        explanation: "Liburan musim panas ini pria itu berwisata ke Hokkaido (北海道へ旅行に行きます)."
+      },
+      {
+        context: "クリーニング屋で男の人と店員（女の人）が話しています。",
+        dialogue: [
+          { speaker: "M", text: "このスーツをお願いします。いつできますか。" },
+          { speaker: "F", text: "明日の夕方５時以降にお渡しできます。" },
+          { speaker: "M", text: "じゃあ、明日の夜６時ごろ取りに来ます。" }
+        ],
+        question: "男の人はいつスーツを取りに行きますか。",
+        options: ["明日の夜６時ごろ", "今日の夜６時ごろ", "明日の朝９時ごろ", "来週の月曜日"],
+        correct: 0,
+        explanation: "Pria itu akan mengambil jasnya besok malam sekitar jam 6 (明日の夜６時ごろ)."
+      },
+      {
+        context: "バスの中で女の人と運転手（男の人）が話しています。",
+        dialogue: [
+          { speaker: "F", text: "すみません、図書館へ行くには、どこで降りたらいいですか。" },
+          { speaker: "M", text: "次の「市役所前」ではなくて、その次の「公園前」で降りてください。" },
+          { speaker: "F", text: "「公園前」ですね。ありがとうございます。" }
+        ],
+        question: "女の人はどこでバスを降りますか。",
+        options: ["公園前", "市役所前", "図書館前", "駅前"],
+        correct: 0,
+        explanation: "Sopir bus menyarankan turun di halte berikutnya lagi yaitu 'Kouen-mae' (公園前)."
+      },
+      {
+        context: "喫茶店で男の人と女の人が家族の写真を見ています。",
+        dialogue: [
+          { speaker: "F", text: "これ、ご家族の写真ですか。ご両親の隣でメガネをかけている方がお兄さんですか。" },
+          { speaker: "M", text: "いいえ、メガネをかけているのは弟です。その隣の背が高いのが兄です。" },
+          { speaker: "F", text: "そうなんですか。お兄さん、背が高いですね。" }
+        ],
+        question: "お兄さんはどの人ですか。",
+        options: ["メガネをかけていない、背が高い人", "メガネをかけている人", "座っている人", "帽子をかぶっている人"],
+        correct: 0,
+        explanation: "Yang memakai kacamata adalah adik laki-laki, sedangkan kakak laki-laki adalah yang bertubuh tinggi di sebelahnya."
+      },
+      {
+        context: "スポーツジムで受付の女の人と男の人が話しています。",
+        dialogue: [
+          { speaker: "M", text: "今日からジムを使いたいんですが、何が必要ですか。" },
+          { speaker: "F", text: "運動用の靴とタオルをお持ちください。水はジムの中にあります。" },
+          { speaker: "M", text: "わかりました。靴とタオルですね。" }
+        ],
+        question: "男の人は何を持っていかなければなりませんか。",
+        options: ["運動用の靴とタオル", "靴と水", "タオルと水着", "水だけ"],
+        correct: 0,
+        explanation: "Resepsionis wanita meminta membawa sepatu olahraga dan handuk (運動用の靴とタオル)."
+      },
+      {
+        context: "駅で女の人と男の人が待ち合わせについて話しています。",
+        dialogue: [
+          { speaker: "F", text: "ごめんなさい、電車が１０分遅れてしまって、お待たせしました。" },
+          { speaker: "M", text: "大丈夫ですよ。ぼくも５分前に着いたばかりですから。" },
+          { speaker: "F", text: "よかった。じゃあ、行きましょう。" }
+        ],
+        question: "男の人はどのくらい待ちましたか。",
+        options: ["５分", "１０分", "１５分", "３０分"],
+        correct: 0,
+        explanation: "Pria itu baru saja tiba 5 menit yang lalu (５分前に着いたばかり), jadi ia hanya menunggu 5 menit."
+      }
+    ];
+
+    /********************************************************************************
+     * 4. BANK SOAL 40 SOAL CHOUKAI N4 (PEMBICARA CEWEK & COWOK DUAL-VOICE)
+     ********************************************************************************/
+    const RAW_N4_CHOUKAI_40 = [
+      {
+        context: "会社で男の人と女の人が会議の準備について話しています。",
+        dialogue: [
+          { speaker: "M", text: "午後からの会議の資料、もうコピーしてありますか。" },
+          { speaker: "F", text: "はい、２０部コピーして、机の上に並べておきました。" },
+          { speaker: "M", text: "ありがとう。じゃあ、プロジェクターの準備はぼくがやっておくから、飲み物を買ってきてくれない？" },
+          { speaker: "F", text: "わかりました。すぐ行ってきます。" }
+        ],
+        question: "女の人はこれから何をしますか。",
+        options: ["飲み物を買いに行く", "資料を２０部コピーする", "机の上に資料を並べる", "プロジェクターを準備する"],
+        correct: 0,
+        explanation: "Fotokopi dan menyusun dokumen sudah selesai; sekarang wanita itu diminta pergi membeli minuman."
+      },
+      {
+        context: "電話でホテルのフロント（男の人）と客（女の人）が話しています。",
+        dialogue: [
+          { speaker: "F", text: "来週の金曜日に１泊予約している佐藤ですが、木曜日から２泊に変更できますか。" },
+          { speaker: "M", text: "お調べいたします。…はい、同じシングルのお部屋で木曜日から２泊お取りできますよ。" },
+          { speaker: "F", text: "よかった。チェックインは夜８時ごろになります。よろしくお願いします。" }
+        ],
+        question: "女の人はいつから何泊ホテルに泊まりますか。",
+        options: ["木曜日から２泊", "金曜日から１泊", "金曜日から２泊", "木曜日から１泊"],
+        correct: 0,
+        explanation: "Tamu wanita berhasil mengubah reservasinya menjadi menginap 2 malam mulai hari Kamis (木曜日から２泊)."
+      },
+      {
+        context: "大学で男の人と女の人がアルバイトについて話しています。",
+        dialogue: [
+          { speaker: "M", text: "リンさん、新しいアルバイトはどう？慣れた？" },
+          { speaker: "F", text: "本屋の仕事はおもしろいけど、立ちっぱなしだから最初は足が痛くて大変だったわ。でも、店長が親切に教えてくれるから楽しいよ。" },
+          { speaker: "M", text: "そうか。ぼくもコンビニのバイト、頑張るよ。" }
+        ],
+        question: "女の人はアルバイトで何が大変だったと言っていますか。",
+        options: ["ずっと立っているので足が痛かったこと", "店長が厳しくて怖いこと", "本の場所が覚えられないこと", "夜遅くまで働かなければならないこと"],
+        correct: 0,
+        explanation: "Wanita itu mengatakan karena terus berdiri (立ちっぱなし), awalnya kakinya terasa sakit."
+      },
+      {
+        context: "駅のアナウンスと男女の会話です。",
+        dialogue: [
+          { speaker: "M", text: "大変だ！人身事故で電車が止まっているみたいだよ。会議に間に合わないかもしれない。" },
+          { speaker: "F", text: "タクシーで行こうか？でも、駅前はタクシーを待つ人でいっぱいよ。" },
+          { speaker: "M", text: "本当だ。地下鉄なら動いているから、地下鉄に乗り換えて行こう。" }
+        ],
+        question: "二人はこれからどうやって会社へ行きますか。",
+        options: ["地下鉄に乗って行く", "タクシーに乗って行く", "電車が動くまで待つ", "歩いて会社へ行く"],
+        correct: 0,
+        explanation: "Karena antrean taksi penuh dan kereta bawah tanah (地下鉄) masih beroperasi, mereka pindah naik MRT."
+      },
+      {
+        context: "病院の受付で女の人と事務員（男の人）が話しています。",
+        dialogue: [
+          { speaker: "F", text: "すみません、今日初めて診察を受けるんですが。" },
+          { speaker: "M", text: "では、まずこちらの問診票にお名前と症状を書いてください。それから保険証を出してください。" },
+          { speaker: "F", text: "はい、保険証はこれです。ペンをお借りしてもいいですか。" }
+        ],
+        question: "女の人はこれからまず何をしますか。",
+        options: ["問診票に名前と症状を書く", "診察室にすぐ入る", "薬局へ薬を取りに行く", "会計でお金を払う"],
+        correct: 0,
+        explanation: "Petugas meminta pasien baru mengisi nama dan gejala penyakit pada formulir pemeriksaan (問診票) terlebih dahulu."
+      },
+      {
+        context: "家で夫（男の人）と妻（女の人）がゴミ出しについて話しています。",
+        dialogue: [
+          { speaker: "M", text: "今日は水曜日だから、ペットボトルと缶を捨てる日だよね？" },
+          { speaker: "F", text: "先月からルールが変わって、水曜日は古紙と段ボールになったのよ。ペットボトルは金曜日よ。" },
+          { speaker: "M", text: "そうだったのか。じゃあ、この新聞と段ボールを出してくるね。" }
+        ],
+        question: "男の人は今日、何を捨てに行きますか。",
+        options: ["新聞と段ボール", "ペットボトルと缶", "燃えるゴミ", "古い服"],
+        correct: 0,
+        explanation: "Karena aturan berubah sejak bulan lalu, hari Rabu adalah jadwal kertas bekas dan kardus (新聞と段ボール)."
+      },
+      {
+        context: "日本語学校で先生（女の人）と留学生（男の人）が話しています。",
+        dialogue: [
+          { speaker: "F", text: "アリさん、来月のスピーチ大会に出てみませんか。アリさんは発音がとてもきれいですから。" },
+          { speaker: "M", text: "ありがとうございます。ぜひ出てみたいですが、テーマは何でもいいですか。" },
+          { speaker: "F", text: "はい、「日本の生活で驚いたこと」について５分ぐらいで話してください。原稿ができたら見せてくださいね。" }
+        ],
+        question: "男の人はまず何をしなければなりませんか。",
+        options: ["スピーチの原稿を書いて先生に見せる", "５分間歌を歌う練習をする", "来週の大会を欠席する連絡をする", "友だちの原稿を翻訳する"],
+        correct: 0,
+        explanation: "Guru meminta mahasiswa menulis naskah pidato (原稿) tentang hal yang mengejutkan di Jepang lalu menunjukkannya pada guru."
+      },
+      {
+        context: "電気屋で女の人と店員（男の人）が掃除機について話しています。",
+        dialogue: [
+          { speaker: "F", text: "一人暮らしの部屋で使う掃除機を探しているんですが。" },
+          { speaker: "M", text: "こちらの白いタイプは吸引力が強いですよ。ただ、少し重くて音が大きいです。こちらの青いタイプは軽くて音も静かですから、夜でも使えますよ。" },
+          { speaker: "F", text: "仕事から帰るのが遅いので、音が静かなほうがいいです。青いのをください。" }
+        ],
+        question: "女の人はどうして青い掃除機を選びましたか。",
+        options: ["軽くて音が静かだから", "重くて吸引力が一番強いから", "値段が一番安いから", "色が白くてきれいだから"],
+        correct: 0,
+        explanation: "Karena pulang kerja larut malam, wanita itu memilih penyedot debu biru yang ringan dan suaranya tenang."
+      },
+      {
+        context: "職場で男の人と女の人が送別会のプレゼントについて話しています。",
+        dialogue: [
+          { speaker: "M", text: "来月退職される田中課長へのプレゼント、何がいいかな。ネクタイはどう？" },
+          { speaker: "F", text: "退職されたらスーツはあまり着ないんじゃないですか。趣味のゴルフや旅行で使えるバッグのほうがいいと思います。" },
+          { speaker: "M", text: "なるほど、確かにそうだね。じゃあ、旅行用のバッグを探そう。" }
+        ],
+        question: "二人は田中課長に何を贈ることにしましたか。",
+        options: ["旅行用のバッグ", "シルクのネクタイ", "ビジネス用のスーツ", "ゴルフの靴"],
+        correct: 0,
+        explanation: "Karena setelah pensiun jarang memakai jas/dasi, mereka memilih tas untuk bepergian (旅行用のバッグ)."
+      },
+      {
+        context: "電話で宅配便の男の人と女の人が話しています。",
+        dialogue: [
+          { speaker: "M", text: "お荷物の配達に伺ったのですが、今ご不在でしょうか。" },
+          { speaker: "F", text: "すみません、今まだ買い物の途中で、あと３０分で家に帰ります。６時以降ならずっと家にいます。" },
+          { speaker: "M", text: "わかりました。では、夜６時半ごろにもう一度伺います。" }
+        ],
+        question: "荷物はいつ届けられますか。",
+        options: ["今日の夜６時半ごろ", "明日の午前中", "今から５分後", "来週の日曜日"],
+        correct: 0,
+        explanation: "Kurir pria akan datang mengantar paket kembali malam ini sekitar jam 18:30 (夜６時半ごろ)."
+      },
+      {
+        context: "市役所で男の人と職員（女の人）が図書館カードについて話しています。",
+        dialogue: [
+          { speaker: "M", text: "図書館のカードを作りたいんですが、申込書だけでいいですか。" },
+          { speaker: "F", text: "ご住所が確認できるもの、例えば運転免許証か在留カードを見せていただけますか。" },
+          { speaker: "M", text: "はい、在留カードがあります。どうぞ。" }
+        ],
+        question: "カードを作るのに申込書のほかに何が必要ですか。",
+        options: ["住所が確認できる身分証（在留カードなど）", "顔写真２枚", "手数料５００円", "銀行の通帳"],
+        correct: 0,
+        explanation: "Selain formulir, diperlukan kartu identitas yang memuat alamat seperti Zairyu Card atau SIM."
+      },
+      {
+        context: "レストランで店長（男の人）とアルバイト（女の人）が話しています。",
+        dialogue: [
+          { speaker: "M", text: "もうすぐランチの時間で混むから、先にテーブルの上のメニューと箸を並べておいて。" },
+          { speaker: "F", text: "はい。お皿も洗っておきましょうか。" },
+          { speaker: "M", text: "お皿はもう洗ってあるから大丈夫だよ。それが終わったら、冷たいお水を用意してね。" }
+        ],
+        question: "女の人はテーブルの準備の後に何をしますか。",
+        options: ["冷たい水を用意する", "お皿を洗う", "メニューを印刷する", "買い出しに行く"],
+        correct: 0,
+        explanation: "Setelah menata menu dan sumpit di meja, ia diminta menyiapkan air dingin (冷たいお水を用意して)."
+      },
+      {
+        context: "駅で女の人と駅員（男の人）が忘れ物について話しています。",
+        dialogue: [
+          { speaker: "F", text: "すみません、さっき着いた電車の中に、白い紙袋を忘れてしまったんですが。中に本とマフラーが入っています。" },
+          { speaker: "M", text: "お調べしますね。…あ、隣の駅で白い紙袋が見つかりましたよ。ここへ届くのに３０分かかりますが、お待ちになりますか。" },
+          { speaker: "F", text: "急いでいるので、私から隣の駅へ取りに行きます。" }
+        ],
+        question: "女の人はこれからどうしますか。",
+        options: ["隣の駅へ紙袋を取りに行く", "この駅で３０分待つ", "あきらめて家に帰る", "警察署へ行く"],
+        correct: 0,
+        explanation: "Karena sedang buru-buru, wanita itu memilih pergi sendiri ke stasiun sebelah untuk mengambil kantong kertasnya."
+      },
+      {
+        context: "会社で女の人と男の人がコピー用紙の注文について話しています。",
+        dialogue: [
+          { speaker: "F", text: "Ａ４のコピー用紙がもうすぐなくなりそうだから、注文しておこうか。いつも通り５箱でいい？" },
+          { speaker: "M", text: "来週は大きな会議があってたくさん資料を印刷するから、倍の１０箱注文しておいて。" },
+          { speaker: "F", text: "わかった。Ｂ４サイズも頼む？" },
+          { speaker: "M", text: "Ｂ４はまだたくさん残っているからいらないよ。" }
+        ],
+        question: "女の人はコピー用紙を何箱注文しますか。",
+        options: ["Ａ４サイズを１０箱", "Ａ４サイズを５箱", "Ａ４とＢ４を５箱ずつ", "Ｂ４サイズを１０箱"],
+        correct: 0,
+        explanation: "Karena minggu depan ada rapat besar, pria itu meminta memesan dua kali lipat dari 5 kotak, yaitu 10 kotak ukuran A4."
+      },
+      {
+        context: "大学の図書館で男の人と係の女の人が話しています。",
+        dialogue: [
+          { speaker: "M", text: "すみません、この辞書をコピーしたいんですが、館内のコピー機を使ってもいいですか。" },
+          { speaker: "F", text: "はい、図書館の本や辞書は、館内のコピー機でコピーできます。ただ、辞書は外へ借り出すことはできません。" },
+          { speaker: "M", text: "わかりました。コピーだけしてすぐ返します。" }
+        ],
+        question: "辞書について正しいものはどれですか。",
+        options: ["館内でコピーはできるが、借りて外へ持って出ることはできない", "館内でコピーもできないし、借りることもできない", "２週間まで家に借りて帰ることができる", "先生だけ借りることができる"],
+        correct: 0,
+        explanation: "Kamus boleh difotokopi di dalam perpustakaan, tetapi tidak boleh dipinjam keluar."
+      },
+      {
+        context: "家で母（女の人）と娘（男の人ではなく父との会話）…父（男の人）と母（女の人）が旅行の準備をしています。",
+        dialogue: [
+          { speaker: "M", text: "明日の温泉旅行、新幹線のチケットとカメラはかばんに入れたよ。" },
+          { speaker: "F", text: "山の温泉は夜になると冷えるそうよ。厚い上着も持っていったほうがいいわ。" },
+          { speaker: "M", text: "そうだね。じゃあ、セーターと上着も入れておこう。" }
+        ],
+        question: "男の人はこれからかばんに何を入れますか。",
+        options: ["セーターと上着", "新幹線のチケット", "カメラ", "水着"],
+        correct: 0,
+        explanation: "Tiket dan kamera sudah dimasukkan; sekarang pria itu akan memasukkan sweter dan jaket tebal."
+      },
+      {
+        context: "美容院で美容師（男の人）と客（女の人）が話しています。",
+        dialogue: [
+          { speaker: "M", text: "今日はどのような髪型になさいますか。" },
+          { speaker: "F", text: "来月結婚式があるので、後ろの長さは変えないで、前髪だけ目にかからないくらいに切ってください。" },
+          { speaker: "M", text: "かしこまりました。後ろは揃えるだけにして、前髪を少し短くしますね。" }
+        ],
+        question: "女の人はどんな髪型にしてもらいますか。",
+        options: ["後ろは長さを変えず、前髪だけ少し短くする", "全体的にとても短く切る", "前髪は切らないで後ろだけ短くする", "髪の色を明るく染める"],
+        correct: 0,
+        explanation: "Karena bulan depan ada acara pernikahan, panjang rambut belakang dipertahankan dan hanya poni depan yang dipotong sedikit."
+      },
+      {
+        context: "会社で男の人と女の人が健康診断について話しています。",
+        dialogue: [
+          { speaker: "F", text: "明日の健康診断、午前１０時からですよね。朝ごはんは食べてもいいんですか。" },
+          { speaker: "M", text: "いいえ、検査があるから、前日の夜９時からは食事をしないでくださいと書いてあったよ。水やお茶は飲んでもいいそうだけど。" },
+          { speaker: "F", text: "えっ、そうなんですか！危なかった、教えてくれてありがとうございます。" }
+        ],
+        question: "明日の朝、健康診断の前にしてもいいことは何ですか。",
+        options: ["水やお茶を飲むこと", "パンとコーヒーを食べること", "果物を食べること", "牛乳を飲むこと"],
+        correct: 0,
+        explanation: "Sejak jam 9 malam sebelumnya dilarang makan, namun air putih atau teh tawar masih diperbolehkan."
+      },
+      {
+        context: "アパートの前で大家さん（女の人）と住人（男の人）が話しています。",
+        dialogue: [
+          { speaker: "F", text: "リンさん、来週の月曜日から３日間、アパートの外壁を塗る工事があります。その間、ベランダに洗濯物を干さないようにしてください。" },
+          { speaker: "M", text: "わかりました。窓は開けてもいいですか。" },
+          { speaker: "F", text: "ペンキのにおいがしますから、昼間は窓も閉めておいてくださいね。" }
+        ],
+        question: "工事の間、男の人が気をつけなければならないことは何ですか。",
+        options: ["ベランダに洗濯物を干さず、昼間は窓を閉めておく", "３日間アパートから出ない", "昼間は窓を全部開けておく", "ベランダの掃除を毎日する"],
+        correct: 0,
+        explanation: "Selama pengecatan dinding luar 3 hari, dilarang menjemur di balkon dan siang hari jendela harus ditutup."
+      },
+      {
+        context: "電話で女の人とレストランの店員（男の人）が話しています。",
+        dialogue: [
+          { speaker: "F", text: "今日の夜７時に６人で予約している田中ですが、１人風邪で来られなくなってしまって、５人に変更をお願いします。" },
+          { speaker: "M", text: "かしこまりました。お時間は７時のままでよろしいですか。" },
+          { speaker: "F", text: "はい、時間は変わりません。" }
+        ],
+        question: "予約はどう変わりましたか。",
+        options: ["時間は７時のままで、人数が６人から５人になった", "人数は６人のままで、時間が８時になった", "予約を全部キャンセルした", "人数が６人から７人に増えた"],
+        correct: 0,
+        explanation: "Waktu tetap jam 7 malam, tetapi jumlah orang berubah dari 6 orang menjadi 5 orang."
+      },
+      {
+        context: "教室で先生（男の人）と学生（女の人）がレポートについて話しています。",
+        dialogue: [
+          { speaker: "M", text: "レポートの締め切りは今週の金曜日ですよ。メールではなくて、印刷して私の研究室のポストに入れてください。" },
+          { speaker: "F", text: "先生、手書きでもよろしいでしょうか。" },
+          { speaker: "M", text: "今回はパソコンで書いて印刷してください。枚数はＡ４で３枚以上です。" }
+        ],
+        question: "レポートはどのように提出しますか。",
+        options: ["パソコンで書いて印刷し、研究室のポストに入れる", "パソコンで書いて先生にメールで送る", "手書きで書いて教室で渡す", "来週の月曜日に直接渡す"],
+        correct: 0,
+        explanation: "Laporan harus diketik dengan komputer, dicetak (print), dan dimasukkan ke kotak surat ruang dosen paling lambat Jumat."
+      },
+      {
+        context: "駅前の花屋で男の人と店員（女の人）が観葉植物について話しています。",
+        dialogue: [
+          { speaker: "M", text: "部屋に置く小さな木を買いたいんですが、あまり日が当たらない部屋でも育ちますか。" },
+          { speaker: "F", text: "それなら、こちらの植物がおすすめです。日陰でも育ちますし、水やりも週に１回だけで大丈夫ですよ。" },
+          { speaker: "M", text: "手入れが簡単でいいですね。これにします。" }
+        ],
+        question: "この植物の水やりはどのくらいしますか。",
+        options: ["１週間に１回", "毎日朝と夜の２回", "１か月に１回", "水は全くやらなくていい"],
+        correct: 0,
+        explanation: "Tanaman tersebut tahan di tempat teduh dan cukup disiram seminggu sekali (週に１回だけ)."
+      },
+      {
+        context: "会社で女の人と男の人が出張のスケジュールを話しています。",
+        dialogue: [
+          { speaker: "F", text: "部長、来週の福岡出張ですが、朝８時の飛行機でよろしいでしょうか。" },
+          { speaker: "M", text: "８時だと空港に早く行かなければならないから、１０時の便にしてくれる？会議は午後２時からだから十分間に合うよ。" },
+          { speaker: "F", text: "かしこまりました。１０時の便を予約します。" }
+        ],
+        question: "女の人は何時の飛行機を予約しますか。",
+        options: ["午前１０時", "午前８時", "午後２時", "午後１０時"],
+        correct: 0,
+        explanation: "Kepala bagian meminta dipesankan penerbangan jam 10 pagi (１０時の便)."
+      },
+      {
+        context: "プールで係の男の人と客（女の人）が話しています。",
+        dialogue: [
+          { speaker: "M", text: "お客様、プールに入る前に、必ず時計とアクセサリーを外してください。また、水泳用の帽子をかぶっていただくことになっています。" },
+          { speaker: "F", text: "あ、すみません。帽子を持っていないんですが、ここで借りられますか。" },
+          { speaker: "M", text: "はい、受付で無料で貸し出していますよ。" }
+        ],
+        question: "女の人はプールに入る前に何をしますか。",
+        options: ["時計を外して、受付で帽子を借りてかぶる", "時計をつけたまま帽子だけ買う", "家に帽子を取りに帰る", "アクセサリーだけ外してそのまま泳ぐ"],
+        correct: 0,
+        explanation: "Pengunjung wajib melepas jam tangan/aksesoris dan meminjam topi renang gratis di resepsionis."
+      },
+      {
+        context: "カフェで男の人と女の人が引っ越しについて話しています。",
+        dialogue: [
+          { speaker: "M", text: "来月引っ越すんだって？今の部屋、駅から近くて便利なのに、どうして？" },
+          { speaker: "F", text: "便利なんだけど、大きな道路の前だから、夜も車の音がうるさくてよく眠れないの。新しい部屋は駅から１５分歩くけど、公園の近くでとても静かなのよ。" },
+          { speaker: "M", text: "なるほど、静かなのが一番だね。" }
+        ],
+        question: "女の人が引っ越す一番の理由は何ですか。",
+        options: ["今の部屋は車の音がうるさいから", "今の部屋は駅から遠すぎるから", "家賃が高くなったから", "会社を辞めることになったから"],
+        correct: 0,
+        explanation: "Alasan utamanya adalah apartemen sekarang berada di depan jalan raya sehingga bising oleh suara mobil di malam hari."
+      },
+      {
+        context: "スーパーのレジで店員（女の人）と客（男の人）が話しています。",
+        dialogue: [
+          { speaker: "F", text: "お会計は１８００円です。駐車券はお持ちですか。" },
+          { speaker: "M", text: "はい、これです。無料になりますか。" },
+          { speaker: "F", text: "２０００円以上のお買い物で２時間無料になります。あと２００円分何か買われますか。" },
+          { speaker: "M", text: "じゃあ、そこにある２５０円のガムも一緒に買います。" }
+        ],
+        question: "男の人はどうしてガムを買いましたか。",
+        options: ["２０００円以上にして駐車料金を無料にするため", "ガムが一番欲しかったから", "おつりをなくすため", "店員に強く勧められたから"],
+        correct: 0,
+        explanation: "Belanja minimal 2000 Yen mendapat parkir gratis 2 jam; karena kurang 200 Yen, ia menambah permen karet 250 Yen."
+      },
+      {
+        context: "学校で男の人と女の人が文化祭のポスターについて話しています。",
+        dialogue: [
+          { speaker: "M", text: "文化祭のポスター、できたよ。見て。" },
+          { speaker: "F", text: "絵がきれいでいいね！でも、日にちと場所の字が少し小さくて読みにくいんじゃない？" },
+          { speaker: "M", text: "本当だね。じゃあ、日にちと場所の字をもっと大きくして、赤い色に変えるよ。" }
+        ],
+        question: "男の人はポスターをどう直しますか。",
+        options: ["日にちと場所の字を大きくして赤くする", "絵を全部描き直す", "ポスターのサイズを小さくする", "場所の名前を消す"],
+        correct: 0,
+        explanation: "Pria itu akan memperbesar ukuran huruf tanggal dan lokasi serta mengubah warnanya menjadi merah."
+      },
+      {
+        context: "電話で女の人とクリーニング屋の店員（男の人）が話しています。",
+        dialogue: [
+          { speaker: "F", text: "先週出した白いコート、今日取りに行ってもいいですか。" },
+          { speaker: "M", text: "申し訳ございません。ボタンが一つ取れかかっていたので、今付け直しているところです。明日の昼１２時には仕上がります。" },
+          { speaker: "F", text: "わざわざありがとうございます。では、明日の仕事帰りに寄ります。" }
+        ],
+        question: "コートはどうして今日受け取れませんか。",
+        options: ["取れかかっていたボタンを付け直しているから", "コートをまだ洗っていないから", "コートを別の店に送ったから", "今日お店が休みだから"],
+        correct: 0,
+        explanation: "Karena ada 1 kancing yang hampir lepas dan sedang dijahit ulang oleh pihak laundry."
+      },
+      {
+        context: "会社で男の人と女の人がパソコンのトラブルについて話しています。",
+        dialogue: [
+          { speaker: "M", text: "朝からインターネットに繋がらなくて困っているんだ。鈴木さんのパソコンは大丈夫？" },
+          { speaker: "F", text: "私もさっき同じだったけど、パソコンを一度再起動したら繋がるようになったわよ。" },
+          { speaker: "M", text: "そうなんだ。じゃあ、ぼくも保存してから再起動してみるよ。" }
+        ],
+        question: "男の人はこれから何をしますか。",
+        options: ["データを保存してからパソコンを再起動する", "新しいパソコンを買いに行く", "インターネット会社に電話する", "鈴木さんのパソコンを借りる"],
+        correct: 0,
+        explanation: "Mengikuti saran Suzuki-san, pria itu akan menyimpan datanya lalu me-restart (再起動) komputernya."
+      },
+      {
+        context: "駅で女の人と男の人がお土産について話しています。",
+        dialogue: [
+          { speaker: "F", text: "取引先へ持って行くお土産、この有名なクッキーにしようと思うんだけど。" },
+          { speaker: "M", text: "それ、おいしいけど、賞味期限が３日しかないんじゃなかったっけ？来週渡すなら、１か月持つこちらのおせんべいのほうがいいよ。" },
+          { speaker: "F", text: "あ、来週渡すんだったわね。じゃあ、おせんべいにしましょう。" }
+        ],
+        question: "二人はどうしてクッキーではなくおせんべいを選びましたか。",
+        options: ["来週渡すので、賞味期限が長いほうがいいから", "クッキーの値段が高すぎるから", "おせんべいのほうが箱が大きいから", "クッキーが売り切れていたから"],
+        correct: 0,
+        explanation: "Karena baru akan diserahkan minggu depan, mereka memilih senbei yang masa kedaluwarsanya tahan 1 bulan."
+      },
+      {
+        context: "美術館の入り口で係の女の人と客（男の人）が話しています。",
+        dialogue: [
+          { speaker: "F", text: "館内では写真は撮らないでください。また、メモを取る場合はボールペンではなく、鉛筆をお使いください。鉛筆はこちらでお貸ししています。" },
+          { speaker: "M", text: "わかりました。あと、この大きなリュックはロッカーに入れたほうがいいですか。" },
+          { speaker: "F", text: "はい、大きなお荷物はあちらのコインロッカーにお願いします。" }
+        ],
+        question: "美術館の中でしてもいいことは何ですか。",
+        options: ["鉛筆でメモを取ること", "スマホで絵の写真を撮ること", "ボールペンでメモを取ること", "大きなリュックを背負って見ること"],
+        correct: 0,
+        explanation: "Di dalam museum dilarang memotret dan memakai pulpen; pengunjung hanya boleh mencatat dengan pensil."
+      },
+      {
+        context: "家で母（女の人）と息子（男の人）が留守番について話しています。",
+        dialogue: [
+          { speaker: "F", text: "今から歯医者へ行ってくるわね。カレーが鍋に作ってあるから、おなかがすいたら温めて食べてね。" },
+          { speaker: "M", text: "うん、わかった。ご飯は炊いてある？" },
+          { speaker: "F", text: "あ、お米は洗って炊飯器に入れてあるけど、まだスイッチを押してないわ。今押しておいてくれる？" }
+        ],
+        question: "男の人はまず何をしますか。",
+        options: ["炊飯器のスイッチを押す", "お米を洗う", "カレーを一から作る", "歯医者へ行く"],
+        correct: 0,
+        explanation: "Beras sudah dicuci di dalam penanak nasi, dan ibu meminta anaknya menekan tombol pemasak nasi (スイッチを押す) sekarang."
+      },
+      {
+        context: "スポーツクラブでコーチ（男の人）と生徒（女の人）が話しています。",
+        dialogue: [
+          { speaker: "M", text: "走る前に、まず１０分間しっかりストレッチをしてください。急に走ると足を痛めますからね。" },
+          { speaker: "F", text: "はい。今日はグラウンドを何周走りますか。" },
+          { speaker: "M", text: "今日は暑いので、いつもの５周ではなく、３周だけにしましょう。" }
+        ],
+        question: "女の人はストレッチの後にグラウンドを何周走りますか。",
+        options: ["３周", "５周", "１０周", "１周"],
+        correct: 0,
+        explanation: "Karena cuaca panas, pelatih mengurangi putaran lari dari biasanya 5 putaran menjadi 3 putaran (３周)."
+      },
+      {
+        context: "会社で女の人と男の人がエアコンのフィルター掃除について話しています。",
+        dialogue: [
+          { speaker: "F", text: "エアコンの風が弱いと思ったら、フィルターにホコリがたまっていたわ。今水で洗ったところよ。" },
+          { speaker: "M", text: "ありがとう！すぐエアコンにつける？" },
+          { speaker: "F", text: "濡れたままつけると故障するから、日陰でよく乾かしてから夕方につけましょう。" }
+        ],
+        question: "フィルターはいつエアコンにつけますか。",
+        options: ["日陰でよく乾かしてから夕方につける", "濡れたまますぐにつける", "来週の月曜日につける", "ドライヤーで熱くしてからつける"],
+        correct: 0,
+        explanation: "Jika dipasang saat basah akan merusak AC, jadi dikeringkan dulu di tempat teduh lalu dipasang sore nanti."
+      },
+      {
+        context: "本屋で男の人と店員（女の人）が本の取り寄せについて話しています。",
+        dialogue: [
+          { speaker: "M", text: "この日本語能力試験の問題集はありますか。" },
+          { speaker: "F", text: "申し訳ありません、今お店には在庫がございません。注文すれば４日ほどで届きますが。" },
+          { speaker: "M", text: "試験は来月だから急ぎません。注文をお願いします。届いたら電話をもらえますか。" },
+          { speaker: "F", text: "かしこまりました。" }
+        ],
+        question: "本はどうなりますか。",
+        options: ["４日ほどでお店に届き、店員から電話が来る", "今日すぐ持ち帰ることができる", "男の人の家に明日直接届く", "もう印刷されていないので買えない"],
+        correct: 0,
+        explanation: "Stok di toko habis; dipesan dulu sekitar 4 hari sampai di toko lalu pegawai akan menelepon pembeli."
+      },
+      {
+        context: "駅で女の人と男の人が帰りの電車について話しています。",
+        dialogue: [
+          { speaker: "F", text: "あ、もう１１時半！終電は何時だっけ？" },
+          { speaker: "M", text: "急行はもう終わったけど、各駅停車なら１１時５０分があるよ。あと２０分あるから、歩いて駅へ行っても間に合うよ。" },
+          { speaker: "F", text: "よかった！じゃあ、急いで歩きましょう。" }
+        ],
+        question: "二人はこれからどうしますか。",
+        options: ["１１時５０分の各駅停車に乗るために急いで歩く", "急行電車に乗る", "ホテルに泊まる", "タクシーを呼ぶ"],
+        correct: 0,
+        explanation: "Kereta lokal terakhir masih ada pukul 23:50 (20 menit lagi), sehingga mereka berjalan cepat menuju stasiun."
+      },
+      {
+        context: "郵便局で男の人と局員（女の人）が荷物の発送について話しています。",
+        dialogue: [
+          { speaker: "M", text: "この箱を北海道まで送りたいんですが、明日の午前中に届きますか。" },
+          { speaker: "F", text: "北海道ですと、普通のゆうパックでは明後日の到着になります。航空便の速達になさいますと、３００円高くなりますが明日の午前中に届きます。" },
+          { speaker: "M", text: "誕生日プレゼントで明日届けたいので、速達でお願いします。" }
+        ],
+        question: "男の人はどうやって荷物を送りますか。",
+        options: ["３００円高い航空便の速達で送る", "普通のゆうパックで送る", "船便で送る", "送るのをやめる"],
+        correct: 0,
+        explanation: "Agar tiba besok pagi tepat di hari ulang tahun, pria itu memilih layanan kilat pesawat (航空便の速達)."
+      },
+      {
+        context: "クリニックで女の人と受付の男の人が次回の予約をしています。",
+        dialogue: [
+          { speaker: "M", text: "次は１週間後の同じ曜日に来てください。来週の火曜日はいかがですか。" },
+          { speaker: "F", text: "すみません、来週の火曜日は出張で東京にいないんです。水曜日でもいいですか。" },
+          { speaker: "M", text: "水曜日は休診日ですので、木曜日の午前中はいかがですか。" },
+          { speaker: "F", text: "はい、木曜日の１０時にお願いします。" }
+        ],
+        question: "女の人は次にいつ病院へ行きますか。",
+        options: ["来週の木曜日の午前１０時", "来週の火曜日", "来週の水曜日", "今週の金曜日"],
+        correct: 0,
+        explanation: "Selasa dinas luar kota dan Rabu klinik libur, sehingga disepakati hari Kamis jam 10 pagi."
+      },
+      {
+        context: "料理教室で先生（女の人）と生徒（男の人）がスープを作っています。",
+        dialogue: [
+          { speaker: "F", text: "野菜が柔らかくなったら、火を弱めて牛乳を入れてください。沸騰させると味が悪くなるので、沸騰する直前に火を止めてくださいね。" },
+          { speaker: "M", text: "先生、塩とコショウはいつ入れますか。" },
+          { speaker: "F", text: "牛乳を入れる前に、先に入れて味をつけておいてください。" }
+        ],
+        question: "料理の手順として正しいものはどれですか。",
+        options: ["野菜が柔らかくなる → 塩コショウを入れる → 牛乳を入れる", "牛乳を入れる → 強く沸騰させる → 野菜を入れる", "野菜と牛乳を最初から一緒に強火で煮る", "火を止めてから野菜を入れる"],
+        correct: 0,
+        explanation: "Setelah sayur empuk, masukkan garam & lada dulu sebelum menuangkan susu dengan api kecil."
+      },
+      {
+        context: "会社で男の人と女の人が傘の忘れ物について話しています。",
+        dialogue: [
+          { speaker: "M", text: "会議室に青い折りたたみ傘が忘れてあったよ。木村さんのじゃない？" },
+          { speaker: "F", text: "私の折りたたみ傘は赤いのよ。あ、さっき営業部の林さんが青い傘を探していたわ。" },
+          { speaker: "M", text: "そうか。じゃあ、林さんの机に届けておくね。" }
+        ],
+        question: "青い折りたたみ傘はだれのものですか。",
+        options: ["営業部の林さん", "木村さん", "この男の人", "社長"],
+        correct: 0,
+        explanation: "Kimura-san mengatakan payungnya warna merah, sedangkan Hayashi-san dari divisi sales tadi mencari payung biru."
+      }
+    ];
+
+    /********************************************************************************
+     * 5. STATE MANAGEMENT & KONVERSI BANK SOAL
+     ********************************************************************************/
+    let activeSection = 'n5_written'; // 'n5_written' | 'n4_written' | 'n5_choukai' | 'n4_choukai'
+    let examMode = 'practice'; // 'practice' (Tanpa Waktu) | 'test' (Timer 1 Jam = 3600 detik)
+    let activeSubCategory = 'ALL';
+    let currentQuestions = [];
+    let userAnswers = {}; // { questionIndex: selectedOptionIndex }
+    let revealedTranscripts = {}; // { questionIndex: boolean }
+    let isExamSubmitted = false;
+
+    // Paginasi agar 100 soal tetap super responsif di HP & PC
+    let currentPage = 1;
+    let itemsPerPage = 25; // Default 25 per halaman (bisa pilih "Tampilkan Semua 100" juga)
+
+    // Timer 1 Jam (3600 detik)
+    let timerInterval = null;
+    let remainingSeconds = 3600;
+
+    // Audio Speech Synthesis State
+    let activeSpeakingCardIdx = null;
+    let speechCancelled = false;
+
+    function buildSectionDataset(sectionKey) {
+      if (sectionKey === 'n5_written') {
+        return RAW_N5_WRITTEN_100.map((row, idx) => ({
+          id: `n5w-${idx + 1}`,
+          num: idx + 1,
+          type: 'written',
+          level: 'JLPT N5',
+          category: row[0],
+          prompt: row[1],
+          options: [...row[2]],
+          correctOptionText: row[2][row[3]],
+          explanation: row[4]
+        }));
+      }
+      if (sectionKey === 'n4_written') {
+        return RAW_N4_WRITTEN_100.map((row, idx) => ({
+          id: `n4w-${idx + 1}`,
+          num: idx + 1,
+          type: 'written',
+          level: 'JLPT N4',
+          category: row[0],
+          prompt: row[1],
+          options: [...row[2]],
+          correctOptionText: row[2][row[3]],
+          explanation: row[4]
+        }));
+      }
+      if (sectionKey === 'n5_choukai') {
+        return RAW_N5_CHOUKAI_40.map((item, idx) => ({
+          id: `n5c-${idx + 1}`,
+          num: idx + 1,
+          type: 'choukai',
+          level: 'Choukai N5',
+          category: 'Choukai Dual-Voice (Cewek & Cowok)',
+          context: item.context,
+          dialogue: item.dialogue,
+          prompt: item.question,
+          options: [...item.options],
+          correctOptionText: item.options[item.correct],
+          explanation: item.explanation
+        }));
+      }
+      if (sectionKey === 'n4_choukai') {
+        return RAW_N4_CHOUKAI_40.map((item, idx) => ({
+          id: `n4c-${idx + 1}`,
+          num: idx + 1,
+          type: 'choukai',
+          level: 'Choukai N4',
+          category: 'Choukai Dual-Voice (Cewek & Cowok)',
+          context: item.context,
+          dialogue: item.dialogue,
+          prompt: item.question,
+          options: [...item.options],
+          correctOptionText: item.options[item.correct],
+          explanation: item.explanation
+        }));
+      }
+      return [];
+    }
+
+    function shuffleArray(arr) {
+      const copy = [...arr];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    function prepareQuestions(doShuffleQuestions = false) {
+      stopAllSpeech();
+      let base = buildSectionDataset(activeSection);
+
+      if (activeSubCategory !== 'ALL') {
+        base = base.filter(q => q.category === activeSubCategory);
+      }
+
+      if (doShuffleQuestions) {
+        base = shuffleArray(base);
+      }
+
+      // Potong sesuai pilihan paket soal (Semua / 50 / 25 / 10)
+      const poolSizeVal = document.getElementById('pool-size-select')?.value || 'all';
+      if (poolSizeVal !== 'all') {
+        const limit = parseInt(poolSizeVal, 10);
+        base = base.slice(0, limit);
+      }
+
+      // Acak posisi pilihan ganda A, B, C, D setiap kali soal disiapkan agar tidak selalu A
+      currentQuestions = base.map((q, idx) => {
+        const shuffledOpts = shuffleArray(q.options);
+        const newCorrectIdx = shuffledOpts.indexOf(q.correctOptionText);
+        return {
+          ...q,
+          displayNum: idx + 1,
+          options: shuffledOpts,
+          correctIdx: newCorrectIdx
+        };
+      });
+
+      userAnswers = {};
+      revealedTranscripts = {};
+      isExamSubmitted = false;
+      currentPage = 1;
+      document.getElementById('exam-result-banner').classList.add('hidden');
+
+      updateSectionHeaderInfo();
+      renderSubCategoryPills();
+      renderQuestionsPage();
+      updateProgressAndTimerUI();
+    }
+
+    /********************************************************************************
+     * 6. SWITCH TAB BAGIAN, MODE LATIHAN VS TES 1 JAM, & SHUFFLE
+     ********************************************************************************/
+    function switchExamSection(secKey) {
+      activeSection = secKey;
+      activeSubCategory = 'ALL';
+
+      const tabs = ['n5_written', 'n4_written', 'n5_choukai', 'n4_choukai'];
+      tabs.forEach(t => {
+        const btn = document.getElementById(`tab-${t}`);
+        if (!btn) return;
+        if (t === secKey) {
+          btn.className = "px-2 py-1.5 sm:px-3 sm:py-2 rounded-xl text-[11px] sm:text-xs font-bold transition-all bg-indigo-600 text-white shadow-sm flex items-center justify-center gap-1";
+        } else {
+          btn.className = "px-2 py-1.5 sm:px-3 sm:py-2 rounded-xl text-[11px] sm:text-xs font-bold transition-all bg-slate-100 text-slate-700 hover:bg-slate-200 flex items-center justify-center gap-1";
+        }
+      });
+
+      prepareQuestions(false);
+      if (examMode === 'test') {
+        startOneHourTimer();
+      }
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function setExamMode(mode) {
+      examMode = mode;
+      const pBtn = document.getElementById('mode-btn-practice');
+      const tBtn = document.getElementById('mode-btn-test');
+      const statusBadge = document.getElementById('mode-status-badge');
+
+      if (mode === 'practice') {
+        pBtn.className = "px-2.5 py-1 rounded-md font-bold transition bg-emerald-600 text-white shadow-sm flex items-center gap-1";
+        tBtn.className = "px-2.5 py-1 rounded-md font-bold transition text-slate-300 hover:text-white flex items-center gap-1";
+        statusBadge.className = "px-2.5 py-0.5 rounded-full text-xs font-bold bg-emerald-50 text-emerald-700 border border-emerald-200";
+        statusBadge.textContent = "Mode Latihan: Tanpa Batas Waktu & Pembahasan Langsung Muncul";
+        stopTimer();
+        showToast("Mode Latihan Aktif: Pembahasan langsung muncul setiap memilih jawaban.");
+      } else {
+        tBtn.className = "px-2.5 py-1 rounded-md font-bold transition bg-rose-600 text-white shadow-sm flex items-center gap-1";
+        pBtn.className = "px-2.5 py-1 rounded-md font-bold transition text-slate-300 hover:text-white flex items-center gap-1";
+        statusBadge.className = "px-2.5 py-0.5 rounded-full text-xs font-bold bg-rose-50 text-rose-700 border border-rose-200";
+        statusBadge.textContent = "Mode Tes Ujian: Waktu 1 Jam (60 Menit) • Pembahasan Muncul Saat Selesai";
+        prepareQuestions(true);
+        startOneHourTimer();
+        showToast("Mode Tes Dimulai! Soal di-shuffle & Timer 1 Jam (60:00) berjalan.");
+      }
+      renderQuestionsPage();
+      updateProgressAndTimerUI();
+    }
+
+    function shuffleCurrentSectionQuestions() {
+      prepareQuestions(true);
+      if (examMode === 'test') {
+        startOneHourTimer();
+      }
+      showToast(`Berhasil mengacak (shuffle) ${currentQuestions.length} soal beserta pilihan gandanya!`);
+    }
+
+    function changeQuestionPoolSize() {
+      prepareQuestions(true);
+    }
+
+    function updateSectionHeaderInfo() {
+      const badge = document.getElementById('section-badge');
+      const title = document.getElementById('section-title');
+      const desc = document.getElementById('section-desc');
+
+      const infoMap = {
+        n5_written: {
+          badge: `JLPT N5 TERTULIS • ${currentQuestions.length} SOAL`,
+          title: "Simulasi JLPT N5 Lengkap (Moji, Goi, Bunpou & Dokkai) - 100 Soal",
+          desc: "Latihan & Tes 100 soal JLPT N5 meliputi bacaan Kanji, kosakata, tata bahasa, dan bacaan. Tersedia fitur Shuffle & Pembahasan Bahasa Indonesia."
+        },
+        n4_written: {
+          badge: `JLPT N4 TERTULIS • ${currentQuestions.length} SOAL`,
+          title: "Simulasi JLPT N4 Lengkap (Moji, Goi, Bunpou & Dokkai) - 100 Soal",
+          desc: "Latihan & Tes 100 soal JLPT N4 meliputi Jukugo Kanji (図書館, 銀行, 新幹線, dll), kosakata N4, Sonkeigo/Kenjougo, Kausatif/Pasif, dan Dokkai."
+        },
+        n5_choukai: {
+          badge: `CHOUKAI N5 DUAL-VOICE • ${currentQuestions.length} SOAL`,
+          title: "Tes Choukai (Listening) JLPT N5 - 40 Soal Percakapan Cewek & Cowok",
+          desc: "Klik tombol 'Putar Percakapan' untuk mendengarkan dialog otomatis antara Pembicara Cewek (女の人) dan Pembicara Cowok (男の人)!"
+        },
+        n4_choukai: {
+          badge: `CHOUKAI N4 DUAL-VOICE • ${currentQuestions.length} SOAL`,
+          title: "Tes Choukai (Listening) JLPT N4 - 40 Soal Percakapan Cewek & Cowok",
+          desc: "Simulasi pendengaran tingkat N4 dengan 40 skenario percakapan kantor, stasiun, rumah sakit, dan kehidupan sehari-hari di Jepang."
+        }
+      };
+
+      const info = infoMap[activeSection];
+      if (info) {
+        badge.textContent = info.badge;
+        title.textContent = info.title;
+        desc.textContent = info.desc;
+      }
+    }
+
+    function renderSubCategoryPills() {
+      const container = document.getElementById('sub-category-pills');
+      if (!container) return;
+
+      const fullRaw = buildSectionDataset(activeSection);
+      const uniqueCats = ['ALL', ...new Set(fullRaw.map(x => x.category))];
+
+      if (uniqueCats.length <= 2) {
+        container.innerHTML = `
+          <span class="text-xs font-bold text-indigo-700 bg-indigo-50 px-3 py-1.5 rounded-xl border border-indigo-200 flex items-center gap-1.5">
+            <i class="fa-solid fa-volume-high"></i>
+            <span>Audio Sintesis Otomatis: Suara Cewek (Pitch Tinggi) & Suara Cowok (Pitch Rendah)</span>
+          </span>
+        `;
+        return;
+      }
+
+      container.innerHTML = uniqueCats.map(cat => {
+        const isActive = cat === activeSubCategory;
+        const label = cat === 'ALL' ? `Semua Kategori (${fullRaw.length})` : cat;
+        const cls = isActive
+          ? "bg-slate-900 text-white border-slate-900 shadow-sm"
+          : "bg-slate-100 text-slate-600 hover:bg-slate-200 border-slate-200";
+        return `
+          <button onclick="filterBySubCategory('${cat}')" class="px-3 py-1.5 rounded-xl border text-xs font-bold transition ${cls}">
+            ${label}
+          </button>
+        `;
+      }).join('');
+    }
+
+    function filterBySubCategory(cat) {
+      activeSubCategory = cat;
+      prepareQuestions(false);
+    }
+
+    /********************************************************************************
+     * 7. TIMER 1 JAM (60 MENIT = 3600 DETIK)
+     ********************************************************************************/
+    function startOneHourTimer() {
+      if (timerInterval) clearInterval(timerInterval);
+      remainingSeconds = 3600; // 1 Jam penuh
+      updateTimerLabels();
+
+      timerInterval = setInterval(() => {
+        if (isExamSubmitted || examMode !== 'test') return;
+        remainingSeconds--;
+        updateTimerLabels();
+
+        if (remainingSeconds <= 0) {
+          clearInterval(timerInterval);
+          showToast("Waktu 1 Jam (60 Menit) telah habis! Jawaban Anda otomatis dikumpulkan.");
+          submitExamAndShowScore();
+        }
+      }, 1000);
+    }
+
+    function stopTimer() {
+      if (timerInterval) clearInterval(timerInterval);
+      const hText = document.getElementById('header-timer-text');
+      const mBadge = document.getElementById('mini-timer-badge');
+      if (hText) hText.textContent = "Tanpa Waktu";
+      if (mBadge) mBadge.classList.add('hidden');
+    }
+
+    function updateTimerLabels() {
+      const mins = Math.floor(remainingSeconds / 60);
+      const secs = remainingSeconds % 60;
+      const formatted = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+
+      const hText = document.getElementById('header-timer-text');
+      const mBadge = document.getElementById('mini-timer-badge');
+      const mText = document.getElementById('mini-timer-text');
+
+      if (hText) hText.textContent = formatted;
+      if (mBadge) {
+        mBadge.classList.remove('hidden');
+        mBadge.classList.add('inline-flex');
+      }
+      if (mText) mText.textContent = formatted;
+    }
+
+    function updateProgressAndTimerUI() {
+      const answeredCount = Object.keys(userAnswers).length;
+      const total = currentQuestions.length;
+      const hAns = document.getElementById('header-answered-count');
+      const mProg = document.getElementById('mini-progress-badge');
+      if (hAns) hAns.textContent = `${answeredCount} / ${total}`;
+      if (mProg) mProg.textContent = `${answeredCount}/${total}`;
+    }
+
+    /********************************************************************************
+     * 8. RENDER DAFTAR KARTU SOAL (TERTULIS & CHOUKAI DUAL-VOICE)
+     ********************************************************************************/
+    function formatHighlightedPrompt(text) {
+      // Ubah 【...】 menjadi highlight tebal bergaris bawah khas ujian JLPT
+      return text
+        .replace(/【(.*?)】/g, '<span class="px-1.5 py-0.5 mx-0.5 rounded-lg bg-amber-100 text-indigo-950 font-black underline decoration-2 decoration-rose-500">$1</span>')
+        .replace(/\n/g, '<br/>');
+    }
+
+    function renderQuestionsPage() {
+      const container = document.getElementById('questions-container');
+      if (!container) return;
+
+      const total = currentQuestions.length;
+      const startIdx = (currentPage - 1) * itemsPerPage;
+      const endIdx = Math.min(total, startIdx + itemsPerPage);
+      const pageSlice = currentQuestions.slice(startIdx, endIdx);
+
+      const optionLetters = ['A', 'B', 'C', 'D'];
+
+      container.innerHTML = pageSlice.map((q, localIdx) => {
+        const globalIdx = startIdx + localIdx;
+        const picked = userAnswers[globalIdx];
+        const showFeedback = (examMode === 'practice' && picked !== undefined) || isExamSubmitted;
+        const isCorrect = picked === q.correctIdx;
+        const isTranscriptOpen = revealedTranscripts[globalIdx] || isExamSubmitted;
+
+        // Border warna kartu jika sudah dinilai
+        let cardBorder = "border-slate-200";
+        if (showFeedback) {
+          cardBorder = isCorrect ? "border-emerald-400 ring-1 ring-emerald-200" : "border-rose-400 ring-1 ring-rose-200";
+        } else if (picked !== undefined) {
+          cardBorder = "border-indigo-400";
+        }
+
+        // Panel khusus Choukai (Pembicara Cewek & Cowok)
+        let choukaiAudioHtml = '';
+        if (q.type === 'choukai') {
+          const isPlayingThis = activeSpeakingCardIdx === globalIdx;
+          choukaiAudioHtml = `
+            <div class="bg-gradient-to-r from-slate-900 via-indigo-950 to-slate-900 text-white rounded-2xl p-4 space-y-3 border border-indigo-500/30">
+              <div class="flex flex-wrap items-center justify-between gap-3">
+                <div class="flex items-center gap-3">
+                  <!-- Avatar Cowok & Cewek -->
+                  <div class="flex items-center -space-x-1.5">
+                    <div id="avatar-f-${globalIdx}" class="w-9 h-9 rounded-full bg-rose-500 border-2 border-slate-900 flex items-center justify-center text-white text-xs font-bold shadow" title="Pembicara Cewek (女の人)">
+                      <i class="fa-solid fa-venus"></i>
+                    </div>
+                    <div id="avatar-m-${globalIdx}" class="w-9 h-9 rounded-full bg-sky-500 border-2 border-slate-900 flex items-center justify-center text-white text-xs font-bold shadow" title="Pembicara Cowok (男の人)">
+                      <i class="fa-solid fa-mars"></i>
+                    </div>
+                  </div>
+                  <div>
+                    <div class="text-[11px] font-bold text-indigo-300 uppercase tracking-wider flex items-center gap-1.5">
+                      <span>Audio Dialog Choukai (Cewek & Cowok)</span>
+                    </div>
+                    <div id="speaker-status-${globalIdx}" class="text-xs sm:text-sm font-extrabold text-white">
+                      ${isPlayingThis ? 'Sedang Memutar Dialog...' : 'Klik tombol Putar untuk mendengar percakapan'}
+                    </div>
+                  </div>
+                </div>
+
+                <div class="flex items-center gap-2">
+                  <!-- Gelombang Audio Aktif -->
+                  <div id="wave-${globalIdx}" class="${isPlayingThis ? 'flex' : 'hidden'} items-end gap-0.5 h-5 px-2">
+                    <span class="w-1 h-4 bg-rose-400 rounded-full wave-bar"></span>
+                    <span class="w-1 h-5 bg-sky-400 rounded-full wave-bar"></span>
+                    <span class="w-1 h-3 bg-emerald-400 rounded-full wave-bar"></span>
+                    <span class="w-1 h-5 bg-amber-400 rounded-full wave-bar"></span>
+                  </div>
+
+                  <button onclick="playChoukaiDialogue(${globalIdx})" class="px-4 py-2 rounded-xl ${isPlayingThis ? 'bg-amber-500 text-slate-950' : 'bg-indigo-600 hover:bg-indigo-500 text-white'} font-extrabold text-xs transition flex items-center gap-1.5 shadow-sm">
+                    <i class="fa-solid ${isPlayingThis ? 'fa-rotate-right' : 'fa-play'}"></i>
+                    <span>${isPlayingThis ? 'Ulangi Audio' : 'Putar Percakapan'}</span>
+                  </button>
+
+                  ${examMode === 'practice' || isExamSubmitted ? `
+                    <button onclick="toggleChoukaiTranscript(${globalIdx})" class="px-3 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-white font-bold text-xs transition flex items-center gap-1">
+                      <i class="fa-regular fa-file-lines"></i>
+                      <span>${isTranscriptOpen ? 'Tutup Naskah' : 'Naskah'}</span>
+                    </button>
+                  ` : ''}
+                </div>
+              </div>
+
+              <!-- Konteks Situasi -->
+              <div class="text-xs text-indigo-200 bg-white/5 px-3 py-2 rounded-xl border border-white/10 font-jp">
+                <i class="fa-solid fa-circle-info text-amber-300 mr-1"></i>状況: ${q.context}
+              </div>
+
+              <!-- Transkrip Dialog Cewek & Cowok (Bisa dibuka di Mode Latihan atau setelah Selesai Tes) -->
+              <div id="transcript-box-${globalIdx}" class="${isTranscriptOpen ? 'block' : 'hidden'} bg-slate-950/80 rounded-xl p-3.5 border border-white/10 space-y-2 text-xs sm:text-sm font-jp">
+                <div class="text-[10px] font-bold uppercase tracking-wider text-amber-300 mb-1">Naskah Percakapan (Klik baris untuk dengar per kalimat):</div>
+                ${q.dialogue.map(line => {
+                  const isFemale = line.speaker === 'F';
+                  const badgeCls = isFemale
+                    ? "bg-rose-500/20 text-rose-300 border-rose-400/30"
+                    : "bg-sky-500/20 text-sky-300 border-sky-400/30";
+                  const speakerLabel = isFemale ? "女の人 (Cewek)" : "男の人 (Cowok)";
+                  return `
+                    <div onclick="speakSingleLine('${line.text.replace(/'/g, "\\'")}', '${line.speaker}')"
+                         class="flex items-start gap-2.5 p-2 rounded-lg hover:bg-white/5 cursor-pointer transition">
+                      <span class="px-2 py-0.5 rounded border text-[10px] font-extrabold shrink-0 ${badgeCls}">
+                        ${speakerLabel}
+                      </span>
+                      <span class="text-slate-100 leading-relaxed">${line.text}</span>
+                    </div>
+                  `;
+                }).join('')}
+              </div>
+            </div>
+          `;
+        }
+
+        return `
+          <article id="q-card-${globalIdx}" class="scroll-safe-card bg-white rounded-2xl shadow-sm border ${cardBorder} p-4 sm:p-6 space-y-4 transition-all">
+            <!-- Header Kartu Soal -->
+            <div class="flex flex-wrap items-center justify-between gap-2 border-b border-slate-100 pb-3">
+              <div class="flex items-center gap-2">
+                <span class="px-3 py-1 rounded-xl bg-slate-900 text-white font-extrabold text-xs">
+                  Soal #${q.displayNum}
+                </span>
+                <span class="px-2.5 py-1 rounded-lg bg-indigo-50 text-indigo-700 font-bold text-xs border border-indigo-200">
+                  ${q.level} • ${q.category}
+                </span>
+              </div>
+
+              <div class="flex items-center gap-2">
+                ${q.type === 'written' ? `
+                  <button onclick="speakSingleLine('${q.prompt.replace(/【|】|\n/g, '').replace(/'/g, "\\'")}', 'F')"
+                          class="px-2.5 py-1 rounded-lg bg-slate-100 hover:bg-indigo-100 text-slate-700 hover:text-indigo-700 font-bold text-xs transition flex items-center gap-1"
+                          title="Dengarkan Kalimat Soal">
+                    <i class="fa-solid fa-volume-high text-indigo-600"></i>
+                    <span>Suara Soal</span>
+                  </button>
+                ` : ''}
+
+                ${showFeedback ? (
+                  isCorrect
+                    ? `<span class="px-2.5 py-1 rounded-lg bg-emerald-100 text-emerald-800 font-extrabold text-xs"><i class="fa-solid fa-check mr-1"></i>Benar</span>`
+                    : `<span class="px-2.5 py-1 rounded-lg bg-rose-100 text-rose-800 font-extrabold text-xs"><i class="fa-solid fa-xmark mr-1"></i>${picked === undefined ? 'Belum Dijawab' : 'Kurang Tepat'}</span>`
+                ) : ''}
+              </div>
+            </div>
+
+            <!-- Panel Audio Choukai (Jika Soal Choukai) -->
+            ${choukaiAudioHtml}
+
+            <!-- Pertanyaan / Kalimat Utama -->
+            <div class="font-jp text-base sm:text-xl font-bold text-slate-900 leading-relaxed">
+              ${q.type === 'choukai' ? `<span class="text-xs font-extrabold uppercase tracking-wider text-indigo-600 block mb-1">Pertanyaan (質問):</span>` : ''}
+              ${formatHighlightedPrompt(q.prompt)}
+            </div>
+
+            <!-- 4 Pilihan Ganda (A, B, C, D) -->
+            <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
+              ${q.options.map((optText, oIdx) => {
+                let btnCls = "bg-slate-50 hover:bg-indigo-50/70 text-slate-800 border-slate-200";
+                let badgeCls = "bg-white text-slate-600 border-slate-300";
+
+                if (showFeedback) {
+                  if (oIdx === q.correctIdx) {
+                    btnCls = "bg-emerald-50 border-emerald-500 text-emerald-950 font-extrabold ring-1 ring-emerald-400";
+                    badgeCls = "bg-emerald-600 text-white border-emerald-600";
+                  } else if (oIdx === picked && picked !== q.correctIdx) {
+                    btnCls = "bg-rose-50 border-rose-400 text-rose-900 font-bold";
+                    badgeCls = "bg-rose-600 text-white border-rose-600";
+                  }
+                } else if (oIdx === picked) {
+                  btnCls = "bg-indigo-50 border-indigo-600 text-indigo-950 font-extrabold ring-1 ring-indigo-500";
+                  badgeCls = "bg-indigo-600 text-white border-indigo-600";
+                }
+
+                return `
+                  <button onclick="selectAnswer(${globalIdx}, ${oIdx})"
+                          class="p-3 sm:p-3.5 rounded-xl border text-left transition flex items-center justify-between gap-3 ${btnCls}">
+                    <div class="flex items-center gap-2.5">
+                      <span class="w-6 h-6 rounded-lg border text-xs font-extrabold flex items-center justify-center shrink-0 ${badgeCls}">
+                        ${optionLetters[oIdx]}
+                      </span>
+                      <span class="font-jp text-sm sm:text-base">${optText}</span>
+                    </div>
+                    ${showFeedback && oIdx === q.correctIdx ? '<i class="fa-solid fa-circle-check text-emerald-600 shrink-0"></i>' : ''}
+                  </button>
+                `;
+              }).join('')}
+            </div>
+
+            <!-- Kotak Pembahasan Detail (Otomatis muncul di Mode Latihan atau setelah Tes Selesai) -->
+            ${showFeedback ? `
+              <div class="bg-slate-50 rounded-xl p-3.5 border border-slate-200 text-xs sm:text-sm space-y-1">
+                <div class="font-extrabold text-indigo-700 flex items-center gap-1.5">
+                  <i class="fa-solid fa-lightbulb text-amber-500"></i>
+                  <span>Kunci Jawaban: ${optionLetters[q.correctIdx]}. ${q.correctOptionText}</span>
+                </div>
+                <p class="text-slate-700 leading-relaxed">${q.explanation}</p>
+              </div>
+            ` : ''}
+          </article>
+        `;
+      }).join('');
+
+      renderPaginationControls();
+    }
+
+    function selectAnswer(globalIdx, optIdx) {
+      if (isExamSubmitted) return;
+      if (window.innerWidth < 768) {
+        setHeaderHiddenState(true);
+      }
+      userAnswers[globalIdx] = optIdx;
+      updateProgressAndTimerUI();
+      renderQuestionsPage();
+    }
+
+    function toggleChoukaiTranscript(globalIdx) {
+      revealedTranscripts[globalIdx] = !revealedTranscripts[globalIdx];
+      renderQuestionsPage();
+    }
+
+    function renderPaginationControls() {
+      const pagBox = document.getElementById('pagination-controls');
+      if (!pagBox) return;
+
+      const total = currentQuestions.length;
+      const totalPages = Math.ceil(total / itemsPerPage);
+
+      if (totalPages <= 1) {
+        pagBox.innerHTML = `<span class="text-xs font-bold text-slate-500">Menampilkan semua ${total} soal di halaman ini.</span>`;
+        return;
+      }
+
+      let buttonsHtml = '';
+      for (let p = 1; p <= totalPages; p++) {
+        const startN = (p - 1) * itemsPerPage + 1;
+        const endN = Math.min(total, p * itemsPerPage);
+        const active = p === currentPage;
+        const cls = active
+          ? "bg-indigo-600 text-white border-indigo-600 shadow-sm"
+          : "bg-slate-50 hover:bg-slate-100 text-slate-700 border-slate-200";
+        buttonsHtml += `
+          <button onclick="goToPage(${p})" class="px-3 py-1.5 rounded-xl border text-xs font-extrabold transition ${cls}">
+            No. ${startN}–${endN}
+          </button>
+        `;
+      }
+
+      const showAllBtn = itemsPerPage < total ? `
+        <button onclick="showAllQuestionsInOnePage()" class="px-3 py-1.5 rounded-xl border border-slate-200 bg-slate-50 hover:bg-indigo-50 text-indigo-700 text-xs font-bold transition">
+          Tampilkan Semua (${total})
+        </button>
+      ` : '';
+
+      pagBox.innerHTML = `
+        <div class="flex flex-wrap items-center gap-1.5">
+          <span class="text-xs font-bold text-slate-500 mr-1">Halaman Soal:</span>
+          ${buttonsHtml}
+          ${showAllBtn}
+        </div>
+      `;
+    }
+
+    function goToPage(pageNum) {
+      currentPage = pageNum;
+      renderQuestionsPage();
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function showAllQuestionsInOnePage() {
+      itemsPerPage = 200;
+      currentPage = 1;
+      renderQuestionsPage();
+      showToast(`Menampilkan seluruh ${currentQuestions.length} soal dalam 1 halaman penuh.`);
+    }
+
+    /********************************************************************************
+     * 9. DUAL-VOICE CHOUKAI ENGINE (SUARA CEWEK VS SUARA COWOK)
+     ********************************************************************************/
+    let jpVoices = [];
+
+    function loadJapaneseVoices() {
+      if (!('speechSynthesis' in window)) return;
+      const all = window.speechSynthesis.getVoices();
+      jpVoices = all.filter(v => v.lang && (v.lang.includes('ja') || v.lang.includes('JP')));
+    }
+
+    if ('speechSynthesis' in window) {
+      loadJapaneseVoices();
+      window.speechSynthesis.onvoiceschanged = loadJapaneseVoices;
+    }
+
+    function pickBestVoiceForGender(gender) {
+      if (!jpVoices.length) loadJapaneseVoices();
+      if (!jpVoices.length) return null;
+
+      const femaleKeywords = ['female', 'kyoko', 'haruka', 'ayumi', 'nanami', 'o-ren', 'google 日本語'];
+      const maleKeywords = ['male', 'ichiro', 'keita', 'takumi', 'otoya', 'hattori'];
+
+      if (gender === 'F') {
+        const foundF = jpVoices.find(v => femaleKeywords.some(k => v.name.toLowerCase().includes(k)));
+        return foundF || jpVoices[0];
+      } else if (gender === 'M') {
+        const foundM = jpVoices.find(v => maleKeywords.some(k => v.name.toLowerCase().includes(k)));
+        if (foundM) return foundM;
+        return jpVoices.length > 1 ? jpVoices[1] : jpVoices[0];
+      }
+      return jpVoices[0];
+    }
+
+    function stopAllSpeech() {
+      speechCancelled = true;
+      activeSpeakingCardIdx = null;
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.cancel();
+      }
+      const stopBtn = document.getElementById('stop-audio-btn');
+      if (stopBtn) {
+        stopBtn.classList.add('hidden');
+        stopBtn.classList.remove('inline-flex');
+      }
+    }
+
+    function speakSingleLine(text, gender = 'F') {
+      if (!('speechSynthesis' in window)) {
+        showToast("Browser Anda tidak mendukung fitur suara Web Speech API.");
+        return;
+      }
+      stopAllSpeech();
+      speechCancelled = false;
+
+      const speed = parseFloat(document.getElementById('audio-speed-select')?.value || '1.0');
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = 'ja-JP';
+      const v = pickBestVoiceForGender(gender);
+      if (v) u.voice = v;
+
+      // Diferensiasi jelas antara Cewek (Pitch 1.32) dan Cowok (Pitch 0.72)
+      if (gender === 'F') {
+        u.pitch = 1.32;
+        u.rate = speed;
+      } else if (gender === 'M') {
+        u.pitch = 0.72;
+        u.rate = speed * 0.96;
+      } else {
+        u.pitch = 1.0;
+        u.rate = speed;
+      }
+
+      window.speechSynthesis.speak(u);
+    }
+
+    function playChoukaiDialogue(globalIdx) {
+      if (!('speechSynthesis' in window)) {
+        showToast("Browser Anda tidak mendukung sintesis suara bahasa Jepang.");
+        return;
+      }
+
+      const q = currentQuestions[globalIdx];
+      if (!q || q.type !== 'choukai') return;
+
+      stopAllSpeech();
+      speechCancelled = false;
+      activeSpeakingCardIdx = globalIdx;
+      renderQuestionsPage();
+
+      const stopBtn = document.getElementById('stop-audio-btn');
+      if (stopBtn) {
+        stopBtn.classList.remove('hidden');
+        stopBtn.classList.add('inline-flex');
+      }
+
+      const baseSpeed = parseFloat(document.getElementById('audio-speed-select')?.value || '1.0');
+
+      // Susun antrean segmen suara: Konteks -> Baris Dialog Cewek/Cowok -> Pertanyaan
+      const queue = [
+        { speaker: 'N', label: 'Narator (Situasi)', text: q.context }
+      ];
+      q.dialogue.forEach(line => {
+        queue.push({
+          speaker: line.speaker,
+          label: line.speaker === 'F' ? '女の人 (Pembicara Cewek)' : '男の人 (Pembicara Cowok)',
+          text: line.text
+        });
+      });
+      queue.push({
+        speaker: 'N',
+        label: '質問 (Pertanyaan)',
+        text: `質問。${q.prompt}`
+      });
+
+      let step = 0;
+
+      const playNextSegment = () => {
+        if (speechCancelled || step >= queue.length) {
+          activeSpeakingCardIdx = null;
+          if (stopBtn) stopBtn.classList.add('hidden');
+          renderQuestionsPage();
+          return;
+        }
+
+        const seg = queue[step];
+        step++;
+
+        // Update indikator visual siapa yang sedang berbicara
+        const statusEl = document.getElementById(`speaker-status-${globalIdx}`);
+        const avF = document.getElementById(`avatar-f-${globalIdx}`);
+        const avM = document.getElementById(`avatar-m-${globalIdx}`);
+
+        if (statusEl) statusEl.textContent = `Berbicara: ${seg.label}`;
+        if (avF && avM) {
+          avF.classList.toggle('ring-4', seg.speaker === 'F');
+          avF.classList.toggle('ring-rose-300', seg.speaker === 'F');
+          avM.classList.toggle('ring-4', seg.speaker === 'M');
+          avM.classList.toggle('ring-sky-300', seg.speaker === 'M');
+        }
+
+        const utter = new SpeechSynthesisUtterance(seg.text);
+        utter.lang = 'ja-JP';
+        const voice = pickBestVoiceForGender(seg.speaker);
+        if (voice) utter.voice = voice;
+
+        if (seg.speaker === 'F') {
+          utter.pitch = 1.32; // Suara Cewek
+          utter.rate = baseSpeed;
+        } else if (seg.speaker === 'M') {
+          utter.pitch = 0.72; // Suara Cowok
+          utter.rate = baseSpeed * 0.96;
+        } else {
+          utter.pitch = 1.02; // Narator
+          utter.rate = baseSpeed * 0.95;
+        }
+
+        utter.onend = () => {
+          if (!speechCancelled) {
+            setTimeout(playNextSegment, 380);
+          }
+        };
+        utter.onerror = () => {
+          if (!speechCancelled) {
+            setTimeout(playNextSegment, 250);
+          }
+        };
+
+        window.speechSynthesis.speak(utter);
+      };
+
+      playNextSegment();
+    }
+
+    /********************************************************************************
+     * 10. EVALUASI SKOR AKHIR & MODAL PETA SOAL
+     ********************************************************************************/
+    function submitExamAndShowScore() {
+      stopAllSpeech();
+      isExamSubmitted = true;
+      if (timerInterval) clearInterval(timerInterval);
+
+      let correct = 0;
+      const total = currentQuestions.length;
+      currentQuestions.forEach((q, idx) => {
+        if (userAnswers[idx] === q.correctIdx) {
+          correct++;
+        }
+      });
+
+      const scorePercent = Math.round((correct / total) * 100);
+      const passed = scorePercent >= 60;
+
+      const banner = document.getElementById('exam-result-banner');
+      document.getElementById('res-mode-badge').textContent =
+        examMode === 'test' ? 'Hasil Akhir Mode Tes (1 Jam)' : 'Hasil Evaluasi Mode Latihan';
+      document.getElementById('res-score-title').textContent =
+        `Skor: ${scorePercent} / 100 (${passed ? 'LULUS / 合格 🎉' : 'BELUM LULUS / 不合格'})`;
+      document.getElementById('res-score-detail').textContent =
+        `Anda menjawab benar ${correct} dari ${total} soal (${activeSection.toUpperCase()}). Seluruh pembahasan dan transkrip Choukai di bawah telah dibuka.`;
+
+      banner.classList.remove('hidden');
+      renderQuestionsPage();
+      banner.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+
+    function openQuestionMapModal() {
+      const modal = document.getElementById('question-map-modal');
+      const grid = document.getElementById('question-map-grid');
+      if (!modal || !grid) return;
+
+      grid.innerHTML = currentQuestions.map((q, idx) => {
+        const picked = userAnswers[idx];
+        const showFeedback = (examMode === 'practice' && picked !== undefined) || isExamSubmitted;
+
+        let cls = "bg-slate-100 text-slate-700 hover:bg-slate-200";
+        if (showFeedback) {
+          cls = (picked === q.correctIdx)
+            ? "bg-emerald-600 text-white font-black"
+            : "bg-rose-600 text-white font-black";
+        } else if (picked !== undefined) {
+          cls = "bg-indigo-600 text-white font-black";
+        }
+
+        return `
+          <button onclick="jumpToQuestionNumber(${idx})"
+                  class="h-10 rounded-xl text-xs font-bold transition flex items-center justify-center ${cls}">
+            ${idx + 1}
+          </button>
+        `;
+      }).join('');
+
+      modal.classList.remove('hidden');
+    }
+
+    function closeQuestionMapModal() {
+      document.getElementById('question-map-modal')?.classList.add('hidden');
+    }
+
+    function jumpToQuestionNumber(globalIdx) {
+      closeQuestionMapModal();
+      const targetPage = Math.floor(globalIdx / itemsPerPage) + 1;
+      if (targetPage !== currentPage) {
+        currentPage = targetPage;
+        renderQuestionsPage();
+      }
+      setTimeout(() => {
+        const card = document.getElementById(`q-card-${globalIdx}`);
+        if (card) {
+          card.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }, 60);
+    }
+
+    /********************************************************************************
+     * 11. SMART AUTO-HIDE HEADER (HP & PC) & TOAST
+     ********************************************************************************/
+    let lastScrollY = window.scrollY;
+
+    function setHeaderHiddenState(hide) {
+      const header = document.getElementById('main-header');
+      const miniBar = document.getElementById('mini-floating-bar');
+      if (!header || !miniBar) return;
+
+      if (hide) {
+        header.classList.add('header-hidden');
+        miniBar.classList.remove('hidden');
+        miniBar.classList.add('flex');
+      } else {
+        header.classList.remove('header-hidden');
+        miniBar.classList.add('hidden');
+        miniBar.classList.remove('flex');
+      }
+    }
+
+    function manualHideHeader() {
+      setHeaderHiddenState(true);
+    }
+
+    function forceShowHeader() {
+      setHeaderHiddenState(false);
+    }
+
+    window.addEventListener('scroll', () => {
+      const currentY = window.scrollY;
+      if (currentY < 40) {
+        setHeaderHiddenState(false);
+        lastScrollY = currentY;
+        return;
+      }
+      if (currentY > lastScrollY + 14 && currentY > 75) {
+        setHeaderHiddenState(true);
+      } else if (currentY < lastScrollY - 25) {
+        setHeaderHiddenState(false);
+      }
+      lastScrollY = currentY;
+    }, { passive: true });
+
+    let toastTimeout = null;
+    function showToast(msg) {
+      const box = document.getElementById('toast-box');
+      const txt = document.getElementById('toast-message');
+      if (!box || !txt) return;
+      txt.textContent = msg;
+      box.classList.remove('hidden');
+      if (toastTimeout) clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => box.classList.add('hidden'), 3000);
+    }
+
+    // Inisialisasi saat halaman dimuat
+    window.addEventListener('DOMContentLoaded', () => {
+      prepareQuestions(false);
+    });
+  </script>
+</body>
+</html>
