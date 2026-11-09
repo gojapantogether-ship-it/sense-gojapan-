@@ -1,0 +1,2034 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nihongo Dai Ikka (第1課) - Materi Lengkap Bab 1, Kotoba, Bunpou, Kaiwa & Ujian</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Noto Sans JP, Noto Serif JP & Plus Jakarta Sans -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700;900&family=Noto+Serif+JP:wght@600;700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        crimson: {
+                            DEFAULT: '#BC002D',
+                            dark: '#8E0022',
+                            light: '#E6194B',
+                            soft: '#FFF0F3'
+                        },
+                        washi: {
+                            DEFAULT: '#FDFBF7',
+                            dark: '#F3EFE6',
+                            border: '#E5DEC9'
+                        },
+                        sumi: '#1E1E24',
+                        gold: '#D4AF37'
+                    },
+                    fontFamily: {
+                        sans: ['Plus Jakarta Sans', 'sans-serif'],
+                        jp: ['Noto Sans JP', 'sans-serif'],
+                        serifjp: ['Noto Serif JP', 'serif']
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            background-color: #FDFBF7;
+            color: #1E1E24;
+            overflow-x: hidden;
+            background-image: radial-gradient(#BC002D 0.45px, transparent 0.45px), radial-gradient(#D4AF37 0.45px, #FDFBF7 0.45px);
+            background-size: 36px 36px;
+            background-position: 0 0, 18px 18px;
+        }
+
+        /* Pola Gelombang Jepang (Seigaiha) */
+        .seigaiha-header {
+            background-color: #BC002D;
+            background-image: 
+                radial-gradient(circle at 100% 150%, #BC002D 24%, #9E0026 25%, #9E0026 28%, #BC002D 29%, #BC002D 36%, #9E0026 36%, #9E0026 40%, transparent 40%, transparent),
+                radial-gradient(circle at 0    150%, #BC002D 24%, #9E0026 25%, #9E0026 28%, #BC002D 29%, #BC002D 36%, #9E0026 36%, #9E0026 40%, transparent 40%, transparent),
+                radial-gradient(circle at 50%  100%, #9E0026 10%, #BC002D 11%, #BC0002D 23%, #9E0026 24%, #9E0026 30%, #BC002D 31%, #BC002D 43%, #9E0026 44%, #9E0026 50%, #BC002D 51%, #BC002D 63%, #9E0026 64%, #9E0026 71%, transparent 71%, transparent),
+                radial-gradient(circle at 100% 50%, #9E0026 5%, #BC002D 6%, #BC002D 15%, #9E0026 16%, #9E0026 20%, #BC002D 21%, #BC002D 30%, #9E0026 31%, #9E0026 35%, #BC002D 36%, #BC002D 45%, #9E0026 46%, #9E0026 49%, transparent 50%, transparent),
+                radial-gradient(circle at 0    50%, #9E0026 5%, #BC002D 6%, #BC002D 15%, #9E0026 16%, #9E0026 20%, #BC002D 21%, #BC002D 30%, #9E0026 31%, #9E0026 35%, #BC002D 36%, #BC002D 45%, #9E0026 46%, #9E0026 49%, transparent 50%, transparent);
+            background-size: 60px 30px;
+        }
+
+        /* Animasi Halaman */
+        .page-transition {
+            animation: fadeSlideUp 0.4s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+        }
+        @keyframes fadeSlideUp {
+            0% { opacity: 0; transform: translateY(14px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        /* Canvas Sakura */
+        #sakura-canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: 1;
+        }
+
+        /* Virtual Keyboard Button Effect */
+        .vk-btn {
+            transition: all 0.12s ease;
+        }
+        .vk-btn:active {
+            transform: scale(0.92);
+        }
+
+        /* Kaiwa Active Bubble Highlight */
+        .kaiwa-active {
+            border-color: #BC002D !important;
+            background-color: #FFF0F3 !important;
+            box-shadow: 0 10px 25px -5px rgba(188, 0, 45, 0.25) !important;
+            transform: scale(1.01);
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #FDFBF7; }
+        ::-webkit-scrollbar-thumb { background: #BC002D; border-radius: 9999px; }
+    </style>
+</head>
+<body class="min-h-screen flex flex-col relative selection:bg-crimson selection:text-white">
+
+    <!-- Canvas Animasi Kelopak Bunga Sakura -->
+    <canvas id="sakura-canvas"></canvas>
+
+    <!-- NAVBAR / HEADER ATAS DENGAN TOMBOL BACK -->
+    <header class="seigaiha-header text-white sticky top-0 z-50 shadow-lg border-b-4 border-gold">
+        <div class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between gap-3">
+            <!-- Kiri: Tombol Back & Logo -->
+            <div class="flex items-center gap-3">
+                <button id="btn-header-back" onclick="goBack()" class="hidden group flex items-center gap-2 bg-white text-crimson hover:bg-gold hover:text-sumi font-extrabold px-4 py-2 rounded-full shadow-md transition-all duration-300 transform hover:-translate-x-0.5 active:scale-95">
+                    <i class="fa-solid fa-arrow-left transition-transform group-hover:-translate-x-1"></i>
+                    <span>Kembali</span>
+                </button>
+
+                <div onclick="navigateTo('home')" class="flex items-center gap-3 cursor-pointer group">
+                    <div class="w-10 h-10 rounded-full bg-white flex items-center justify-center shadow-inner border-2 border-gold group-hover:scale-105 transition-transform">
+                        <div class="w-5 h-5 rounded-full bg-crimson"></div>
+                    </div>
+                    <div>
+                        <h1 class="font-serifjp font-bold text-base sm:text-xl tracking-wide flex items-center gap-2">
+                            日本語 第1課 <span class="text-[11px] bg-gold text-sumi font-sans font-extrabold px-2.5 py-0.5 rounded-full">BAB 1 LENGKAP</span>
+                        </h1>
+                        <p class="text-[11px] text-red-100 hidden sm:block">Kotoba • Bunpou Full Penjelasan • Kaiwa Interaktif • Kuis 10 Soal & Skor Nama</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Kanan: Navigasi Cepat Modul Bab 1 -->
+            <div class="flex items-center gap-2">
+                <nav class="hidden lg:flex items-center gap-1 bg-crimson-dark/80 p-1 rounded-full border border-white/20">
+                    <button onclick="navigateTo('home')" id="nav-btn-home" class="px-3 py-1.5 rounded-full text-xs font-bold transition-all bg-white text-crimson shadow">
+                        <i class="fa-solid fa-torii-gate mr-1"></i>Beranda
+                    </button>
+                    <button onclick="navigateTo('kotoba')" id="nav-btn-kotoba" class="px-3 py-1.5 rounded-full text-xs font-bold transition-all text-white hover:bg-white/15">
+                        <i class="fa-solid fa-book-open mr-1"></i>1. Kotoba
+                    </button>
+                    <button onclick="navigateTo('bunpou')" id="nav-btn-bunpou" class="px-3 py-1.5 rounded-full text-xs font-bold transition-all text-white hover:bg-white/15">
+                        <i class="fa-solid fa-scroll mr-1"></i>2. Bunpou Full
+                    </button>
+                    <button onclick="navigateTo('kaiwa')" id="nav-btn-kaiwa" class="px-3 py-1.5 rounded-full text-xs font-bold transition-all text-white hover:bg-white/15">
+                        <i class="fa-solid fa-comments mr-1"></i>3. Kaiwa
+                    </button>
+                    <button onclick="navigateTo('quiz')" id="nav-btn-quiz" class="px-3 py-1.5 rounded-full text-xs font-bold transition-all text-white hover:bg-white/15">
+                        <i class="fa-solid fa-pen-to-square mr-1"></i>4. Latihan (10 Soal)
+                    </button>
+                </nav>
+
+                <button onclick="navigateTo('quiz')" class="bg-gold hover:bg-amber-400 text-sumi font-extrabold px-3.5 py-2 rounded-full text-xs shadow flex items-center gap-1.5 transition-all">
+                    <i class="fa-solid fa-award"></i>
+                    <span id="header-user-score">Ujian Bab 1</span>
+                </button>
+            </div>
+        </div>
+
+        <!-- Sub-Navigasi Mobile -->
+        <div class="lg:hidden bg-crimson-dark/95 border-t border-white/15 px-3 py-2 flex items-center justify-between gap-1 overflow-x-auto">
+            <button onclick="navigateTo('home')" id="mob-nav-home" class="px-3 py-1 rounded-full text-[11px] font-extrabold whitespace-nowrap bg-white text-crimson">
+                Beranda
+            </button>
+            <button onclick="navigateTo('kotoba')" id="mob-nav-kotoba" class="px-3 py-1 rounded-full text-[11px] font-bold whitespace-nowrap text-white">
+                1. Kotoba
+            </button>
+            <button onclick="navigateTo('bunpou')" id="mob-nav-bunpou" class="px-3 py-1 rounded-full text-[11px] font-bold whitespace-nowrap text-white">
+                2. Bunpou
+            </button>
+            <button onclick="navigateTo('kaiwa')" id="mob-nav-kaiwa" class="px-3 py-1 rounded-full text-[11px] font-bold whitespace-nowrap text-white">
+                3. Kaiwa
+            </button>
+            <button onclick="navigateTo('quiz')" id="mob-nav-quiz" class="px-3 py-1 rounded-full text-[11px] font-bold whitespace-nowrap text-white">
+                4. Latihan (10)
+            </button>
+        </div>
+    </header>
+
+    <!-- KONTEN UTAMA -->
+    <main class="flex-grow max-w-6xl w-full mx-auto px-4 py-6 sm:py-8 relative z-10 pb-20">
+
+        <!-- =========================================================
+             VIEW 1: BERANDA BAB 1 (HOME DASHBOARD)
+             ========================================================= -->
+        <section id="view-home" class="page-transition space-y-8">
+            <!-- Hero Banner Merah Putih Bab 1 -->
+            <div class="relative bg-white rounded-3xl p-6 sm:p-10 shadow-xl border-2 border-crimson/20 overflow-hidden">
+                <div class="absolute -right-16 -top-16 w-72 h-72 bg-crimson/10 rounded-full pointer-events-none"></div>
+                <div class="absolute right-8 top-8 w-28 h-28 bg-crimson rounded-full opacity-95 hidden lg:flex flex-col items-center justify-center shadow-lg border-4 border-gold/40">
+                    <span class="font-jp text-white text-2xl font-black leading-none">第1課</span>
+                    <span class="font-jp text-gold text-xs font-bold mt-1">はじめまして</span>
+                </div>
+
+                <div class="relative z-10 max-w-3xl space-y-4">
+                    <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-crimson-soft text-crimson font-extrabold text-xs tracking-wider uppercase border border-crimson/20">
+                        <i class="fa-solid fa-torii-gate"></i> Kurikulum Standar Minna no Nihongo • Bab 1 (第1課)
+                    </div>
+                    <h2 class="text-2xl sm:text-4xl font-extrabold text-sumi leading-tight">
+                        Materi Lengkap <span class="text-crimson underline decoration-gold decoration-4 underline-offset-4">Bab 1: Perkenalan Diri (Jikoshoukai)</span>
+                    </h2>
+                    <p class="text-gray-600 text-sm sm:text-base leading-relaxed">
+                        Pelajari seluruh materi <strong>Bab 1 (Dai Ikka)</strong> mulai dari daftar <strong>Kotoba (Kosakata Lengkap)</strong> dengan suara, <strong>Bunpou (7 Pola Kalimat &amp; Penjelasan Mendalam)</strong>, simulasi dialog <strong>Kaiwa (Hajimemashite)</strong>, hingga <strong>Latihan 10 Soal Interaktif</strong> dengan input nama peserta dan sertifikat skor kelulusan!
+                    </p>
+
+                    <div class="flex flex-wrap gap-3 pt-2">
+                        <button onclick="navigateTo('kotoba')" class="bg-crimson hover:bg-crimson-dark text-white font-extrabold px-6 py-3.5 rounded-xl shadow-lg shadow-crimson/30 flex items-center gap-2.5 transition-all transform hover:-translate-y-0.5">
+                            <i class="fa-solid fa-book-open"></i>
+                            <span>1. Pelajari Kotoba (Kosakata)</span>
+                        </button>
+                        <button onclick="navigateTo('bunpou')" class="bg-sumi hover:bg-gray-800 text-white font-extrabold px-6 py-3.5 rounded-xl shadow-lg flex items-center gap-2.5 transition-all transform hover:-translate-y-0.5 border-2 border-gold/60">
+                            <i class="fa-solid fa-scroll text-gold"></i>
+                            <span>2. Materi Full Bunpou</span>
+                        </button>
+                        <button onclick="navigateTo('kaiwa')" class="bg-white hover:bg-crimson-soft text-crimson border-2 border-crimson font-extrabold px-5 py-3.5 rounded-xl flex items-center gap-2 transition-all">
+                            <i class="fa-solid fa-comments"></i>
+                            <span>3. Dialog Kaiwa</span>
+                        </button>
+                        <button onclick="navigateTo('quiz')" class="bg-gold hover:bg-amber-400 text-sumi font-extrabold px-5 py-3.5 rounded-xl shadow flex items-center gap-2 transition-all">
+                            <i class="fa-solid fa-pen-to-square"></i>
+                            <span>4. Mulai Latihan 10 Soal</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- 4 KARTU MODUL UTAMA BAB 1 -->
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <!-- Modul 1: Kotoba -->
+                <div onclick="navigateTo('kotoba')" class="cursor-pointer bg-white rounded-3xl p-6 sm:p-7 shadow-lg border-2 border-crimson/20 hover:border-crimson transition-all flex flex-col justify-between group relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-crimson text-white font-extrabold text-xs px-4 py-1.5 rounded-bl-2xl">
+                        MODUL 1 • ことば
+                    </div>
+                    <div class="space-y-3">
+                        <div class="w-14 h-14 rounded-2xl bg-crimson-soft text-crimson font-jp font-black text-2xl flex items-center justify-center group-hover:bg-crimson group-hover:text-white transition-colors">
+                            言葉
+                        </div>
+                        <h3 class="text-xl font-extrabold text-sumi">1. Kotoba (Kosakata Lengkap Bab 1)</h3>
+                        <p class="text-xs sm:text-sm text-gray-600 leading-relaxed">
+                            42+ Kosakata wajib Bab 1 terbagi dalam 5 kategori: Kata Ganti Orang, Profesi &amp; Status, Instansi &amp; Kata Tanya, Negara &amp; Kebangsaan (～じん), serta Ungkapan Salam Perkenalan. Lengkap dengan Furigana, Romaji, dan Audio.
+                        </p>
+                    </div>
+                    <div class="mt-5 pt-3 border-t border-gray-100 flex items-center justify-between text-xs font-extrabold text-crimson">
+                        <span>5 Kategori • Audio Pengucapan</span>
+                        <span class="group-hover:translate-x-1 transition-transform">Buka Kotoba <i class="fa-solid fa-arrow-right ml-1"></i></span>
+                    </div>
+                </div>
+
+                <!-- Modul 2: Bunpou -->
+                <div onclick="navigateTo('bunpou')" class="cursor-pointer bg-white rounded-3xl p-6 sm:p-7 shadow-lg border-2 border-gold/60 hover:border-crimson transition-all flex flex-col justify-between group relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-gold text-sumi font-extrabold text-xs px-4 py-1.5 rounded-bl-2xl">
+                        MODUL 2 • 文法
+                    </div>
+                    <div class="space-y-3">
+                        <div class="w-14 h-14 rounded-2xl bg-amber-100 text-amber-900 font-jp font-black text-2xl flex items-center justify-center group-hover:bg-crimson group-hover:text-white transition-colors">
+                            文法
+                        </div>
+                        <h3 class="text-xl font-extrabold text-sumi">2. Materi Full Penjelasan Tata Bahasa (Bunpou)</h3>
+                        <p class="text-xs sm:text-sm text-gray-600 leading-relaxed">
+                            Kupas tuntas 7 Pola Kalimat Bab 1: <code>KB1 は KB2 です</code>, kalimat negatif <code>じゃありません</code>, kalimat tanya <code>ですか</code>, partikel <code>も</code> (juga), partikel <code>の</code> (kepemilikan/afiliasi), aturan <code>～さん</code>, serta tabel umur spesial (<code>～さい / おいくつ</code>).
+                        </p>
+                    </div>
+                    <div class="mt-5 pt-3 border-t border-gray-100 flex items-center justify-between text-xs font-extrabold text-amber-800">
+                        <span>7 Pola Kalimat + Tabel Usia 1–20</span>
+                        <span class="group-hover:translate-x-1 transition-transform">Buka Materi Bunpou <i class="fa-solid fa-arrow-right ml-1"></i></span>
+                    </div>
+                </div>
+
+                <!-- Modul 3: Kaiwa -->
+                <div onclick="navigateTo('kaiwa')" class="cursor-pointer bg-white rounded-3xl p-6 sm:p-7 shadow-lg border-2 border-crimson/20 hover:border-crimson transition-all flex flex-col justify-between group relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-sumi text-gold font-extrabold text-xs px-4 py-1.5 rounded-bl-2xl">
+                        MODUL 3 • 会話
+                    </div>
+                    <div class="space-y-3">
+                        <div class="w-14 h-14 rounded-2xl bg-crimson-soft text-crimson font-jp font-black text-2xl flex items-center justify-center group-hover:bg-crimson group-hover:text-white transition-colors">
+                            会話
+                        </div>
+                        <h3 class="text-xl font-extrabold text-sumi">3. Kaiwa Interaktif (Percakapan Bab 1)</h3>
+                        <p class="text-xs sm:text-sm text-gray-600 leading-relaxed">
+                            Simulasi percakapan resmi <strong>"Hajimemashite (はじめまして)"</strong> antara Miller, Sato, dan Yamada, ditambah dialog perkenalan pelajar Indonesia di Jepang. Dilengkapi fitur <em>Play All Audio</em> dan <em>Mode Latihan Roleplay</em>!
+                        </p>
+                    </div>
+                    <div class="mt-5 pt-3 border-t border-gray-100 flex items-center justify-between text-xs font-extrabold text-crimson">
+                        <span>2 Skenario Dialog • Auto-Highlight Audio</span>
+                        <span class="group-hover:translate-x-1 transition-transform">Mulai Kaiwa <i class="fa-solid fa-arrow-right ml-1"></i></span>
+                    </div>
+                </div>
+
+                <!-- Modul 4: Latihan Soal 10 Nomor -->
+                <div onclick="navigateTo('quiz')" class="cursor-pointer bg-white rounded-3xl p-6 sm:p-7 shadow-lg border-2 border-emerald-500/40 hover:border-emerald-600 transition-all flex flex-col justify-between group relative overflow-hidden">
+                    <div class="absolute top-0 right-0 bg-emerald-600 text-white font-extrabold text-xs px-4 py-1.5 rounded-bl-2xl">
+                        MODUL 4 • 練習問題
+                    </div>
+                    <div class="space-y-3">
+                        <div class="w-14 h-14 rounded-2xl bg-emerald-100 text-emerald-800 font-jp font-black text-2xl flex items-center justify-center group-hover:bg-emerald-600 group-hover:text-white transition-colors">
+                            試験
+                        </div>
+                        <h3 class="text-xl font-extrabold text-sumi">4. Latihan Soal (10 Soal + Input Nama &amp; Skor)</h3>
+                        <p class="text-xs sm:text-sm text-gray-600 leading-relaxed">
+                            Masukkan nama Anda, kerjakan 10 soal evaluasi Bab 1 (pilihan ganda &amp; pengisian partikel/kotoba), lalu dapatkan <strong>Kartu Rapor Skor Akhir (0–100)</strong> atas nama Anda lengkap dengan pembahasan per nomor!
+                        </p>
+                    </div>
+                    <div class="mt-5 pt-3 border-t border-gray-100 flex items-center justify-between text-xs font-extrabold text-emerald-700">
+                        <span id="home-quiz-status">Belum Dikerjakan • Skor Maks 100</span>
+                        <span class="group-hover:translate-x-1 transition-transform">Mulai Ujian <i class="fa-solid fa-arrow-right ml-1"></i></span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- RINGKASAN INTISARI BAB 1 -->
+            <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-md border border-washi-border space-y-4">
+                <h3 class="text-lg sm:text-xl font-extrabold text-sumi flex items-center gap-2">
+                    <i class="fa-solid fa-lightbulb text-crimson"></i> Ringkasan Cepat Target Kemampuan Bab 1 (第1課の目標)
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs sm:text-sm text-gray-700">
+                    <div class="bg-washi-dark p-4 rounded-2xl border border-washi-border space-y-1">
+                        <div class="font-extrabold text-crimson">1. Memperkenalkan Diri Sendiri</div>
+                        <p class="font-jp font-bold text-sumi">わたし は ミラー です。</p>
+                        <p class="text-xs text-gray-500">Menyebutkan nama, negara asal (～から きました), dan pekerjaan/status.</p>
+                    </div>
+                    <div class="bg-washi-dark p-4 rounded-2xl border border-washi-border space-y-1">
+                        <div class="font-extrabold text-crimson">2. Bertanya &amp; Menyangkal Informasi</div>
+                        <p class="font-jp font-bold text-sumi">ミラーさん は がくせい ですか。</p>
+                        <p class="text-xs text-gray-500">Bertanya dengan ですか dan menjawab positif (はい) atau negatif (いいえ、～じゃありません).</p>
+                    </div>
+                    <div class="bg-washi-dark p-4 rounded-2xl border border-washi-border space-y-1">
+                        <div class="font-extrabold text-crimson">3. Memperkenalkan Orang Lain</div>
+                        <p class="font-jp font-bold text-sumi">こちら は ミラーさん です。</p>
+                        <p class="text-xs text-gray-500">Menanyakan nama dengan sopan (おなまえは？ / どなたですか) dan menyebutkan instansi (IMC の しゃいん).</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================================
+             VIEW 2: MODUL 1 - KOTOBA (KOSAKATA LENGKAP BAB 1)
+             ========================================================= -->
+        <section id="view-kotoba" class="hidden page-transition space-y-6">
+            <!-- Header Modul + Tombol Back -->
+            <div class="bg-white rounded-2xl p-4 sm:p-5 shadow-md border-l-8 border-crimson flex flex-wrap items-center justify-between gap-4">
+                <div class="flex items-center gap-3">
+                    <button onclick="goBack()" class="flex items-center gap-2 bg-crimson hover:bg-crimson-dark text-white font-bold px-4 py-2.5 rounded-xl shadow transition-all active:scale-95">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        <span>Kembali</span>
+                    </button>
+                    <div>
+                        <span class="text-xs font-extrabold uppercase tracking-wider text-crimson bg-crimson-soft px-2.5 py-0.5 rounded-full">MODUL 1 • ことば (KOTOBA)</span>
+                        <h2 class="text-lg sm:text-2xl font-extrabold text-sumi mt-0.5">Daftar Lengkap Kosakata Bab 1 (第1課のことば)</h2>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button onclick="toggleKotobaRomaji()" id="btn-toggle-kotoba-romaji" class="px-3.5 py-2 rounded-xl text-xs font-extrabold border-2 border-crimson bg-crimson text-white shadow-sm transition-all">
+                        <i class="fa-solid fa-eye mr-1"></i> Romaji: ON
+                    </button>
+                    <button onclick="navigateTo('bunpou')" class="bg-sumi hover:bg-gray-800 text-white font-extrabold px-4 py-2 rounded-xl text-xs shadow flex items-center gap-1.5 transition-all">
+                        <span>Lanjut ke Bunpou</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+
+            <!-- Filter Kategori & Pencarian Kotoba -->
+            <div class="bg-white rounded-2xl p-4 shadow-md border border-washi-border space-y-3">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                    <!-- Filter Kategori -->
+                    <div class="flex flex-wrap items-center gap-1.5" id="kotoba-category-tabs">
+                        <button onclick="setKotobaCategory('all')" data-cat="all" class="kotoba-cat-btn px-3 py-1.5 rounded-xl text-xs font-extrabold bg-crimson text-white shadow">
+                            Semua (42)
+                        </button>
+                        <button onclick="setKotobaCategory('pronoun')" data-cat="pronoun" class="kotoba-cat-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-washi-dark text-sumi hover:bg-crimson-soft">
+                            Kata Ganti &amp; Akhiran
+                        </button>
+                        <button onclick="setKotobaCategory('job')" data-cat="job" class="kotoba-cat-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-washi-dark text-sumi hover:bg-crimson-soft">
+                            Profesi &amp; Status
+                        </button>
+                        <button onclick="setKotobaCategory('place')" data-cat="place" class="kotoba-cat-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-washi-dark text-sumi hover:bg-crimson-soft">
+                            Tempat, Usia &amp; Tanya
+                        </button>
+                        <button onclick="setKotobaCategory('country')" data-cat="country" class="kotoba-cat-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-washi-dark text-sumi hover:bg-crimson-soft">
+                            Negara &amp; Kebangsaan
+                        </button>
+                        <button onclick="setKotobaCategory('phrase')" data-cat="phrase" class="kotoba-cat-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-washi-dark text-sumi hover:bg-crimson-soft">
+                            Salam &amp; Perkenalan
+                        </button>
+                    </div>
+
+                    <!-- Kotak Pencarian -->
+                    <div class="relative w-full sm:w-64">
+                        <i class="fa-solid fa-magnifying-glass absolute left-3.5 top-1/2 -translate-y-1/2 text-gray-400 text-xs"></i>
+                        <input
+                            type="text"
+                            id="kotoba-search-input"
+                            oninput="renderKotobaGrid()"
+                            placeholder="Cari Jepang / Romaji / Arti..."
+                            class="w-full pl-9 pr-3 py-2 rounded-xl border border-washi-border bg-washi focus:bg-white focus:border-crimson focus:outline-none text-xs font-medium"
+                        />
+                    </div>
+                </div>
+            </div>
+
+            <!-- Grid Kartu Kotoba -->
+            <div id="kotoba-cards-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
+                <!-- Diisi oleh JavaScript -->
+            </div>
+
+            <!-- Footer Navigasi Modul Kotoba -->
+            <div class="bg-white rounded-2xl p-5 shadow-md border border-washi-border flex flex-wrap items-center justify-between gap-4">
+                <button onclick="goBack()" class="flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-sumi font-extrabold px-5 py-3 rounded-xl transition-all">
+                    <i class="fa-solid fa-arrow-left"></i> Kembali
+                </button>
+                <button onclick="navigateTo('bunpou')" class="bg-crimson hover:bg-crimson-dark text-white font-extrabold px-6 py-3 rounded-xl shadow-lg flex items-center gap-2 transition-all">
+                    <span>Lanjut ke Modul 2: Materi Full Bunpou</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- =========================================================
+             VIEW 3: MODUL 2 - BUNPOU (MATERI FULL PENJELASAN TATA BAHASA)
+             ========================================================= -->
+        <section id="view-bunpou" class="hidden page-transition space-y-6">
+            <!-- Header Modul + Tombol Back -->
+            <div class="bg-white rounded-2xl p-4 sm:p-5 shadow-md border-l-8 border-gold flex flex-wrap items-center justify-between gap-4">
+                <div class="flex items-center gap-3">
+                    <button onclick="goBack()" class="flex items-center gap-2 bg-crimson hover:bg-crimson-dark text-white font-bold px-4 py-2.5 rounded-xl shadow transition-all active:scale-95">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        <span>Kembali</span>
+                    </button>
+                    <div>
+                        <span class="text-xs font-extrabold uppercase tracking-wider text-amber-900 bg-amber-100 px-2.5 py-0.5 rounded-full">MODUL 2 • 文法解説 (BUNPOU FULL)</span>
+                        <h2 class="text-lg sm:text-2xl font-extrabold text-sumi mt-0.5">Penjelasan Lengkap Tata Bahasa Bab 1 (7 Pola Utama)</h2>
+                    </div>
+                </div>
+                <button onclick="navigateTo('kaiwa')" class="bg-crimson hover:bg-crimson-dark text-white font-extrabold px-4 py-2.5 rounded-xl text-xs shadow flex items-center gap-1.5 transition-all">
+                    <span>Lanjut ke Kaiwa</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+
+            <!-- Navigasi Lompat Cepat Antar Pola Bunpou -->
+            <div class="bg-white rounded-2xl p-4 shadow-md border border-washi-border flex flex-wrap items-center gap-2">
+                <span class="text-xs font-extrabold text-gray-500 mr-1"><i class="fa-solid fa-list-ol text-crimson mr-1"></i>Pilih Pola:</span>
+                <a href="#pola-1" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-washi-dark hover:bg-crimson hover:text-white transition-colors">1. KB1 は KB2 です</a>
+                <a href="#pola-2" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-washi-dark hover:bg-crimson hover:text-white transition-colors">2. ～じゃ ありません</a>
+                <a href="#pola-3" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-washi-dark hover:bg-crimson hover:text-white transition-colors">3. ～ですか (Tanya)</a>
+                <a href="#pola-4" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-washi-dark hover:bg-crimson hover:text-white transition-colors">4. Partikel も (Juga)</a>
+                <a href="#pola-5" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-washi-dark hover:bg-crimson hover:text-white transition-colors">5. KB1 の KB2</a>
+                <a href="#pola-6" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-washi-dark hover:bg-crimson hover:text-white transition-colors">6. Aturan ～さん</a>
+                <a href="#pola-7" class="px-3 py-1.5 rounded-xl text-xs font-bold bg-washi-dark hover:bg-crimson hover:text-white transition-colors">7. Usia (～さい / おいくつ)</a>
+            </div>
+
+            <!-- Daftar 7 Pola Kalimat Lengkap -->
+            <div id="bunpou-container" class="space-y-6">
+                <!-- Diisi oleh JavaScript -->
+            </div>
+
+            <!-- Tabel Khusus Cara Menyebutkan Umur (1 - 20 Tahun) -->
+            <div id="pola-7-table" class="bg-white rounded-3xl p-6 sm:p-8 shadow-lg border-2 border-gold space-y-4">
+                <div class="flex flex-wrap items-center justify-between gap-2 border-b border-gray-100 pb-3">
+                    <div>
+                        <span class="text-xs font-extrabold uppercase text-crimson bg-crimson-soft px-3 py-1 rounded-full">TABEL REFERENSI WAJIB BAB 1</span>
+                        <h3 class="text-xl font-extrabold text-sumi mt-1">Cara Menyebutkan Usia / Umur (～さい / ～歳) &amp; Pengecualian Bunyi</h3>
+                    </div>
+                    <p class="text-xs text-gray-500">Klik kartu umur untuk mendengar pengucapannya! Perhatikan umur <strong>1, 8, 10, dan 20 tahun</strong> yang berwarna merah.</p>
+                </div>
+                <div id="age-counter-grid" class="grid grid-cols-2 sm:grid-cols-4 md:grid-cols-5 gap-3">
+                    <!-- Diisi oleh JavaScript -->
+                </div>
+            </div>
+
+            <!-- Footer Navigasi Modul Bunpou -->
+            <div class="bg-white rounded-2xl p-5 shadow-md border border-washi-border flex flex-wrap items-center justify-between gap-4">
+                <button onclick="goBack()" class="flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-sumi font-extrabold px-5 py-3 rounded-xl transition-all">
+                    <i class="fa-solid fa-arrow-left"></i> Kembali
+                </button>
+                <div class="flex flex-wrap gap-3">
+                    <button onclick="navigateTo('kotoba')" class="bg-washi-dark hover:bg-gray-200 text-sumi font-bold px-5 py-3 rounded-xl text-xs sm:text-sm">
+                        <i class="fa-solid fa-book-open mr-1"></i> Ke Kotoba
+                    </button>
+                    <button onclick="navigateTo('kaiwa')" class="bg-crimson hover:bg-crimson-dark text-white font-extrabold px-6 py-3 rounded-xl shadow-lg flex items-center gap-2 transition-all">
+                        <span>Lanjut ke Modul 3: Dialog Kaiwa</span>
+                        <i class="fa-solid fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- =========================================================
+             VIEW 4: MODUL 3 - KAIWA (PERCAKAPAN INTERAKTIF BAB 1)
+             ========================================================= -->
+        <section id="view-kaiwa" class="hidden page-transition space-y-6">
+            <!-- Header Modul + Tombol Back -->
+            <div class="bg-white rounded-2xl p-4 sm:p-5 shadow-md border-l-8 border-crimson flex flex-wrap items-center justify-between gap-4">
+                <div class="flex items-center gap-3">
+                    <button onclick="goBack()" class="flex items-center gap-2 bg-crimson hover:bg-crimson-dark text-white font-bold px-4 py-2.5 rounded-xl shadow transition-all active:scale-95">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        <span>Kembali</span>
+                    </button>
+                    <div>
+                        <span class="text-xs font-extrabold uppercase tracking-wider text-crimson bg-crimson-soft px-2.5 py-0.5 rounded-full">MODUL 3 • 会話 (KAIWA INTERAKTIF)</span>
+                        <h2 class="text-lg sm:text-2xl font-extrabold text-sumi mt-0.5">Percakapan Bab 1: "Hajimemashite" (はじめまして)</h2>
+                    </div>
+                </div>
+                <button onclick="navigateTo('quiz')" class="bg-gold hover:bg-amber-400 text-sumi font-extrabold px-4 py-2.5 rounded-xl text-xs shadow flex items-center gap-1.5 transition-all">
+                    <span>Lanjut ke Latihan 10 Soal</span>
+                    <i class="fa-solid fa-arrow-right"></i>
+                </button>
+            </div>
+
+            <!-- Control Bar Skenario Kaiwa, Play All & Roleplay -->
+            <div class="bg-white rounded-2xl p-4 shadow-md border border-washi-border flex flex-wrap items-center justify-between gap-3">
+                <!-- Pemilih Skenario -->
+                <div class="flex flex-wrap items-center gap-2">
+                    <button onclick="switchKaiwaScenario(0)" id="btn-scenario-0" class="px-4 py-2 rounded-xl text-xs font-extrabold bg-crimson text-white shadow">
+                        <i class="fa-solid fa-briefcase mr-1"></i> Dialog 1: Hajimemashite (Miller, Sato &amp; Yamada)
+                    </button>
+                    <button onclick="switchKaiwaScenario(1)" id="btn-scenario-1" class="px-4 py-2 rounded-xl text-xs font-bold bg-washi-dark text-sumi hover:bg-crimson-soft">
+                        <i class="fa-solid fa-user-graduate mr-1"></i> Dialog 2: Perkenalan Pelajar Indonesia di Kampus Jepang
+                    </button>
+                </div>
+
+                <!-- Kontrol Audio & Tampilan -->
+                <div class="flex flex-wrap items-center gap-2">
+                    <button onclick="playAllKaiwa()" id="btn-play-all-kaiwa" class="bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold px-4 py-2 rounded-xl text-xs shadow flex items-center gap-1.5 transition-all">
+                        <i class="fa-solid fa-circle-play"></i>
+                        <span>Putar Semua Dialog</span>
+                    </button>
+                    <button onclick="toggleKaiwaRomaji()" id="btn-kaiwa-romaji" class="px-3 py-2 rounded-xl text-xs font-bold border border-washi-border bg-washi-dark text-sumi">
+                        Romaji: ON
+                    </button>
+                    <button onclick="toggleKaiwaTrans()" id="btn-kaiwa-trans" class="px-3 py-2 rounded-xl text-xs font-bold border border-washi-border bg-washi-dark text-sumi">
+                        Arti: ON
+                    </button>
+                </div>
+            </div>
+
+            <!-- Bar Mode Latihan Roleplay -->
+            <div class="bg-amber-50 border-2 border-gold rounded-2xl p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+                <div class="space-y-0.5">
+                    <div class="text-xs sm:text-sm font-extrabold text-amber-950 flex items-center gap-2">
+                        <i class="fa-solid fa-masks-theater text-crimson"></i> Mode Latihan Bermain Peran (Roleplay Mode)
+                    </div>
+                    <p class="text-xs text-amber-900">
+                        Pilih salah satu tokoh di kanan untuk menyembunyikan teks dialognya dan cobalah ucapkan sendiri bagian tokoh tersebut!
+                    </p>
+                </div>
+                <div id="kaiwa-roleplay-buttons" class="flex flex-wrap items-center gap-1.5">
+                    <!-- Diisi oleh JavaScript -->
+                </div>
+            </div>
+
+            <!-- Area Percakapan Kaiwa -->
+            <div class="bg-white rounded-3xl p-5 sm:p-8 shadow-lg border border-washi-border space-y-5">
+                <div id="kaiwa-header-info" class="border-b border-gray-100 pb-4">
+                    <!-- Info konteks percakapan -->
+                </div>
+
+                <div id="kaiwa-lines-container" class="space-y-4">
+                    <!-- Balon-balon percakapan -->
+                </div>
+            </div>
+
+            <!-- Bedah Ungkapan Penting Kaiwa Bab 1 -->
+            <div class="bg-white rounded-3xl p-6 sm:p-8 shadow-md border border-washi-border space-y-4">
+                <h3 class="text-lg font-extrabold text-sumi flex items-center gap-2">
+                    <i class="fa-solid fa-star text-gold"></i> Bedah Etika &amp; Ungkapan Kunci dalam Kaiwa Bab 1
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 text-xs sm:text-sm">
+                    <div class="p-4 rounded-2xl bg-washi-dark border border-washi-border space-y-1.5">
+                        <div class="font-jp font-black text-crimson text-base">1. はじめまして (Hajimemashite)</div>
+                        <p class="text-gray-600">Diucapkan <strong>hanya pada saat pertama kali bertemu</strong> dengan seseorang sebagai pembuka perkenalan diri.</p>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-washi-dark border border-washi-border space-y-1.5">
+                        <div class="font-jp font-black text-crimson text-base">2. こちらは ～さんです (Kochira wa ~san desu)</div>
+                        <p class="text-gray-600">Digunakan ketika <strong>memperkenalkan orang ketiga</strong> kepada lawan bicara secara sopan ("Ini adalah Saudara/Bapak/Ibu...").</p>
+                    </div>
+                    <div class="p-4 rounded-2xl bg-washi-dark border border-washi-border space-y-1.5">
+                        <div class="font-jp font-black text-crimson text-base">3. どうぞ よろしく おねがいします</div>
+                        <p class="text-gray-600">Diucapkan di akhir perkenalan untuk memohon hubungan baik ("Senang berkenalan dengan Anda / Mohon bimbingannya") sambil membungkuk (<em>ojigi</em>).</p>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Footer Navigasi Modul Kaiwa -->
+            <div class="bg-white rounded-2xl p-5 shadow-md border border-washi-border flex flex-wrap items-center justify-between gap-4">
+                <button onclick="goBack()" class="flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-sumi font-extrabold px-5 py-3 rounded-xl transition-all">
+                    <i class="fa-solid fa-arrow-left"></i> Kembali
+                </button>
+                <button onclick="navigateTo('quiz')" class="bg-gold hover:bg-amber-400 text-sumi font-extrabold px-6 py-3 rounded-xl shadow-lg flex items-center gap-2 transition-all">
+                    <span>Lanjut ke Modul 4: Latihan 10 Soal &amp; Skor</span>
+                    <i class="fa-solid fa-award"></i>
+                </button>
+            </div>
+        </section>
+
+        <!-- =========================================================
+             VIEW 5: MODUL 4 - LATIHAN SOAL 10 NOMOR + INPUT NAMA & SKOR
+             ========================================================= -->
+        <section id="view-quiz" class="hidden page-transition space-y-6">
+            <!-- Header Modul + Tombol Back -->
+            <div class="bg-white rounded-2xl p-4 sm:p-5 shadow-md border-l-8 border-emerald-600 flex flex-wrap items-center justify-between gap-4">
+                <div class="flex items-center gap-3">
+                    <button onclick="goBack()" class="flex items-center gap-2 bg-crimson hover:bg-crimson-dark text-white font-bold px-4 py-2.5 rounded-xl shadow transition-all active:scale-95">
+                        <i class="fa-solid fa-arrow-left"></i>
+                        <span>Kembali</span>
+                    </button>
+                    <div>
+                        <span class="text-xs font-extrabold uppercase tracking-wider text-emerald-800 bg-emerald-100 px-2.5 py-0.5 rounded-full">MODUL 4 • 第1課のテスト (EVALUASI BAB 1)</span>
+                        <h2 class="text-lg sm:text-2xl font-extrabold text-sumi mt-0.5">Latihan Evaluasi Bab 1 (10 Soal Interaktif &amp; Sertifikat Skor)</h2>
+                    </div>
+                </div>
+                <div class="flex items-center gap-2">
+                    <button onclick="toggleQuizRomaji()" id="btn-quiz-romaji" class="px-3.5 py-2 rounded-xl text-xs font-extrabold border-2 border-crimson bg-white text-crimson hover:bg-crimson hover:text-white transition-all">
+                        Bantuan Romaji: ON
+                    </button>
+                </div>
+            </div>
+
+            <!-- KARTU IDENTITAS PESERTA UJIAN (INPUT NAMA USER WAJIB) -->
+            <div id="quiz-user-card" class="bg-white rounded-3xl p-6 sm:p-8 shadow-lg border-2 border-crimson/30 space-y-4">
+                <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+                    <div class="space-y-1">
+                        <span class="text-xs font-extrabold uppercase text-crimson bg-crimson-soft px-3 py-1 rounded-full">
+                            <i class="fa-solid fa-id-card mr-1"></i> Identitas Peserta Evaluasi Bab 1
+                        </span>
+                        <h3 class="text-xl font-extrabold text-sumi">Masukkan Nama Anda Sebelum Mengumpulkan Jawaban</h3>
+                        <p class="text-xs sm:text-sm text-gray-600">
+                            Nama Anda akan dicetak pada <strong>Kartu Rapor &amp; Sertifikat Hasil Evaluasi Bab 1</strong> beserta skor akhir (0–100).
+                        </p>
+                    </div>
+                    <div class="bg-washi-dark px-4 py-3 rounded-2xl border border-washi-border text-right shrink-0">
+                        <div class="text-[11px] font-bold text-gray-500 uppercase">Status Pengerjaan</div>
+                        <div id="quiz-answered-counter" class="text-lg font-black text-crimson">0 / 10 Soal Terjawab</div>
+                    </div>
+                </div>
+
+                <div class="grid grid-cols-1 sm:grid-cols-3 gap-4 pt-2">
+                    <div class="sm:col-span-2">
+                        <label for="input-user-name" class="block text-xs font-extrabold text-sumi uppercase mb-1.5">
+                            Nama Lengkap Peserta <span class="text-crimson">*</span>
+                        </label>
+                        <div class="relative">
+                            <i class="fa-solid fa-user-pen absolute left-4 top-1/2 -translate-y-1/2 text-crimson"></i>
+                            <input
+                                type="text"
+                                id="input-user-name"
+                                oninput="handleUserNameChange(this.value)"
+                                placeholder="Contoh: Budi Santoso / Aisyah Putri..."
+                                class="w-full pl-11 pr-4 py-3.5 rounded-2xl border-2 border-washi-border bg-washi focus:bg-white focus:border-crimson focus:outline-none font-extrabold text-sumi text-sm sm:text-base shadow-inner"
+                            />
+                        </div>
+                        <p id="name-warning-msg" class="hidden text-xs font-bold text-crimson mt-1.5">
+                            <i class="fa-solid fa-circle-exclamation mr-1"></i> Mohon isi nama Anda terlebih dahulu agar skor dapat ditampilkan!
+                        </p>
+                    </div>
+
+                    <div>
+                        <label for="input-user-class" class="block text-xs font-extrabold text-sumi uppercase mb-1.5">
+                            Kelas / Instansi (Opsional)
+                        </label>
+                        <input
+                            type="text"
+                            id="input-user-class"
+                            oninput="handleUserClassChange(this.value)"
+                            placeholder="Contoh: Kelas JLPT N5 - A"
+                            class="w-full px-4 py-3.5 rounded-2xl border-2 border-washi-border bg-washi focus:bg-white focus:border-crimson focus:outline-none font-bold text-sumi text-sm sm:text-base shadow-inner"
+                        />
+                    </div>
+                </div>
+            </div>
+
+            <!-- KARTU HASIL SKOR & SERTIFIKAT (MUNCUL SETELAH SUBMIT) -->
+            <div id="quiz-result-banner" class="hidden bg-white rounded-3xl p-6 sm:p-10 shadow-2xl border-4 border-gold relative overflow-hidden space-y-6">
+                <div class="absolute -right-12 -top-12 w-48 h-48 bg-crimson/5 rounded-full pointer-events-none"></div>
+
+                <div class="text-center space-y-2 relative z-10">
+                    <div class="w-16 h-16 rounded-full bg-crimson text-gold border-4 border-gold mx-auto flex items-center justify-center text-2xl shadow-lg">
+                        <i class="fa-solid fa-trophy"></i>
+                    </div>
+                    <span class="text-xs font-extrabold uppercase tracking-widest text-crimson bg-crimson-soft px-3.5 py-1 rounded-full">
+                        成績証明書 • Sertifikat Hasil Evaluasi Bab 1 (第1課)
+                    </span>
+                    <h3 class="text-2xl sm:text-3xl font-black text-sumi font-serifjp">Rapor Kelulusan Materi Bab 1</h3>
+                </div>
+
+                <!-- Kotak Nama & Skor Peserta -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4 bg-washi-dark p-6 rounded-2xl border-2 border-washi-border items-center">
+                    <div class="space-y-1 text-center md:text-left">
+                        <div class="text-xs font-bold text-gray-500 uppercase">Nama Peserta</div>
+                        <div id="result-user-name" class="text-xl sm:text-2xl font-black text-sumi">-</div>
+                        <div id="result-user-class" class="text-xs font-extrabold text-crimson">Peserta Nihongo Dai Ikka</div>
+                    </div>
+
+                    <div class="text-center border-y md:border-y-0 md:border-x border-washi-border py-4 md:py-0">
+                        <div class="text-xs font-bold text-gray-500 uppercase">Skor Akhir Anda</div>
+                        <div id="result-score-number" class="text-5xl sm:text-6xl font-black text-crimson leading-none my-1">100</div>
+                        <div id="result-correct-detail" class="text-xs font-extrabold text-emerald-700">Benar 10 dari 10 Soal</div>
+                    </div>
+
+                    <div class="text-center md:text-right space-y-1.5">
+                        <div class="text-xs font-bold text-gray-500 uppercase">Predikat Evaluasi</div>
+                        <div id="result-grade-badge" class="inline-block bg-gold text-sumi font-black text-sm px-4 py-1.5 rounded-full shadow">
+                            S • Sangat Memuaskan (優秀)
+                        </div>
+                        <p id="result-feedback-msg" class="text-xs text-gray-600"></p>
+                    </div>
+                </div>
+
+                <div class="flex flex-wrap items-center justify-center gap-3 pt-2">
+                    <button onclick="resetQuiz()" class="bg-crimson hover:bg-crimson-dark text-white font-extrabold px-6 py-3 rounded-xl shadow flex items-center gap-2 transition-all">
+                        <i class="fa-solid fa-rotate-right"></i> Kerjakan Ulang Latihan
+                    </button>
+                    <button onclick="navigateTo('home')" class="bg-sumi hover:bg-gray-800 text-white font-extrabold px-6 py-3 rounded-xl shadow flex items-center gap-2 transition-all">
+                        <i class="fa-solid fa-house"></i> Kembali ke Menu Utama
+                    </button>
+                </div>
+            </div>
+
+            <!-- DAFTAR 10 SOAL EVALUASI BAB 1 -->
+            <div id="quiz-questions-list" class="space-y-5">
+                <!-- Diisi oleh JavaScript -->
+            </div>
+
+            <!-- TOMBOL SUBMIT & AKSI BAWAH -->
+            <div class="bg-white rounded-3xl p-6 shadow-lg border-2 border-crimson/20 flex flex-wrap items-center justify-between gap-4">
+                <button onclick="goBack()" class="flex items-center gap-2 bg-gray-100 hover:bg-gray-200 text-sumi font-extrabold px-5 py-3.5 rounded-xl transition-all">
+                    <i class="fa-solid fa-arrow-left"></i> Kembali
+                </button>
+
+                <div class="flex flex-wrap items-center gap-3">
+                    <button onclick="resetQuiz()" class="bg-washi-dark hover:bg-red-100 text-gray-700 hover:text-crimson font-bold px-5 py-3.5 rounded-xl text-xs sm:text-sm transition-all">
+                        <i class="fa-solid fa-eraser mr-1"></i> Reset Jawaban
+                    </button>
+                    <button onclick="submitQuiz()" class="bg-crimson hover:bg-crimson-dark text-white font-extrabold px-8 py-4 rounded-2xl shadow-xl shadow-crimson/30 text-sm sm:text-base flex items-center gap-2.5 transition-all transform hover:-translate-y-0.5 active:scale-95">
+                        <i class="fa-solid fa-paper-plane"></i>
+                        <span>Kumpulkan Jawaban &amp; Lihat Skor</span>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="bg-white border-t border-washi-border py-6 mt-auto relative z-10">
+        <div class="max-w-6xl mx-auto px-4 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-gray-500">
+            <div class="flex items-center gap-2">
+                <span class="w-4 h-4 rounded-full bg-crimson inline-block"></span>
+                <strong class="text-sumi">Nihongo Dai Ikka (日本語 第1課)</strong> — Pembelajaran Interaktif Bahasa Jepang Bab 1
+            </div>
+            <div>
+                Kotoba • Bunpou Full Penjelasan • Kaiwa • Evaluasi 10 Soal &amp; Skor
+            </div>
+        </div>
+    </footer>
+
+    <!-- =========================================================
+         JAVASCRIPT DATA & INTERACTIVE ENGINE (BAB 1 LENGKAP)
+         ========================================================= -->
+    <script>
+        /* =========================================================================
+           1. DATA KOTOBA (KOSAKATA LENGKAP BAB 1 - 42 ENTRI)
+           ========================================================================= */
+        const KOTOBA_DATA = [
+            // --- KATEGORI 1: KATA GANTI ORANG & AKHIRAN (pronoun) ---
+            { id: 1, cat: 'pronoun', catLabel: 'Kata Ganti & Akhiran', kana: 'わたし', kanji: '私', romaji: 'watashi', meaning: 'Saya', note: 'Kata ganti orang pertama tunggal standar dan sopan.' },
+            { id: 2, cat: 'pronoun', catLabel: 'Kata Ganti & Akhiran', kana: 'あなた', kanji: '貴方', romaji: 'anata', meaning: 'Anda / Kamu', note: 'Jarang dipakai jika sudah tahu nama lawan bicara (lebih sopan panggil Nama + san).' },
+            { id: 3, cat: 'pronoun', catLabel: 'Kata Ganti & Akhiran', kana: 'あのひと', kanji: 'あの人', romaji: 'ano hito', meaning: 'Orang itu / Beliau (biasa)', note: 'Bentuk sopannya adalah あのかた (ano kata).' },
+            { id: 4, cat: 'pronoun', catLabel: 'Kata Ganti & Akhiran', kana: 'あのかた', kanji: 'あの方', romaji: 'ano kata', meaning: 'Beliau / Orang itu (sopan)', note: 'Bentuk halus/hormat dari あのひと.' },
+            { id: 5, cat: 'pronoun', catLabel: 'Kata Ganti & Akhiran', kana: '～さん', kanji: '～さん', romaji: '~san', meaning: 'Saudara / Bapak / Ibu / Tuan / Nyonya', note: 'Diletakkan di belakang nama lawan bicara. JANGAN dipakai untuk nama sendiri!' },
+            { id: 6, cat: 'pronoun', catLabel: 'Kata Ganti & Akhiran', kana: '～ちゃん', kanji: '～ちゃん', romaji: '~chan', meaning: 'Akhiran panggilan akrab untuk anak-anak', note: 'Misal: テレサちゃん (Teresa-chan). Menggantikan ～さん untuk anak kecil.' },
+            { id: 7, cat: 'pronoun', catLabel: 'Kata Ganti & Akhiran', kana: '～じん', kanji: '～人', romaji: '~jin', meaning: 'Orang (warga negara ~)', note: 'Misal: インドネシアじん (Orang Indonesia), にほんじん (Orang Jepang).' },
+
+            // --- KATEGORI 2: PROFESI & STATUS (job) ---
+            { id: 8, cat: 'job', catLabel: 'Profesi & Status', kana: 'せんせい', kanji: '先生', romaji: 'sensei', meaning: 'Guru / Dosen / Dokter / Instruktur', note: 'Digunakan untuk memanggil/menyebut pengajar orang lain, bukan profesi diri sendiri.' },
+            { id: 9, cat: 'job', catLabel: 'Profesi & Status', kana: 'きょうし', kanji: '教師', romaji: 'kyoushi', meaning: 'Guru / Dosen (profesi sendiri)', note: 'Digunakan saat menyebutkan pekerjaan diri sendiri sebagai pengajar.' },
+            { id: 10, cat: 'job', catLabel: 'Profesi & Status', kana: 'がくせい', kanji: '学生', romaji: 'gakusei', meaning: 'Mahasiswa / Pelajar', note: 'Umumnya merujuk pada mahasiswa perguruan tinggi.' },
+            { id: 11, cat: 'job', catLabel: 'Profesi & Status', kana: 'かいしゃいん', kanji: '会社員', romaji: 'kaishain', meaning: 'Karyawan perusahaan (secara umum)', note: 'Contoh: わたし は かいしゃいん です (Saya seorang karyawan).' },
+            { id: 12, cat: 'job', catLabel: 'Profesi & Status', kana: 'しゃいん', kanji: '社員', romaji: 'shain', meaning: 'Karyawan perusahaan ~ (diikuti nama PT)', note: 'Selalu dipakai bersama nama perusahaan: IMC の しゃいん (Karyawan IMC).' },
+            { id: 13, cat: 'job', catLabel: 'Profesi & Status', kana: 'ぎんこういん', kanji: '銀行員', romaji: 'ginkouin', meaning: 'Pegawai bank', note: 'Berasal dari kata ぎんこう (Bank) + いん (Pegawai/Anggota).' },
+            { id: 14, cat: 'job', catLabel: 'Profesi & Status', kana: 'いしゃ', kanji: '医者', romaji: 'isha', meaning: 'Dokter', note: 'Contoh: ワットさん は いしゃ です (Tn. Watt adalah dokter).' },
+            { id: 15, cat: 'job', catLabel: 'Profesi & Status', kana: 'けんきゅうしゃ', kanji: '研究者', romaji: 'kenkyuusha', meaning: 'Peneliti', note: 'Contoh: サントスさん は けんきゅうしゃ です.' },
+            { id: 16, cat: 'job', catLabel: 'Profesi & Status', kana: 'エンジニア', kanji: 'エンジニア', romaji: 'enjinia', meaning: 'Insinyur / Teknisi (Engineer)', note: 'Ditulis menggunakan aksara Katakana karena kata serapan.' },
+
+            // --- KATEGORI 3: TEMPAT, INSTANSI, USIA & KATA TANYA (place) ---
+            { id: 17, cat: 'place', catLabel: 'Tempat, Usia & Tanya', kana: 'だいがく', kanji: '大学', romaji: 'daigaku', meaning: 'Universitas', note: 'Contoh: さくらだいがく (Universitas Sakura).' },
+            { id: 18, cat: 'place', catLabel: 'Tempat, Usia & Tanya', kana: 'びょういん', kanji: '病院', romaji: 'byouin', meaning: 'Rumah sakit', note: 'Hati-hati: びょういん (Byouin = RS) vs びよういん (Biyouin = Salon).' },
+            { id: 19, cat: 'place', catLabel: 'Tempat, Usia & Tanya', kana: 'でんき', kanji: '電気', romaji: 'denki', meaning: 'Listrik / Lampu', note: 'Contoh nama perusahaan: パワーでんき (Power Denki).' },
+            { id: 20, cat: 'place', catLabel: 'Tempat, Usia & Tanya', kana: 'だれ', kanji: '誰', romaji: 'dare', meaning: 'Siapa (bentuk biasa)', note: 'Contoh: あのひと は だれ ですか (Orang itu siapa?).' },
+            { id: 21, cat: 'place', catLabel: 'Tempat, Usia & Tanya', kana: 'どなた', kanji: 'どなた', romaji: 'donata', meaning: 'Siapa (bentuk sopan/hormat)', note: 'Pasangan sopan dari だれ. Dipakai bersama あのかた.' },
+            { id: 22, cat: 'place', catLabel: 'Tempat, Usia & Tanya', kana: '～さい', kanji: '～歳', romaji: '~sai', meaning: 'Umur ~ tahun', note: 'Satuan hitung usia. Hati-hati: 1 thn (issai), 8 thn (hassai), 10 thn (jussai), 20 thn (hatachi).' },
+            { id: 23, cat: 'place', catLabel: 'Tempat, Usia & Tanya', kana: 'なんさい', kanji: '何歳', romaji: 'nansai', meaning: 'Umur berapa tahun? (biasa)', note: 'Contoh: テレサちゃん は なんさい ですか.' },
+            { id: 24, cat: 'place', catLabel: 'Tempat, Usia & Tanya', kana: 'おいくつ', kanji: 'おいくつ', romaji: 'oikutsu', meaning: 'Berapa usia Anda? (sopan)', note: 'Bentuk sopan dari なんさい ketika bertanya pada orang dewasa/lebih tua.' },
+            { id: 25, cat: 'place', catLabel: 'Tempat, Usia & Tanya', kana: 'はい', kanji: 'はい', romaji: 'hai', meaning: 'Ya / Betul', note: 'Digunakan saat mengiyakan pertanyaan.' },
+            { id: 26, cat: 'place', catLabel: 'Tempat, Usia & Tanya', kana: 'いいえ', kanji: 'いいえ', romaji: 'iie', meaning: 'Tidak / Bukan', note: 'Digunakan saat menyangkal pertanyaan.' },
+
+            // --- KATEGORI 4: NEGARA & KEBANGSAAN (country) ---
+            { id: 27, cat: 'country', catLabel: 'Negara & Kebangsaan', kana: 'にほん', kanji: '日本', romaji: 'nihon', meaning: 'Jepang', note: 'Orang Jepang = にほんじん (Nihon-jin).' },
+            { id: 28, cat: 'country', catLabel: 'Negara & Kebangsaan', kana: 'インドネシア', kanji: 'インドネシア', romaji: 'indoneshia', meaning: 'Indonesia', note: 'Orang Indonesia = インドネシアじん (Indoneshia-jin).' },
+            { id: 29, cat: 'country', catLabel: 'Negara & Kebangsaan', kana: 'アメリカ', kanji: 'アメリカ', romaji: 'amerika', meaning: 'Amerika Serikat (USA)', note: 'Orang Amerika = アメリカじん (Amerika-jin).' },
+            { id: 30, cat: 'country', catLabel: 'Negara & Kebangsaan', kana: 'イギリス', kanji: 'イギリス', romaji: 'igirisu', meaning: 'Inggris (UK)', note: 'Orang Inggris = イギリスじん (Igirisu-jin).' },
+            { id: 31, cat: 'country', catLabel: 'Negara & Kebangsaan', kana: 'インド', kanji: 'インド', romaji: 'indo', meaning: 'India', note: 'Orang India = インドじん (Indo-jin).' },
+            { id: 32, cat: 'country', catLabel: 'Negara & Kebangsaan', kana: 'かんこく', kanji: '韓国', romaji: 'kankoku', meaning: 'Korea Selatan', note: 'Orang Korea = かんこくじん (Kankoku-jin).' },
+            { id: 33, cat: 'country', catLabel: 'Negara & Kebangsaan', kana: 'ちゅうごく', kanji: '中国', romaji: 'chuugoku', meaning: 'Tiongkok / China', note: 'Orang Tiongkok = ちゅうごくじん (Chuugoku-jin).' },
+            { id: 34, cat: 'country', catLabel: 'Negara & Kebangsaan', kana: 'ドイツ', kanji: 'ドイツ', romaji: 'doitsu', meaning: 'Jerman', note: 'Orang Jerman = ドイツじん (Doitsu-jin).' },
+            { id: 35, cat: 'country', catLabel: 'Negara & Kebangsaan', kana: 'ブラジル', kanji: 'ブラジル', romaji: 'burajiru', meaning: 'Brasil', note: 'Orang Brasil = ブラジルじん (Burajiru-jin).' },
+            { id: 36, cat: 'country', catLabel: 'Negara & Kebangsaan', kana: 'タイ', kanji: 'タイ', romaji: 'tai', meaning: 'Thailand', note: 'Orang Thailand = タイじん (Tai-jin).' },
+
+            // --- KATEGORI 5: UNGKAPAN SALAM & PERKENALAN (phrase) ---
+            { id: 37, cat: 'phrase', catLabel: 'Salam & Perkenalan', kana: 'はじめまして。', kanji: '初めまして。', romaji: 'Hajimemashite.', meaning: 'Perkenalkan / Salam kenal (saat pertama bertemu).', note: 'Kalimat pertama dalam Jikoshoukai (perkenalan diri).' },
+            { id: 38, cat: 'phrase', catLabel: 'Salam & Perkenalan', kana: '～から きました。', kanji: '～から 来ました。', romaji: '~kara kimashita.', meaning: 'Saya datang / berasal dari ~.', note: 'Contoh: インドネシア から きました (Saya berasal dari Indonesia).' },
+            { id: 39, cat: 'phrase', catLabel: 'Salam & Perkenalan', kana: 'どうぞ よろしく おねがいします。', kanji: 'どうぞ よろしく お願いします。', romaji: 'Douzo yoroshiku onegaishimasu.', meaning: 'Senang berkenalan dengan Anda / Mohon bimbingannya.', note: 'Kalimat penutup perkenalan diri sambil membungkukkan badan.' },
+            { id: 40, cat: 'phrase', catLabel: 'Salam & Perkenalan', kana: 'しつれいですが', kanji: '失礼ですが', romaji: 'Shitsurei desu ga', meaning: 'Permisi / Maaf mengganggu, tetapi...', note: 'Dipakai sebelum menanyakan hal pribadi seperti nama atau pekerjaan.' },
+            { id: 41, cat: 'phrase', catLabel: 'Salam & Perkenalan', kana: 'おなまえは？', kanji: 'お名前は？', romaji: 'Onamae wa?', meaning: 'Siapa nama Anda?', note: 'Biasa digabung: しつれいですが、おなまえは？' },
+            { id: 42, cat: 'phrase', catLabel: 'Salam & Perkenalan', kana: 'こちらは ～さんです。', kanji: 'こちらは ～さんです。', romaji: 'Kochira wa ~san desu.', meaning: 'Ini adalah Bapak / Ibu / Saudara ~.', note: 'Digunakan saat memperkenalkan seseorang kepada orang lain.' }
+        ];
+
+        /* =========================================================================
+           2. DATA BUNPOU (MATERI FULL PENJELASAN 7 POLA KALIMAT BAB 1)
+           ========================================================================= */
+        const BUNPOU_DATA = [
+            {
+                id: 'pola-1',
+                badge: 'POLA KALIMAT 1 • POSITIF',
+                title: 'KB1 は KB2 です (Kata Benda 1 adalah Kata Benda 2)',
+                formula: '[Kata Benda 1 (Topik/Subjek)]  +  は (wa)  +  [Kata Benda 2 (Predikat)]  +  です (desu)',
+                explanation: `
+                    <ul class="list-disc pl-5 space-y-1.5">
+                        <li><strong>Partikel は (dibaca "wa"):</strong> Menunjukkan bahwa Kata Benda di depannya (KB1) adalah <strong>topik atau pokok pembicaraan</strong> kalimat. Meskipun ditulis dengan huruf Hiragana <strong>は (ha)</strong>, ketika berfungsi sebagai partikel WAJIB dibaca <strong>"wa"</strong>.</li>
+                        <li><strong>Kopula です (desu):</strong> Diletakkan di akhir kalimat kata benda untuk menyatakan kepastian ("adalah...") sekaligus menunjukkan <strong>kesopanan</strong> kepada lawan bicara. Huruf <em>u</em> di akhir <em>desu</em> terdengar tipis (<em>des'</em>).</li>
+                    </ul>
+                `,
+                importantNote: 'Ingat! Jangan pernah menulis partikel topik dengan huruf わ (wa), melainkan harus selalu menggunakan huruf は (ha).',
+                examples: [
+                    { jp: 'わたし は マイク・ミラー です。', romaji: 'Watashi wa Maiku Miraa desu.', id: 'Saya adalah Mike Miller.' },
+                    { jp: 'わたし は がくせい です。', romaji: 'Watashi wa gakusei desu.', id: 'Saya adalah seorang mahasiswa.' },
+                    { jp: 'わたし は インドネシアじん です。', romaji: 'Watashi wa Indoneshia-jin desu.', id: 'Saya adalah orang Indonesia.' }
+                ]
+            },
+            {
+                id: 'pola-2',
+                badge: 'POLA KALIMAT 2 • NEGATIF',
+                title: 'KB1 は KB2 じゃ ありません / では ありません (KB1 bukan KB2)',
+                formula: '[Kata Benda 1]  +  は (wa)  +  [Kata Benda 2]  +  じゃ ありません (ja arimasen)',
+                explanation: `
+                    <ul class="list-disc pl-5 space-y-1.5">
+                        <li><strong>じゃ ありません (ja arimasen)</strong> atau <strong>では ありません (dewa arimasen)</strong> adalah bentuk negatif dari <strong>です (desu)</strong>, yang berarti <strong>"bukan..."</strong>.</li>
+                        <li><strong>Perbedaan Penggunaan:</strong>
+                            <br>• <strong>じゃ ありません (ja arimasen):</strong> Lebih sering digunakan dalam percakapan sehari-hari yang sopan.
+                            <br>• <strong>では ありません (dewa arimasen):</strong> Digunakan dalam pidato resmi, acara formal, atau bahasa tulis. (Perhatikan bahwa huruf は pada では tetap dibaca <em>"wa"</em>).</li>
+                    </ul>
+                `,
+                importantNote: 'Dalam bahasa Jepang Bab 1, untuk menyangkal kata benda kita TIDAK menggunakan kata "bukan" di depan kata benda, melainkan mengubah akhir kalimat dari です menjadi じゃ ありません.',
+                examples: [
+                    { jp: 'サントスさん は がくせい じゃ ありません。', romaji: 'Santosu-san wa gakusei ja arimasen.', id: 'Sdr. Santos bukan seorang mahasiswa.' },
+                    { jp: 'わたし は いしゃ では ありません。', romaji: 'Watashi wa isha dewa arimasen.', id: 'Saya bukan seorang dokter (ragam formal).' },
+                    { jp: 'ミラーさん は イギリスじん じゃ ありません。', romaji: 'Miraa-san wa Igirisu-jin ja arimasen.', id: 'Sdr. Miller bukan orang Inggris.' }
+                ]
+            },
+            {
+                id: 'pola-3',
+                badge: 'POLA KALIMAT 3 • KALIMAT TANYA',
+                title: 'KB1 は KB2 ですか (Apakah KB1 adalah KB2?) & Kata Tanya',
+                formula: '[Kata Benda 1]  +  は (wa)  +  [Kata Benda 2 / Kata Tanya]  +  ですか (desu ka)',
+                explanation: `
+                    <ul class="list-disc pl-5 space-y-1.5">
+                        <li><strong>Partikel か (ka) di Akhir Kalimat:</strong> Digunakan untuk membentuk kalimat tanya atau ketidakpastian. Cukup tambahkan <strong>か</strong> di belakang です dengan intonasi suara naik di akhir kalimat.</li>
+                        <li><strong>Cara Menjawab Kalimat Tanya Tanpa Kata Tanya (Ya / Tidak):</strong>
+                            <br>• Jika benar: <strong>はい、そうです (Hai, sou desu)</strong> atau ulangi predikatnya.
+                            <br>• Jika salah: <strong>いいえ、そう じゃ ありません (Iie, sou ja arimasen)</strong> atau sebutkan fakta yang sebenarnya.</li>
+                        <li><strong>Kalimat Tanya dengan Kata Tanya (だれ / どなた):</strong> Letakkan kata tanya tepat di posisi informasi yang ingin ditanyakan, lalu akhiri dengan <strong>ですか</strong>.</li>
+                    </ul>
+                `,
+                importantNote: 'Dalam penulisan bahasa Jepang resmi, kalimat yang sudah diakhiri dengan ですか sebenarnya cukup ditutup dengan tanda titik Jepang (。), namun tanda tanya (？) sering dipakai dalam buku pelajaran untuk memudahkan pemula.',
+                examples: [
+                    { jp: 'ミラーさん は アメリカじん ですか。 …はい、アメリカじん です。', romaji: 'Miraa-san wa Amerika-jin desu ka. ...Hai, Amerika-jin desu.', id: 'Apakah Sdr. Miller orang Amerika? ...Ya, orang Amerika.' },
+                    { jp: 'ミラーさん は せんせい ですか。 …いいえ、せんせい じゃ ありません。', romaji: 'Miraa-san wa sensei desu ka. ...Iie, sensei ja arimasen.', id: 'Apakah Sdr. Miller seorang guru? ...Bukan, bukan guru.' },
+                    { jp: 'あのかた は どなた ですか。 …ミラーさん です。', romaji: 'Ano kata wa donata desu ka. ...Miraa-san desu.', id: 'Beliau itu siapa (sopan)? ...Beliau adalah Sdr. Miller.' }
+                ]
+            },
+            {
+                id: 'pola-4',
+                badge: 'POLA KALIMAT 4 • PARTIKEL も',
+                title: 'KB1 も KB2 です (KB1 juga adalah KB2)',
+                formula: '[Kata Benda 1]  +  も (mo)  +  [Kata Benda 2 (Predikat yang sama)]  +  です (desu)',
+                explanation: `
+                    <ul class="list-disc pl-5 space-y-1.5">
+                        <li><strong>Partikel も (mo) berarti "juga":</strong> Digunakan apabila predikat dari topik yang baru <strong>sama persis</strong> dengan predikat pada kalimat sebelumnya.</li>
+                        <li>Partikel <strong>も</strong> langsung <strong>menggantikan posisi partikel は</strong> (tidak boleh digabung menjadi はも).</li>
+                    </ul>
+                `,
+                importantNote: 'Jika pernyataan sebelumnya mengatakan "Miller adalah karyawan", lalu "Sato juga karyawan", maka partikel は di belakang Sato diganti menjadi も.',
+                examples: [
+                    { jp: 'ミラーさん は かいしゃいん です。 わたし も かいしゃいん です。', romaji: 'Miraa-san wa kaishain desu. Watashi mo kaishain desu.', id: 'Sdr. Miller adalah karyawan. Saya juga seorang karyawan.' },
+                    { jp: 'カリナさん は がくせい です。 ワンさん も がくせい ですか。', romaji: 'Karina-san wa gakusei desu. Wan-san mo gakusei desu ka.', id: 'Sdri. Karina adalah mahasiswa. Apakah Sdr. Wang juga mahasiswa?' },
+                    { jp: 'ディマスさん も インドネシアじん です。', romaji: 'Dimasu-san mo Indoneshia-jin desu.', id: 'Sdr. Dimas juga orang Indonesia.' }
+                ]
+            },
+            {
+                id: 'pola-5',
+                badge: 'POLA KALIMAT 5 • PARTIKEL の',
+                title: 'KB1 の KB2 (Penggabungan Dua Kata Benda / Afiliasi Instansi)',
+                formula: '[KB1 (Instansi / Perusahaan / Universitas)]  +  の (no)  +  [KB2 (Status / Jabatan)]',
+                explanation: `
+                    <ul class="list-disc pl-5 space-y-1.5">
+                        <li><strong>Partikel の (no)</strong> menghubungkan dua buah Kata Benda, di mana <strong>KB1 menerangkan atau membatasi KB2</strong>.</li>
+                        <li>Dalam Bab 1, partikel <strong>の</strong> digunakan untuk menyatakan bahwa seseorang merupakan bagian/anggota dari suatu <strong>instansi, perusahaan, rumah sakit, atau universitas</strong>.</li>
+                        <li><strong>Urutan Bahasa Jepang Terbalik dengan Bahasa Indonesia:</strong> Dalam Bahasa Indonesia kita menyebut <em>"Mahasiswa Universitas Fuji"</em>, sedangkan dalam Bahasa Jepang instansinya disebut lebih dulu: <strong>ふじだいがく の がくせい (Fuji Daigaku no gakusei)</strong>.</li>
+                    </ul>
+                `,
+                importantNote: 'Ingat kosakata しゃいん (shain) tidak bisa berdiri sendiri dan harus selalu dipasangkan dengan nama perusahaan menggunakan の, contoh: IMC の しゃいん (Karyawan IMC).',
+                examples: [
+                    { jp: 'ミラーさん は IMC の しゃいん です。', romaji: 'Miraa-san wa Ai-Emu-Shii no shain desu.', id: 'Sdr. Miller adalah karyawan perusahaan IMC.' },
+                    { jp: 'カリナさん は ふじだいがく の がくせい です。', romaji: 'Karina-san wa Fuji Daigaku no gakusei desu.', id: 'Sdri. Karina adalah mahasiswi Universitas Fuji.' },
+                    { jp: 'ワンさん は こうべびょういん の いしゃ です。', romaji: 'Wan-san wa Koube Byouin no isha desu.', id: 'Sdr. Wang adalah dokter di Rumah Sakit Kobe.' }
+                ]
+            },
+            {
+                id: 'pola-6',
+                badge: 'POLA KALIMAT 6 • ETIKA PANGGILAN',
+                title: 'Aturan Penggunaan Akhiran ～さん (~san) & ～ちゃん (~chan)',
+                formula: '[Nama Orang Lain]  +  さん (san) / ちゃん (chan)',
+                explanation: `
+                    <ul class="list-disc pl-5 space-y-1.5">
+                        <li><strong>～さん (~san)</strong> ditambahkan di belakang nama marga atau nama depan lawan bicara maupun orang ketiga untuk menunjukkan rasa hormat (setara dengan Bapak/Ibu/Saudara/Saudari).</li>
+                        <li><strong>PANTANGAN UTAMA:</strong> Akhiran <strong>～さん TIDAK BOLEH digunakan di belakang nama diri sendiri!</strong> Saat memperkenalkan diri, cukup sebutkan nama Anda tanpa <em>~san</em> (Contoh benar: わたし は アリ です. Contoh salah: <s>わたし は アリさん です</s>).</li>
+                        <li>Jika sudah mengetahui nama lawan bicara, orang Jepang jarang menggunakan kata <em>anata</em> (Anda), melainkan langsung memanggil nama + <em>san</em>.</li>
+                    </ul>
+                `,
+                importantNote: 'Untuk anak-anak kecil, gunakan ～ちゃん (~chan) sebagai pengganti ～さん untuk menunjukkan rasa sayang/akrab, misalnya テレサちゃん (Teresa-chan).',
+                examples: [
+                    { jp: 'あのかた は やまださん です。', romaji: 'Ano kata wa Yamada-san desu.', id: 'Beliau itu adalah Bapak/Ibu Yamada.' },
+                    { jp: 'しつれいですが、ミラーさん ですか。', romaji: 'Shitsurei desu ga, Miraa-san desu ka.', id: 'Permisi, apakah Anda Sdr. Miller?' },
+                    { jp: 'テレサちゃん は きゅうさい です。', romaji: 'Teresa-chan wa kyuusai desu.', id: 'Dik Teresa berusia sembilan tahun.' }
+                ]
+            },
+            {
+                id: 'pola-7',
+                badge: 'POLA KALIMAT 7 • MENANYAKAN USIA',
+                title: '～さい (Umur ~ Tahun) & Menanyakan Usia (なんさい vs おいくつ)',
+                formula: '[Subjek]  +  は  +  なんさい (nansai) / おいくつ (oikutsu)  +  ですか',
+                explanation: `
+                    <ul class="list-disc pl-5 space-y-1.5">
+                        <li>Untuk menyebutkan usia, tambahkan akhiran <strong>～さい (~sai)</strong> setelah angka.</li>
+                        <li>Untuk menanyakan usia:
+                            <br>• <strong>なんさい ですか (Nansai desu ka):</strong> Bentuk standar/biasa (cocok untuk anak-anak atau teman sebaya).
+                            <br>• <strong>おいくつ ですか (Oikutsu desu ka):</strong> Bentuk <strong>sopan/halus</strong> (wajib dipakai saat bertanya kepada orang yang lebih tua atau baru dikenal).</li>
+                        <li><strong>4 Angka Usia Spesial yang Wajib Dihafal:</strong>
+                            <br>• 1 tahun = <strong>いっさい (issai)</strong> — pakai tsu kecil (っ)
+                            <br>• 8 tahun = <strong>はっさい (hassai)</strong> — pakai tsu kecil (っ)
+                            <br>• 10 tahun = <strong>じゅっさい / じっさい (jussai / jissai)</strong> — pakai tsu kecil (っ)
+                            <br>• 20 tahun = <strong>はたち (hatachi)</strong> — bentuk khusus dewasa di Jepang (bukan <em>nijussai</em>).</li>
+                    </ul>
+                `,
+                importantNote: 'Setiap usia berakhiran angka 1, 8, atau 10 (seperti 11, 18, 21, 28, 30 tahun) juga mengikuti perubahan bunyi yang sama (contoh: 28 tahun = にじゅうはっさい / nijuu-hassai).',
+                examples: [
+                    { jp: 'テレサちゃん は なんさい ですか。 …きゅうさい です。', romaji: 'Teresa-chan wa nansai desu ka. ...Kyuusai desu.', id: 'Dik Teresa umurnya berapa tahun? ...Sembilan tahun.' },
+                    { jp: 'やまださん は おいくつ ですか。 …よんじゅうごさい です。', romaji: 'Yamada-san wa oikutsu desu ka. ...Yonjuu-gosai desu.', id: 'Bapak Yamada usianya berapa (sopan)? ...45 tahun.' },
+                    { jp: 'わたし は はたち です。', romaji: 'Watashi wa hatachi desu.', id: 'Saya berusia 20 tahun.' }
+                ]
+            }
+        ];
+
+        // Data Tabel Usia 1 - 20 Tahun
+        const AGE_TABLE_DATA = [
+            { age: '1 Tahun', kana: 'いっさい', romaji: 'issai', special: true },
+            { age: '2 Tahun', kana: 'にさい', romaji: 'nisai', special: false },
+            { age: '3 Tahun', kana: 'さんさい', romaji: 'sansai', special: false },
+            { age: '4 Tahun', kana: 'よんさい', romaji: 'yonsai', special: false },
+            { age: '5 Tahun', kana: 'ごさい', romaji: 'gosai', special: false },
+            { age: '6 Tahun', kana: 'ろくさい', romaji: 'rokusai', special: false },
+            { age: '7 Tahun', kana: 'ななさい', romaji: 'nanasai', special: false },
+            { age: '8 Tahun', kana: 'はっさい', romaji: 'hassai', special: true },
+            { age: '9 Tahun', kana: 'きゅうさい', romaji: 'kyuusai', special: false },
+            { age: '10 Tahun', kana: 'じゅっさい', romaji: 'jussai', special: true },
+            { age: '11 Tahun', kana: 'じゅういっさい', romaji: 'juuissai', special: true },
+            { age: '18 Tahun', kana: 'じゅうはっさい', romaji: 'juuhassai', special: true },
+            { age: '19 Tahun', kana: 'じゅうきゅうさい', romaji: 'juukyuusai', special: false },
+            { age: '20 Tahun', kana: 'はたち', romaji: 'hatachi', special: true },
+            { age: 'Tanya (Sopan)', kana: 'おいくつ', romaji: 'oikutsu', special: true }
+        ];
+
+        /* =========================================================================
+           3. DATA KAIWA (2 SKENARIO PERCAKAPAN BAB 1)
+           ========================================================================= */
+        const KAIWA_SCENARIOS = [
+            {
+                id: 0,
+                title: 'Dialog 1: Hajimemashite (はじめまして) — Perkenalan Resmi Minna no Nihongo Bab 1',
+                context: 'Suasana di kantor: Ibu Sato (佐藤) menyapa Bapak Yamada (山田), lalu Bapak Yamada memperkenalkan karyawan baru dari Amerika bernama Mike Miller (ミラー) kepada Ibu Sato.',
+                speakers: ['Sato', 'Yamada', 'Miller'],
+                lines: [
+                    {
+                        speaker: 'Sato',
+                        jpName: 'さとう (Sato)',
+                        avatar: '佐',
+                        color: 'bg-crimson text-white',
+                        align: 'left',
+                        jp: 'おはよう ございます。',
+                        romaji: 'Ohayou gozaimasu.',
+                        id: 'Selamat pagi.'
+                    },
+                    {
+                        speaker: 'Yamada',
+                        jpName: 'やまだ (Yamada)',
+                        avatar: '山',
+                        color: 'bg-sumi text-gold',
+                        align: 'left',
+                        jp: 'おはよう ございます。 さとうさん、こちらは マイク・ミラーさんです。',
+                        romaji: 'Ohayou gozaimasu. Satou-san, kochira wa Maiku Miraa-san desu.',
+                        id: 'Selamat pagi. Bu Sato, perkenalkan ini adalah Bapak Mike Miller.'
+                    },
+                    {
+                        speaker: 'Miller',
+                        jpName: 'ミラー (Miller)',
+                        avatar: 'ミ',
+                        color: 'bg-blue-700 text-white',
+                        align: 'right',
+                        jp: 'はじめまして。 マイク・ミラーです。 アメリカから きました。 どうぞ よろしく。',
+                        romaji: 'Hajimemashite. Maiku Miraa desu. Amerika kara kimashita. Douzo yoroshiku.',
+                        id: 'Perkenalkan. Saya Mike Miller. Saya berasal dari Amerika. Senang berkenalan dengan Anda.'
+                    },
+                    {
+                        speaker: 'Sato',
+                        jpName: 'さとう (Sato)',
+                        avatar: '佐',
+                        color: 'bg-crimson text-white',
+                        align: 'left',
+                        jp: 'さとう けいこです。 どうぞ よろしく おねがいします。',
+                        romaji: 'Satou Keiko desu. Douzo yoroshiku onegaishimasu.',
+                        id: 'Saya Keiko Sato. Senang berkenalan dengan Anda / Mohon kerja samanya.'
+                    },
+                    {
+                        speaker: 'Sato',
+                        jpName: 'さとう (Sato)',
+                        avatar: '佐',
+                        color: 'bg-crimson text-white',
+                        align: 'left',
+                        jp: 'ミラーさんは IMCの しゃいんですか。',
+                        romaji: 'Miraa-san wa Ai-Emu-Shii no shain desu ka.',
+                        id: 'Apakah Pak Miller adalah karyawan perusahaan IMC?'
+                    },
+                    {
+                        speaker: 'Miller',
+                        jpName: 'ミラー (Miller)',
+                        avatar: 'ミ',
+                        color: 'bg-blue-700 text-white',
+                        align: 'right',
+                        jp: 'はい、IMCの しゃいんです。 さとうさんも IMCの しゃいんですか。',
+                        romaji: 'Hai, Ai-Emu-Shii no shain desu. Satou-san mo Ai-Emu-Shii no shain desu ka.',
+                        id: 'Ya, saya karyawan IMC. Apakah Bu Sato juga karyawan IMC?'
+                    },
+                    {
+                        speaker: 'Sato',
+                        jpName: 'さとう (Sato)',
+                        avatar: '佐',
+                        color: 'bg-crimson text-white',
+                        align: 'left',
+                        jp: 'いいえ、わたしは IMCの しゃいんじゃ ありません。 パワーでんきの しゃいんです。',
+                        romaji: 'Iie, watashi wa Ai-Emu-Shii no shain ja arimasen. Pawaa Denki no shain desu.',
+                        id: 'Bukan, saya bukan karyawan IMC. Saya karyawan perusahaan Power Denki.'
+                    }
+                ]
+            },
+            {
+                id: 1,
+                title: 'Dialog 2: Perkenalan Mahasiswa Indonesia di Universitas Jepang',
+                context: 'Suasana di kampus Universitas Sakura (さくらだいがく): Karina (カリナ), mahasiswi asal Indonesia, berkenalan dengan Kimura (きむら) dan menanyakan sosok dosen di kejauhan.',
+                speakers: ['Kimura', 'Karina'],
+                lines: [
+                    {
+                        speaker: 'Kimura',
+                        jpName: 'きむら (Kimura)',
+                        avatar: '木',
+                        color: 'bg-sumi text-gold',
+                        align: 'left',
+                        jp: 'しつれいですが、おなまえは？',
+                        romaji: 'Shitsurei desu ga, onamae wa?',
+                        id: 'Permisi, boleh tahu siapa nama Anda?'
+                    },
+                    {
+                        speaker: 'Karina',
+                        jpName: 'カリナ (Karina)',
+                        avatar: 'カ',
+                        color: 'bg-crimson text-white',
+                        align: 'right',
+                        jp: 'はじめまして。 カリナです。 インドネシアから きました。 さくらだいがくの がくせいです。',
+                        romaji: 'Hajimemashite. Karina desu. Indoneshia kara kimashita. Sakura Daigaku no gakusei desu.',
+                        id: 'Perkenalkan. Saya Karina. Saya datang dari Indonesia. Mahasiswi Universitas Sakura.'
+                    },
+                    {
+                        speaker: 'Kimura',
+                        jpName: 'きむら (Kimura)',
+                        avatar: '木',
+                        color: 'bg-sumi text-gold',
+                        align: 'left',
+                        jp: 'わたしは きむらです。 わたしも さくらだいがくの がくせいです。 どうぞ よろしく おねがいします。',
+                        romaji: 'Watashi wa Kimura desu. Watashi mo Sakura Daigaku no gakusei desu. Douzo yoroshiku onegaishimasu.',
+                        id: 'Saya Kimura. Saya juga mahasiswa Universitas Sakura. Senang berkenalan dengan Anda.'
+                    },
+                    {
+                        speaker: 'Karina',
+                        jpName: 'カリナ (Karina)',
+                        avatar: 'カ',
+                        color: 'bg-crimson text-white',
+                        align: 'right',
+                        jp: 'きむらさん、あのかたは どなたですか。',
+                        romaji: 'Kimura-san, ano kata wa donata desu ka.',
+                        id: 'Sdr. Kimura, beliau yang di sana itu siapa?'
+                    },
+                    {
+                        speaker: 'Kimura',
+                        jpName: 'きむら (Kimura)',
+                        avatar: '木',
+                        color: 'bg-sumi text-gold',
+                        align: 'left',
+                        jp: 'あのかたは ワットさんです。 さくらだいがくの せんせいです。',
+                        romaji: 'Ano kata wa Watto-san desu. Sakura Daigaku no sensei desu.',
+                        id: 'Beliau adalah Bapak Watt. Beliau dosen Universitas Sakura.'
+                    }
+                ]
+            }
+        ];
+
+        /* =========================================================================
+           4. DATA 10 SOAL LATIHAN BAB 1 (EVALUASI KOMPREHENSIF)
+           ========================================================================= */
+        const QUIZ_QUESTIONS = [
+            {
+                id: 1,
+                category: 'Partikel Topik (は)',
+                questionJp: 'わたし （　　） マイク・ミラー です。',
+                questionRomaji: 'Watashi ( ___ ) Maiku Miraa desu.',
+                questionId: 'Pilihlah partikel yang tepat untuk melengkapi kalimat: "Saya adalah Mike Miller."',
+                options: [
+                    { key: 'A', jp: 'は', romaji: 'wa (ditulis ha)' },
+                    { key: 'B', jp: 'わ', romaji: 'wa (ditulis wa)' },
+                    { key: 'C', jp: 'の', romaji: 'no' },
+                    { key: 'D', jp: 'か', romaji: 'ka' }
+                ],
+                correct: 'A',
+                explanation: 'Penanda topik/subjek kalimat selalu ditulis menggunakan huruf Hiragana は (meskipun diucapkan "wa"), bukan huruf わ.'
+            },
+            {
+                id: 2,
+                category: 'Kalimat Negatif (じゃ ありません)',
+                questionJp: 'サントスさんは がくせい （　　　　　）。 かいしゃいんです。',
+                questionRomaji: 'Santosu-san wa gakusei ( ________ ). Kaishain desu.',
+                questionId: 'Sdr. Santos (...) mahasiswa. Beliau adalah karyawan perusahaan.',
+                options: [
+                    { key: 'A', jp: 'です', romaji: 'desu' },
+                    { key: 'B', jp: 'じゃ ありません', romaji: 'ja arimasen' },
+                    { key: 'C', jp: 'から きました', romaji: 'kara kimashita' },
+                    { key: 'D', jp: 'も です', romaji: 'mo desu' }
+                ],
+                correct: 'B',
+                explanation: 'Karena kalimat kedua menyatakan beliau adalah karyawan (かいしゃいん), maka kalimat pertama berbentuk negatif: がくせい じゃ ありません (bukan mahasiswa).'
+            },
+            {
+                id: 3,
+                category: 'Partikel Persamaan (も)',
+                questionJp: 'ミラーさんは かいしゃいんです。 さとうさん （　　） かいしゃいんです。',
+                questionRomaji: 'Miraa-san wa kaishain desu. Satou-san ( ___ ) kaishain desu.',
+                questionId: 'Sdr. Miller adalah karyawan. Sdri. Sato (juga) adalah karyawan.',
+                options: [
+                    { key: 'A', jp: 'は', romaji: 'wa' },
+                    { key: 'B', jp: 'の', romaji: 'no' },
+                    { key: 'C', jp: 'も', romaji: 'mo' },
+                    { key: 'D', jp: 'か', romaji: 'ka' }
+                ],
+                correct: 'C',
+                explanation: 'Partikel も (mo) berarti "juga" dan digunakan menggantikan partikel は ketika predikatnya sama dengan kalimat sebelumnya (sama-sama かいしゃいん).'
+            },
+            {
+                id: 4,
+                category: 'Partikel Afiliasi / Instansi (の)',
+                questionJp: 'カリナさんは ふじだいがく （　　） がくせいです。',
+                questionRomaji: 'Karina-san wa Fuji Daigaku ( ___ ) gakusei desu.',
+                questionId: 'Sdri. Karina adalah mahasiswi (dari) Universitas Fuji.',
+                options: [
+                    { key: 'A', jp: 'の', romaji: 'no' },
+                    { key: 'B', jp: 'は', romaji: 'wa' },
+                    { key: 'C', jp: 'も', romaji: 'mo' },
+                    { key: 'D', jp: 'に', romaji: 'ni' }
+                ],
+                correct: 'A',
+                explanation: 'Partikel の (no) menghubungkan dua kata benda untuk menyatakan afiliasi instansi/tempat: ふじだいがく の がくせい (Mahasiswi Universitas Fuji).'
+            },
+            {
+                id: 5,
+                category: 'Kata Tanya Orang Sopan (どなた)',
+                questionJp: 'A: あのかたは （　　　） ですか。\nB: ワットさんです。 さくらだいがくの せんせいです。',
+                questionRomaji: 'A: Ano kata wa ( _____ ) desu ka. | B: Watto-san desu.',
+                questionId: 'Karena menggunakan "ano kata" (sopan), kata tanya "siapa" yang paling sepadan dan sopan adalah...',
+                options: [
+                    { key: 'A', jp: 'なんさい', romaji: 'nansai' },
+                    { key: 'B', jp: 'どなた', romaji: 'donata' },
+                    { key: 'C', jp: 'おいくつ', romaji: 'oikutsu' },
+                    { key: 'D', jp: 'なに', romaji: 'nani' }
+                ],
+                correct: 'B',
+                explanation: 'あのかた (ano kata) adalah bentuk sopan dari あのひと (orang itu), sehingga pasangannya adalah kata tanya sopan どなた (donata = siapa).'
+            },
+            {
+                id: 6,
+                category: 'Menanyakan & Menyebutkan Usia Spesial (～さい)',
+                questionJp: 'A: テレサちゃんは なんさい ですか。\nB: 8さい （　　　） です。',
+                questionRomaji: 'A: Teresa-chan wa nansai desu ka. | B: 8-sai ( _____ ) desu.',
+                questionId: 'Bagaimanakah cara membaca usia "8 tahun (8さい)" yang benar dalam bahasa Jepang?',
+                options: [
+                    { key: 'A', jp: 'はちさい', romaji: 'hachisai' },
+                    { key: 'B', jp: 'はっさい', romaji: 'hassai' },
+                    { key: 'C', jp: 'はたち', romaji: 'hatachi' },
+                    { key: 'D', jp: 'いっさい', romaji: 'issai' }
+                ],
+                correct: 'B',
+                explanation: 'Usia 8 tahun memiliki bunyi luluh konsonan ganda (tsu kecil っ), yaitu dibaca はっさい (hassai), bukan hachisai. (Sedangkan はたち = 20 tahun, いっさい = 1 tahun).'
+            },
+            {
+                id: 7,
+                category: 'Menjawab Kalimat Tanya (はい / いいえ)',
+                questionJp: 'A: ワンさんは ぎんこういん ですか。\nB: いいえ、（　　　　　）。 いしゃです。',
+                questionRomaji: 'A: Wan-san wa ginkouin desu ka. | B: Iie, ( ________ ). Isha desu.',
+                questionId: 'A: "Apakah Sdr. Wang pegawai bank?" | B: "Bukan, (...). Beliau adalah seorang dokter."',
+                options: [
+                    { key: 'A', jp: 'ぎんこういん です', romaji: 'ginkouin desu' },
+                    { key: 'B', jp: 'ぎんこういん じゃ ありません', romaji: 'ginkouin ja arimasen' },
+                    { key: 'C', jp: 'いしゃ じゃ ありません', romaji: 'isha ja arimasen' },
+                    { key: 'D', jp: 'そうです', romaji: 'sou desu' }
+                ],
+                correct: 'B',
+                explanation: 'Dijawab dengan いいえ (Bukan), sehingga diikuti penyangkalan terhadap pertanyaan: ぎんこういん じゃ ありません (Bukan pegawai bank), lalu dijelaskan bahwa beliau adalah いしゃ (dokter).'
+            },
+            {
+                id: 8,
+                category: 'Kosakata Kebangsaan (～じん)',
+                questionJp: 'わたしは インドネシアから きました。 （　　　　　） です。',
+                questionRomaji: 'Watashi wa Indoneshia kara kimashita. ( __________ ) desu.',
+                questionId: '"Saya berasal dari Indonesia. Saya adalah (orang Indonesia)."',
+                options: [
+                    { key: 'A', jp: 'インドネシア', romaji: 'Indoneshia' },
+                    { key: 'B', jp: 'インドネシアさん', romaji: 'Indoneshia-san' },
+                    { key: 'C', jp: 'インドネシアじん', romaji: 'Indoneshia-jin' },
+                    { key: 'D', jp: 'インドじん', romaji: 'Indo-jin' }
+                ],
+                correct: 'C',
+                explanation: 'Untuk menyatakan kewarganegaraan/kebangsaan, tambahkan akhiran ～じん (~jin) di belakang nama negara: インドネシアじん (Orang Indonesia).'
+            },
+            {
+                id: 9,
+                category: 'Etika Perkenalan Diri (Jikoshoukai)',
+                questionJp: 'Manakah kalimat perkenalan diri (Jikoshoukai) di bawah ini yang BENAR sesuai aturan tata bahasa Jepang Bab 1?',
+                questionRomaji: 'Perhatikan penggunaan akhiran ~san dan kata profesi sendiri.',
+                questionId: 'Pilih kalimat yang tidak melanggar aturan kesopanan bahasa Jepang:',
+                options: [
+                    { key: 'A', jp: 'はじめまして。 わたしは ブディさんです。', romaji: 'Hajimemashite. Watashi wa Budi-san desu.' },
+                    { key: 'B', jp: 'はじめまして。 ブディです。 インドネシアから きました。 どうぞ よろしく おねがいします。', romaji: 'Hajimemashite. Budi desu. Indoneshia kara kimashita. Douzo yoroshiku onegaishimasu.' },
+                    { key: 'C', jp: 'はじめまして。 こちらは ブディです。 おなまえは？', romaji: 'Hajimemashite. Kochira wa Budi desu. Onamae wa?' },
+                    { key: 'D', jp: 'しつれいですが、わたしは ブディさんです。', romaji: 'Shitsurei desu ga, watashi wa Budi-san desu.' }
+                ],
+                correct: 'B',
+                explanation: 'Dalam bahasa Jepang, akhiran ～さん TIDAK BOLEH dipakai untuk nama diri sendiri. Urutan Jikoshoukai yang tepat adalah: Hajimemashite -> Nama (tanpa san) -> ~kara kimashita -> Douzo yoroshiku onegaishimasu.'
+            },
+            {
+                id: 10,
+                category: 'Pemahaman Kaiwa (Memperkenalkan Orang Lain)',
+                questionJp: 'やまだ: さとうさん、（　　　）は マイク・ミラーさんです。\nミラー: はじめまして。 マイク・ミラーです。',
+                questionRomaji: 'Yamada: Satou-san, ( _____ ) wa Maiku Miraa-san desu.',
+                questionId: 'Kata tunjuk sopan yang digunakan Pak Yamada untuk memperkenalkan Pak Miller ("Ini adalah Pak Mike Miller") adalah...',
+                options: [
+                    { key: 'A', jp: 'こちら', romaji: 'kochira' },
+                    { key: 'B', jp: 'どなた', romaji: 'donata' },
+                    { key: 'C', jp: 'あなた', romaji: 'anata' },
+                    { key: 'D', jp: 'だれ', romaji: 'dare' }
+                ],
+                correct: 'A',
+                explanation: 'Ungkapan baku untuk memperkenalkan seseorang kepada orang lain secara sopan adalah こちらは ～さんです (Kochira wa ~san desu = Ini adalah Sdr./Bpk./Ibu ~).'
+            }
+        ];
+
+        /* =========================================================================
+           5. STATE APLIKASI & RIWAYAT NAVIGASI (TOMBOL BACK)
+           ========================================================================= */
+        let currentView = 'home'; // 'home' | 'kotoba' | 'bunpou' | 'kaiwa' | 'quiz'
+        let navHistory = [];
+
+        // State Kotoba
+        let activeKotobaCat = 'all';
+        let showKotobaRomaji = true;
+
+        // State Kaiwa
+        let activeKaiwaScenario = 0;
+        let showKaiwaRomaji = true;
+        let showKaiwaTrans = true;
+        let activeRoleplaySpeaker = null; // null atau nama speaker yang disembunyikan teksnya
+        let isPlayingAllKaiwa = false;
+        let kaiwaPlayTimeout = null;
+
+        // State Quiz 10 Soal & Nama User
+        let quizUserName = '';
+        let quizUserClass = '';
+        let showQuizRomaji = true;
+        let userAnswers = {}; // { [questionId]: 'A' | 'B' | 'C' | 'D' }
+        let quizSubmitted = false;
+
+        function navigateTo(viewName, recordHistory = true) {
+            stopSpeech();
+            if (recordHistory && viewName !== currentView) {
+                navHistory.push(currentView);
+            }
+            currentView = viewName;
+
+            const views = ['home', 'kotoba', 'bunpou', 'kaiwa', 'quiz'];
+            views.forEach(v => {
+                const sec = document.getElementById(`view-${v}`);
+                if (sec) sec.classList.toggle('hidden', v !== viewName);
+
+                // Update Desktop Nav
+                const dBtn = document.getElementById(`nav-btn-${v}`);
+                if (dBtn) {
+                    if (v === viewName) {
+                        dBtn.className = "px-3 py-1.5 rounded-full text-xs font-extrabold transition-all bg-white text-crimson shadow";
+                    } else {
+                        dBtn.className = "px-3 py-1.5 rounded-full text-xs font-bold transition-all text-white hover:bg-white/15";
+                    }
+                }
+
+                // Update Mobile Nav
+                const mBtn = document.getElementById(`mob-nav-${v}`);
+                if (mBtn) {
+                    if (v === viewName) {
+                        mBtn.className = "px-3 py-1 rounded-full text-[11px] font-extrabold whitespace-nowrap bg-white text-crimson shadow";
+                    } else {
+                        mBtn.className = "px-3 py-1 rounded-full text-[11px] font-bold whitespace-nowrap text-white";
+                    }
+                }
+            });
+
+            // Tombol Back di Header
+            const backBtn = document.getElementById('btn-header-back');
+            if (backBtn) {
+                backBtn.classList.toggle('hidden', viewName === 'home');
+            }
+
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function goBack() {
+            stopSpeech();
+            if (navHistory.length > 0) {
+                const prev = navHistory.pop();
+                navigateTo(prev, false);
+            } else {
+                navigateTo('home', false);
+            }
+        }
+
+        /* =========================================================================
+           6. RENDER MODUL 1: KOTOBA (KOSAKATA LENGKAP BAB 1)
+           ========================================================================= */
+        function setKotobaCategory(cat) {
+            activeKotobaCat = cat;
+            document.querySelectorAll('.kotoba-cat-btn').forEach(btn => {
+                if (btn.getAttribute('data-cat') === cat) {
+                    btn.className = "kotoba-cat-btn px-3 py-1.5 rounded-xl text-xs font-extrabold bg-crimson text-white shadow";
+                } else {
+                    btn.className = "kotoba-cat-btn px-3 py-1.5 rounded-xl text-xs font-bold bg-washi-dark text-sumi hover:bg-crimson-soft";
+                }
+            });
+            renderKotobaGrid();
+        }
+
+        function toggleKotobaRomaji() {
+            showKotobaRomaji = !showKotobaRomaji;
+            const btn = document.getElementById('btn-toggle-kotoba-romaji');
+            if (showKotobaRomaji) {
+                btn.className = "px-3.5 py-2 rounded-xl text-xs font-extrabold border-2 border-crimson bg-crimson text-white shadow-sm transition-all";
+                btn.innerHTML = `<i class="fa-solid fa-eye mr-1"></i> Romaji: ON`;
+            } else {
+                btn.className = "px-3.5 py-2 rounded-xl text-xs font-extrabold border-2 border-gray-400 bg-white text-gray-600 transition-all";
+                btn.innerHTML = `<i class="fa-solid fa-eye-slash mr-1"></i> Romaji: OFF`;
+            }
+            renderKotobaGrid();
+        }
+
+        function renderKotobaGrid() {
+            const grid = document.getElementById('kotoba-cards-grid');
+            const searchVal = (document.getElementById('kotoba-search-input')?.value || '').toLowerCase().trim();
+
+            const filtered = KOTOBA_DATA.filter(item => {
+                const matchCat = activeKotobaCat === 'all' || item.cat === activeKotobaCat;
+                const matchSearch = !searchVal ||
+                    item.kana.toLowerCase().includes(searchVal) ||
+                    item.kanji.toLowerCase().includes(searchVal) ||
+                    item.romaji.toLowerCase().includes(searchVal) ||
+                    item.meaning.toLowerCase().includes(searchVal);
+                return matchCat && matchSearch;
+            });
+
+            if (filtered.length === 0) {
+                grid.innerHTML = `
+                    <div class="col-span-full bg-white rounded-2xl p-8 text-center border border-washi-border text-gray-500">
+                        <i class="fa-solid fa-magnifying-glass text-2xl text-crimson mb-2"></i>
+                        <p class="font-bold text-sm">Kosakata tidak ditemukan. Coba kata kunci pencarian lain.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            grid.innerHTML = filtered.map(item => {
+                const cleanSpeech = item.kana.replace(/～/g, '');
+                const escapedSpeech = cleanSpeech.replace(/'/g, "\\'");
+                return `
+                    <div onclick="speakJapanese('${escapedSpeech}')" class="cursor-pointer bg-white rounded-2xl p-5 shadow-md border-2 border-washi-border hover:border-crimson transition-all flex flex-col justify-between group">
+                        <div class="space-y-2">
+                            <div class="flex items-center justify-between gap-2">
+                                <span class="text-[10px] font-extrabold uppercase tracking-wider px-2.5 py-0.5 rounded-full bg-crimson-soft text-crimson">
+                                    ${item.catLabel}
+                                </span>
+                                <button type="button" class="w-8 h-8 rounded-full bg-washi-dark group-hover:bg-crimson text-crimson group-hover:text-white flex items-center justify-center transition-colors shadow-sm" title="Dengarkan Audio">
+                                    <i class="fa-solid fa-volume-high text-xs"></i>
+                                </button>
+                            </div>
+
+                            <div class="pt-1">
+                                <div class="font-jp text-2xl font-black text-sumi group-hover:text-crimson transition-colors">
+                                    ${item.kana}
+                                </div>
+                                <div class="text-xs font-jp text-gray-400 font-bold">
+                                    Kanji/Tulisan: <span class="text-gray-600">${item.kanji}</span>
+                                </div>
+                            </div>
+
+                            ${showKotobaRomaji ? `
+                                <div class="inline-block bg-amber-50 border border-gold/50 text-amber-900 font-extrabold text-xs px-2.5 py-0.5 rounded-lg">
+                                    ${item.romaji}
+                                </div>
+                            ` : ''}
+
+                            <div class="text-sm font-extrabold text-sumi pt-1">
+                                ${item.meaning}
+                            </div>
+                        </div>
+
+                        <div class="mt-3 pt-2.5 border-t border-gray-100 text-[11px] text-gray-500 leading-relaxed">
+                            <i class="fa-solid fa-circle-info text-crimson mr-1"></i> ${item.note}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        /* =========================================================================
+           7. RENDER MODUL 2: BUNPOU (MATERI FULL PENJELASAN + TABEL USIA)
+           ========================================================================= */
+        function renderBunpouSection() {
+            const container = document.getElementById('bunpou-container');
+            container.innerHTML = BUNPOU_DATA.map((b, idx) => `
+                <article id="${b.id}" class="bg-white rounded-3xl p-6 sm:p-8 shadow-lg border-2 border-washi-border space-y-5 scroll-mt-24">
+                    <div class="flex flex-wrap items-center justify-between gap-2 border-b border-gray-100 pb-3">
+                        <div class="space-y-1">
+                            <span class="text-xs font-extrabold uppercase tracking-wider px-3 py-1 rounded-full bg-crimson text-white shadow-sm">
+                                ${b.badge}
+                            </span>
+                            <h3 class="text-xl sm:text-2xl font-extrabold text-sumi pt-1">${idx + 1}. ${b.title}</h3>
+                        </div>
+                    </div>
+
+                    <!-- Rumus Visual -->
+                    <div class="bg-washi-dark border-2 border-gold rounded-2xl p-4">
+                        <div class="text-[11px] font-extrabold uppercase text-amber-900 mb-1">
+                            <i class="fa-solid fa-compass-drafting text-crimson mr-1"></i> Rumus Pola Kalimat:
+                        </div>
+                        <div class="font-jp font-black text-sm sm:text-base text-sumi tracking-wide">
+                            ${b.formula}
+                        </div>
+                    </div>
+
+                    <!-- Penjelasan Lengkap -->
+                    <div class="text-xs sm:text-sm text-gray-700 leading-relaxed space-y-2">
+                        <div class="font-extrabold text-sumi text-sm flex items-center gap-1.5">
+                            <i class="fa-solid fa-book-open-reader text-crimson"></i> Penjelasan Lengkap:
+                        </div>
+                        ${b.explanation}
+                    </div>
+
+                    <!-- Catatan Penting -->
+                    <div class="bg-crimson-soft border-l-4 border-crimson p-4 rounded-r-2xl text-xs sm:text-sm text-crimson-dark font-medium">
+                        <strong class="font-extrabold"><i class="fa-solid fa-triangle-exclamation mr-1"></i> Catatan Penting:</strong> ${b.importantNote}
+                    </div>
+
+                    <!-- Contoh Kalimat Interaktif -->
+                    <div class="space-y-2.5 pt-1">
+                        <div class="text-xs font-extrabold uppercase text-gray-500">
+                            <i class="fa-solid fa-volume-high text-crimson mr-1"></i> Contoh Kalimat (Klik untuk mendengar suara):
+                        </div>
+                        <div class="grid grid-cols-1 gap-2.5">
+                            ${b.examples.map(ex => {
+                                const escaped = ex.jp.replace(/'/g, "\\'");
+                                return `
+                                    <div onclick="speakJapanese('${escaped}')" class="cursor-pointer bg-washi hover:bg-crimson-soft/50 border border-washi-border hover:border-crimson rounded-2xl p-3.5 flex items-center justify-between gap-3 transition-all group">
+                                        <div class="space-y-0.5">
+                                            <div class="font-jp font-black text-base sm:text-lg text-sumi group-hover:text-crimson">${ex.jp}</div>
+                                            <div class="text-xs font-bold text-amber-800">${ex.romaji}</div>
+                                            <div class="text-xs text-gray-600">${ex.id}</div>
+                                        </div>
+                                        <button type="button" class="w-9 h-9 rounded-xl bg-white group-hover:bg-crimson text-crimson group-hover:text-white border border-crimson/20 flex items-center justify-center shrink-0 transition-colors shadow-sm">
+                                            <i class="fa-solid fa-volume-high text-xs"></i>
+                                        </button>
+                                    </div>
+                                `;
+                            }).join('')}
+                        </div>
+                    </div>
+                </article>
+            `).join('');
+
+            // Render Tabel Usia
+            const ageGrid = document.getElementById('age-counter-grid');
+            ageGrid.innerHTML = AGE_TABLE_DATA.map(a => `
+                <div onclick="speakJapanese('${a.kana}')" class="cursor-pointer rounded-2xl p-3.5 border-2 transition-all flex flex-col items-center text-center ${
+                    a.special
+                        ? 'bg-crimson-soft border-crimson text-crimson shadow-sm hover:bg-crimson hover:text-white'
+                        : 'bg-washi border-washi-border text-sumi hover:border-crimson'
+                }">
+                    <span class="text-[11px] font-extrabold uppercase opacity-80">${a.age}</span>
+                    <span class="font-jp text-lg font-black my-0.5">${a.kana}</span>
+                    <span class="text-xs font-bold opacity-90">${a.romaji}</span>
+                </div>
+            `).join('');
+        }
+
+        /* =========================================================================
+           8. RENDER MODUL 3: KAIWA (PERCAKAPAN INTERAKTIF & ROLEPLAY)
+           ========================================================================= */
+        function switchKaiwaScenario(idx) {
+            stopSpeech();
+            activeKaiwaScenario = idx;
+            activeRoleplaySpeaker = null;
+
+            const btn0 = document.getElementById('btn-scenario-0');
+            const btn1 = document.getElementById('btn-scenario-1');
+            if (idx === 0) {
+                btn0.className = "px-4 py-2 rounded-xl text-xs font-extrabold bg-crimson text-white shadow";
+                btn1.className = "px-4 py-2 rounded-xl text-xs font-bold bg-washi-dark text-sumi hover:bg-crimson-soft";
+            } else {
+                btn1.className = "px-4 py-2 rounded-xl text-xs font-extrabold bg-crimson text-white shadow";
+                btn0.className = "px-4 py-2 rounded-xl text-xs font-bold bg-washi-dark text-sumi hover:bg-crimson-soft";
+            }
+            renderKaiwaView();
+        }
+
+        function toggleKaiwaRomaji() {
+            showKaiwaRomaji = !showKaiwaRomaji;
+            const btn = document.getElementById('btn-kaiwa-romaji');
+            btn.textContent = `Romaji: ${showKaiwaRomaji ? 'ON' : 'OFF'}`;
+            renderKaiwaView();
+        }
+
+        function toggleKaiwaTrans() {
+            showKaiwaTrans = !showKaiwaTrans;
+            const btn = document.getElementById('btn-kaiwa-trans');
+            btn.textContent = `Arti: ${showKaiwaTrans ? 'ON' : 'OFF'}`;
+            renderKaiwaView();
+        }
+
+        function setRoleplaySpeaker(speaker) {
+            activeRoleplaySpeaker = (activeRoleplaySpeaker === speaker) ? null : speaker;
+            renderKaiwaView();
+        }
+
+        function renderKaiwaView() {
+            const scen = KAIWA_SCENARIOS[activeKaiwaScenario];
+
+            // Header Info
+            document.getElementById('kaiwa-header-info').innerHTML = `
+                <h3 class="text-lg sm:text-xl font-extrabold text-sumi">${scen.title}</h3>
+                <p class="text-xs sm:text-sm text-gray-600 mt-1"><i class="fa-solid fa-circle-info text-crimson mr-1"></i> ${scen.context}</p>
+            `;
+
+            // Tombol Roleplay
+            const rpContainer = document.getElementById('kaiwa-roleplay-buttons');
+            rpContainer.innerHTML = `
+                <button onclick="setRoleplaySpeaker(null)" class="px-3 py-1.5 rounded-xl text-xs font-extrabold transition-all ${
+                    activeRoleplaySpeaker === null ? 'bg-crimson text-white shadow' : 'bg-white text-sumi border border-gold'
+                }">
+                    Tampilkan Semua
+                </button>
+                ${scen.speakers.map(sp => `
+                    <button onclick="setRoleplaySpeaker('${sp}')" class="px-3 py-1.5 rounded-xl text-xs font-extrabold transition-all ${
+                        activeRoleplaySpeaker === sp ? 'bg-crimson text-white shadow' : 'bg-white text-sumi border border-gold hover:bg-crimson-soft'
+                    }">
+                        Perankan: ${sp}
+                    </button>
+                `).join('')}
+            `;
+
+            // Balon Percakapan
+            const linesContainer = document.getElementById('kaiwa-lines-container');
+            linesContainer.innerHTML = scen.lines.map((line, idx) => {
+                const isRight = line.align === 'right';
+                const isRoleplayHidden = activeRoleplaySpeaker === line.speaker;
+                const escapedJp = line.jp.replace(/'/g, "\\'");
+
+                return `
+                    <div id="kaiwa-line-${idx}" class="flex items-start gap-3 ${isRight ? 'flex-row-reverse' : ''} transition-all duration-300 rounded-2xl p-3 border-2 border-transparent">
+                        <!-- Avatar -->
+                        <div class="w-11 h-11 rounded-2xl ${line.color} font-jp font-black text-lg flex items-center justify-center shrink-0 shadow-md">
+                            ${line.avatar}
+                        </div>
+
+                        <!-- Bubble -->
+                        <div class="max-w-2xl w-full bg-washi hover:bg-white rounded-2xl p-4 border border-washi-border shadow-sm space-y-2">
+                            <div class="flex items-center justify-between gap-2">
+                                <span class="text-xs font-extrabold text-crimson">${line.jpName}</span>
+                                <button onclick="playSingleKaiwaLine(${idx}, '${escapedJp}')" class="px-2.5 py-1 rounded-lg bg-crimson-soft hover:bg-crimson text-crimson hover:text-white text-xs font-bold flex items-center gap-1 transition-colors">
+                                    <i class="fa-solid fa-volume-high"></i> Putar Suara
+                                </button>
+                            </div>
+
+                            ${isRoleplayHidden ? `
+                                <div onclick="this.classList.remove('blur-sm')" class="p-3 rounded-xl bg-amber-50 border border-dashed border-gold text-center cursor-pointer space-y-1">
+                                    <div class="text-xs font-extrabold text-amber-900"><i class="fa-solid fa-microphone mr-1"></i> Giliran Anda Berbicara sebagai ${line.speaker}!</div>
+                                    <div class="text-xs text-gray-600">Petunjuk Arti: "${line.id}"</div>
+                                    <div class="font-jp font-bold text-sm text-sumi blur-sm hover:blur-none transition-all pt-1">${line.jp} (${line.romaji})</div>
+                                </div>
+                            ` : `
+                                <p class="font-jp text-lg sm:text-xl font-black text-sumi leading-relaxed">${line.jp}</p>
+                                ${showKaiwaRomaji ? `<p class="text-xs sm:text-sm font-bold text-amber-800">${line.romaji}</p>` : ''}
+                                ${showKaiwaTrans ? `<p class="text-xs sm:text-sm text-gray-600 border-t border-gray-200/70 pt-1.5">${line.id}</p>` : ''}
+                            `}
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function playSingleKaiwaLine(idx, text) {
+            stopSpeech();
+            document.querySelectorAll('[id^="kaiwa-line-"]').forEach(el => el.classList.remove('kaiwa-active'));
+            const activeEl = document.getElementById(`kaiwa-line-${idx}`);
+            if (activeEl) activeEl.classList.add('kaiwa-active');
+
+            if (!('speechSynthesis' in window)) return;
+            const u = new SpeechSynthesisUtterance(text);
+            u.lang = 'ja-JP';
+            u.rate = 0.88;
+            u.onend = () => {
+                if (activeEl) activeEl.classList.remove('kaiwa-active');
+            };
+            window.speechSynthesis.speak(u);
+        }
+
+        function playAllKaiwa() {
+            if (isPlayingAllKaiwa) {
+                stopSpeech();
+                return;
+            }
+            const scen = KAIWA_SCENARIOS[activeKaiwaScenario];
+            isPlayingAllKaiwa = true;
+            updatePlayAllButtonUI();
+
+            let currentIdx = 0;
+
+            function playNext() {
+                if (!isPlayingAllKaiwa || currentIdx >= scen.lines.length) {
+                    isPlayingAllKaiwa = false;
+                    document.querySelectorAll('[id^="kaiwa-line-"]').forEach(el => el.classList.remove('kaiwa-active'));
+                    updatePlayAllButtonUI();
+                    return;
+                }
+
+                const line = scen.lines[currentIdx];
+                document.querySelectorAll('[id^="kaiwa-line-"]').forEach(el => el.classList.remove('kaiwa-active'));
+                const el = document.getElementById(`kaiwa-line-${currentIdx}`);
+                if (el) {
+                    el.classList.add('kaiwa-active');
+                    el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }
+
+                if ('speechSynthesis' in window) {
+                    const u = new SpeechSynthesisUtterance(line.jp);
+                    u.lang = 'ja-JP';
+                    u.rate = 0.88;
+                    u.onend = () => {
+                        currentIdx++;
+                        kaiwaPlayTimeout = setTimeout(playNext, 500);
+                    };
+                    u.onerror = () => {
+                        currentIdx++;
+                        kaiwaPlayTimeout = setTimeout(playNext, 500);
+                    };
+                    window.speechSynthesis.speak(u);
+                } else {
+                    currentIdx++;
+                    kaiwaPlayTimeout = setTimeout(playNext, 1800);
+                }
+            }
+
+            playNext();
+        }
+
+        function updatePlayAllButtonUI() {
+            const btn = document.getElementById('btn-play-all-kaiwa');
+            if (!btn) return;
+            if (isPlayingAllKaiwa) {
+                btn.className = "bg-crimson hover:bg-crimson-dark text-white font-extrabold px-4 py-2 rounded-xl text-xs shadow flex items-center gap-1.5 transition-all";
+                btn.innerHTML = `<i class="fa-solid fa-circle-stop"></i> <span>Hentikan Dialog</span>`;
+            } else {
+                btn.className = "bg-emerald-600 hover:bg-emerald-700 text-white font-extrabold px-4 py-2 rounded-xl text-xs shadow flex items-center gap-1.5 transition-all";
+                btn.innerHTML = `<i class="fa-solid fa-circle-play"></i> <span>Putar Semua Dialog</span>`;
+            }
+        }
+
+        /* =========================================================================
+           9. RENDER MODUL 4: LATIHAN SOAL 10 NOMOR + INPUT NAMA & SKOR
+           ========================================================================= */
+        function handleUserNameChange(val) {
+            quizUserName = val.trim();
+            if (quizUserName) {
+                document.getElementById('name-warning-msg').classList.add('hidden');
+            }
+            saveQuizProgress();
+        }
+
+        function handleUserClassChange(val) {
+            quizUserClass = val.trim();
+            saveQuizProgress();
+        }
+
+        function toggleQuizRomaji() {
+            showQuizRomaji = !showQuizRomaji;
+            const btn = document.getElementById('btn-quiz-romaji');
+            btn.textContent = `Bantuan Romaji: ${showQuizRomaji ? 'ON' : 'OFF'}`;
+            renderQuizQuestions();
+        }
+
+        function selectQuizOption(qId, optKey) {
+            userAnswers[qId] = optKey;
+            updateQuizAnsweredCounter();
+            renderQuizQuestions();
+            saveQuizProgress();
+        }
+
+        function updateQuizAnsweredCounter() {
+            const count = Object.keys(userAnswers).length;
+            const el = document.getElementById('quiz-answered-counter');
+            if (el) el.textContent = `${count} / 10 Soal Terjawab`;
+        }
+
+        function renderQuizQuestions() {
+            const container = document.getElementById('quiz-questions-list');
+            container.innerHTML = QUIZ_QUESTIONS.map(q => {
+                const chosen = userAnswers[q.id];
+                const isCorrect = chosen === q.correct;
+
+                let cardBorder = 'border-washi-border';
+                let statusPill = '';
+
+                if (quizSubmitted) {
+                    if (isCorrect) {
+                        cardBorder = 'border-emerald-500 ring-2 ring-emerald-500/20';
+                        statusPill = `<span class="px-3 py-1 rounded-full text-xs font-extrabold bg-emerald-100 text-emerald-800 border border-emerald-300"><i class="fa-solid fa-check mr-1"></i>Benar (+10 Poin)</span>`;
+                    } else {
+                        cardBorder = 'border-crimson ring-2 ring-crimson/20';
+                        statusPill = `<span class="px-3 py-1 rounded-full text-xs font-extrabold bg-red-100 text-crimson border border-crimson/30"><i class="fa-solid fa-xmark mr-1"></i>Salah (0 Poin)</span>`;
+                    }
+                } else if (chosen) {
+                    cardBorder = 'border-gold';
+                    statusPill = `<span class="px-3 py-1 rounded-full text-xs font-bold bg-amber-100 text-amber-900">Terjawab: Pilihan ${chosen}</span>`;
+                } else {
+                    statusPill = `<span class="px-3 py-1 rounded-full text-xs font-bold bg-gray-100 text-gray-500">Belum Dijawab</span>`;
+                }
+
+                return `
+                    <article class="bg-white rounded-3xl p-5 sm:p-7 shadow-md border-2 ${cardBorder} space-y-4 transition-all">
+                        <div class="flex flex-wrap items-center justify-between gap-2 border-b border-gray-100 pb-3">
+                            <div class="flex items-center gap-2.5">
+                                <span class="w-9 h-9 rounded-xl bg-crimson text-white font-black text-sm flex items-center justify-center shadow">
+                                    #${q.id}
+                                </span>
+                                <span class="text-xs font-extrabold text-crimson bg-crimson-soft px-3 py-1 rounded-full">
+                                    ${q.category}
+                                </span>
+                            </div>
+                            ${statusPill}
+                        </div>
+
+                        <!-- Pertanyaan -->
+                        <div class="bg-washi-dark rounded-2xl p-4 border border-washi-border space-y-1.5">
+                            <p class="font-jp text-lg sm:text-xl font-black text-sumi whitespace-pre-line leading-relaxed">${q.questionJp}</p>
+                            ${showQuizRomaji ? `<p class="text-xs sm:text-sm font-bold text-amber-800">${q.questionRomaji}</p>` : ''}
+                            <p class="text-xs sm:text-sm text-gray-600 pt-1">${q.questionId}</p>
+                        </div>
+
+                        <!-- Pilihan Jawaban A, B, C, D -->
+                        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                            ${q.options.map(opt => {
+                                const isThisSelected = chosen === opt.key;
+                                let btnStyle = 'bg-washi hover:bg-crimson-soft/40 border-washi-border text-sumi';
+
+                                if (quizSubmitted) {
+                                    if (opt.key === q.correct) {
+                                        btnStyle = 'bg-emerald-50 border-emerald-500 text-emerald-950 ring-2 ring-emerald-500/20';
+                                    } else if (isThisSelected && opt.key !== q.correct) {
+                                        btnStyle = 'bg-red-50 border-crimson text-crimson';
+                                    }
+                                } else if (isThisSelected) {
+                                    btnStyle = 'bg-crimson text-white border-crimson shadow-md';
+                                }
+
+                                return `
+                                    <button
+                                        type="button"
+                                        onclick="selectQuizOption(${q.id}, '${opt.key}')"
+                                        class="p-3.5 rounded-2xl border-2 text-left flex items-center gap-3 transition-all ${btnStyle}"
+                                    >
+                                        <span class="w-8 h-8 rounded-xl font-black text-xs flex items-center justify-center shrink-0 ${
+                                            isThisSelected && !quizSubmitted ? 'bg-white text-crimson' : 'bg-white/80 text-sumi border border-gray-200'
+                                        }">
+                                            ${opt.key}
+                                        </span>
+                                        <div>
+                                            <div class="font-jp font-black text-base leading-snug">${opt.jp}</div>
+                                            ${showQuizRomaji ? `<div class="text-xs opacity-85 font-semibold">${opt.romaji}</div>` : ''}
+                                        </div>
+                                    </button>
+                                `;
+                            }).join('')}
+                        </div>
+
+                        <!-- Pembahasan (Muncul setelah dikumpulkan) -->
+                        ${quizSubmitted ? `
+                            <div class="p-4 rounded-2xl ${isCorrect ? 'bg-emerald-50 border border-emerald-300 text-emerald-950' : 'bg-amber-50 border border-gold text-amber-950'} text-xs sm:text-sm space-y-1">
+                                <div class="font-extrabold flex items-center gap-1.5">
+                                    <i class="fa-solid fa-circle-info text-crimson"></i>
+                                    <span>Kunci Jawaban: Pilihan ${q.correct} — Pembahasan:</span>
+                                </div>
+                                <p class="leading-relaxed">${q.explanation}</p>
+                            </div>
+                        ` : ''}
+                    </article>
+                `;
+            }).join('');
+        }
+
+        function submitQuiz() {
+            const nameInput = document.getElementById('input-user-name');
+            quizUserName = (nameInput?.value || '').trim();
+
+            if (!quizUserName) {
+                const warn = document.getElementById('name-warning-msg');
+                warn.classList.remove('hidden');
+                nameInput.focus();
+                nameInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                return;
+            }
+
+            quizSubmitted = true;
+            let correctCount = 0;
+            QUIZ_QUESTIONS.forEach(q => {
+                if (userAnswers[q.id] === q.correct) correctCount++;
+            });
+
+            const finalScore = correctCount * 10;
+
+            // Tampilkan Kartu Rapor Skor atas nama User
+            const banner = document.getElementById('quiz-result-banner');
+            banner.classList.remove('hidden');
+
+            document.getElementById('result-user-name').textContent = quizUserName;
+            document.getElementById('result-user-class').textContent = quizUserClass || 'Peserta Evaluasi Bahasa Jepang Bab 1 (第1課)';
+            document.getElementById('result-score-number').textContent = finalScore;
+            document.getElementById('result-correct-detail').textContent = `Benar ${correctCount} dari 10 Soal (${10 - correctCount} Salah)`;
+
+            const badge = document.getElementById('result-grade-badge');
+            const msg = document.getElementById('result-feedback-msg');
+
+            if (finalScore === 100) {
+                badge.className = "inline-block bg-emerald-600 text-white font-black text-sm px-4 py-1.5 rounded-full shadow";
+                badge.textContent = "Predikat S • Sempurna (満点合格!)";
+                msg.textContent = `Subarashii, ${quizUserName}-san! Anda menguasai seluruh Kotoba, Bunpou, dan Kaiwa Bab 1 dengan sempurna!`;
+            } else if (finalScore >= 80) {
+                badge.className = "inline-block bg-gold text-sumi font-black text-sm px-4 py-1.5 rounded-full shadow";
+                badge.textContent = "Predikat A • Sangat Baik (優秀!)";
+                msg.textContent = `Yoku dekimashita, ${quizUserName}-san! Pemahaman Bab 1 Anda sudah sangat kuat.`;
+            } else if (finalScore >= 60) {
+                badge.className = "inline-block bg-amber-500 text-white font-black text-sm px-4 py-1.5 rounded-full shadow";
+                badge.textContent = "Predikat B • Lulus Cukup Baik (合格)";
+                msg.textContent = `Ganbatte, ${quizUserName}-san! Periksa kembali pembahasan di bawah untuk soal yang masih keliru.`;
+            } else {
+                badge.className = "inline-block bg-crimson text-white font-black text-sm px-4 py-1.5 rounded-full shadow";
+                badge.textContent = "Predikat C • Perlu Latihan Ulang (再挑戦)";
+                msg.textContent = `Jangan menyerah, ${quizUserName}-san! Mari pelajari kembali modul Kotoba dan Bunpou lalu coba lagi.`;
+            }
+
+            // Update badge di Header & Beranda
+            document.getElementById('header-user-score').textContent = `${quizUserName}: ${finalScore}/100`;
+            const homeStatus = document.getElementById('home-quiz-status');
+            if (homeStatus) homeStatus.textContent = `${quizUserName} • Skor Terakhir: ${finalScore}/100`;
+
+            renderQuizQuestions();
+            saveQuizProgress();
+            banner.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function resetQuiz() {
+            userAnswers = {};
+            quizSubmitted = false;
+            document.getElementById('quiz-result-banner').classList.add('hidden');
+            updateQuizAnsweredCounter();
+            renderQuizQuestions();
+            saveQuizProgress();
+        }
+
+        function saveQuizProgress() {
+            try {
+                localStorage.setItem('nihongo_bab1_progress_v1', JSON.stringify({
+                    userName: quizUserName,
+                    userClass: quizUserClass,
+                    userAnswers,
+                    quizSubmitted
+                }));
+            } catch (e) {}
+        }
+
+        function loadQuizProgress() {
+            try {
+                const raw = localStorage.getItem('nihongo_bab1_progress_v1');
+                if (!raw) return;
+                const data = JSON.parse(raw);
+                quizUserName = data.userName || '';
+                quizUserClass = data.userClass || '';
+                userAnswers = data.userAnswers || {};
+                quizSubmitted = !!data.quizSubmitted;
+
+                const nameInput = document.getElementById('input-user-name');
+                const classInput = document.getElementById('input-user-class');
+                if (nameInput) nameInput.value = quizUserName;
+                if (classInput) classInput.value = quizUserClass;
+
+                updateQuizAnsweredCounter();
+                if (quizSubmitted && quizUserName) {
+                    submitQuiz();
+                }
+            } catch (e) {}
+        }
+
+        /* =========================================================================
+           10. WEB SPEECH API (AUDIO BAHASA JEPANG) & ANIMASI KELOPAK SAKURA
+           ========================================================================= */
+        function stopSpeech() {
+            isPlayingAllKaiwa = false;
+            if (kaiwaPlayTimeout) {
+                clearTimeout(kaiwaPlayTimeout);
+                kaiwaPlayTimeout = null;
+            }
+            updatePlayAllButtonUI();
+            if ('speechSynthesis' in window) {
+                window.speechSynthesis.cancel();
+            }
+        }
+
+        function speakJapanese(text) {
+            if (!('speechSynthesis' in window)) return;
+            stopSpeech();
+            const u = new SpeechSynthesisUtterance(text);
+            u.lang = 'ja-JP';
+            u.rate = 0.86;
+            window.speechSynthesis.speak(u);
+        }
+
+        function initSakuraCanvas() {
+            const canvas = document.getElementById('sakura-canvas');
+            const ctx = canvas.getContext('2d');
+            let width = canvas.width = window.innerWidth;
+            let height = canvas.height = window.innerHeight;
+
+            window.addEventListener('resize', () => {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
+            });
+
+            const petals = Array.from({ length: 20 }, () => ({
+                x: Math.random() * width,
+                y: Math.random() * height,
+                size: Math.random() * 7 + 5,
+                speedY: Math.random() * 0.65 + 0.35,
+                speedX: Math.random() * 0.5 - 0.25,
+                angle: Math.random() * Math.PI * 2,
+                spin: (Math.random() - 0.5) * 0.02,
+                opacity: Math.random() * 0.3 + 0.15
+            }));
+
+            function drawPetal(p) {
+                ctx.save();
+                ctx.translate(p.x, p.y);
+                ctx.rotate(p.angle);
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.bezierCurveTo(p.size / 2, -p.size / 2, p.size, p.size / 3, 0, p.size);
+                ctx.bezierCurveTo(-p.size, p.size / 3, -p.size / 2, -p.size / 2, 0, 0);
+                ctx.fillStyle = `rgba(229, 75, 115, ${p.opacity})`;
+                ctx.fill();
+                ctx.restore();
+            }
+
+            function animateSakura() {
+                ctx.clearRect(0, 0, width, height);
+                petals.forEach(p => {
+                    p.y += p.speedY;
+                    p.x += p.speedX + Math.sin(p.angle) * 0.25;
+                    p.angle += p.spin;
+                    if (p.y > height + 20) { p.y = -20; p.x = Math.random() * width; }
+                    if (p.x > width + 20) p.x = -20;
+                    if (p.x < -20) p.x = width + 20;
+                    drawPetal(p);
+                });
+                requestAnimationFrame(animateSakura);
+            }
+            animateSakura();
+        }
+
+        window.onload = function () {
+            initSakuraCanvas();
+            renderKotobaGrid();
+            renderBunpouSection();
+            renderKaiwaView();
+            renderQuizQuestions();
+            loadQuizProgress();
+        };
+    </script>
+</body>
+</html>
