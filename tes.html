@@ -1,0 +1,1704 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Dojo Kotoba Minna no Nihongo Bab 1–3 | Ujian & Latihan Kosakata</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts: Inter, Noto Sans JP, Shippori Mincho -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Sans+JP:wght@400;500;700;900&family=Shippori+Mincho:wght@700;800&display=swap" rel="stylesheet">
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            sans: ['Inter', 'sans-serif'],
+            jp: ['"Noto Sans JP"', 'sans-serif'],
+            mincho: ['"Shippori Mincho"', 'serif'],
+          },
+          colors: {
+            wafu: {
+              bg: '#0b0914',
+              card: '#151224',
+              border: '#2c2445',
+              crimson: '#e11d48',
+              sakura: '#fda4af',
+              gold: '#f59e0b',
+              jade: '#10b981'
+            }
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #0b0914;
+      color: #f8fafc;
+      overflow-x: hidden;
+      -webkit-tap-highlight-color: transparent;
+      /* Subtle Japanese Seigaiha / Geometric Pattern Overlay */
+      background-image: 
+        radial-gradient(circle at 15% 15%, rgba(225, 29, 72, 0.12) 0%, transparent 40%),
+        radial-gradient(circle at 85% 80%, rgba(245, 158, 11, 0.09) 0%, transparent 40%),
+        radial-gradient(rgba(255, 255, 255, 0.04) 1px, transparent 1px);
+      background-size: 100% 100%, 100% 100%, 28px 28px;
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar { width: 6px; height: 6px; }
+    ::-webkit-scrollbar-track { background: #0b0914; }
+    ::-webkit-scrollbar-thumb { background: #3b2d54; border-radius: 9999px; }
+    ::-webkit-scrollbar-thumb:hover { background: #e11d48; }
+
+    /* Auto-Hide Smart Header */
+    #smart-header {
+      transition: transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      will-change: transform;
+    }
+    .header-hidden {
+      transform: translateY(-110%);
+    }
+
+    /* Traditional Japanese Hanko Stamp Effect */
+    .hanko-stamp {
+      border: 4px solid currentColor;
+      border-radius: 9999px;
+      width: 108px;
+      height: 108px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      transform: rotate(-12deg);
+      box-shadow: inset 0 0 0 2px currentColor, 0 8px 25px -5px rgba(0, 0, 0, 0.5);
+      animation: stampSlam 0.45s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+      user-select: none;
+    }
+
+    @keyframes stampSlam {
+      0% { opacity: 0; transform: scale(2.4) rotate(-25deg); }
+      70% { opacity: 1; transform: scale(0.92) rotate(-10deg); }
+      100% { opacity: 1; transform: scale(1) rotate(-12deg); }
+    }
+
+    .card-pop {
+      animation: popIn 0.25s cubic-bezier(0.22, 1, 0.36, 1);
+    }
+    @keyframes popIn {
+      0% { opacity: 0.3; transform: translateY(8px) scale(0.98); }
+      100% { opacity: 1; transform: translateY(0) scale(1); }
+    }
+
+    /* Sakura Canvas Pointer Events None */
+    #sakura-canvas {
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      z-index: 1;
+    }
+
+    /* Torii Top Bar Accent */
+    .torii-border-top {
+      border-top: 3px solid #e11d48;
+      box-shadow: 0 -2px 15px rgba(225, 29, 72, 0.35);
+    }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col relative selection:bg-rose-600 selection:text-white">
+
+  <!-- Animated Falling Sakura Petals Canvas -->
+  <canvas id="sakura-canvas"></canvas>
+
+  <!-- ==================== AUTO-HIDE SMART HEADER ==================== -->
+  <header id="smart-header" class="fixed top-0 left-0 right-0 z-40 bg-wafu-bg/90 backdrop-blur-md border-b border-wafu-border shadow-2xl torii-border-top">
+    <div class="max-w-6xl mx-auto px-3 sm:px-6 py-2.5 flex items-center justify-between gap-2">
+      
+      <!-- Brand / Dojo Title -->
+      <div class="flex items-center gap-2.5">
+        <div class="w-10 h-10 rounded-2xl bg-gradient-to-br from-rose-600 via-red-600 to-amber-500 flex items-center justify-center shadow-lg shadow-rose-600/25 font-mincho font-extrabold text-xl text-white shrink-0 border border-rose-400/30">
+          言
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="text-sm sm:text-base font-extrabold tracking-tight text-white">
+              Dojo Kotoba <span class="text-rose-400">Bab 1–3</span>
+            </h1>
+            <span class="hidden md:inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-rose-500/15 text-rose-300 border border-rose-500/30">
+              <i class="fa-solid fa-torii-gate text-[9px]"></i> Minna no Nihongo I
+            </span>
+          </div>
+          <p id="header-subtitle" class="text-[11px] text-slate-400 leading-tight">
+            Ujian Terjemahan Jepang &rarr; Indonesia &bull; KKM Lulus: <span class="text-amber-400 font-bold">80</span>
+          </p>
+        </div>
+      </div>
+
+      <!-- Active Exam Status: Participant Name, Timer (40:00) & Submit Button -->
+      <div id="header-exam-controls" class="hidden items-center gap-2 sm:gap-3">
+        <!-- Participant Pill -->
+        <div class="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-wafu-card border border-wafu-border text-xs">
+          <i class="fa-solid fa-user-ninja text-rose-400"></i>
+          <span id="header-player-name" class="font-bold text-slate-200 max-w-[120px] truncate">Peserta</span>
+        </div>
+
+        <!-- 40-Minute Countdown Timer -->
+        <div id="timer-badge" class="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900 border border-amber-500/40 text-amber-300 font-mono font-extrabold text-xs sm:text-sm shadow-inner">
+          <i class="fa-regular fa-clock animate-pulse"></i>
+          <span id="timer-display">40:00</span>
+        </div>
+
+        <!-- Quick Submit Button -->
+        <button onclick="openSubmitConfirmModal()" class="px-3 sm:px-4 py-1.5 sm:py-2 rounded-xl bg-gradient-to-r from-rose-600 to-amber-600 hover:from-rose-500 hover:to-amber-500 text-white font-bold text-xs shadow-lg shadow-rose-600/25 active:scale-95 transition-all cursor-pointer flex items-center gap-1.5">
+          <i class="fa-solid fa-paper-plane"></i>
+          <span>Kumpulkan</span>
+        </button>
+      </div>
+
+      <!-- Home / Study Navigation (Shown when not in active exam) -->
+      <div id="header-home-controls" class="flex items-center gap-2">
+        <button onclick="switchScreen('STUDY')" id="btn-nav-study" class="px-3 py-1.5 rounded-xl bg-wafu-card hover:bg-slate-800 text-slate-200 border border-wafu-border text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer">
+          <i class="fa-solid fa-book-open text-amber-400"></i>
+          <span>Kamus Hafalan</span>
+        </button>
+        <button onclick="switchScreen('WELCOME')" id="btn-nav-welcome" class="hidden px-3 py-1.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold flex items-center gap-1.5 transition-all cursor-pointer">
+          <i class="fa-solid fa-play"></i>
+          <span>Mulai Ujian</span>
+        </button>
+      </div>
+
+    </div>
+  </header>
+
+  <!-- Spacer for Fixed Header -->
+  <div class="h-[68px]"></div>
+
+  <!-- ==================== MAIN WORKSPACE ==================== -->
+  <main class="relative z-10 flex-1 max-w-5xl w-full mx-auto px-3 sm:px-6 py-4 flex flex-col">
+
+    <!-- =======================================================================
+         SCREEN 1: WELCOME / LOBBY PENGATURAN UJIAN & INPUT NAMA PESERTA
+         ======================================================================= -->
+    <section id="screen-welcome" class="my-auto py-2">
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
+        
+        <!-- Left Column (7 Cols): Exam Registration & Rules -->
+        <div class="lg:col-span-7 bg-wafu-card/95 backdrop-blur-md border border-wafu-border rounded-3xl p-5 sm:p-7 shadow-2xl flex flex-col justify-between relative overflow-hidden">
+          <!-- Decorative Background Kanji -->
+          <div class="absolute -right-6 -bottom-8 font-mincho text-[150px] font-black text-rose-500/5 select-none pointer-events-none leading-none">
+            言葉
+          </div>
+
+          <div>
+            <!-- Japanese Tag -->
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-rose-500/15 border border-rose-500/30 text-rose-300 text-xs font-bold mb-3">
+              <span>⛩️ みんなの日本語・第1課〜第3課</span>
+            </div>
+
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-white tracking-tight leading-snug">
+              Ujian Hafalan Kotoba <span class="text-transparent bg-clip-text bg-gradient-to-r from-rose-400 to-amber-400">Bab 1 – 3</span>
+            </h2>
+            <p class="text-xs sm:text-sm text-slate-300 mt-1.5 leading-relaxed">
+              Soal ditampilkan dalam **tulisan Jepang (Kanji/Kana)** dan Anda mengetikkan **arti Bahasa Indonesianya**. Selesaikan dalam waktu **40 menit** dan raih nilai di atas **80** untuk lulus ke Bab 4!
+            </p>
+
+            <!-- Form Input Nama & Pengaturan -->
+            <div class="mt-5 space-y-4">
+              <!-- Nama Peserta -->
+              <div>
+                <label for="input-player-name" class="block text-xs font-bold uppercase tracking-wider text-rose-300 mb-1.5">
+                  <i class="fa-solid fa-id-card mr-1"></i> Nama Peserta Ujian <span class="text-rose-500">*</span>
+                </label>
+                <div class="relative">
+                  <input 
+                    id="input-player-name" 
+                    type="text" 
+                    maxlength="40"
+                    placeholder="Masukkan nama lengkap / panggilan Anda..." 
+                    class="w-full px-4 py-3 rounded-2xl bg-slate-950/90 border-2 border-wafu-border focus:border-rose-500 text-white placeholder-slate-500 text-sm font-semibold focus:outline-none transition-all"
+                  >
+                  <span id="name-error-msg" class="hidden text-[11px] text-rose-400 font-semibold mt-1 block">
+                    <i class="fa-solid fa-circle-exclamation mr-1"></i>Silakan masukkan nama Anda terlebih dahulu sebelum memulai ujian.
+                  </span>
+                </div>
+              </div>
+
+              <!-- Pilihan Bab & Jumlah Soal -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                <div>
+                  <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">
+                    <i class="fa-solid fa-layer-group text-amber-400 mr-1"></i> Pilih Materi Bab
+                  </label>
+                  <select id="select-bab" onchange="updateAvailableQuestionCount()" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950/90 border border-wafu-border text-white text-xs sm:text-sm font-semibold focus:outline-none focus:border-rose-500 cursor-pointer">
+                    <option value="ALL">Semua Bab (Bab 1, 2 & 3 Lengkap)</option>
+                    <option value="1">Khusus Bab 1 (Perkenalan, Profesi, Negara)</option>
+                    <option value="2">Khusus Bab 2 (Kata Tunjuk & Benda Sehari-hari)</option>
+                    <option value="3">Khusus Bab 3 (Tempat, Ruangan, Gedung & Harga)</option>
+                  </select>
+                </div>
+
+                <div>
+                  <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">
+                    <i class="fa-solid fa-list-ol text-rose-400 mr-1"></i> Jumlah Soal Ujian
+                  </label>
+                  <select id="select-question-count" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950/90 border border-wafu-border text-white text-xs sm:text-sm font-semibold focus:outline-none focus:border-rose-500 cursor-pointer">
+                    <option value="25">25 Soal Pilihan (Cepat)</option>
+                    <option value="50" selected>50 Soal Ujian Standar (Rekomendasi)</option>
+                    <option value="ALL">Semua Soal di Bab Ini (115 Kotoba)</option>
+                  </select>
+                </div>
+              </div>
+
+              <!-- Opsi Bantuan Hiragana & Urutan Soal -->
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 pt-1">
+                <label class="flex items-center gap-2.5 p-3 rounded-xl bg-slate-950/70 border border-wafu-border cursor-pointer hover:border-rose-500/40 transition-all select-none">
+                  <input type="checkbox" id="chk-show-furigana" checked class="w-4 h-4 rounded text-rose-600 bg-slate-900 border-slate-700 focus:ring-0">
+                  <div>
+                    <span class="text-xs font-bold text-white block">Tampilkan Hiragana (Furigana)</span>
+                    <span class="text-[10px] text-slate-400">Matikan jika ingin tes baca Kanji murni</span>
+                  </div>
+                </label>
+
+                <label class="flex items-center gap-2.5 p-3 rounded-xl bg-slate-950/70 border border-wafu-border cursor-pointer hover:border-rose-500/40 transition-all select-none">
+                  <input type="checkbox" id="chk-shuffle-questions" checked class="w-4 h-4 rounded text-rose-600 bg-slate-900 border-slate-700 focus:ring-0">
+                  <div>
+                    <span class="text-xs font-bold text-white block">Acak Urutan Soal (Shuffle)</span>
+                    <span class="text-[10px] text-slate-400">Urutan kotoba diacak setiap ujian</span>
+                  </div>
+                </label>
+              </div>
+            </div>
+          </div>
+
+          <!-- Tombol Mulai Ujian & Mode Belajar -->
+          <div class="mt-6 pt-4 border-t border-wafu-border/80 flex flex-col sm:flex-row items-center gap-3">
+            <button onclick="startExamSession()" class="w-full sm:flex-1 py-3.5 px-6 rounded-2xl bg-gradient-to-r from-rose-600 via-red-600 to-amber-500 hover:from-rose-500 hover:to-amber-400 text-white font-extrabold text-sm shadow-xl shadow-rose-600/30 flex items-center justify-center gap-2 active:scale-98 transition-all cursor-pointer">
+              <i class="fa-solid fa-play"></i>
+              <span>Mulai Ujian Sekarang (40 Menit)</span>
+            </button>
+
+            <button onclick="switchScreen('STUDY')" class="w-full sm:w-auto py-3.5 px-5 rounded-2xl bg-slate-900 hover:bg-slate-800 text-amber-300 border border-amber-500/30 font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition-all cursor-pointer">
+              <i class="fa-solid fa-book-open"></i>
+              <span>Hafalkan Dulu</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- Right Column (5 Cols): Exam Rules Card & History Log -->
+        <div class="lg:col-span-5 flex flex-col justify-between gap-4">
+          
+          <!-- Peraturan Dojo Card -->
+          <div class="bg-wafu-card/95 border border-wafu-border rounded-3xl p-5 shadow-xl">
+            <h3 class="text-sm font-extrabold text-white flex items-center gap-2 mb-3">
+              <i class="fa-solid fa-scroll text-amber-400"></i>
+              <span>Ketentuan Kelulusan Dojo</span>
+            </h3>
+            <ul class="space-y-2.5 text-xs text-slate-300">
+              <li class="flex items-start gap-2.5">
+                <span class="w-5 h-5 rounded-full bg-rose-500/20 text-rose-400 font-bold flex items-center justify-center shrink-0 mt-0.5">1</span>
+                <span><strong>Waktu 40 Menit:</strong> Timer berjalan mundur otomatis. Selesai ataupun belum selesai, jawaban akan <strong>dikumpulkan otomatis</strong> saat waktu habis.</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="w-5 h-5 rounded-full bg-amber-500/20 text-amber-400 font-bold flex items-center justify-center shrink-0 mt-0.5">2</span>
+                <span><strong>Jawab dalam Bahasa Indonesia:</strong> Ketik arti kata dalam bahasa Indonesia (sistem mengenali sinonim umum, huruf besar/kecil tidak berpengaruh).</span>
+              </li>
+              <li class="flex items-start gap-2.5">
+                <span class="w-5 h-5 rounded-full bg-emerald-500/20 text-emerald-400 font-bold flex items-center justify-center shrink-0 mt-0.5">3</span>
+                <span><strong>Syarat Lulus Nilai &ge; 80:</strong> Jika skor mencapai <strong>80 atau lebih</strong>, Anda dinyatakan <strong>LULUS (合格)</strong> dan berhak lanjut ke Bab 4!</span>
+              </li>
+            </ul>
+
+            <!-- Stats Summary of Database -->
+            <div class="mt-4 pt-3.5 border-t border-wafu-border grid grid-cols-3 gap-2 text-center">
+              <div class="bg-slate-950/70 rounded-xl p-2 border border-wafu-border/60">
+                <span class="text-[10px] text-slate-400 block">Bab 1</span>
+                <span id="stat-count-b1" class="text-sm font-extrabold text-rose-400">40 Kata</span>
+              </div>
+              <div class="bg-slate-950/70 rounded-xl p-2 border border-wafu-border/60">
+                <span class="text-[10px] text-slate-400 block">Bab 2</span>
+                <span id="stat-count-b2" class="text-sm font-extrabold text-amber-400">39 Kata</span>
+              </div>
+              <div class="bg-slate-950/70 rounded-xl p-2 border border-wafu-border/60">
+                <span class="text-[10px] text-slate-400 block">Bab 3</span>
+                <span id="stat-count-b3" class="text-sm font-extrabold text-emerald-400">36 Kata</span>
+              </div>
+            </div>
+          </div>
+
+          <!-- Riwayat Skor Peserta Terakhir -->
+          <div class="bg-wafu-card/95 border border-wafu-border rounded-3xl p-5 shadow-xl flex-1 flex flex-col justify-between">
+            <div class="flex items-center justify-between mb-2.5">
+              <h3 class="text-sm font-extrabold text-white flex items-center gap-2">
+                <i class="fa-solid fa-trophy text-amber-400"></i>
+                <span>Riwayat Nilai Terakhir</span>
+              </h3>
+              <button onclick="clearScoreHistory()" class="text-[11px] text-slate-400 hover:text-rose-400 transition-colors cursor-pointer">
+                Hapus Riwayat
+              </button>
+            </div>
+            <div id="history-list-container" class="space-y-2 max-h-[155px] overflow-y-auto pr-1">
+              <!-- Populated by JS -->
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =======================================================================
+         SCREEN 2: ACTIVE EXAM WORKSPACE (MODE FOKUS 1-PER-1 & MODE LEMBAR UJIAN)
+         ======================================================================= -->
+    <section id="screen-exam" class="hidden flex-1 flex flex-col justify-between">
+      
+      <!-- Top Exam Sub-Bar: Progress Terjawab, View Switcher (Kartu Fokus vs Lembar Semua Soal), Furigana Toggle -->
+      <div class="bg-wafu-card/90 border border-wafu-border rounded-2xl p-3 mb-3 flex flex-wrap items-center justify-between gap-2">
+        <div class="flex items-center gap-3">
+          <span class="text-xs sm:text-sm font-extrabold text-white">
+            Terjawab: <span id="exam-answered-count" class="text-emerald-400">0</span> / <span id="exam-total-count">50</span>
+          </span>
+          <div class="w-24 sm:w-36 h-2 bg-slate-950 rounded-full overflow-hidden border border-wafu-border">
+            <div id="exam-progress-bar" class="h-full bg-gradient-to-r from-rose-500 to-emerald-400 transition-all duration-300" style="width: 0%"></div>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-1.5 sm:gap-2 ml-auto">
+          <!-- Toggle Furigana Live -->
+          <button onclick="toggleLiveFurigana()" id="btn-live-furigana" class="px-2.5 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-wafu-border text-xs font-semibold text-rose-300 flex items-center gap-1.5 cursor-pointer">
+            <i class="fa-solid fa-language"></i>
+            <span id="live-furigana-label">Hiragana: ON</span>
+          </button>
+
+          <!-- Switch Mode: Kartu Fokus vs Lembar Soal -->
+          <button onclick="toggleExamLayoutMode()" class="px-2.5 py-1.5 rounded-xl bg-slate-900 hover:bg-slate-800 border border-wafu-border text-xs font-semibold text-amber-300 flex items-center gap-1.5 cursor-pointer">
+            <i id="exam-layout-icon" class="fa-solid fa-table-list"></i>
+            <span id="exam-layout-label">Mode Lembar Soal</span>
+          </button>
+
+          <!-- Question Grid Drawer Button -->
+          <button onclick="toggleQuestionGridModal()" class="px-2.5 py-1.5 rounded-xl bg-rose-600/20 hover:bg-rose-600/30 border border-rose-500/40 text-xs font-bold text-rose-300 flex items-center gap-1.5 cursor-pointer">
+            <i class="fa-solid fa-grip"></i>
+            <span class="hidden sm:inline">Daftar Nomor</span>
+          </button>
+        </div>
+      </div>
+
+      <!-- MODE A: SINGLE FOCUS CARD EXAM (DEFAULT) -->
+      <div id="exam-focus-view" class="my-auto">
+        <div id="exam-card-box" class="card-pop bg-wafu-card/95 border-2 border-wafu-border rounded-3xl p-5 sm:p-8 shadow-2xl max-w-3xl mx-auto relative overflow-hidden">
+          
+          <!-- Card Top Row: Question Number, Bab Badge, Audio TTS -->
+          <div class="flex items-center justify-between gap-2 pb-4 mb-5 border-b border-wafu-border">
+            <div class="flex items-center gap-2">
+              <span id="q-number-badge" class="px-3 py-1 rounded-xl bg-rose-600 text-white font-extrabold text-xs sm:text-sm shadow">
+                Soal #1
+              </span>
+              <span id="q-bab-badge" class="px-3 py-1 rounded-xl bg-amber-500/15 border border-amber-500/30 text-amber-300 font-bold text-xs">
+                Minna Bab 1
+              </span>
+            </div>
+
+            <button onclick="speakCurrentExamWord()" class="px-3 py-1.5 rounded-xl bg-slate-900 hover:bg-rose-950/60 text-rose-300 border border-wafu-border text-xs font-bold flex items-center gap-1.5 active:scale-95 transition-all cursor-pointer" title="Dengarkan Pelafalan Bahasa Jepang">
+              <i class="fa-solid fa-volume-high"></i>
+              <span>Putar Audio</span>
+            </button>
+          </div>
+
+          <!-- Japanese Kotoba Prompt Display -->
+          <div class="text-center py-4 sm:py-6 px-3 bg-slate-950/80 border border-wafu-border rounded-2xl mb-6 relative">
+            <p class="text-[11px] uppercase tracking-widest text-slate-400 font-bold mb-2">
+              Apa arti kosakata Jepang di bawah ini dalam Bahasa Indonesia?
+            </p>
+            
+            <!-- Hiragana / Furigana Reading -->
+            <p id="q-kana-text" class="font-jp text-sm sm:text-base font-bold text-rose-400 mb-1 min-h-[24px]">
+              わたし
+            </p>
+
+            <!-- Main Japanese Script (Kanji / Kana) -->
+            <h2 id="q-jp-text" class="font-jp text-4xl sm:text-6xl font-black text-white tracking-wide py-1 select-all">
+              私
+            </h2>
+          </div>
+
+          <!-- User Indonesian Answer Input -->
+          <div class="space-y-2">
+            <div class="flex items-center justify-between text-xs">
+              <label for="exam-answer-input" class="font-bold text-slate-300 uppercase tracking-wider">
+                <i class="fa-solid fa-keyboard text-amber-400 mr-1"></i> Ketik Arti Bahasa Indonesia:
+              </label>
+              <span id="q-saved-indicator" class="text-[11px] font-semibold text-emerald-400 opacity-0 transition-opacity">
+                <i class="fa-solid fa-check mr-1"></i>Tersimpan
+              </span>
+            </div>
+
+            <input 
+              id="exam-answer-input" 
+              type="text" 
+              autocomplete="off"
+              autocorrect="off"
+              spellcheck="false"
+              oninput="handleFocusAnswerInput(this.value)"
+              placeholder="Ketik artinya dalam bahasa Indonesia lalu tekan Enter..." 
+              class="w-full px-4 py-3.5 sm:py-4 rounded-2xl bg-slate-950 border-2 border-wafu-border focus:border-rose-500 text-white text-base sm:text-lg font-bold placeholder-slate-500 focus:outline-none transition-all shadow-inner"
+            >
+          </div>
+
+          <!-- Navigation Buttons: Prev, Next, Submit -->
+          <div class="mt-6 pt-4 border-t border-wafu-border flex items-center justify-between gap-2.5">
+            <button onclick="prevExamQuestion()" class="py-3 px-4 sm:px-5 rounded-2xl bg-slate-900 hover:bg-slate-800 text-slate-200 font-bold text-xs sm:text-sm border border-wafu-border flex items-center gap-2 active:scale-95 transition-all cursor-pointer">
+              <i class="fa-solid fa-arrow-left"></i>
+              <span>Sebelumnya</span>
+            </button>
+
+            <span class="text-[11px] text-slate-400 hidden sm:inline">
+              Tekan <strong>Enter</strong> untuk lanjut ke soal berikutnya
+            </span>
+
+            <button id="btn-next-or-finish" onclick="nextExamQuestion()" class="py-3 px-5 sm:px-6 rounded-2xl bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs sm:text-sm shadow-lg shadow-rose-600/25 flex items-center gap-2 active:scale-95 transition-all cursor-pointer">
+              <span>Soal Berikutnya</span>
+              <i class="fa-solid fa-arrow-right"></i>
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- MODE B: SCROLLABLE EXAM SHEET (SEMUA SOAL SEKALIGUS) -->
+      <div id="exam-sheet-view" class="hidden space-y-2.5 pb-8">
+        <!-- Populated dynamically when user switches to Sheet Mode -->
+      </div>
+
+    </section>
+
+    <!-- =======================================================================
+         SCREEN 3: RESULT & EVALUATION SCREEN (SKOR, HANKO STAMP, STATUS BAB 4)
+         ======================================================================= -->
+    <section id="screen-result" class="hidden py-2 space-y-5">
+      
+      <!-- Top Result Banner Card -->
+      <div id="result-banner-card" class="bg-wafu-card/95 border-2 border-wafu-border rounded-3xl p-5 sm:p-8 shadow-2xl relative overflow-hidden">
+        
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 items-center">
+          
+          <!-- Left (8 Cols): Greeting, Status Message & Action Buttons -->
+          <div class="lg:col-span-8 space-y-3">
+            <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold" id="res-status-pill">
+              Hasil Evaluasi Ujian Kotoba
+            </div>
+
+            <h2 class="text-2xl sm:text-3xl font-extrabold text-white leading-tight">
+              Peserta: <span id="res-player-name" class="text-amber-400">Nama Peserta</span>
+            </h2>
+
+            <!-- Dynamic Graduation / Retry Message (KKM >= 80) -->
+            <div id="res-graduation-box" class="p-4 rounded-2xl border">
+              <p id="res-graduation-title" class="text-base sm:text-lg font-extrabold mb-1"></p>
+              <p id="res-graduation-desc" class="text-xs sm:text-sm leading-relaxed"></p>
+            </div>
+
+            <!-- Detailed Stats Row -->
+            <div class="grid grid-cols-2 sm:grid-cols-4 gap-2.5 pt-2">
+              <div class="bg-slate-950/80 border border-wafu-border rounded-2xl p-3 text-center">
+                <span class="text-[11px] text-slate-400 block">Jawaban Benar</span>
+                <span id="res-correct-count" class="text-lg sm:text-xl font-extrabold text-emerald-400">0</span>
+              </div>
+              <div class="bg-slate-950/80 border border-wafu-border rounded-2xl p-3 text-center">
+                <span class="text-[11px] text-slate-400 block">Jawaban Salah</span>
+                <span id="res-wrong-count" class="text-lg sm:text-xl font-extrabold text-rose-400">0</span>
+              </div>
+              <div class="bg-slate-950/80 border border-wafu-border rounded-2xl p-3 text-center">
+                <span class="text-[11px] text-slate-400 block">Tidak Dijawab</span>
+                <span id="res-empty-count" class="text-lg sm:text-xl font-extrabold text-amber-400">0</span>
+              </div>
+              <div class="bg-slate-950/80 border border-wafu-border rounded-2xl p-3 text-center">
+                <span class="text-[11px] text-slate-400 block">Waktu Selesai</span>
+                <span id="res-time-spent" class="text-lg sm:text-xl font-extrabold text-sky-400">00:00</span>
+              </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="pt-3 flex flex-wrap items-center gap-2.5">
+              <button id="btn-retry-wrong" onclick="retryWrongQuestionsOnly()" class="hidden px-4 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-xs sm:text-sm shadow-lg shadow-amber-500/20 flex items-center gap-2 cursor-pointer">
+                <i class="fa-solid fa-rotate-right"></i>
+                <span>Ulangi Soal yang Salah Saja</span>
+              </button>
+
+              <button onclick="restartSameExamConfig()" class="px-4 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs sm:text-sm shadow-lg shadow-rose-600/25 flex items-center gap-2 cursor-pointer">
+                <i class="fa-solid fa-redo"></i>
+                <span>Ujian Ulang (Acak Baru)</span>
+              </button>
+
+              <button onclick="switchScreen('WELCOME')" class="px-4 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-slate-200 border border-wafu-border font-semibold text-xs sm:text-sm flex items-center gap-2 cursor-pointer">
+                <i class="fa-solid fa-sliders"></i>
+                <span>Ganti Pengaturan / Bab</span>
+              </button>
+            </div>
+          </div>
+
+          <!-- Right (4 Cols): Giant Score Circle & Traditional Japanese Hanko Stamp -->
+          <div class="lg:col-span-4 flex flex-col items-center justify-center bg-slate-950/85 border border-wafu-border rounded-3xl p-5 relative">
+            <span class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-1">Nilai Akhir</span>
+            <div id="res-score-number" class="text-6xl sm:text-7xl font-black tracking-tight my-1">
+              100
+            </div>
+            <span class="text-xs text-slate-400 mb-4">Syarat Kelulusan Minimal: <strong>80</strong></span>
+
+            <!-- Japanese Hanko Stamp -->
+            <div id="res-hanko-stamp" class="hanko-stamp text-emerald-400">
+              <span id="hanko-kanji" class="font-mincho text-2xl font-black leading-none">合格</span>
+              <span id="hanko-sub" class="text-[10px] font-extrabold tracking-widest uppercase mt-1 border-t border-current pt-0.5">LULUS</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- Review / Pembahasan Jawaban Section -->
+      <div class="bg-wafu-card/95 border border-wafu-border rounded-3xl p-4 sm:p-6 shadow-xl">
+        <div class="flex flex-wrap items-center justify-between gap-2 pb-4 mb-4 border-b border-wafu-border">
+          <div>
+            <h3 class="text-base sm:text-lg font-extrabold text-white flex items-center gap-2">
+              <i class="fa-solid fa-clipboard-check text-rose-400"></i>
+              <span>Pembahasan & Koreksi Jawaban</span>
+            </h3>
+            <p class="text-xs text-slate-400">Periksa perbandingan jawaban yang Anda ketik dengan arti yang tepat di Minna no Nihongo.</p>
+          </div>
+
+          <!-- Filter Review Buttons -->
+          <div class="inline-flex rounded-xl bg-slate-950 p-1 border border-wafu-border">
+            <button onclick="filterReviewList('ALL')" data-rev="ALL" class="rev-filter-btn px-3 py-1 rounded-lg text-xs font-bold bg-rose-600 text-white cursor-pointer">
+              Semua
+            </button>
+            <button onclick="filterReviewList('WRONG')" data-rev="WRONG" class="rev-filter-btn px-3 py-1 rounded-lg text-xs font-bold text-slate-400 hover:text-white cursor-pointer">
+              Salah / Kosong
+            </button>
+            <button onclick="filterReviewList('CORRECT')" data-rev="CORRECT" class="rev-filter-btn px-3 py-1 rounded-lg text-xs font-bold text-slate-400 hover:text-white cursor-pointer">
+              Benar
+            </button>
+          </div>
+        </div>
+
+        <div id="review-list-container" class="space-y-2.5">
+          <!-- Populated dynamically -->
+        </div>
+      </div>
+
+    </section>
+
+    <!-- =======================================================================
+         SCREEN 4: KAMUS HAFALAN & LATIHAN AUDIO SEBELUM UJIAN (BAB 1 - 3)
+         ======================================================================= -->
+    <section id="screen-study" class="hidden py-2 space-y-4">
+      <div class="bg-wafu-card/95 border border-wafu-border rounded-3xl p-4 sm:p-6 shadow-xl">
+        <div class="flex flex-wrap items-center justify-between gap-3 pb-4 border-b border-wafu-border">
+          <div>
+            <h2 class="text-lg sm:text-xl font-extrabold text-white flex items-center gap-2">
+              <i class="fa-solid fa-book-open-reader text-amber-400"></i>
+              <span>Kamus Hafalan Kotoba Minna no Nihongo (Bab 1 – 3)</span>
+            </h2>
+            <p class="text-xs text-slate-400">Pelajari tulisan Jepang, cara baca Hiragana, dan arti Bahasa Indonesianya sebelum memulai ujian 40 menit.</p>
+          </div>
+
+          <button onclick="switchScreen('WELCOME')" class="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs flex items-center gap-1.5 shadow-lg shadow-rose-600/25 cursor-pointer">
+            <i class="fa-solid fa-pen-to-square"></i>
+            <span>Siap Mulai Ujian</span>
+          </button>
+        </div>
+
+        <!-- Filter Bab & Search in Study Mode -->
+        <div class="mt-4 flex flex-wrap items-center justify-between gap-2">
+          <div class="inline-flex rounded-xl bg-slate-950 p-1 border border-wafu-border">
+            <button onclick="setStudyBabFilter('ALL')" data-sbab="ALL" class="study-bab-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-rose-600 text-white cursor-pointer">Semua (115)</button>
+            <button onclick="setStudyBabFilter(1)" data-sbab="1" class="study-bab-btn px-3 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white cursor-pointer">Bab 1</button>
+            <button onclick="setStudyBabFilter(2)" data-sbab="2" class="study-bab-btn px-3 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white cursor-pointer">Bab 2</button>
+            <button onclick="setStudyBabFilter(3)" data-sbab="3" class="study-bab-btn px-3 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white cursor-pointer">Bab 3</button>
+          </div>
+
+          <div class="relative w-full sm:w-64">
+            <i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs"></i>
+            <input 
+              id="study-search-input" 
+              type="text" 
+              oninput="renderStudyList()"
+              placeholder="Cari kotoba Jepang / Indonesia..." 
+              class="w-full pl-8 pr-3 py-1.5 rounded-xl bg-slate-950 border border-wafu-border text-xs text-white placeholder-slate-500 focus:outline-none focus:border-rose-500"
+            >
+          </div>
+        </div>
+
+        <!-- Study Grid -->
+        <div id="study-grid-container" class="mt-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-2.5 max-h-[62vh] overflow-y-auto pr-1">
+          <!-- Populated by JS -->
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ==================== MODAL: DAFTAR NOMOR SOAL (JUMP GRID) ==================== -->
+  <div id="question-grid-modal" class="fixed inset-0 z-50 hidden bg-slate-950/85 backdrop-blur-md flex items-center justify-center p-4">
+    <div class="bg-wafu-card border border-wafu-border rounded-3xl max-w-lg w-full p-5 shadow-2xl flex flex-col max-h-[85vh]">
+      <div class="flex items-center justify-between pb-3 border-b border-wafu-border">
+        <div>
+          <h3 class="text-base font-extrabold text-white">Navigasi Nomor Soal</h3>
+          <p class="text-xs text-slate-400">Hijau = Sudah dijawab &bull; Abu-abu = Belum dijawab</p>
+        </div>
+        <button onclick="toggleQuestionGridModal()" class="w-8 h-8 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 flex items-center justify-center cursor-pointer">
+          <i class="fa-solid fa-xmark"></i>
+        </button>
+      </div>
+
+      <div id="question-grid-numbers" class="py-4 grid grid-cols-5 sm:grid-cols-8 gap-2 overflow-y-auto">
+        <!-- Populated dynamically -->
+      </div>
+
+      <div class="pt-3 border-t border-wafu-border flex items-center justify-between">
+        <button onclick="toggleQuestionGridModal()" class="px-4 py-2 rounded-xl bg-slate-800 text-slate-300 text-xs font-bold cursor-pointer">
+          Tutup
+        </button>
+        <button onclick="toggleQuestionGridModal(); openSubmitConfirmModal();" class="px-4 py-2 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold cursor-pointer">
+          <i class="fa-solid fa-paper-plane mr-1"></i> Kumpulkan Jawaban
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== MODAL: KONFIRMASI KUMPULKAN UJIAN ==================== -->
+  <div id="submit-confirm-modal" class="fixed inset-0 z-50 hidden bg-slate-950/85 backdrop-blur-sm flex items-center justify-center p-4">
+    <div class="bg-wafu-card border border-wafu-border rounded-3xl max-w-sm w-full p-6 shadow-2xl text-center">
+      <div class="w-12 h-12 rounded-2xl bg-amber-500/15 text-amber-400 flex items-center justify-center mx-auto mb-3 text-xl">
+        <i class="fa-solid fa-clipboard-question"></i>
+      </div>
+      <h3 class="text-base font-extrabold text-white mb-1">Kumpulkan Jawaban Sekarang?</h3>
+      <p id="submit-confirm-desc" class="text-xs text-slate-300 mb-5 leading-relaxed">
+        Pastikan semua jawaban sudah Anda periksa sebelum dikumpulkan.
+      </p>
+      <div class="flex items-center gap-2.5">
+        <button onclick="closeSubmitConfirmModal()" class="flex-1 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold cursor-pointer">
+          Periksa Lagi
+        </button>
+        <button onclick="finalizeAndGradeExam(false)" class="flex-1 py-2.5 rounded-xl bg-gradient-to-r from-rose-600 to-amber-600 hover:from-rose-500 hover:to-amber-500 text-white text-xs font-extrabold cursor-pointer">
+          Ya, Kumpulkan!
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ==================== TOAST NOTIFICATION ==================== -->
+  <div id="toast-box" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 pointer-events-none opacity-0 transition-all duration-300 transform translate-y-2">
+    <div class="bg-slate-900/95 border border-rose-500/40 text-white px-4 py-2.5 rounded-2xl shadow-2xl flex items-center gap-2.5 text-xs sm:text-sm font-semibold backdrop-blur-md">
+      <i id="toast-icon" class="fa-solid fa-torii-gate text-rose-400"></i>
+      <span id="toast-message">Notifikasi</span>
+    </div>
+  </div>
+
+  <!-- FOOTER -->
+  <footer class="relative z-10 border-t border-wafu-border/80 bg-wafu-bg/80 py-3 px-4 text-center text-[11px] text-slate-400">
+    <div class="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-1">
+      <span>⛩️ <strong>Dojo Kotoba Minna no Nihongo I (Bab 1 – 3)</strong> &bull; Latihan Terjemahan Jepang &rarr; Indonesia</span>
+      <span>Timer Otomatis 40 Menit &bull; Standar Kelulusan Nilai &ge; 80</span>
+    </div>
+  </footer>
+
+  <!-- ==================== APPLICATION SCRIPT ==================== -->
+  <script>
+    /*************************************************************************
+     * 1. DATABASE LENGKAP KOTOBA MINNA NO NIHONGO I (BAB 1, BAB 2, BAB 3)
+     * Berisi 115 kosakata autentik Bab 1-3 dengan sinonim Bahasa Indonesia
+     * yang fleksibel agar variasi jawaban yang benar tetap dinilai tepat.
+     *************************************************************************/
+    const KOTOBA_DATABASE = [
+      // ==================== BAB 1 (40 KOTOBA) ====================
+      { bab: 1, jp: "私", kana: "わたし", display: "Saya / Aku", accept: ["saya", "aku", "diriku"] },
+      { bab: 1, jp: "私たち", kana: "わたしたち", display: "Kami / Kita", accept: ["kami", "kita", "kami semua"] },
+      { bab: 1, jp: "あなた", kana: "あなた", display: "Anda / Kamu", accept: ["anda", "kamu", "engkau", "saudara"] },
+      { bab: 1, jp: "あの人", kana: "あのひと", display: "Orang itu / Dia", accept: ["orang itu", "dia", "beliau", "orang sana"] },
+      { bab: 1, jp: "あの方", kana: "あのかた", display: "Beliau / Orang itu (Sopan)", accept: ["beliau", "orang itu", "orang itu sopan", "dia"] },
+      { bab: 1, jp: "皆さん", kana: "みなさん", display: "Anda sekalian / Semuanya", accept: ["anda sekalian", "semuanya", "teman teman", "teman-teman", "hadirin sekalian", "kalian semua", "semua orang"] },
+      { bab: 1, jp: "先生", kana: "せんせい", display: "Guru / Pengajar / Dosen", accept: ["guru", "pengajar", "dosen", "sensei", "ustadz"] },
+      { bab: 1, jp: "教師", kana: "きょうし", display: "Guru / Dosen (Profesi sendiri)", accept: ["guru", "dosen", "pengajar", "tenaga pengajar", "profesi guru"] },
+      { bab: 1, jp: "学生", kana: "がくせい", display: "Mahasiswa / Pelajar / Murid", accept: ["mahasiswa", "pelajar", "murid", "siswa", "mahasiswi"] },
+      { bab: 1, jp: "会社員", kana: "かいしゃいん", display: "Karyawan perusahaan / Pegawai kantor", accept: ["karyawan perusahaan", "pegawai perusahaan", "karyawan", "pegawai kantor", "karyawan kantor", "pekerja perusahaan"] },
+      { bab: 1, jp: "社員", kana: "しゃいん", display: "Karyawan / Pegawai (Perusahaan tertentu)", accept: ["karyawan", "pegawai", "staf perusahaan", "karyawan perusahaan", "pegawai perusahaan"] },
+      { bab: 1, jp: "銀行員", kana: "ぎんこういん", display: "Pegawai bank / Karyawan bank", accept: ["pegawai bank", "karyawan bank", "pekerja bank", "staf bank"] },
+      { bab: 1, jp: "医者", kana: "いしゃ", display: "Dokter", accept: ["dokter", "medis"] },
+      { bab: 1, jp: "研究者", kana: "けんきゅうしゃ", display: "Peneliti / Periset", accept: ["peneliti", "periset", "ahli peneliti"] },
+      { bab: 1, jp: "エンジニア", kana: "エンジニア", display: "Insinyur / Teknisi / Engineer", accept: ["insinyur", "teknisi", "engineer", "ahli teknik"] },
+      { bab: 1, jp: "大学", kana: "だいがく", display: "Universitas / Kampus", accept: ["universitas", "kampus", "perguruan tinggi"] },
+      { bab: 1, jp: "病院", kana: "びょういん", display: "Rumah sakit", accept: ["rumah sakit", "rs"] },
+      { bab: 1, jp: "電気", kana: "でんき", display: "Listrik / Lampu", accept: ["listrik", "lampu", "cahaya lampu"] },
+      { bab: 1, jp: "だれ", kana: "だれ", display: "Siapa", accept: ["siapa", "siapakah"] },
+      { bab: 1, jp: "どなた", kana: "どなた", display: "Siapa (Sopan)", accept: ["siapa", "siapa sopan", "siapakah"] },
+      { bab: 1, jp: "何歳", kana: "なんさい", display: "Umur berapa / Berapa tahun", accept: ["umur berapa", "berapa tahun", "usia berapa", "berapa umurnya", "berapa umur"] },
+      { bab: 1, jp: "おいくつ", kana: "おいくつ", display: "Umur berapa (Sopan)", accept: ["umur berapa", "berapa tahun", "usia berapa", "berapa umurnya", "umur berapa sopan"] },
+      { bab: 1, jp: "はい", kana: "はい", display: "Ya / Iya", accept: ["ya", "iya", "betul", "benar"] },
+      { bab: 1, jp: "いいえ", kana: "いいえ", display: "Tidak / Bukan", accept: ["tidak", "bukan", "nggak", "enggak", "sama sekali tidak"] },
+      { bab: 1, jp: "失礼ですが", kana: "しつれいですが", display: "Permisi / Maaf lancang", accept: ["permisi", "maaf", "maaf lancang", "permisi tetapi", "maaf mengganggu"] },
+      { bab: 1, jp: "お名前は", kana: "おなまえは", display: "Siapa nama Anda? / Namanya siapa?", accept: ["siapa nama anda", "namanya siapa", "nama anda siapa", "siapa namanya", "nama"] },
+      { bab: 1, jp: "初めまして", kana: "はじめまして", display: "Perkenalkan / Salam kenal", accept: ["perkenalkan", "salam kenal", "senang berkenalan", "pertama kali bertemu"] },
+      { bab: 1, jp: "どうぞよろしく", kana: "どうぞよろしく", display: "Senang berkenalan dengan Anda / Mohon bimbingannya", accept: ["senang berkenalan", "senang berkenalan dengan anda", "mohon bimbingannya", "mohon bantuannya", "salam kenal"] },
+      { bab: 1, jp: "日本", kana: "にほん", display: "Jepang", accept: ["jepang", "negara jepang"] },
+      { bab: 1, jp: "インドネシア", kana: "インドネシア", display: "Indonesia", accept: ["indonesia", "negara indonesia"] },
+      { bab: 1, jp: "韓国", kana: "かんこく", display: "Korea Selatan / Korea", accept: ["korea selatan", "korea", "korsel"] },
+      { bab: 1, jp: "中国", kana: "ちゅうごく", display: "Tiongkok / Cina / China", accept: ["tiongkok", "cina", "china", "rrt"] },
+      { bab: 1, jp: "アメリカ", kana: "アメリカ", display: "Amerika Serikat / Amerika", accept: ["amerika", "amerika serikat", "as", "usa"] },
+      { bab: 1, jp: "イギリス", kana: "イギリス", display: "Inggris", accept: ["inggris", "britania", "uk"] },
+      { bab: 1, jp: "ドイツ", kana: "ドイツ", display: "Jerman", accept: ["jerman", "germany"] },
+      { bab: 1, jp: "フランス", kana: "フランス", display: "Prancis / Perancis", accept: ["prancis", "perancis"] },
+      { bab: 1, jp: "タイ", kana: "タイ", display: "Thailand", accept: ["thailand", "thai", "muangthai"] },
+      { bab: 1, jp: "ブラジル", kana: "ブラジル", display: "Brasil / Brazil", accept: ["brasil", "brazil"] },
+      { bab: 1, jp: "インド", kana: "インド", display: "India", accept: ["india"] },
+      { bab: 1, jp: "から来ました", kana: "からきました", display: "Datang dari / Berasal dari", accept: ["datang dari", "berasal dari", "asal dari"] },
+
+      // ==================== BAB 2 (39 KOTOBA) ====================
+      { bab: 2, jp: "これ", kana: "これ", display: "Ini (Benda dekat pembicara)", accept: ["ini", "benda ini"] },
+      { bab: 2, jp: "それ", kana: "それ", display: "Itu (Benda dekat lawan bicara)", accept: ["itu", "benda itu"] },
+      { bab: 2, jp: "あれ", kana: "あれ", display: "Itu (Benda jauh dari keduanya)", accept: ["itu", "itu jauh", "benda itu"] },
+      { bab: 2, jp: "この", kana: "この", display: "Ini (+ Kata benda)", accept: ["ini"] },
+      { bab: 2, jp: "その", kana: "その", display: "Itu (+ Kata benda)", accept: ["itu"] },
+      { bab: 2, jp: "あの", kana: "あの", display: "Itu jauh (+ Kata benda)", accept: ["itu", "itu jauh"] },
+      { bab: 2, jp: "本", kana: "ほん", display: "Buku", accept: ["buku", "kitab"] },
+      { bab: 2, jp: "辞書", kana: "じしょ", display: "Kamus", accept: ["kamus"] },
+      { bab: 2, jp: "雑誌", kana: "ざっし", display: "Majalah", accept: ["majalah"] },
+      { bab: 2, jp: "新聞", kana: "しんぶん", display: "Koran / Surat kabar", accept: ["koran", "surat kabar"] },
+      { bab: 2, jp: "ノート", kana: "ノート", display: "Buku catatan / Buku tulis", accept: ["buku catatan", "buku tulis", "catatan", "notes"] },
+      { bab: 2, jp: "手帳", kana: "てちょう", display: "Buku saku / Buku agenda", accept: ["buku saku", "buku agenda", "agenda", "catatan saku"] },
+      { bab: 2, jp: "名刺", kana: "めいし", display: "Kartu nama", accept: ["kartu nama"] },
+      { bab: 2, jp: "カード", kana: "カード", display: "Kartu", accept: ["kartu"] },
+      { bab: 2, jp: "テレホンカード", kana: "テレホンカード", display: "Kartu telepon", accept: ["kartu telepon", "kartu telpon"] },
+      { bab: 2, jp: "鉛筆", kana: "えんぴつ", display: "Pensil", accept: ["pensil"] },
+      { bab: 2, jp: "ボールペン", kana: "ボールペン", display: "Pulpen / Bolpoin / Pena", accept: ["pulpen", "bolpoin", "pena", "ballpoint", "bolpen"] },
+      { bab: 2, jp: "シャープペンシル", kana: "シャープペンシル", display: "Pensil mekanik / Pensil isi ulang", accept: ["pensil mekanik", "pensil isi ulang", "pensil otomatis"] },
+      { bab: 2, jp: "かぎ", kana: "かぎ", display: "Kunci", accept: ["kunci", "anak kunci"] },
+      { bab: 2, jp: "時計", kana: "とけい", display: "Jam / Arloji", accept: ["jam", "arloji", "jam tangan", "jam dinding"] },
+      { bab: 2, jp: "傘", kana: "かさ", display: "Payung", accept: ["payung"] },
+      { bab: 2, jp: "かばん", kana: "かばん", display: "Tas / Koper", accept: ["tas", "koper", "ransel"] },
+      { bab: 2, jp: "テレビ", kana: "テレビ", display: "Televisi / TV", accept: ["televisi", "tv", "tipi"] },
+      { bab: 2, jp: "ラジオ", kana: "ラジオ", display: "Radio", accept: ["radio"] },
+      { bab: 2, jp: "カメラ", kana: "カメラ", display: "Kamera / Tustel", accept: ["kamera", "camera", "tustel"] },
+      { bab: 2, jp: "コンピューター", kana: "コンピューター", display: "Komputer", accept: ["komputer", "pc", "computer"] },
+      { bab: 2, jp: "自動車", kana: "じどうしゃ", display: "Mobil", accept: ["mobil", "kendaraan roda empat", "oto"] },
+      { bab: 2, jp: "車", kana: "くるま", display: "Mobil / Kendaraan", accept: ["mobil", "kendaraan", "kereta"] },
+      { bab: 2, jp: "机", kana: "つくえ", display: "Meja / Meja tulis", accept: ["meja", "meja tulis", "meja belajar"] },
+      { bab: 2, jp: "いす", kana: "いす", display: "Kursi / Bangku", accept: ["kursi", "bangku"] },
+      { bab: 2, jp: "チョコレート", kana: "チョコレート", display: "Cokelat / Coklat", accept: ["cokelat", "coklat"] },
+      { bab: 2, jp: "コーヒー", kana: "コーヒー", display: "Kopi", accept: ["kopi"] },
+      { bab: 2, jp: "お土産", kana: "おみやげ", display: "Oleh-oleh / Buah tangan", accept: ["oleh oleh", "oleh-oleh", "buah tangan", "cindera mata", "suvenir"] },
+      { bab: 2, jp: "英語", kana: "えいご", display: "Bahasa Inggris", accept: ["bahasa inggris", "inggris"] },
+      { bab: 2, jp: "日本語", kana: "にほんご", display: "Bahasa Jepang", accept: ["bahasa jepang", "jepang"] },
+      { bab: 2, jp: "何", kana: "なん", display: "Apa", accept: ["apa", "apakah"] },
+      { bab: 2, jp: "そう", kana: "そう", display: "Begitu / Benar demikian", accept: ["begitu", "benar", "demikian", "ya begitu"] },
+      { bab: 2, jp: "違います", kana: "ちがいます", display: "Bukan / Salah / Berbeda", accept: ["bukan", "salah", "berbeda", "tidak benar", "keliru"] },
+      { bab: 2, jp: "どうぞ", kana: "どうぞ", display: "Silakan", accept: ["silakan", "silahkan", "mari silakan"] },
+
+      // ==================== BAB 3 (36 KOTOBA) ====================
+      { bab: 3, jp: "ここ", kana: "ここ", display: "Di sini / Tempat ini", accept: ["di sini", "disini", "sini", "tempat ini"] },
+      { bab: 3, jp: "そこ", kana: "そこ", display: "Di situ / Tempat itu", accept: ["di situ", "disitu", "situ", "tempat itu", "di sana"] },
+      { bab: 3, jp: "あそこ", kana: "あそこ", display: "Di sana / Tempat itu (Jauh)", accept: ["di sana", "disana", "sana", "di situ", "tempat sana"] },
+      { bab: 3, jp: "どこ", kana: "どこ", display: "Di mana / Mana", accept: ["di mana", "dimana", "mana", "tempat mana"] },
+      { bab: 3, jp: "こちら", kana: "こちら", display: "Sebelah sini / Di sini (Sopan)", accept: ["sebelah sini", "di sini", "disini", "sini", "arah sini"] },
+      { bab: 3, jp: "そちら", kana: "そちら", display: "Sebelah situ / Di situ (Sopan)", accept: ["sebelah situ", "di situ", "disitu", "situ", "arah situ"] },
+      { bab: 3, jp: "あちら", kana: "あちら", display: "Sebelah sana / Di sana (Sopan)", accept: ["sebelah sana", "di sana", "disana", "sana", "arah sana"] },
+      { bab: 3, jp: "どちら", kana: "どちら", display: "Sebelah mana / Di mana (Sopan)", accept: ["sebelah mana", "di mana", "dimana", "mana", "yang mana"] },
+      { bab: 3, jp: "教室", kana: "きょうしつ", display: "Ruang kelas / Kelas", accept: ["ruang kelas", "kelas", "ruangan kelas"] },
+      { bab: 3, jp: "食堂", kana: "しょくどう", display: "Kantin / Ruang makan", accept: ["kantin", "ruang makan", "rumah makan", "restoran"] },
+      { bab: 3, jp: "事務所", kana: "じむしょ", display: "Kantor / Ruang administrasi", accept: ["kantor", "ruang kantor", "ruang administrasi", "kantor administrasi", "ruang tata usaha"] },
+      { bab: 3, jp: "会議室", kana: "かいぎしつ", display: "Ruang rapat", accept: ["ruang rapat", "ruangan rapat", "ruang meeting", "aula rapat"] },
+      { bab: 3, jp: "受付", kana: "うけつけ", display: "Resepsionis / Meja informasi", accept: ["resepsionis", "meja informasi", "penerima tamu", "loket", "bagian penerima tamu"] },
+      { bab: 3, jp: "ロビー", kana: "ロビー", display: "Lobi / Ruang tunggu", accept: ["lobi", "lobby", "ruang tunggu"] },
+      { bab: 3, jp: "部屋", kana: "へや", display: "Kamar / Ruangan", accept: ["kamar", "ruangan", "bilik"] },
+      { bab: 3, jp: "トイレ", kana: "トイレ", display: "Toilet / Kamar kecil / WC", accept: ["toilet", "wc", "kamar kecil", "kamar mandi", "jamban"] },
+      { bab: 3, jp: "お手洗い", kana: "おてあらい", display: "Toilet / Kamar kecil (Sopan)", accept: ["toilet", "kamar kecil", "wc", "kamar mandi", "tempat cuci tangan"] },
+      { bab: 3, jp: "階段", kana: "かいだん", display: "Tangga", accept: ["tangga", "undakan"] },
+      { bab: 3, jp: "エレベーター", kana: "エレベーター", display: "Lift / Elevator", accept: ["lift", "elevator"] },
+      { bab: 3, jp: "エスカレーター", kana: "エスカレーター", display: "Eskalator / Tangga berjalan", accept: ["eskalator", "tangga berjalan", "escalator"] },
+      { bab: 3, jp: "自動販売機", kana: "じどうはんばいき", display: "Mesin penjual otomatis / Vending machine", accept: ["mesin penjual otomatis", "vending machine", "mesin otomatis", "mesin minuman"] },
+      { bab: 3, jp: "電話", kana: "でんわ", display: "Telepon", accept: ["telepon", "telpon", "hp", "handphone"] },
+      { bab: 3, jp: "お国", kana: "おくに", display: "Negara / Negeri (Negara Anda)", accept: ["negara", "negeri", "negara asal", "tanah air"] },
+      { bab: 3, jp: "会社", kana: "かいしゃ", display: "Perusahaan / Kantor", accept: ["perusahaan", "kantor", "pt", "perseroan"] },
+      { bab: 3, jp: "うち", kana: "うち", display: "Rumah", accept: ["rumah", "tempat tinggal", "kediaman"] },
+      { bab: 3, jp: "靴", kana: "くつ", display: "Sepatu", accept: ["sepatu", "alas kaki"] },
+      { bab: 3, jp: "ネクタイ", kana: "ネクタイ", display: "Dasi", accept: ["dasi"] },
+      { bab: 3, jp: "ワイン", kana: "ワイン", display: "Anggur / Minuman anggur (Wine)", accept: ["anggur", "minuman anggur", "wine", "arak anggur"] },
+      { bab: 3, jp: "売り場", kana: "うりば", display: "Tempat penjualan / Stan / Konter", accept: ["tempat penjualan", "stan", "konter", "bagian penjualan", "area penjualan", "counter"] },
+      { bab: 3, jp: "地下", kana: "ちか", display: "Bawah tanah / Basement", accept: ["bawah tanah", "basement", "lantai bawah tanah", "rubanah"] },
+      { bab: 3, jp: "何階", kana: "なんがい", display: "Lantai berapa / Tingkat berapa", accept: ["lantai berapa", "tingkat berapa", "lantai ke berapa"] },
+      { bab: 3, jp: "いくら", kana: "いくら", display: "Berapa harganya / Berapa", accept: ["berapa", "berapa harganya", "harga berapa", "berapa uang"] },
+      { bab: 3, jp: "百", kana: "ひゃく", display: "Seratus / 100", accept: ["seratus", "100"] },
+      { bab: 3, jp: "千", kana: "せん", display: "Seribu / 1000", accept: ["seribu", "1000", "1.000"] },
+      { bab: 3, jp: "万", kana: "まん", display: "Sepuluh ribu / 10.000", accept: ["sepuluh ribu", "10000", "10.000", "10 ribu"] },
+      { bab: 3, jp: "すみません", kana: "すみません", display: "Maaf / Permisi", accept: ["maaf", "permisi", "minta maaf", "mohon maaf"] }
+    ];
+
+    /*************************************************************************
+     * 2. STATE MANAGEMENT & LOCAL STORAGE RIWAYAT NILAI
+     *************************************************************************/
+    const HISTORY_STORAGE_KEY = 'dojo_kotoba_bab1_3_history_v1';
+    const EXAM_DURATION_SECONDS = 40 * 60; // 40 Menit = 2400 detik
+
+    let playerName = '';
+    let selectedBab = 'ALL';
+    let showFurigana = true;
+    let examLayoutMode = 'FOCUS'; // 'FOCUS' | 'SHEET'
+
+    let examQuestions = [];
+    let userAnswers = {}; // index -> string
+    let currentQIndex = 0;
+
+    let timerInterval = null;
+    let remainingSeconds = EXAM_DURATION_SECONDS;
+    let isExamActive = false;
+    let lastExamResults = []; // stored for review filter & retry wrong questions
+
+    let studyBabFilter = 'ALL';
+
+    /*************************************************************************
+     * 3. SMART INDONESIAN ANSWER EVALUATOR
+     * Menormalisasi teks jawaban peserta dan mencocokkannya secara cerdas
+     *************************************************************************/
+    function normalizeText(str) {
+      return String(str || '')
+        .toLowerCase()
+        .replace(/[\(\)\[\]\{\}\.\,\!\?\/\\\-_'"`~]/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
+    }
+
+    // Levenshtein distance sederhana untuk mentoleransi 1 huruf typo pada kata panjang (>= 6 huruf)
+    function editDistance(a, b) {
+      const m = a.length, n = b.length;
+      const dp = Array.from({ length: m + 1 }, () => Array(n + 1).fill(0));
+      for (let i = 0; i <= m; i++) dp[i][0] = i;
+      for (let j = 0; j <= n; j++) dp[0][j] = j;
+      for (let i = 1; i <= m; i++) {
+        for (let j = 1; j <= n; j++) {
+          const cost = a[i - 1] === b[j - 1] ? 0 : 1;
+          dp[i][j] = Math.min(dp[i - 1][j] + 1, dp[i][j - 1] + 1, dp[i - 1][j - 1] + cost);
+        }
+      }
+      return dp[m][n];
+    }
+
+    function isAnswerCorrect(userRaw, item) {
+      const cleanUser = normalizeText(userRaw);
+      if (!cleanUser) return false;
+
+      // Split if user wrote multiple meanings like "saya / aku"
+      const userParts = cleanUser.split(' ').length > 4 ? [cleanUser] : [cleanUser];
+
+      for (const acc of item.accept) {
+        const cleanAcc = normalizeText(acc);
+        if (cleanUser === cleanAcc) return true;
+
+        // Allow exact match when user omits optional words or adds "itu/ini"
+        if (cleanAcc.length >= 6 && cleanUser.length >= 5) {
+          if (editDistance(cleanUser, cleanAcc) <= 1) return true;
+        }
+      }
+
+      // Check against normalized display tokens separated by "/"
+      const displayParts = item.display.split('/').map(s => normalizeText(s.replace(/\(.*?\)/g, '')));
+      for (const dp of displayParts) {
+        if (dp && cleanUser === dp) return true;
+      }
+
+      return false;
+    }
+
+    /*************************************************************************
+     * 4. SCREEN NAVIGATION & LOBBY SETUP
+     *************************************************************************/
+    function switchScreen(screenName) {
+      const screens = {
+        WELCOME: document.getElementById('screen-welcome'),
+        EXAM: document.getElementById('screen-exam'),
+        RESULT: document.getElementById('screen-result'),
+        STUDY: document.getElementById('screen-study')
+      };
+
+      Object.values(screens).forEach(el => el.classList.add('hidden'));
+      if (screens[screenName]) screens[screenName].classList.remove('hidden');
+
+      const examControls = document.getElementById('header-exam-controls');
+      const homeControls = document.getElementById('header-home-controls');
+      const btnStudy = document.getElementById('btn-nav-study');
+      const btnWelcome = document.getElementById('btn-nav-welcome');
+
+      if (screenName === 'EXAM') {
+        examControls.classList.remove('hidden');
+        examControls.classList.add('flex');
+        homeControls.classList.add('hidden');
+      } else {
+        examControls.classList.add('hidden');
+        examControls.classList.remove('flex');
+        homeControls.classList.remove('hidden');
+
+        if (screenName === 'STUDY') {
+          btnStudy.classList.add('hidden');
+          btnWelcome.classList.remove('hidden');
+          renderStudyList();
+        } else {
+          btnStudy.classList.remove('hidden');
+          btnWelcome.classList.add('hidden');
+        }
+      }
+
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function updateAvailableQuestionCount() {
+      const babVal = document.getElementById('select-bab').value;
+      const pool = babVal === 'ALL'
+        ? KOTOBA_DATABASE
+        : KOTOBA_DATABASE.filter(k => String(k.bab) === String(babVal));
+
+      const selectQ = document.getElementById('select-question-count');
+      const allOpt = selectQ.querySelector('option[value="ALL"]');
+      if (allOpt) {
+        allOpt.textContent = `Semua Soal di Pilihan Ini (${pool.length} Kotoba)`;
+      }
+    }
+
+    /*************************************************************************
+     * 5. START EXAM & 40-MINUTE COUNTDOWN TIMER (AUTO-SUBMIT)
+     *************************************************************************/
+    function startExamSession(customPool = null) {
+      const nameInput = document.getElementById('input-player-name');
+      const errEl = document.getElementById('name-error-msg');
+      const trimmedName = nameInput.value.trim();
+
+      if (!trimmedName) {
+        errEl.classList.remove('hidden');
+        nameInput.focus();
+        showToast('Masukkan nama Anda terlebih dahulu!', 'warn');
+        return;
+      }
+      errEl.classList.add('hidden');
+      playerName = trimmedName;
+      document.getElementById('header-player-name').textContent = playerName;
+
+      showFurigana = document.getElementById('chk-show-furigana').checked;
+      updateLiveFuriganaButtonUI();
+
+      if (customPool && Array.isArray(customPool) && customPool.length > 0) {
+        examQuestions = [...customPool];
+      } else {
+        selectedBab = document.getElementById('select-bab').value;
+        const qCountVal = document.getElementById('select-question-count').value;
+        const doShuffle = document.getElementById('chk-shuffle-questions').checked;
+
+        let pool = selectedBab === 'ALL'
+          ? [...KOTOBA_DATABASE]
+          : KOTOBA_DATABASE.filter(k => String(k.bab) === String(selectedBab));
+
+        if (doShuffle) {
+          for (let i = pool.length - 1; i > 0; i--) {
+            const j = Math.floor(Math.random() * (i + 1));
+            [pool[i], pool[j]] = [pool[j], pool[i]];
+          }
+        }
+
+        if (qCountVal !== 'ALL') {
+          const limit = parseInt(qCountVal, 10);
+          pool = pool.slice(0, Math.min(limit, pool.length));
+        }
+
+        examQuestions = pool;
+      }
+
+      userAnswers = {};
+      currentQIndex = 0;
+      isExamActive = true;
+
+      document.getElementById('exam-total-count').textContent = examQuestions.length;
+      updateExamProgressUI();
+
+      // Start 40-Minute Countdown Timer
+      startCountdownTimer(EXAM_DURATION_SECONDS);
+
+      switchScreen('EXAM');
+      if (examLayoutMode === 'FOCUS') {
+        renderFocusQuestion();
+      } else {
+        renderSheetQuestions();
+      }
+
+      showToast(`Selamat mengerjakan, ${playerName}! Waktu ujian 40 menit dimulai.`, 'info');
+    }
+
+    function startCountdownTimer(seconds) {
+      clearInterval(timerInterval);
+      remainingSeconds = seconds;
+      renderTimerDisplay();
+
+      timerInterval = setInterval(() => {
+        if (!isExamActive) {
+          clearInterval(timerInterval);
+          return;
+        }
+        remainingSeconds--;
+        renderTimerDisplay();
+
+        if (remainingSeconds <= 0) {
+          clearInterval(timerInterval);
+          // WAKTU HABIS -> SELESAI TIDAK SELESAI DIKUMPULKAN OTOMATIS
+          showToast('Waktu 40 Menit Habis! Jawaban otomatis dikumpulkan.', 'warn');
+          finalizeAndGradeExam(true);
+        }
+      }, 1000);
+    }
+
+    function renderTimerDisplay() {
+      const mins = Math.floor(Math.max(0, remainingSeconds) / 60);
+      const secs = Math.max(0, remainingSeconds) % 60;
+      const formatted = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+      const displayEl = document.getElementById('timer-display');
+      const badgeEl = document.getElementById('timer-badge');
+
+      if (displayEl) displayEl.textContent = formatted;
+
+      if (badgeEl) {
+        if (remainingSeconds <= 60) {
+          badgeEl.className = 'flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-rose-950 border border-rose-500 text-rose-300 font-mono font-extrabold text-xs sm:text-sm animate-bounce';
+        } else if (remainingSeconds <= 300) {
+          badgeEl.className = 'flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-950/80 border border-amber-400 text-amber-300 font-mono font-extrabold text-xs sm:text-sm';
+        } else {
+          badgeEl.className = 'flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-slate-900 border border-amber-500/40 text-amber-300 font-mono font-extrabold text-xs sm:text-sm';
+        }
+      }
+    }
+
+    /*************************************************************************
+     * 6. EXAM INTERFACE: FOCUS MODE & SHEET MODE
+     *************************************************************************/
+    function renderFocusQuestion() {
+      if (examQuestions.length === 0) return;
+      const item = examQuestions[currentQIndex];
+
+      const cardBox = document.getElementById('exam-card-box');
+      cardBox.classList.remove('card-pop');
+      void cardBox.offsetWidth;
+      cardBox.classList.add('card-pop');
+
+      document.getElementById('q-number-badge').textContent = `Soal #${currentQIndex + 1} / ${examQuestions.length}`;
+      document.getElementById('q-bab-badge').textContent = `Minna Bab ${item.bab}`;
+
+      const kanaEl = document.getElementById('q-kana-text');
+      if (showFurigana && item.jp !== item.kana) {
+        kanaEl.textContent = item.kana;
+        kanaEl.classList.remove('opacity-0');
+      } else {
+        kanaEl.textContent = item.jp === item.kana ? '（かな）' : '';
+        if (!showFurigana) kanaEl.classList.add('opacity-0');
+        else kanaEl.classList.remove('opacity-0');
+      }
+
+      document.getElementById('q-jp-text').textContent = item.jp;
+
+      const inputEl = document.getElementById('exam-answer-input');
+      inputEl.value = userAnswers[currentQIndex] || '';
+      setTimeout(() => inputEl.focus(), 40);
+
+      const nextBtn = document.getElementById('btn-next-or-finish');
+      if (currentQIndex === examQuestions.length - 1) {
+        nextBtn.innerHTML = '<span>Selesai & Kumpulkan</span><i class="fa-solid fa-paper-plane"></i>';
+        nextBtn.className = 'py-3 px-5 sm:px-6 rounded-2xl bg-gradient-to-r from-emerald-600 to-teal-500 hover:from-emerald-500 hover:to-teal-400 text-white font-extrabold text-xs sm:text-sm shadow-lg shadow-emerald-600/25 flex items-center gap-2 active:scale-95 transition-all cursor-pointer';
+      } else {
+        nextBtn.innerHTML = '<span>Soal Berikutnya</span><i class="fa-solid fa-arrow-right"></i>';
+        nextBtn.className = 'py-3 px-5 sm:px-6 rounded-2xl bg-rose-600 hover:bg-rose-500 text-white font-bold text-xs sm:text-sm shadow-lg shadow-rose-600/25 flex items-center gap-2 active:scale-95 transition-all cursor-pointer';
+      }
+    }
+
+    function handleFocusAnswerInput(val) {
+      if (val && val.trim().length > 0) {
+        userAnswers[currentQIndex] = val;
+      } else {
+        delete userAnswers[currentQIndex];
+      }
+      const savedInd = document.getElementById('q-saved-indicator');
+      savedInd.classList.remove('opacity-0');
+      clearTimeout(window._saveIndTimer);
+      window._saveIndTimer = setTimeout(() => savedInd.classList.add('opacity-0'), 900);
+      updateExamProgressUI();
+    }
+
+    function nextExamQuestion() {
+      if (currentQIndex < examQuestions.length - 1) {
+        currentQIndex++;
+        renderFocusQuestion();
+      } else {
+        openSubmitConfirmModal();
+      }
+    }
+
+    function prevExamQuestion() {
+      if (currentQIndex > 0) {
+        currentQIndex--;
+        renderFocusQuestion();
+      }
+    }
+
+    // Enter Key inside Focus Answer Input moves to next question
+    document.addEventListener('keydown', (e) => {
+      if (!isExamActive) return;
+      if (e.key === 'Enter' && document.activeElement.id === 'exam-answer-input') {
+        e.preventDefault();
+        nextExamQuestion();
+      }
+    });
+
+    function toggleExamLayoutMode() {
+      examLayoutMode = examLayoutMode === 'FOCUS' ? 'SHEET' : 'FOCUS';
+      const focusView = document.getElementById('exam-focus-view');
+      const sheetView = document.getElementById('exam-sheet-view');
+      const label = document.getElementById('exam-layout-label');
+      const icon = document.getElementById('exam-layout-icon');
+
+      if (examLayoutMode === 'SHEET') {
+        focusView.classList.add('hidden');
+        sheetView.classList.remove('hidden');
+        label.textContent = 'Mode Kartu Fokus';
+        icon.className = 'fa-solid fa-id-card';
+        renderSheetQuestions();
+      } else {
+        sheetView.classList.add('hidden');
+        focusView.classList.remove('hidden');
+        label.textContent = 'Mode Lembar Soal';
+        icon.className = 'fa-solid fa-table-list';
+        renderFocusQuestion();
+      }
+    }
+
+    function renderSheetQuestions() {
+      const container = document.getElementById('exam-sheet-view');
+      container.innerHTML = examQuestions.map((item, idx) => {
+        const val = (userAnswers[idx] || '').replace(/"/g, '&quot;');
+        const kanaHtml = showFurigana && item.jp !== item.kana
+          ? `<span class="text-xs text-rose-400 font-jp block">${item.kana}</span>`
+          : '';
+        return `
+          <div class="bg-wafu-card/95 border border-wafu-border rounded-2xl p-3.5 sm:p-4 flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div class="flex items-center gap-3">
+              <span class="w-8 h-8 rounded-xl bg-slate-900 border border-wafu-border text-xs font-extrabold text-slate-300 flex items-center justify-center shrink-0">
+                ${idx + 1}
+              </span>
+              <div>
+                ${kanaHtml}
+                <div class="flex items-center gap-2">
+                  <span class="font-jp text-xl sm:text-2xl font-black text-white">${item.jp}</span>
+                  <span class="text-[10px] px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-300 border border-amber-500/30 font-bold">Bab ${item.bab}</span>
+                  <button onclick="speakJapanese('${item.kana}')" class="w-7 h-7 rounded-lg bg-slate-900 hover:bg-rose-950 text-rose-300 text-xs flex items-center justify-center cursor-pointer" title="Putar Audio">
+                    <i class="fa-solid fa-volume-low"></i>
+                  </button>
+                </div>
+              </div>
+            </div>
+
+            <div class="w-full sm:w-72">
+              <input 
+                type="text" 
+                value="${val}"
+                oninput="handleSheetAnswerInput(${idx}, this.value)"
+                placeholder="Ketik arti Bahasa Indonesia..." 
+                class="w-full px-3.5 py-2.5 rounded-xl bg-slate-950 border border-wafu-border focus:border-rose-500 text-white text-xs sm:text-sm font-semibold focus:outline-none"
+              >
+            </div>
+          </div>
+        `;
+      }).join('') + `
+        <div class="pt-4 text-center">
+          <button onclick="openSubmitConfirmModal()" class="py-3.5 px-8 rounded-2xl bg-gradient-to-r from-rose-600 to-amber-600 hover:from-rose-500 hover:to-amber-500 text-white font-extrabold text-sm shadow-xl shadow-rose-600/30 cursor-pointer">
+            <i class="fa-solid fa-paper-plane mr-2"></i>Selesai & Kumpulkan Semua Jawaban
+          </button>
+        </div>
+      `;
+    }
+
+    function handleSheetAnswerInput(idx, val) {
+      if (val && val.trim().length > 0) {
+        userAnswers[idx] = val;
+      } else {
+        delete userAnswers[idx];
+      }
+      updateExamProgressUI();
+    }
+
+    function toggleLiveFurigana() {
+      showFurigana = !showFurigana;
+      updateLiveFuriganaButtonUI();
+      if (examLayoutMode === 'FOCUS') renderFocusQuestion();
+      else renderSheetQuestions();
+    }
+
+    function updateLiveFuriganaButtonUI() {
+      const lbl = document.getElementById('live-furigana-label');
+      const btn = document.getElementById('btn-live-furigana');
+      if (showFurigana) {
+        lbl.textContent = 'Hiragana: ON';
+        btn.className = 'px-2.5 py-1.5 rounded-xl bg-rose-500/15 border border-rose-500/40 text-xs font-semibold text-rose-300 flex items-center gap-1.5 cursor-pointer';
+      } else {
+        lbl.textContent = 'Hiragana: OFF';
+        btn.className = 'px-2.5 py-1.5 rounded-xl bg-slate-900 border border-wafu-border text-xs font-semibold text-slate-400 flex items-center gap-1.5 cursor-pointer';
+      }
+    }
+
+    function updateExamProgressUI() {
+      const answered = Object.keys(userAnswers).length;
+      const total = examQuestions.length || 1;
+      const pct = Math.round((answered / total) * 100);
+      document.getElementById('exam-answered-count').textContent = answered;
+      document.getElementById('exam-progress-bar').style.width = `${pct}%`;
+    }
+
+    function toggleQuestionGridModal() {
+      const modal = document.getElementById('question-grid-modal');
+      if (modal.classList.contains('hidden')) {
+        const grid = document.getElementById('question-grid-numbers');
+        grid.innerHTML = examQuestions.map((_, idx) => {
+          const isAns = Boolean(userAnswers[idx] && userAnswers[idx].trim());
+          const isCur = idx === currentQIndex;
+          return `
+            <button onclick="jumpToExamQuestion(${idx})" class="h-10 rounded-xl font-extrabold text-xs border transition-all cursor-pointer ${
+              isCur
+                ? 'ring-2 ring-rose-400 bg-rose-600 text-white border-rose-400'
+                : isAns
+                  ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40 hover:bg-emerald-500/30'
+                  : 'bg-slate-900 text-slate-400 border-wafu-border hover:text-white'
+            }">
+              ${idx + 1}
+            </button>
+          `;
+        }).join('');
+        modal.classList.remove('hidden');
+      } else {
+        modal.classList.add('hidden');
+      }
+    }
+
+    function jumpToExamQuestion(idx) {
+      currentQIndex = idx;
+      toggleQuestionGridModal();
+      if (examLayoutMode === 'SHEET') {
+        toggleExamLayoutMode();
+      } else {
+        renderFocusQuestion();
+      }
+    }
+
+    /*************************************************************************
+     * 7. SUBMIT & GRADING ENGINE (PASSING SCORE >= 80)
+     *************************************************************************/
+    function openSubmitConfirmModal() {
+      const answered = Object.keys(userAnswers).length;
+      const total = examQuestions.length;
+      const unanswered = total - answered;
+      const desc = document.getElementById('submit-confirm-desc');
+
+      if (unanswered > 0) {
+        desc.innerHTML = `Masih ada <strong class="text-amber-400">${unanswered} soal yang belum dijawab</strong> dari total ${total} soal. Yakin ingin mengumpulkan sekarang?`;
+      } else {
+        desc.innerHTML = `Seluruh <strong>${total} soal</strong> telah Anda jawab! Kumpulkan sekarang untuk melihat nilai akhir Anda?`;
+      }
+      document.getElementById('submit-confirm-modal').classList.remove('hidden');
+    }
+
+    function closeSubmitConfirmModal() {
+      document.getElementById('submit-confirm-modal').classList.add('hidden');
+    }
+
+    function finalizeAndGradeExam(autoSubmittedByTimer = false) {
+      closeSubmitConfirmModal();
+      isExamActive = false;
+      clearInterval(timerInterval);
+
+      const total = examQuestions.length;
+      let correctCount = 0;
+      let wrongCount = 0;
+      let emptyCount = 0;
+
+      lastExamResults = examQuestions.map((item, idx) => {
+        const rawAns = (userAnswers[idx] || '').trim();
+        const isEmpty = rawAns.length === 0;
+        const isCorrect = !isEmpty && isAnswerCorrect(rawAns, item);
+
+        if (isCorrect) correctCount++;
+        else if (isEmpty) emptyCount++;
+        else wrongCount++;
+
+        return {
+          num: idx + 1,
+          item,
+          userAnswer: rawAns,
+          isEmpty,
+          isCorrect
+        };
+      });
+
+      const finalScore = total > 0 ? Math.round((correctCount / total) * 100) : 0;
+      const passed = finalScore >= 80;
+
+      const spentSeconds = EXAM_DURATION_SECONDS - Math.max(0, remainingSeconds);
+      const spentMins = Math.floor(spentSeconds / 60);
+      const spentSecs = spentSeconds % 60;
+      const spentFormatted = `${String(spentMins).padStart(2, '0')}m ${String(spentSecs).padStart(2, '0')}d`;
+
+      // Populate Result UI
+      document.getElementById('res-player-name').textContent = playerName;
+      document.getElementById('res-correct-count').textContent = correctCount;
+      document.getElementById('res-wrong-count').textContent = wrongCount;
+      document.getElementById('res-empty-count').textContent = emptyCount;
+      document.getElementById('res-time-spent').textContent = spentFormatted;
+
+      const scoreEl = document.getElementById('res-score-number');
+      scoreEl.textContent = finalScore;
+
+      const statusPill = document.getElementById('res-status-pill');
+      const gradBox = document.getElementById('res-graduation-box');
+      const gradTitle = document.getElementById('res-graduation-title');
+      const gradDesc = document.getElementById('res-graduation-desc');
+      const stampEl = document.getElementById('res-hanko-stamp');
+      const hankoKanji = document.getElementById('hanko-kanji');
+      const hankoSub = document.getElementById('hanko-sub');
+
+      if (passed) {
+        scoreEl.className = 'text-6xl sm:text-7xl font-black tracking-tight my-1 text-emerald-400';
+        statusPill.className = 'inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-emerald-500/20 text-emerald-300 border border-emerald-500/40';
+        statusPill.innerHTML = `<i class="fa-solid fa-crown"></i> ${autoSubmittedByTimer ? 'Waktu Habis • ' : ''}LULUS UJIAN KOTOBA`;
+
+        gradBox.className = 'p-4 rounded-2xl border bg-emerald-950/40 border-emerald-500/40 text-emerald-100';
+        gradTitle.innerHTML = `🎉 おめでとうございます！ Selamat, ${playerName}!`;
+        gradDesc.innerHTML = `Nilai Anda <strong>${finalScore}</strong> (di atas standar kelulusan 80). Hafalan Kotoba Bab 1–3 Anda sangat mantap! <strong>Selamat, Anda LULUS dan BISA LANJUT KE BAB BERIKUTNYA (Bab 4)!</strong>`;
+
+        stampEl.className = 'hanko-stamp text-emerald-400';
+        hankoKanji.textContent = '合格';
+        hankoSub.textContent = 'LULUS BAB';
+        burstSakuraCelebration();
+      } else {
+        scoreEl.className = 'text-6xl sm:text-7xl font-black tracking-tight my-1 text-rose-400';
+        statusPill.className = 'inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-bold bg-rose-500/20 text-rose-300 border border-rose-500/40';
+        statusPill.innerHTML = `<i class="fa-solid fa-rotate-left"></i> ${autoSubmittedByTimer ? 'Waktu Habis • ' : ''}BELUM MENCAPAI KKM 80`;
+
+        gradBox.className = 'p-4 rounded-2xl border bg-rose-950/40 border-rose-500/40 text-rose-100';
+        gradTitle.innerHTML = `💪 がんばって！ Tetap Semangat, ${playerName}!`;
+        gradDesc.innerHTML = `Nilai Anda saat ini <strong>${finalScore}</strong> (masih di bawah 80). Jangan berkecil hati! Periksa pembahasan kata yang belum tepat di bawah ini, lalu klik tombol <strong>"Ulangi Soal yang Salah Saja"</strong> agar bisa lulus dan lanjut ke Bab 4.`;
+
+        stampEl.className = 'hanko-stamp text-rose-500';
+        hankoKanji.textContent = '再挑戦';
+        hankoSub.textContent = 'COBA LAGI';
+      }
+
+      // Show "Ulangi Soal yang Salah Saja" button if there are any mistakes
+      const retryWrongBtn = document.getElementById('btn-retry-wrong');
+      if (wrongCount + emptyCount > 0) {
+        retryWrongBtn.classList.remove('hidden');
+      } else {
+        retryWrongBtn.classList.add('hidden');
+      }
+
+      // Save to History LocalStorage
+      saveScoreHistory({
+        name: playerName,
+        score: finalScore,
+        passed,
+        bab: selectedBab === 'ALL' ? 'Bab 1-3' : `Bab ${selectedBab}`,
+        total,
+        correct: correctCount,
+        date: new Date().toLocaleTimeString('id-ID', { hour: '2-digit', minute: '2-digit' })
+      });
+      renderScoreHistory();
+
+      filterReviewList('ALL');
+      switchScreen('RESULT');
+    }
+
+    function filterReviewList(filterType) {
+      document.querySelectorAll('.rev-filter-btn').forEach(btn => {
+        if (btn.getAttribute('data-rev') === filterType) {
+          btn.className = 'rev-filter-btn px-3 py-1 rounded-lg text-xs font-bold bg-rose-600 text-white cursor-pointer';
+        } else {
+          btn.className = 'rev-filter-btn px-3 py-1 rounded-lg text-xs font-bold text-slate-400 hover:text-white cursor-pointer';
+        }
+      });
+
+      const filtered = lastExamResults.filter(r => {
+        if (filterType === 'WRONG') return !r.isCorrect;
+        if (filterType === 'CORRECT') return r.isCorrect;
+        return true;
+      });
+
+      const container = document.getElementById('review-list-container');
+      if (filtered.length === 0) {
+        container.innerHTML = `<div class="text-center py-8 text-xs text-slate-400">Tidak ada data soal pada kategori filter ini.</div>`;
+        return;
+      }
+
+      container.innerHTML = filtered.map(r => {
+        const badgeClass = r.isCorrect
+          ? 'bg-emerald-500/20 text-emerald-300 border-emerald-500/40'
+          : 'bg-rose-500/20 text-rose-300 border-rose-500/40';
+        const statusIcon = r.isCorrect ? 'fa-circle-check text-emerald-400' : 'fa-circle-xmark text-rose-400';
+
+        return `
+          <div class="p-3.5 sm:p-4 rounded-2xl bg-slate-950/85 border ${r.isCorrect ? 'border-emerald-500/30' : 'border-rose-500/35'} flex flex-col sm:flex-row sm:items-center justify-between gap-3">
+            <div class="flex items-start sm:items-center gap-3">
+              <div class="w-8 h-8 rounded-xl border ${badgeClass} font-extrabold text-xs flex items-center justify-center shrink-0">
+                #${r.num}
+              </div>
+              <div>
+                <div class="flex items-center gap-2 flex-wrap">
+                  <span class="font-jp text-lg sm:text-xl font-black text-white">${r.item.jp}</span>
+                  <span class="font-jp text-xs font-bold text-rose-400">(${r.item.kana})</span>
+                  <span class="text-[10px] px-2 py-0.5 rounded-md bg-slate-900 text-slate-400 border border-wafu-border">Bab ${r.item.bab}</span>
+                  <button onclick="speakJapanese('${r.item.kana}')" class="text-xs text-slate-400 hover:text-rose-400 cursor-pointer" title="Dengarkan">
+                    <i class="fa-solid fa-volume-high"></i>
+                  </button>
+                </div>
+                <p class="text-xs text-emerald-300 font-bold mt-1">
+                  Arti Tepat: <span class="text-white">${r.item.display}</span>
+                </p>
+              </div>
+            </div>
+
+            <div class="sm:text-right pl-11 sm:pl-0">
+              <div class="inline-flex items-center gap-1.5 text-xs font-bold ${r.isCorrect ? 'text-emerald-400' : 'text-rose-400'}">
+                <i class="fa-solid ${statusIcon}"></i>
+                <span>Jawaban Anda: ${r.userAnswer ? `"${r.userAnswer}"` : '(Kosong)'}</span>
+              </div>
+            </div>
+          </div>
+        `;
+      }).join('');
+    }
+
+    function retryWrongQuestionsOnly() {
+      const wrongPool = lastExamResults.filter(r => !r.isCorrect).map(r => r.item);
+      if (wrongPool.length === 0) return;
+      startExamSession(wrongPool);
+    }
+
+    function restartSameExamConfig() {
+      startExamSession(null);
+    }
+
+    /*************************************************************************
+     * 8. STUDY MODE (KAMUS HAFALAN BAB 1 - 3) & JAPANESE AUDIO TTS
+     *************************************************************************/
+    function setStudyBabFilter(bab) {
+      studyBabFilter = bab;
+      document.querySelectorAll('.study-bab-btn').forEach(btn => {
+        if (String(btn.getAttribute('data-sbab')) === String(bab)) {
+          btn.className = 'study-bab-btn px-3 py-1.5 rounded-lg text-xs font-bold bg-rose-600 text-white cursor-pointer';
+        } else {
+          btn.className = 'study-bab-btn px-3 py-1.5 rounded-lg text-xs font-bold text-slate-400 hover:text-white cursor-pointer';
+        }
+      });
+      renderStudyList();
+    }
+
+    function renderStudyList() {
+      const q = (document.getElementById('study-search-input')?.value || '').trim().toLowerCase();
+      const filtered = KOTOBA_DATABASE.filter(item => {
+        if (studyBabFilter !== 'ALL' && String(item.bab) !== String(studyBabFilter)) return false;
+        if (q) {
+          const hay = `${item.jp} ${item.kana} ${item.display} ${item.accept.join(' ')}`.toLowerCase();
+          if (!hay.includes(q)) return false;
+        }
+        return true;
+      });
+
+      const grid = document.getElementById('study-grid-container');
+      grid.innerHTML = filtered.map(item => `
+        <div class="p-3.5 rounded-2xl bg-slate-950/85 border border-wafu-border hover:border-rose-500/40 transition-all flex items-center justify-between gap-2">
+          <div>
+            <div class="flex items-center gap-1.5 mb-0.5">
+              <span class="text-[10px] font-bold px-2 py-0.2 rounded bg-rose-500/15 text-rose-300 border border-rose-500/30">Bab ${item.bab}</span>
+              <span class="font-jp text-xs text-amber-300 font-semibold">${item.kana}</span>
+            </div>
+            <div class="font-jp text-xl font-black text-white">${item.jp}</div>
+            <div class="text-xs font-semibold text-emerald-300 mt-1">${item.display}</div>
+          </div>
+          <button onclick="speakJapanese('${item.kana}')" class="w-9 h-9 rounded-xl bg-wafu-card hover:bg-rose-600/25 text-rose-300 border border-wafu-border flex items-center justify-center shrink-0 active:scale-95 transition-all cursor-pointer" title="Putar Suara">
+            <i class="fa-solid fa-volume-high text-xs"></i>
+          </button>
+        </div>
+      `).join('');
+    }
+
+    function speakJapanese(text) {
+      if (!('speechSynthesis' in window)) {
+        showToast('Browser tidak mendukung fitur suara.', 'warn');
+        return;
+      }
+      window.speechSynthesis.cancel();
+      const u = new SpeechSynthesisUtterance(text);
+      u.lang = 'ja-JP';
+      u.rate = 0.9;
+      window.speechSynthesis.speak(u);
+    }
+
+    function speakCurrentExamWord() {
+      const item = examQuestions[currentQIndex];
+      if (item) speakJapanese(item.kana);
+    }
+
+    /*************************************************************************
+     * 9. RIWAYAT SKOR LOCAL STORAGE & AUTO-HIDE HEADER
+     *************************************************************************/
+    function saveScoreHistory(entry) {
+      try {
+        const raw = localStorage.getItem(HISTORY_STORAGE_KEY);
+        const list = raw ? JSON.parse(raw) : [];
+        list.unshift(entry);
+        localStorage.setItem(HISTORY_STORAGE_KEY, JSON.stringify(list.slice(0, 10)));
+      } catch (e) {}
+    }
+
+    function renderScoreHistory() {
+      const container = document.getElementById('history-list-container');
+      try {
+        const raw = localStorage.getItem(HISTORY_STORAGE_KEY);
+        const list = raw ? JSON.parse(raw) : [];
+        if (list.length === 0) {
+          container.innerHTML = `<div class="text-xs text-slate-500 italic py-4 text-center">Belum ada riwayat ujian. Jadilah yang pertama lulus dengan nilai &ge; 80!</div>`;
+          return;
+        }
+        container.innerHTML = list.map(h => `
+          <div class="px-3 py-2 rounded-xl bg-slate-950/80 border border-wafu-border flex items-center justify-between text-xs">
+            <div>
+              <span class="font-bold text-white">${h.name}</span>
+              <span class="text-[10px] text-slate-400 ml-1">(${h.bab} &bull; ${h.date})</span>
+            </div>
+            <div class="flex items-center gap-2">
+              <span class="font-extrabold ${h.passed ? 'text-emerald-400' : 'text-rose-400'}">${h.score} Poin</span>
+              <span class="text-[10px] px-1.5 py-0.5 rounded font-bold ${h.passed ? 'bg-emerald-500/20 text-emerald-300' : 'bg-rose-500/20 text-rose-300'}">
+                ${h.passed ? 'LULUS' : 'BELUM'}
+              </span>
+            </div>
+          </div>
+        `).join('');
+      } catch (e) {}
+    }
+
+    function clearScoreHistory() {
+      localStorage.removeItem(HISTORY_STORAGE_KEY);
+      renderScoreHistory();
+      showToast('Riwayat nilai telah dihapus.', 'info');
+    }
+
+    // Auto-Hide Smart Header on Scroll Down
+    let lastScrollY = window.scrollY;
+    const smartHeader = document.getElementById('smart-header');
+    window.addEventListener('scroll', () => {
+      const currentY = window.scrollY;
+      if (currentY > 70 && currentY - lastScrollY > 6) {
+        smartHeader.classList.add('header-hidden');
+      } else if (lastScrollY - currentY > 5 || currentY <= 40) {
+        smartHeader.classList.remove('header-hidden');
+      }
+      lastScrollY = Math.max(0, currentY);
+    }, { passive: true });
+
+    let toastTimeout = null;
+    function showToast(msg, type = 'info') {
+      const box = document.getElementById('toast-box');
+      const text = document.getElementById('toast-message');
+      const icon = document.getElementById('toast-icon');
+      text.textContent = msg;
+      icon.className = type === 'warn'
+        ? 'fa-solid fa-bell text-amber-400'
+        : 'fa-solid fa-torii-gate text-rose-400';
+
+      box.classList.remove('opacity-0', 'translate-y-2');
+      box.classList.add('opacity-100', 'translate-y-0');
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => {
+        box.classList.add('opacity-0', 'translate-y-2');
+        box.classList.remove('opacity-100', 'translate-y-0');
+      }, 2800);
+    }
+
+    /*************************************************************************
+     * 10. ANIMATED SAKURA PETALS BACKGROUND CANVAS
+     *************************************************************************/
+    const canvas = document.getElementById('sakura-canvas');
+    const ctx = canvas.getContext('2d');
+    let petals = [];
+
+    function resizeSakuraCanvas() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resizeSakuraCanvas);
+    resizeSakuraCanvas();
+
+    function createPetal(burst = false) {
+      return {
+        x: Math.random() * canvas.width,
+        y: burst ? Math.random() * canvas.height * 0.4 : -20,
+        size: Math.random() * 6 + 4,
+        speedY: Math.random() * 1.1 + 0.5,
+        speedX: Math.random() * 1.2 - 0.4,
+        angle: Math.random() * Math.PI * 2,
+        spin: (Math.random() - 0.5) * 0.03,
+        alpha: Math.random() * 0.45 + 0.15
+      };
+    }
+
+    for (let i = 0; i < 22; i++) {
+      const p = createPetal(true);
+      p.y = Math.random() * canvas.height;
+      petals.push(p);
+    }
+
+    function burstSakuraCelebration() {
+      for (let i = 0; i < 35; i++) {
+        petals.push(createPetal(true));
+      }
+    }
+
+    function animateSakura() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let i = 0; i < petals.length; i++) {
+        const p = petals[i];
+        p.y += p.speedY;
+        p.x += p.speedX + Math.sin(p.angle) * 0.3;
+        p.angle += p.spin;
+
+        ctx.save();
+        ctx.translate(p.x, p.y);
+        ctx.rotate(p.angle);
+        ctx.beginPath();
+        ctx.fillStyle = `rgba(253, 164, 175, ${p.alpha})`;
+        ctx.ellipse(0, 0, p.size, p.size * 0.55, 0, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.restore();
+
+        if (p.y > canvas.height + 20) {
+          if (petals.length > 22) {
+            petals.splice(i, 1);
+            i--;
+          } else {
+            petals[i] = createPetal(false);
+          }
+        }
+      }
+      requestAnimationFrame(animateSakura);
+    }
+
+    window.addEventListener('DOMContentLoaded', () => {
+      updateAvailableQuestionCount();
+      renderScoreHistory();
+      animateSakura();
+    });
+  </script>
+</body>
+</html>
