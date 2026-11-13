@@ -20,10 +20,8 @@
             toriiDark: '#920022',
             indigoJp: '#1B365D',
             indigoLight: '#2B4C7E',
-            indigoMid: '#1b365d',
             goldJp: '#D4AF37',
             goldLight: '#F3E5AB',
-            goldBright: '#F3E5AB',
             washi: '#FAF7F0',
             washiDark: '#F0EAE0',
             inkJp: '#1F242D'
@@ -137,6 +135,7 @@
       font-weight: 500;
     }
 
+    /* Custom Scrollbar */
     ::-webkit-scrollbar {
       width: 8px;
       height: 8px;
@@ -152,6 +151,7 @@
       background: #1B365D;
     }
 
+    /* Print Styling for Official Certificate */
     @media print {
       body * {
         visibility: hidden !important;
@@ -178,22 +178,22 @@
 <body class="min-h-screen flex flex-col font-sans antialiased selection:bg-torii selection:text-white">
 
   <!-- ===================================================================== -->
-  <!-- PROTEKSI PASSWORD SCREEN (GATEWAY WA)                                -->
+  <!-- GATEWAY LOGIN PASSWORD (PROTEKSI WA)                                  -->
   <!-- ===================================================================== -->
   <div id="auth-gate-screen" class="fixed inset-0 z-50 flex items-center justify-center bg-slate-950/80 backdrop-blur-md p-4">
     <div class="washi-card rounded-3xl max-w-md w-full p-8 border-2 border-goldJp shadow-2xl text-center relative overflow-hidden">
       <div class="absolute top-0 right-0 w-32 h-32 bg-torii/10 rounded-bl-full pointer-events-none"></div>
-      
+
       <div class="w-16 h-16 rounded-2xl bg-torii text-white flex items-center justify-center mx-auto mb-4 text-2xl shadow-lg border border-goldJp">
         🔒
       </div>
-      
+
       <span class="text-xs font-bold uppercase tracking-widest px-3 py-1 rounded bg-indigoJp/10 text-indigoJp border border-indigoJp/20">
         Area Terproteksi
       </span>
       <h2 class="text-2xl font-black text-indigoJp mt-2 font-serifJp">NihonGo CBT Login</h2>
       <p class="text-xs text-slate-600 mt-1 mb-6">
-        Silakan masukkan password akses atau minta langsung ke admin melalui WhatsApp.
+        Masukkan password akses (<strong>JFT2026</strong>) atau minta password via WhatsApp jika belum memiliki.
       </p>
 
       <div class="space-y-4 text-left">
@@ -208,7 +208,7 @@
             class="w-full px-4 py-3 rounded-xl bg-white border-2 border-slate-200 focus:border-indigoJp focus:outline-none text-slate-800 font-semibold transition text-sm"
           />
           <p id="auth-error-msg" class="text-xs text-torii font-semibold mt-1 hidden">
-            ❌ Password salah! Silakan minta password ke admin via WhatsApp.
+            ❌ Password salah! (Gunakan: JFT2026) atau minta ke admin via WhatsApp di bawah.
           </p>
         </div>
 
@@ -227,13 +227,13 @@
           <div class="flex-grow border-t border-slate-200"></div>
         </div>
 
-        <!-- Tombol Otomatis Minta Password ke WhatsApp Admin -->
+        <!-- Tombol WhatsApp Admin dengan nomor 087753855074 -->
         <a
-          href="https://wa.me/6287753855074?text=Halo%20Admin,%20saya%20ingin%20meminta%20password%20akses%20untuk%20membuka%20website%20NihonGo%20CBT%20Simulator."
+          href="https://wa.me/6287753855074?text=Halo%20Admin,%20saya%20ingin%20meminta%20password%20akses%20(JFT2026)%20untuk%20membuka%20website%20NihonGo%20CBT%20Simulator."
           target="_blank"
           class="w-full py-3 px-4 rounded-xl bg-[#25D366] hover:bg-[#1ebe5d] text-white font-bold text-xs sm:text-sm shadow-md flex items-center justify-center gap-2 transition text-center"
         >
-          <span>📱 Minta Password via WhatsApp</span>
+          <span>📱 Minta Password via WhatsApp Admin</span>
         </a>
       </div>
     </div>
@@ -304,7 +304,7 @@
             <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
             <span>Bank Soal: <strong class="text-goldLight">150 Soal Unik</strong></span>
           </div>
-          <!-- Tombol Logout / Keluar Password -->
+          <!-- Tombol Logout / Kunci Web -->
           <button type="button" id="btn-logout" class="px-3.5 py-2 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-bold transition">
             🔒 Kunci Web
           </button>
@@ -418,14 +418,6 @@
                 <p id="name-error" class="text-xs text-torii font-semibold mt-1 hidden">
                   Silakan masukkan nama lengkap Anda terlebih dahulu agar dapat dicetak pada sertifikat.
                 </p>
-              </div>
-
-              <!-- Hidden Extra Configs for CBT Compatibility -->
-              <div class="hidden">
-                <input type="date" id="candidate-dob" value="2002-05-14" />
-                <select id="exam-duration-select">
-                  <option value="3600" selected>60 Menit</option>
-                </select>
               </div>
 
               <!-- Packet Shuffle Box -->
@@ -563,16 +555,14 @@
             </button>
           </div>
 
-          <div id="question-layout-grid" class="grid grid-cols-1 gap-6">
-            <div id="question-stimulus-area" class="hidden"></div>
-            <div>
-              <div class="mb-6">
-                <p id="question-prompt-jp" class="font-jp text-lg sm:text-xl font-bold text-slate-900 leading-relaxed"></p>
-                <p id="question-subprompt" class="text-xs text-slate-500 mt-1.5"></p>
-              </div>
-              <div id="options-container" class="space-y-3"></div>
-            </div>
+          <div id="question-stimulus-area" class="mb-5"></div>
+
+          <div class="mb-6">
+            <p id="question-prompt-jp" class="font-jp text-lg sm:text-xl font-bold text-slate-900 leading-relaxed"></p>
+            <p id="question-subprompt" class="text-xs text-slate-500 mt-1.5"></p>
           </div>
+
+          <div id="options-container" class="space-y-3"></div>
         </div>
 
         <div class="flex items-center justify-between gap-3">
@@ -611,12 +601,6 @@
             </span>
           </div>
 
-          <!-- Progress Bar -->
-          <div class="w-full bg-slate-200 h-2 rounded-full overflow-hidden mb-4">
-            <div id="exam-progress-bar" class="bg-torii h-full transition-all duration-300" style="width: 0%;"></div>
-          </div>
-
-          <!-- Section Filter Tabs -->
           <div class="grid grid-cols-4 gap-1 bg-washiDark p-1 rounded-xl mb-4 text-[11px] font-bold">
             <button type="button" data-nav-filter="all" class="nav-filter-btn py-1.5 rounded-lg bg-indigoJp text-white transition">
               Semua
@@ -736,19 +720,12 @@
       </div>
 
       <div class="flex flex-wrap items-center justify-between gap-4 border-b-2 border-slate-200 pb-3">
-        <div class="flex flex-wrap gap-2">
+        <div class="flex gap-2">
           <button type="button" id="tab-btn-cert" class="px-5 py-2.5 rounded-xl bg-indigoJp text-white font-bold text-sm shadow transition">
             📜 Sertifikat Resmi (認定証)
           </button>
           <button type="button" id="tab-btn-review" class="px-5 py-2.5 rounded-xl bg-white text-slate-700 border border-slate-300 hover:bg-slate-50 font-bold text-sm transition">
             📖 Pembahasan Lengkap (50 Soal)
-          </button>
-          <!-- Menu Tambahan: Bank Explorer & Mode Semangat -->
-          <button type="button" id="btn-open-bank" class="px-4 py-2.5 rounded-xl bg-amber-100 text-amber-900 border border-amber-300 font-bold text-xs">
-            📚 Bank Soal (150)
-          </button>
-          <button type="button" id="btn-toggle-spirit-mode" class="px-4 py-2.5 rounded-xl bg-emerald-100 text-emerald-900 border border-emerald-300 font-bold text-xs">
-            🎌 <span id="spirit-mode-label">Pratinjau Semangat (Lulus 250)</span>
           </button>
         </div>
 
@@ -771,13 +748,7 @@
           <span>Mode Pratinjau Motivasi: Ini adalah gambaran Sertifikat Kelulusan Resmi Anda apabila berhasil meraih skor minimal <strong>200 / 250 poin</strong>.</span>
         </div>
 
-        <div class="flex gap-2 mb-2">
-          <button type="button" id="btn-style-jft" class="px-3 py-1.5 rounded-lg bg-indigoJp text-white font-bold text-xs">JFT-Basic Prometric</button>
-          <button type="button" id="btn-style-jlpt" class="px-3 py-1.5 rounded-lg text-slate-700 hover:text-indigoJp font-bold text-xs">JLPT N4 Nintei-sho</button>
-        </div>
-
-        <!-- JFT Certificate View -->
-        <div id="cert-view-jft" class="overflow-x-auto pb-4">
+        <div class="overflow-x-auto pb-4">
           <div id="certificate-print-area" class="cert-guilloche min-w-[780px] max-w-4xl mx-auto p-8 sm:p-12 rounded-lg relative text-slate-900">
             <div class="absolute inset-0 flex items-center justify-center pointer-events-none opacity-[0.06]">
               <svg class="w-96 h-96 text-torii" viewBox="0 0 200 200" fill="currentColor">
@@ -791,122 +762,100 @@
                   日
                 </div>
                 <div>
-                  <div class="text-[11px] font-bold tracking-[0.2em] text-indigoJp uppercase">The Japan Foundation • JFT-Basic Official Report</div>
-                  <div class="text-xs font-serifJp text-slate-600">国際交流基金日本語基礎テスト・結果通知書</div>
+                  <div class="text-[11px] font-bold tracking-[0.2em] text-indigoJp uppercase">Japan Foundation Test & JLPT Simulation Board</div>
+                  <div class="text-xs font-serifJp text-slate-600">国際交流基金日本語基礎テスト・模擬認定委員会</div>
                 </div>
               </div>
               <div class="text-right font-mono text-xs text-slate-600">
-                <div>No. Reg: <strong id="jft-reg-id" class="text-indigoJp">JFT-2026-884210</strong></div>
-                <div>Tanggal: <strong id="jft-test-date">13 November 2026</strong></div>
+                <div>No. Reg: <strong id="cert-reg-number" class="text-indigoJp">JFT-2026-884210</strong></div>
+                <div>Tanggal: <strong id="cert-date">13 November 2026</strong></div>
               </div>
             </div>
 
-            <div class="my-6 relative z-10 flex flex-col sm:flex-row items-center gap-6 bg-white/80 p-6 rounded-2xl border border-slate-200">
-              <div id="jft-cert-photo" class="w-24 h-28 bg-slate-200 rounded-xl flex items-center justify-center text-4xl shrink-0 overflow-hidden border-2 border-indigoJp shadow">
-                🧑‍💼
-              </div>
-              <div class="flex-1 text-center sm:text-left">
-                <p class="text-xs uppercase tracking-widest text-slate-500 font-bold mb-1">Nama Peserta / 受験者氏名</p>
-                <div id="jft-cert-name" class="font-serifJp text-2xl sm:text-3xl font-black text-slate-900 tracking-wide">
-                  NAMA PESERTA UJIAN
-                </div>
-                <div class="text-xs text-slate-500 mt-1">Tanggal Lahir: <span id="jft-cert-dob" class="font-mono font-semibold">2002-05-14</span></div>
-              </div>
-              <div id="jft-cert-badge" class="px-4 py-2.5 rounded-xl bg-emerald-500 text-slate-950 font-black text-center shadow-lg">
-                <div class="font-serifJp text-xl leading-none">合格</div>
-                <div class="text-[10px] tracking-widest uppercase mt-0.5">PASSED</div>
-              </div>
+            <div class="text-center my-7 relative z-10">
+              <p class="font-serifJp text-lg sm:text-xl font-bold tracking-[0.25em] text-torii mb-1">
+                日本語能力試験・JFT-Basic 認定証
+              </p>
+              <h3 class="font-serifJp text-2xl sm:text-3xl font-black tracking-wide text-indigoJp uppercase">
+                Certificate of Japanese Language Proficiency
+              </h3>
+              <div class="w-32 h-1 bg-gradient-to-r from-transparent via-goldJp to-transparent mx-auto mt-3"></div>
             </div>
 
-            <div class="my-6 relative z-10">
-              <table class="w-full border-collapse border border-indigoJp/40 text-xs sm:text-sm bg-white/90">
+            <div class="text-center my-6 relative z-10">
+              <p class="text-xs uppercase tracking-[0.2em] text-slate-500 mb-2">Diberikan Kepada / This is to certify that</p>
+              <div id="cert-recipient-name" class="font-serifJp text-3xl sm:text-4xl font-black text-slate-900 tracking-wide border-b-2 border-slate-300 inline-block px-10 pb-2">
+                Nama Peserta
+              </div>
+              <p class="text-xs sm:text-sm text-slate-600 max-w-2xl mx-auto mt-3 leading-relaxed">
+                Telah mengikuti dan menyelesaikan evaluasi standar <strong>Computer-Based Testing (CBT) Bahasa Jepang Level A2 / N5–N4</strong>.
+              </p>
+            </div>
+
+            <div class="my-7 relative z-10 max-w-2xl mx-auto">
+              <table class="w-full border-collapse border border-indigoJp/40 text-xs sm:text-sm bg-white/80">
                 <thead>
                   <tr class="bg-indigoJp text-white">
-                    <th class="border border-indigoJp/40 py-2.5 px-3 text-left font-serifJp">Sesi Ujian (試験区分)</th>
-                    <th class="border border-indigoJp/40 py-2.5 px-3 text-center">Jawaban Benar</th>
-                    <th class="border border-indigoJp/40 py-2.5 px-3 text-center">Skor Poin</th>
-                    <th class="border border-indigoJp/40 py-2.5 px-3 text-center">Progres Bar</th>
+                    <th class="border border-indigoJp/40 py-2.5 px-3 text-left font-serifJp">Bagian Ujian (試験科目)</th>
+                    <th class="border border-indigoJp/40 py-2.5 px-3 text-center">Jumlah Benar</th>
+                    <th class="border border-indigoJp/40 py-2.5 px-3 text-center">Skor Diperoleh</th>
+                    <th class="border border-indigoJp/40 py-2.5 px-3 text-center">Skor Maksimal</th>
                   </tr>
                 </thead>
                 <tbody>
                   <tr>
                     <td class="border border-slate-300 py-2 px-3 font-semibold">1. 文字・語彙 (Kanji & Kosakata)</td>
-                    <td id="jft-sec1-corr" class="border border-slate-300 py-2 px-3 text-center">20 / 20</td>
-                    <td id="jft-sec1-pts" class="border border-slate-300 py-2 px-3 text-center font-bold text-indigoJp">100 / 100</td>
-                    <td class="border border-slate-300 py-2 px-3 w-40">
-                      <div class="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden"><div id="jft-bar-1" class="bg-indigoJp h-full" style="width:100%"></div></div>
-                    </td>
+                    <td id="cert-kanji-right" class="border border-slate-300 py-2 px-3 text-center">20 / 20</td>
+                    <td id="cert-kanji-pts" class="border border-slate-300 py-2 px-3 text-center font-bold text-indigoJp">100</td>
+                    <td class="border border-slate-300 py-2 px-3 text-center text-slate-500">100</td>
                   </tr>
                   <tr class="bg-slate-50/70">
                     <td class="border border-slate-300 py-2 px-3 font-semibold">2. 読解 (Dokkai / Membaca)</td>
-                    <td id="jft-sec2-corr" class="border border-slate-300 py-2 px-3 text-center">15 / 15</td>
-                    <td id="jft-sec2-pts" class="border border-slate-300 py-2 px-3 text-center font-bold text-indigoJp">75 / 75</td>
-                    <td class="border border-slate-300 py-2 px-3">
-                      <div class="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden"><div id="jft-bar-2" class="bg-amber-600 h-full" style="width:100%"></div></div>
-                    </td>
+                    <td id="cert-dokkai-right" class="border border-slate-300 py-2 px-3 text-center">15 / 15</td>
+                    <td id="cert-dokkai-pts" class="border border-slate-300 py-2 px-3 text-center font-bold text-indigoJp">75</td>
+                    <td class="border border-slate-300 py-2 px-3 text-center text-slate-500">75</td>
                   </tr>
                   <tr>
                     <td class="border border-slate-300 py-2 px-3 font-semibold">3. 聴解 (Choukai / Mendengarkan)</td>
-                    <td id="jft-sec3-corr" class="border border-slate-300 py-2 px-3 text-center">15 / 15</td>
-                    <td id="jft-sec3-pts" class="border border-slate-300 py-2 px-3 text-center font-bold text-indigoJp">75 / 75</td>
-                    <td class="border border-slate-300 py-2 px-3">
-                      <div class="w-full bg-slate-200 h-2.5 rounded-full overflow-hidden"><div id="jft-bar-3" class="bg-torii h-full" style="width:100%"></div></div>
-                    </td>
+                    <td id="cert-choukai-right" class="border border-slate-300 py-2 px-3 text-center">15 / 15</td>
+                    <td id="cert-choukai-pts" class="border border-slate-300 py-2 px-3 text-center font-bold text-indigoJp">75</td>
+                    <td class="border border-slate-300 py-2 px-3 text-center text-slate-500">75</td>
                   </tr>
                   <tr class="bg-goldLight/30 font-extrabold">
-                    <td class="border border-indigoJp/40 py-2.5 px-3 text-indigoJp" colspan="2">TOTAL SKOR CBT (Batas Lulus: 200)</td>
-                    <td id="jft-cert-total" class="border border-indigoJp/40 py-2.5 px-3 text-center text-base text-torii" colspan="2">250 / 250</td>
+                    <td class="border border-indigoJp/40 py-2.5 px-3 text-indigoJp">総合得点 (TOTAL SKOR)</td>
+                    <td id="cert-total-right" class="border border-indigoJp/40 py-2.5 px-3 text-center">50 / 50</td>
+                    <td id="cert-total-pts" class="border border-indigoJp/40 py-2.5 px-3 text-center text-lg text-torii">250 / 250</td>
+                    <td class="border border-indigoJp/40 py-2.5 px-3 text-center text-indigoJp">Batas Lulus: 200</td>
                   </tr>
                 </tbody>
               </table>
             </div>
 
-            <div class="mt-6 pt-4 border-t border-goldJp/60 flex items-end justify-between relative z-10 text-xs">
-              <div class="text-slate-500">
-                <div class="font-bold text-slate-700">NIHONGO CBT SIMULATOR BOARD</div>
-                <div>Standar Penilaian Resmi CEFR A2</div>
+            <div class="mt-8 pt-4 border-t border-goldJp/60 flex items-end justify-between relative z-10">
+              <div class="flex items-center gap-3">
+                <div id="cert-qr-box" class="w-16 h-16 p-1 bg-white border border-slate-300 rounded"></div>
+                <div class="text-[10px] text-slate-500 leading-snug">
+                  <div class="font-bold text-slate-700">VERIFIKASI DOKUMEN CBT</div>
+                  <div>Standar Penilaian: 250 Poin</div>
+                </div>
               </div>
+
+              <div class="text-center">
+                <div class="text-[10px] font-bold uppercase tracking-widest text-slate-500 mb-1">判定 / Official Result</div>
+                <div id="cert-result-stamp" class="inline-block px-6 py-1.5 rounded-lg border-2 border-emerald-700 bg-emerald-50 text-emerald-800 font-serifJp font-black text-lg tracking-wider">
+                  合格 • PASSED
+                </div>
+              </div>
+
               <div class="flex items-center gap-4">
                 <div class="text-right">
                   <div class="font-serifJp font-bold text-sm text-indigoJp">佐藤 健一 (Kenichi Sato)</div>
-                  <div class="text-[10px] text-slate-500">Ketua Dewan Penguji CBT</div>
+                  <div class="text-[10px] text-slate-500">Ketua Dewan Penguji CBT NihonGo</div>
                 </div>
                 <div class="w-14 h-14 rounded-lg border-2 border-torii text-torii flex flex-col items-center justify-center font-serifJp font-black text-xs leading-none p-1 rotate-[-4deg] bg-torii/5 select-none shadow-xs">
                   <span>認定</span>
                   <span class="mt-0.5">之印</span>
                 </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- JLPT N4 Certificate View (Hidden by default, toggled via button) -->
-        <div id="cert-view-jlpt" class="hidden overflow-x-auto pb-4">
-          <div class="cert-guilloche min-w-[780px] max-w-4xl mx-auto p-8 sm:p-12 rounded-lg relative text-slate-900">
-            <div class="text-center space-y-3">
-              <span class="px-3 py-1 rounded bg-indigoJp text-goldLight text-xs font-mono font-bold">JLPT N4 CERTIFICATE OF PROFICIENCY</span>
-              <h3 class="font-serifJp text-3xl font-black text-indigoJp">日本語能力認定書</h3>
-              <p class="text-xs text-slate-600">Japanese-Language Proficiency Test Certificate - N4 Level</p>
-            </div>
-
-            <div class="my-8 text-center space-y-2">
-              <p class="text-xs text-slate-500 uppercase tracking-widest">Nomor Ujian: <span id="jlpt-reg-id" class="font-mono text-indigoJp font-bold">JLPT-N4-884210</span></p>
-              <div id="jlpt-cert-name" class="font-serifJp text-4xl font-black text-slate-900 border-b-2 border-slate-300 inline-block px-12 pb-2">
-                NAMA PESERTA
-              </div>
-              <p class="text-xs text-slate-600 mt-2">Telah lulus Ujian Standar Kemampuan Bahasa Jepang Level N4 pada tanggal <span id="jlpt-test-date">13 November 2026</span>.</p>
-            </div>
-
-            <div class="max-w-xl mx-auto bg-white/90 p-4 rounded-xl border border-slate-300 text-xs space-y-1.5 font-mono">
-              <div class="flex justify-between border-b pb-1"><span>1. 文字・語彙 (Kanji & Kosakata):</span><strong id="jlpt-sec1-corr">20/20</strong> (<span id="jlpt-sec1-pts">100/100</span>)</div>
-              <div class="flex justify-between border-b pb-1"><span>2. 読解 (Dokkai / Membaca):</span><strong id="jlpt-sec2-corr">15/15</strong> (<span id="jlpt-sec2-pts">75/75</span>)</div>
-              <div class="flex justify-between border-b pb-1"><span>3. 聴解 (Choukai / Mendengarkan):</span><strong id="jlpt-sec3-corr">15/15</strong> (<span id="jlpt-sec3-pts">75/75</span>)</div>
-              <div class="flex justify-between pt-1 font-bold text-indigoJp text-sm"><span>TOTAL SKOR:</span><span id="jlpt-total-corr">50/50</span> (<span id="jlpt-total-pts">250/250</span>)</div>
-            </div>
-
-            <div class="mt-8 text-center">
-              <div id="jlpt-cert-stamp" class="inline-block px-8 py-2 rounded-xl border-2 border-emerald-700 bg-emerald-50 text-emerald-800 font-serifJp font-black text-xl tracking-widest">
-                合格 • PASSED (N4)
               </div>
             </div>
           </div>
@@ -931,39 +880,12 @@
     </div>
   </section>
 
-  <!-- ===================================================================== -->
-  <!-- MODAL: BANK SOAL 150 SOAL EXPLORER                                    -->
-  <!-- ===================================================================== -->
-  <div id="bank-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-950/70 backdrop-blur-sm p-4">
-    <div class="washi-card rounded-3xl max-w-4xl w-full p-6 sm:p-8 max-h-[90vh] flex flex-col border-2 border-goldJp shadow-2xl">
-      <div class="flex items-center justify-between pb-4 mb-4 border-b border-slate-200">
-        <div>
-          <span class="text-xs font-bold uppercase tracking-wider text-torii">Arsip Bank Soal Terpadu</span>
-          <h3 class="text-xl font-black text-indigoJp font-serifJp">Daftar 150 Soal Unik (Kanji, Dokkai, Choukai)</h3>
-        </div>
-        <button type="button" id="btn-close-bank" class="w-9 h-9 rounded-xl bg-slate-200 hover:bg-torii hover:text-white font-bold transition flex items-center justify-center">✕</button>
-      </div>
-
-      <div class="flex flex-wrap gap-2 mb-4">
-        <button type="button" data-bank-tab="kanji" class="bank-tab-btn px-4 py-2 rounded-xl bg-indigoJp text-white font-bold text-xs">Kanji & Goi (50)</button>
-        <button type="button" data-bank-tab="dokkai" class="bank-tab-btn px-4 py-2 rounded-xl bg-white text-slate-700 border border-slate-300 font-bold text-xs">Dokkai N4 (50)</button>
-        <button type="button" data-bank-tab="choukai" class="bank-tab-btn px-4 py-2 rounded-xl bg-white text-slate-700 border border-slate-300 font-bold text-xs">Choukai N4 (50)</button>
-      </div>
-
-      <div class="mb-4">
-        <input type="text" id="bank-search-input" placeholder="🔍 Cari soal, kosakata, atau pembahasan..." class="w-full px-4 py-2.5 rounded-xl bg-white border border-slate-300 text-xs focus:outline-none focus:border-indigoJp" />
-      </div>
-
-      <div id="bank-list-body" class="flex-1 overflow-y-auto space-y-3 pr-2"></div>
-    </div>
-  </div>
-
   <!-- Hidden Canvas for PNG Export -->
   <canvas id="cert-export-canvas" width="1600" height="1130" class="hidden"></canvas>
 
   <script>
     // =========================================================================
-    // 1. DATA BANK SOAL: 150 SOAL LENGKAP (50 KANJI, 50 DOKKAI, 50 CHOUKAI)
+    // 1. BANK SOAL LENGKAP (KANJI, DOKKAI, CHOUKAI)
     // =========================================================================
     const kanjiBank = [
       { id: 'K01', q: 'あしたは <strong>天気</strong> が いいでしょう。', sub: 'Pilih cara baca Hiragana:', opts: ['てんき', 'でんき', 'げんき', 'てんぎ'], ans: 0, exp: '天気 (てんき) berarti "cuaca".' },
@@ -1019,1510 +941,1284 @@
     ];
 
     const dokkaiBank = [
-      {
-        id: 'D01',
-        title: '【お知らせ】食堂の 営業時間',
-        passage: '来週の 月曜日（10月12日）は、キッチンを そうじするため、食堂の 昼ごはんの 時間は 11時30分から 13時までです。いつもより 30分 はやく 終わりますので、気をつけて ください。夜ごはんは いつもどおり 17時から 20時までです。',
-        q: '10月12日の 昼ごはんは 何時まで 食べられますか。',
-        opts: ['11時30分まで', '13時まで', '13時30分まで', '20時まで'],
-        ans: 1,
-        exp: 'Tertulis 「昼ごはんの時間は11時30分から13時までです」.'
-      },
-      {
-        id: 'D02',
-        title: '【メール】田中さんからの 連絡',
-        passage: 'アグスさん、おつかれさまです。田中です。あしたの 午前10時からの 会議ですが、会議室Aから 会議室Bに かわりました。資料は わたしが 持っていきますので、アグスさんは ノートと ペンだけ 持ってきて ください。よろしく お願いします。',
-        q: 'アグスさんは あした どこへ 行かなければ なりませんか。',
-        opts: ['会議室A', '会議室B', '田中さんの へや', '食堂'],
-        ans: 1,
-        exp: 'Tertulis 「会議室Aから会議室Bにかわりました」.'
-      },
-      {
-        id: 'D03',
-        title: '【はり紙】ゴミの 出し方ルール',
-        passage: 'アパートの みなさんへ：\n● もえるゴミ：月曜日 と 木曜日\n● もえないゴミ：水曜日\n● ペットボトル・かん：土曜日\n※ ゴミは かならず 朝の 8時までに 出して ください。',
-        q: 'ペットボトルは いつ 出しますか。',
-        opts: ['月曜日の 朝8時まで', '水曜日の 朝8時すぎ', '土曜日の 朝8時まで', '木曜日の 夜'],
-        ans: 2,
-        exp: 'Botol plastik dibuang hari Sabtu (土曜日) sebelum jam 8 pagi.'
-      },
-      {
-        id: 'D04',
-        title: '【メモ】机の上の メモ',
-        passage: 'ラニさんへ\nさきに 帰ります。パソコンの でんげんは 切りましたが、まどが あいています。ラニさんが 帰るとき、まどを しめて、ドアに かぎを かけて ください。\n佐藤',
-        q: 'ラニさんは 帰るとき 何を しなければ なりませんか。',
-        opts: ['パソコンの でんげんを 切る', 'まどを あける', 'まどを しめて、かぎを かける', '佐藤さんに 電話する'],
-        ans: 2,
-        exp: 'Sato meminta Rani menutup jendela dan mengunci pintu.'
-      },
-      {
-        id: 'D05',
-        title: '【案内】さくら病院の 診療時間',
-        passage: '月・火・水・金曜日：午前 9:00〜12:30 ／ 午後 15:00〜18:30\n土曜日：午前 9:00〜13:00（午後は 休み）\n休診日：木曜日・日曜日・祝日',
-        q: '土曜日の 午後 4時に 病院へ 行ったら、どうなりますか。',
-        opts: ['すぐに みてもらえます', '休みなので みてもらえません', '18時30分まで 入れます', '木曜日だけ あいています'],
-        ans: 1,
-        exp: 'Hari Sabtu sore tutup (午後は休み).'
-      },
-      {
-        id: 'D06',
-        title: '【チャット】アリさんと ケンさんの 会話',
-        passage: 'ケン：アリさん、今日の 夜 7時から 駅の 前の カレー屋で ごはんを 食べませんか。\nアリ：いいですね！でも、今日は 残業が 30分 あるので、7時には 間に合いません。7時15分ごろに なっても いいですか。\nケン：はい、だいじょうぶです。7時15分に 店の中で 待っています。',
-        q: '二人は 何時に どこで 会いますか。',
-        opts: ['7時に 駅の 前で', '7時に カレー屋の 中で', '7時15分に 駅の 前で', '7時15分に カレー屋の 中で'],
-        ans: 3,
-        exp: 'Ken berkata: 「7時15分に店の中で待っています」.'
-      },
-      {
-        id: 'D07',
-        title: '【お知らせ】工場見学の 注意',
-        passage: '工場の 中へ 入る ときは、かならず ヘルメットと 安全ぐつを つけて ください。また、機械の 写真は とらないで ください。スマホは ポケットに 入れて おいて ください。',
-        q: '工場の 中で してはいけない ことは 何ですか。',
-        opts: ['ヘルメットを つけること', '安全ぐつを はくこと', '機械の 写真を とること', 'スマホを ポケットに 入れること'],
-        ans: 2,
-        exp: 'Kalimat 「機械の写真はとらないでください」 berarti dilarang memotret mesin.'
-      },
-      {
-        id: 'D08',
-        title: '【チラシ】スーパー「みどり」の セール',
-        passage: '今週の 日曜日は お客様感謝デー！\n★ りんご（1ふくろ 4こ入り）：300円 → 200円\n★ ぎゅうにゅう（1本）：180円 → 150円',
-        q: '日曜日に りんごを 2ふくろと ぎゅうにゅうを 1本 買ったら、いくらですか。',
-        opts: ['550円', '650円', '780円', '450円'],
-        ans: 0,
-        exp: '2 kantong apel (200 x 2 = 400) + 1 susu (150) = 550 yen.'
-      },
-      {
-        id: 'D09',
-        title: '【電車の お知らせ】',
-        passage: 'ただいま 大雨のため、中央線は 新宿駅から 東京駅まで 電車が 止まっています。お急ぎの お客様は、地下鉄丸ノ内線を ご利用ください。切符は そのまま 使えます。',
-        q: '東京駅へ 急いで 行きたい 人は どうすれば いいですか。',
-        opts: ['中央線が 動くまで 待つ', '新しい 切符を 買いなおす', '地下鉄 丸ノ内線に 乗る', 'バスだけ 使う'],
-        ans: 2,
-        exp: 'Disarankan naik kereta bawah tanah jalur Marunouchi.'
-      },
-      {
-        id: 'D10',
-        title: '【メール】日本語教室の 休み',
-        passage: '来週の 水曜日（5月20日）は、先生が 出張のため、日本語教室は 休みです。そのかわり、5月23日（土曜日）の 午前10時から 授業を します。',
-        q: '5月20日は どうして 教室が 休みですか。',
-        opts: ['祝日だから', '先生が 病気だから', '先生が 出張だから', 'テキストが ないから'],
-        ans: 2,
-        exp: 'Tertulis 「先生が出張のため」 (karena dinas luar kota).'
-      },
-      {
-        id: 'D11',
-        title: '【図書館の ルール】',
-        passage: '本は 一人 5さつまで、2週間 かりることが できます。返す ときは、カウンターに 持ってきて ください。図書館が しまっている ときは、入口の 横の「返却ポスト」に 入れて ください。',
-        q: '図書館が しまっている とき、本は どこに 返しますか。',
-        opts: ['カウンターに おく', '家に おく', '入口の 横の 返却ポストに 入れる', '郵便局から 送る'],
-        ans: 2,
-        exp: 'Dimasukkan ke kotak pengembalian (返却ポスト).'
-      },
-      {
-        id: 'D12',
-        title: '【シフト表】',
-        passage: 'デウィさんの 今週の シフト：\n・月曜日：17:00〜22:00\n・水曜日：17:00〜22:00\n・金曜日：9:00〜15:00',
-        q: 'デウィさんが 朝から はたらく 日は 何曜日ですか。',
-        opts: ['月曜日', '水曜日', '木曜日', '金曜日'],
-        ans: 3,
-        exp: 'Hari Jumat (金曜日) bekerja pukul 09:00.'
-      },
-      {
-        id: 'D13',
-        title: '【手紙】ホームステイ先より',
-        passage: 'リナさん、ようこそ 日本へ！今日は 会社の人と 歓迎会ですね。夜ごはんは いりませんね。',
-        q: 'リナさんは 今日 家で 夜ごはんを 食べますか。',
-        opts: ['はい、食べます', 'いいえ、歓迎会が あるので 食べません', 'はい、23時に 食べる', 'わからない'],
-        ans: 1,
-        exp: 'Karena ada pesta penyambutan, tidak perlu makan malam di rumah.'
-      },
-      {
-        id: 'D14',
-        title: '【看板】公園の 注意書き',
-        passage: '犬の さんぽを しても いいですが、かならず リードを つけて ください。自転車に 乗ったまま 入らないで ください。',
-        q: 'この 公園の 中で しても いい ことは 何ですか。',
-        opts: ['自転車に 乗ること', 'ひもなしで 犬を 走らせること', 'ひもを つけて 犬と さんぽすること', '自転車を すてる'],
-        ans: 2,
-        exp: 'Boleh berjalan dengan anjing bertali pengikat.'
-      },
-      {
-        id: 'D15',
-        title: '【短い文章】日本の 四季',
-        passage: '日本には 春・夏・秋・冬の 四つの 季節が あります。秋は 木の 葉が 赤や 黄色に かわって きれいです。',
-        q: '木の 葉が 赤や 黄色に かわるのは どの 季節ですか。',
-        opts: ['春', '夏', '秋', '冬'],
-        ans: 2,
-        exp: 'Pada musim gugur (秋).'
-      },
-      {
-        id: 'D16',
-        title: '【メール】面接の ご案内',
-        passage: '日時：11月5日（水）午後2時00分。10分前までに 5階の 受付へ お越しください。',
-        q: 'ブディさんは 何時までに 受付へ 行かなければ なりませんか。',
-        opts: ['午後1時50分まで', '午後2時00分まで', '午後2時10分まで', '午前10時'],
-        ans: 0,
-        exp: 'Hadir 10 menit sebelum pukul 14:00 yaitu 13:50.'
-      },
-      {
-        id: 'D17',
-        title: '【説明書】くすりの 飲み方',
-        passage: '1日 3回、ごはんの あと 30分以内に 1回に 2じょう 飲んで ください。',
-        q: 'この くすりは 1日に 全部で 何じょう 飲みますか。',
-        opts: ['2じょう', '3じょう', '5じょう', '6じょう'],
-        ans: 3,
-        exp: '3 kali x 2 tablet = 6 tablet.'
-      },
-      {
-        id: 'D18',
-        title: '【掲示板】水道工事',
-        passage: '午前9時から 午後1時まで 水が 出なくなります。',
-        q: '水が 出ない 時間は 何時間ですか。',
-        opts: ['2時間', '3時間', '4時間', '5時間'],
-        ans: 2,
-        exp: 'Dari 09:00 sampai 13:00 adalah 4 jam.'
-      },
-      {
-        id: 'D19',
-        title: '【日記】はじめての 温泉',
-        passage: '温泉に入るまえに体を洗います。タオルはお湯の中に入れてはいけません。',
-        q: '温泉で してはいけない ことは 何ですか。',
-        opts: ['体を あらう', '友だちと 入る', 'タオルを お湯の 中に 入れる', 'おふろに 入る'],
-        ans: 2,
-        exp: 'Handuk tidak boleh dimasukkan ke dalam air.'
-      },
-      {
-        id: 'D20',
-        title: '【クーポン】',
-        passage: 'ラーメン 1ぱい 800円が 650円に！※ランチタイム（11:30〜14:00）は 使えません。',
-        q: 'この クーポンが 使えるのは いつですか。',
-        opts: ['昼の 12時', '昼の 1時30分', '夜の 7時', 'ランチタイム'],
-        ans: 2,
-        exp: 'Tidak berlaku saat jam makan siang, jadi bisa dipakai malam hari.'
-      },
-      {
-        id: 'D21',
-        title: '【社内連絡】エアコン',
-        passage: 'エアコンは 26度に 設定して あります。部屋の 最後の 人は エアコンと 電気を 消して ください。',
-        q: '部屋を 最後の出る 人は 何を しますか。',
-        opts: ['エアコンを 20度に する', 'エアコンと 電気を 消す', 'まどを 全部 あける', '何もしない'],
-        ans: 1,
-        exp: 'Wajib mematikan AC dan lampu.'
-      },
-      {
-        id: 'D22',
-        title: '【メニュー】お弁当',
-        passage: 'さかな弁当：600円、ごはん大盛り：＋50円、お茶：100円',
-        q: 'さかな弁当（ごはん大盛り）と お茶を 1本 買うと、いくらですか。',
-        opts: ['650円', '700円', '750円', '800円'],
-        ans: 2,
-        exp: '600 + 50 + 100 = 750 yen.'
-      },
-      {
-        id: 'D23',
-        title: '【メッセージ】',
-        passage: 'わからない ことが あったら、じぶんで 勝手に しないで、すぐ 先輩に 聞いて ください。',
-        q: 'わからない ことが あったとき、どうすれば いいですか。',
-        opts: ['じぶんで やる', 'すぐ 先輩に 聞く', '何もしない', '帰る'],
-        ans: 1,
-        exp: 'Langsung bertanya kepada senior.'
-      },
-      {
-        id: 'D24',
-        title: '【案内板】美術館',
-        passage: '開館時間：9:30〜17:00（入館は 16:30まで）',
-        q: '美術館に 入れるのは 何時までですか。',
-        opts: ['16:00まで', '16:30まで', '17:00まで', '17:30まで'],
-        ans: 1,
-        exp: 'Batas masuk (入館) pukul 16:30.'
-      },
-      {
-        id: 'D25',
-        title: '【短い文章】コンビニ',
-        passage: '日本の コンビニは 24時間 あいていて、公共料金の 支払いも できます。',
-        q: 'この 文章に 書いて ある ことは どれですか。',
-        opts: ['夜 10時に しまる', 'コンビニで 電気代を 払える', 'ATMが ない', 'お弁当だけ'],
-        ans: 1,
-        exp: 'Bisa membayar tagihan listrik.'
-      },
-      {
-        id: 'D26',
-        title: '【お礼の手紙】',
-        passage: '1か月間、本当に ありがとうございました。',
-        q: 'この 手紙を 書いた 人は どのくらい 高橋さんの 家に いましたか。',
-        opts: ['1週間', '2週間', '1か月間', '1年'],
-        ans: 2,
-        exp: 'Selama 1 bulan.'
-      },
-      {
-        id: 'D27',
-        title: '【天気予報】',
-        passage: '土曜日は よく 晴れて 洗濯物を ほすのに いい 天気でしょう。日曜日は 雨です。',
-        q: '洗濯物を ほすのに いいのは いつですか。',
-        opts: ['土曜日', '日曜日の 午後', '日曜日の 夜', '毎日'],
-        ans: 0,
-        exp: 'Hari Sabtu cerah.'
-      },
-      {
-        id: 'D28',
-        title: '【お知らせ】図書館',
-        passage: 'システム点検で 5日間 休館しますが、返却ポストは 24時間 使えます。',
-        q: '休館中でも できる ことは どれですか。',
-        opts: ['中で 読む', 'ネット予約', '返却ポストに 本を 返す', 'DVDを 借りる'],
-        ans: 2,
-        exp: 'Kotak pengembalian buku tetap buka 24 jam.'
-      },
-      {
-        id: 'D29',
-        title: '【忘れ物】',
-        passage: '青い 折りたたみ傘で、持ち手に 白い リボンが ついています。',
-        q: '乗客が 探して いる かさは どれですか。',
-        opts: ['長くて 青い', '青くて 折りたためる、白い リボン付き', '白い 傘', '赤い 傘'],
-        ans: 1,
-        exp: 'Payung lipat biru berpita putih.'
-      },
-      {
-        id: 'D30',
-        title: '【求人案内】',
-        passage: '時給1,200円（土日は 100円 アップ！）',
-        q: '日曜日に この ホテルで はたらくと、時給は いくらに なりますか。',
-        opts: ['1,100円', '1,200円', '1,300円', '1,500円'],
-        ans: 2,
-        exp: '1200 + 100 = 1300 yen.'
-      },
-      {
-        id: 'D31',
-        title: '【健康診断】',
-        passage: '今夜の 9時 以降は 食事を しないで ください。水や お茶は 飲んでも いいです。',
-        q: '今夜の 10時に 飲んでも いい ものは どれですか。',
-        opts: ['ジュース', '牛乳', '水 または お茶', 'コーヒー（砂糖入り）'],
-        ans: 2,
-        exp: 'Air putih atau teh boleh diminum.'
-      },
-      {
-        id: 'D32',
-        title: '【レストラン】',
-        passage: '「本日は 予約で 満席と なって おります」',
-        q: '予約を して いない 人は どうなりますか。',
-        opts: ['入れる', '今日は 満席で 入れない', '半額になる', '2階なら入れる'],
-        ans: 1,
-        exp: 'Full booked, tidak bisa masuk.'
-      },
-      {
-        id: 'D33',
-        title: '【断水のお知らせ】',
-        passage: '水道工事のため断水します。必要な水は事前にくんでおいてください。',
-        q: '事前に しておいたほうがいいことは何ですか。',
-        opts: ['洗濯機を回す', '必要な水をくんでおく', '蛇口をあける', 'お風呂に入る'],
-        ans: 1,
-        exp: 'Menampung air terlebih dahulu.'
-      },
-      {
-        id: 'D34',
-        title: '【メモ】',
-        passage: 'マニュアルの 3ページ目に まちがえが あるので、新しい ページと 差し替えて ください。',
-        q: 'ラhmadさんは 何を しなければ なりませんか。',
-        opts: ['書き直す', '3ページ目を 新しい ページと 取り替える', '返却する', '修理する'],
-        ans: 1,
-        exp: 'Menukar halaman 3 yang salah dengan yang baru.'
-      },
-      {
-        id: 'D35',
-        title: '【文法読解】',
-        passage: '日本語が 上手に <strong>なる ように</strong>、毎日 ニュースを 見て ください。',
-        q: '何のためにニュースを見ますか。',
-        opts: ['歴史のため', '日本語が 上手に なる ため', 'テストのため', 'テレビを買うため'],
-        ans: 1,
-        exp: 'Supaya mahir bahasa Jepang.'
-      },
-      {
-        id: 'D36',
-        title: '【市民プール】',
-        passage: '水泳帽を持っていない方は受付で100円で借りることができます。',
-        q: '水泳帽を忘れた人はどうしますか。',
-        opts: ['かぶらず泳ぐ', '受付で100円で借りる', '帰る', '走る'],
-        ans: 1,
-        exp: 'Menyewa di resepsionis seharga 100 yen.'
-      },
-      {
-        id: 'D37',
-        title: '【シフト交代】',
-        passage: '木曜日の遅番と、金曜日の遅番をかわっていただけませんか。',
-        q: 'デウィさんはリズキさんに何を頼んでいますか。',
-        opts: ['空港へ行く', 'シフトを交換する', '仕事を2人分やる', '切符を買う'],
-        ans: 1,
-        exp: 'Meminta tukar jadwal shift.'
-      },
-      {
-        id: 'D38',
-        title: '【エレベーター点検】',
-        passage: '午後2時〜3時30分はエレベーターが止まります。階段をご利用ください。',
-        q: '午後2時30分に4階へ行きたい人はどうしますか。',
-        opts: ['エレベーターを使う', '階段を使って上がる', '待つ', 'あきらめる'],
-        ans: 1,
-        exp: 'Menggunakan tangga.'
-      },
-      {
-        id: 'D39',
-        title: '【敬語読解】',
-        passage: '山田課長はただいま3階の会議室に<strong>おります</strong>。',
-        q: '山田課長は今どこにいますか。',
-        opts: ['自分の席', '3階の会議室', '別の会社', '休み'],
-        ans: 1,
-        exp: 'Berada di ruang rapat lantai 3.'
-      },
-      {
-        id: 'D40',
-        title: '【商品の返品】',
-        passage: '購入日から7日以内にレシートと商品をお持ちください。ただし使われた商品やレシートがない場合は交換できません。',
-        q: '商品を交換してもらえるのはどの場合ですか。',
-        opts: ['サイズが合わない', '7日以内でレシートと商品がある', '自分で壊した', 'レシートがない'],
-        ans: 1,
-        exp: 'Dalam 7 hari disertai struk dan barang cacat.'
-      },
-      {
-        id: 'D41',
-        title: '【天気予報】',
-        passage: '今夜は北風が強く、気温が10度も下がるそうです。厚いコートを着てください。',
-        q: '今夜の天気について正しいものはどれですか。',
-        opts: ['暖かくなる', '風が強く寒くなる', '大雨になる', '風が吹かない'],
-        ans: 1,
-        exp: 'Angin kencang dan jauh lebih dingin.'
-      },
-      {
-        id: 'D42',
-        title: '【年末調整】',
-        passage: '国にいる家族へ仕送りしている人は、送金の証明書も一緒に提出してください。',
-        q: '家族へ送金している人は何を提出しますか。',
-        opts: ['書類だけ', '書類と送金の証明書', 'パスポート', 'カレンダー'],
-        ans: 1,
-        exp: 'Formulir beserta bukti pengiriman uang.'
-      },
-      {
-        id: 'D43',
-        title: '【防犯登録】',
-        passage: '先輩から自転車をもらった場合も、前の持ち主の登録を変える手続きが必要です。',
-        q: '先輩から自転車をもらったときどうしますか。',
-        opts: ['そのまま乗る', '防犯登録の持ち主を変える手続きをする', '新しく買う', '塗装する'],
-        ans: 1,
-        exp: 'Mengurus perubahan nama pemilik registrasi.'
-      },
-      {
-        id: 'D44',
-        title: '【文法読解】',
-        passage: 'いらなくなった本や服を捨てる<strong>かわりに</strong>リサイクルショップへ売ることにしました。',
-        q: 'いらなくなった本や服をどうしますか。',
-        opts: ['捨てる', 'リサイクルショップで売る', '交換する', '持っていく'],
-        ans: 1,
-        exp: 'Dijual di toko barang bekas.'
-      },
-      {
-        id: 'D45',
-        title: '【工場内の注意】',
-        passage: '作業員はかならず緑色の歩行者用通路を歩いてください。スマホは絶対にやめてください。',
-        q: '正しい行動はどれですか。',
-        opts: ['黄色い線の内側', '緑色の通路を歩く', 'スマホを見る', 'フォークリフトに乗る'],
-        ans: 1,
-        exp: 'Berjalan di jalur pejalan kaki hijau.'
-      },
-      {
-        id: 'D46',
-        title: '【社員旅行】',
-        passage: '参加するかどうかを今週の金曜日までに中村さんに伝えてください。',
-        q: '最初にすることは何ですか。',
-        opts: ['箱根に行く', '金曜までに中村さんに伝える', '1万円払う', 'ホテルを予約する'],
-        ans: 1,
-        exp: 'Memberi tahu Nakamura-san paling lambat hari Jumat.'
-      },
-      {
-        id: 'D47',
-        title: '【文法読解】',
-        passage: 'テレビを見ながら魚を焼いていたら真っ黒に<strong>こがしてしまいました</strong>。',
-        q: '魚はどうなりましたか。',
-        opts: ['おいしく焼けた', '焼きすぎて黒くなった', '生のまま', '猫に食べられた'],
-        ans: 1,
-        exp: 'Gosong karena terlalu lama dipanggang.'
-      },
-      {
-        id: 'D48',
-        title: '【ICカード】',
-        passage: '残高が初乗り運賃より少ないと改札を通れません。券売機でチャージできます。',
-        q: '残高が足りないときどうしますか。',
-        opts: ['そのまま通る', 'チャージする', '捨てる', '無料で乗る'],
-        ans: 1,
-        exp: 'Mengisi ulang (charge) saldo.'
-      },
-      {
-        id: 'D49',
-        title: '【留守番電話】',
-        passage: '先生の急用により予約を午後4時から5時に変更していいですか。',
-        q: '午後5時でも大丈夫な場合、何時に病院へ行きますか。',
-        opts: ['午後4時', '午後5時', 'あさって', '今日'],
-        ans: 1,
-        exp: 'Pukul 17:00 (午後5時).'
-      },
-      {
-        id: 'D50',
-        title: '【日本の冬】',
-        passage: 'こたつがあるのでエアコンを<strong>つけなくても</strong>暖かく過ごせます。',
-        q: 'どうしてエアコンをつけませんか。',
-        opts: ['壊れているから', 'こたつがあって暖かくていから', '暑いから', '電気代が高いから'],
-        ans: 1,
-        exp: 'Karena ada kotatsu yang sudah hangat.'
-      }
+      { id: 'D01', title: '【お知らせ】食堂の 営業時間', passage: '来週の 月曜日（10月12日）は、キッチンを そうじするため、食堂の 昼ごはんの 時間は 11時30分から 13時までです。いつもより 30分 はやく 終わりますので、気をつけて ください。夜ごはんは いつもどおり 17時から 20時までです。', q: '10月12日の 昼ごはんは 何時まで 食べられますか。', opts: ['11時30分まで', '13時まで', '13時30分まで', '20時まで'], ans: 1, exp: 'Tertulis 「13時までです」.' },
+      { id: 'D02', title: '【メール】田中さんからの 連絡', passage: 'アグスさん、おつかれさまです。田中です。あしたの 午前10時からの 会議ですが、会議室Aから 会議室Bに かわりました。資料は わたしが 持っていきますので、アグスさんは ノートと ペンだけ 持ってきて ください。', q: 'アグスさんは あした どこへ 行かなければ なりませんか。', opts: ['会議室A', '会議室B', '田中さんの へや', '食堂'], ans: 1, exp: 'Berpindah ke Ruang Rapat B (会議室B).' },
+      { id: 'D03', title: '【はり紙】ゴミの 出し方ルール', passage: 'アパートの みなさんへ：\n● もえるゴミ：月曜日 と 木曜日\n● もえないゴミ：水曜日\n● ペットボトル・かん：土曜日\n※ ゴミは かならず 朝の 8時までに 出して ください。', q: 'ペットボトルは いつ 出しますか。', opts: ['月曜日の 朝8時まで', '水曜日の 朝8時すぎ', '土曜日の 朝8時まで', '木曜日の 夜'], ans: 2, exp: 'Hari Sabtu (土曜日) sebelum jam 8 pagi.' },
+      { id: 'D04', title: '【メモ】机の上の メモ', passage: 'ラニさんへ\nさきに 帰ります。パソコンの でんげんは 切りましたが、まどが あいています。ラニさんが 帰るとき、まどを しめて、ドアに かぎを かけて ください。\n佐藤', q: 'ラニさんは 帰るとき 何を しなければ なりませんか。', opts: ['パソコンの でんげんを 切る', 'まどを あける', 'まどを しめて、かぎを かける', '佐藤さんに 電話する'], ans: 2, exp: 'Menutup jendela dan mengunci pintu.' },
+      { id: 'D05', title: '【案内】さくら病院の 診療時間', passage: '月・火・水・金曜日：午前 9:00〜12:30 ／ 午後 15:00〜18:30\n土曜日：午前 9:00〜13:00（午後は 休み）\n休診日：木曜日・日曜日・祝日', q: '土曜日の 午後 4時に 病院へ 行ったら、どうなりますか。', opts: ['すぐに みてもらえます', '休みなので みてもらえません', '18時30分まで 入れます', '木曜日だけ あいています'], ans: 1, exp: 'Hari Sabtu sore tutup (午後は休み).' },
+      { id: 'D06', title: '【チャット】アリさんと ケンさんの 会話', passage: 'ケン：アリさん、今日の 夜 7時から 駅の 前の カレー屋で ごはんを 食べませんか。\nアリ：いいですね！でも、残業が 30分 あるので、7時15分に 店の中で 待っています。', q: '二人は 何時に どこで 会いますか。', opts: ['7時に 駅の 前で', '7時に カレー屋の 中で', '7時15分に 駅の 前で', '7時15分に カレー屋の 中で'], ans: 3, exp: 'Pukul 7:15 di dalam restoran.' },
+      { id: 'D07', title: '【お知らせ】工場見学の 注意', passage: '工場の 中へ 入る ときは、かならず ヘルメットと 安全ぐつを つけて ください。機械の 写真は とらないで ください。', q: '工場の 中で してはいけない ことは 何ですか。', opts: ['ヘルメットをつける', '安全ぐつをはく', '機械の写真をとる', 'スマホをしまう'], ans: 2, exp: 'Dilarang memotret mesin.' },
+      { id: 'D08', title: '【チラシ】スーパー「みどり」', passage: '日曜日は お客様感謝デー！りんご（4こ）：300円 → 200円、ぎゅうにゅう（1本）：180円 → 150円', q: '日曜日に りんごを 2ふくろと ぎゅうにゅうを 1本 買ったら、いくらですか。', opts: ['550円', '650円', '780円', '450円'], ans: 0, exp: '(200 x 2) + 150 = 550 yen.' },
+      { id: 'D09', title: '【電車の お知らせ】', passage: '大雨のため中央線は新宿〜東京間で止まっています。地下鉄丸ノ内線をご利用ください。', q: '東京駅へ 急いで 行きたい 人は どうすれば いいですか。', opts: ['中央線を待つ', '切符を買いなおす', '地下鉄 丸ノ内線に 乗る', 'バスだけ 使う'], ans: 2, exp: 'Naik kereta bawah tanah Marunouchi.' },
+      { id: 'D10', title: '【メール】日本語教室', passage: '5月20日は先生が出張のため休みです。かわりに23日（土）午前10時から授業をします。', q: '5月20日は どうして 教室が 休みですか。', opts: ['祝日だから', '病気だから', '先生が 出張だから', 'テキストがない'], ans: 2, exp: 'Guru dinas luar kota (出張のため).' },
+      { id: 'D11', title: '【図書館の ルール】', passage: '本は5冊まで2週間。図書館がしまっているときは入口横の「返却ポスト」に入れてください。', q: '図書館が しまっている とき、本は どこに 返しますか。', opts: ['カウンター', '家に置く', '入口の 横の 返却ポスト', '郵送'], ans: 2, exp: 'Kotak pengembalian (返却ポスト).' },
+      { id: 'D12', title: '【シフト表】', passage: 'デウィさんのシフト：月・水17:00〜22:00、金9:00〜15:00', q: 'デウィさんが 朝から はたらく 日は 何曜日ですか。', opts: ['月曜日', '水曜日', '木曜日', '金曜日'], ans: 3, exp: 'Hari Jumat (金曜日) pukul 09:00.' },
+      { id: 'D13', title: '【手紙】ホームステイ先より', passage: '今日は歓迎会ですね。夜ごはんはいりませんね。', q: 'リナさんは 今日 家で 夜ごはんを 食べますか。', opts: ['はい', 'いいえ、歓迎会があるので食べません', '23時に食べる', 'わからない'], ans: 1, exp: 'Ada pesta penyambutan.' },
+      { id: 'D14', title: '【看板】公園の 注意書き', q: 'この 公園の 中で してはいけない ことは 何ですか。', passage: '犬のさんぽはリードをつけてください。自転車に乗ったまま入らないでください。', opts: ['自転車に乗ること', 'ひもなし犬', '犬の散歩', '歩くこと'], ans: 0, exp: 'Naik sepeda di dalam taman.' },
+      { id: 'D15', title: '【短い文章】日本の 四季', passage: '日本には春・夏・秋・冬があります。秋は木の葉が赤や黄色にかわってきれいです。', q: '木の 葉が 赤や 黄色に かわるのは どの 季節ですか。', opts: ['春', '夏', '秋', '冬'], ans: 2, exp: 'Musim gugur (秋).' },
+      { id: 'D16', title: '【メール】面接案内', passage: '日時：11月5日午後2時。10分前までに5階受付へお越しください。', q: 'ブディさんは 何時までに 受付へ 行かなければ なりませんか。', opts: ['午後1時50分まで', '午後2時00分まで', '午後2時10分まで', '午前10時'], ans: 0, exp: 'Pukul 13:50 (10 menit sebelum 14:00).' },
+      { id: 'D17', title: '【説明書】くすり', passage: '1日3回、食後30分以内に2じょうずつ飲んでください。', q: 'この くすりは 1日に 全部で 何じょう 飲みますか。', opts: ['2じょう', '3じょう', '5じょう', '6じょう'], ans: 3, exp: '3 x 2 = 6 tablet.' },
+      { id: 'D18', title: '【掲示板】水道工事', passage: '午前9時から午後1時まで断水します。', q: '水が 出ない 時間は 何時間ですか。', opts: ['2時間', '3時間', '4時間', '5時間'], ans: 2, exp: '4 jam.' },
+      { id: 'D19', title: '【日記】温泉', passage: '温泉に入る前に体を洗います。タオルはお湯に入れないでください。', q: '温泉で してはいけない ことは 何ですか。', opts: ['体を洗う', '友だちと入る', 'タオルを お湯の 中に 入れる', 'おふろに入る'], ans: 2, exp: 'Memasukkan handuk ke air kolam.' },
+      { id: 'D20', title: '【クーポン】', passage: 'ラーメン800円が650円。※ランチタイム（11:30〜14:00）は使えません。', q: 'この クーポンが 使えるのは いつですか。', opts: ['12時', '1時30分', '夜の 7時', 'ランチ'], ans: 2, exp: 'Malam hari (夜の7時).' },
+      { id: 'D21', title: '【社内連絡】', passage: 'エアコンは26度。最後の人はエアコンと電気を消してください。', q: '部屋を 最後の出る 人は 何を しますか。', opts: ['20度にする', 'エアコンと電気を消す', 'まどを開ける', '何もしない'], ans: 1, exp: 'Mematikan AC dan lampu.' },
+      { id: 'D22', title: '【メニュー】', passage: 'さかな弁当600円、ごはん大盛り＋50円、お茶100円', q: 'さかな弁当（ごはん大盛り）と お茶を 1本 買うと、いくらですか。', opts: ['650円', '700円', '750円', '800円'], ans: 2, exp: '600 + 50 + 100 = 750 yen.' },
+      { id: 'D23', title: '【メッセージ】', passage: 'わからないことは勝手にせずすぐ先輩に聞いてください。', q: 'わからない ことが あったとき、どうすれば いいですか。', opts: ['勝手にする', 'すぐ先輩に聞く', '何もしない', '帰る'], ans: 1, exp: 'Segera bertanya kepada senior.' },
+      { id: 'D24', title: '【美術館】', passage: '開館9:30〜17:00（入館は16:30まで）', q: '美術館に 入れるのは 何時までですか。', opts: ['16:00', '16:30', '17:00', '17:30'], ans: 1, exp: 'Pukul 16:30.' },
+      { id: 'D25', title: '【コンビニ】', passage: '24時間営業。お弁当だけでなく電気代の支払いもできます。', q: 'この 文章に 書いて ある ことは どれですか。', opts: ['夜10時閉館', '電気代を払える', 'ATMなし', '弁当のみ'], ans: 1, exp: 'Bisa membayar tagihan listrik.' },
+      { id: 'D26', title: '【お礼の手紙】', passage: '1か月間、本当にありがとうございました。', q: 'この 手紙を 書いた 人は どのくらい 高橋さんの 家に いましたか。', opts: ['1週間', '2週間', '1か月間', '1年'], ans: 2, exp: 'Selama 1 bulan.' },
+      { id: 'D27', title: '【天気予報】', passage: '土曜日はよく晴れて洗濯日和。日曜日は午後から雨。', q: '洗濯物を ほすのに いいのは いつですか。', opts: ['土曜日', '日曜日の午後', '日曜日の夜', '毎日'], ans: 0, exp: 'Hari Sabtu.' },
+      { id: 'D28', title: '【社員旅行】', passage: '箱根へ行きます。金曜日までに山田さんに名前を伝えてください。参加費3,000円。', q: '参加したい 人は 今週の 金曜日までに 何を しますか。', opts: ['3000円払う', '山田さんに名前を伝える', 'ホテル予約', '切符買う'], ans: 1, exp: 'Memberi tahu Yamada-san.' },
+      { id: 'D29', title: '【道をきく】', passage: 'まっすぐ行って二つ目の信号を右。100mほどで左側にあります。銀行のとなりです。', q: '郵便局は どこに ありますか。', opts: ['一つ目角', '銀行前', '二つ目右折の道の左側', '駅内'], ans: 2, exp: 'Sebelah kiri setelah belok kanan di lampu merah kedua.' },
+      { id: 'D30', title: '【寮の洗濯機】', passage: '朝7時〜夜10時まで。夜10時すぎは近所の迷惑になるので使わないでください。', q: 'どうして 夜 10時すぎに 洗濯機を 使っては いけませんか。', opts: ['水が止まる', '電気代高い', '近所の人の迷惑になる', '故障'], ans: 2, exp: 'Mengganggu tetangga.' },
+      { id: 'D31', title: '【忘れ物】', passage: '3階トイレで青い折りたたみ傘を発見。1階警備員室まで取りに来てください。', q: '青い かさは 今 どこに ありますか。', opts: ['3階トイレ', '1階警備員室', '2階会議室', '玄関'], ans: 1, exp: 'Ruang satpam lantai 1.' },
+      { id: 'D32', title: '【パーティー】', passage: '土曜18時パーティー。料理も飲み物も用意するから何も持ってこなくていいよ！', q: 'ワンさんは パーティーに 何を 持っていきますか。', opts: ['ケーキ', '飲み物', '料理', '何も持っていかなくていい'], ans: 3, exp: 'Tidak perlu membawa apa-apa.' },
+      { id: 'D33', title: '【エレベーター点検】', passage: '午前10時〜12時使えません。階段をご利用ください。', q: '午前11時に 5階へ 行きたい 人は どうしますか。', opts: ['エレベーター', '階段を使う', '12時まで待つ', '別ビル'], ans: 1, exp: 'Menggunakan tangga.' },
+      { id: 'D34', title: '【おじぎ】', passage: '友達は軽く頭を下げます。お客様や先生には深くおじぎをします。', q: '深く ていねいに おじぎを するのは どんな ときですか。', opts: ['友達', '家族', 'お客様や先生', '一人'], ans: 2, exp: 'Bertemu tamu perusahaan atau guru.' },
+      { id: 'D35', title: '【バスの乗り方】', passage: '後ろから乗って整理券を取る。降りる時は運賃箱へ。', q: 'バスに 乗るとき、まず 何を しますか。', opts: ['前ドア乗車', '料金支払い', '後ろドア乗車で整理券をとる', '名前言う'], ans: 2, exp: 'Naik dari pintu belakang dan ambil karcis.' },
+      { id: 'D36', title: '【冷蔵庫のプリン】', passage: '赤い紙がはってあるのは私の。もう一つは兄ちゃんが食べていいよ。', q: 'お兄ちゃんが 食べても いい プリンは どれですか。', opts: ['全部', '赤い紙つき', '赤い紙なし', '両方ダメ'], ans: 2, exp: 'Tanpa kertas merah.' },
+      { id: 'D37', title: '【健康診断】', passage: '当日の朝は水とお茶以外飲まないで。朝食も食べないで。', q: '健康診断の 日の 朝、飲んでも いい ものは 何ですか。', opts: ['コーヒー牛乳', 'ジュース', '水と お茶', 'みそ汁'], ans: 2, exp: 'Air putih dan teh.' },
+      { id: 'D38', title: '【週末の予定】', q: 'Bさんは 日曜日に 何を しますか。', passage: '土曜は映画、日曜は姉とデパートへ買い物に行きます。', opts: ['映画', 'バイト', '姉とデパートへ行く', '公園'], ans: 2, exp: 'Pergi ke department store bersama kakak.' },
+      { id: 'D39', title: '【携帯マナー】', passage: '電車内はマナーモードにし通話は遠慮してください。', q: '電車の中で 携帯電話は どうしなければ なりませんか。', opts: ['大声で話す', 'マナーモードにして通話しない', '音を出す', '電源切る'], ans: 1, exp: 'Mode senyap dan tidak menelepon.' },
+      { id: 'D40', title: '【スポーツクラブ】', passage: '入会金5,000円（今月無料！）、月会費6,000円', q: '今月中に 申し込むと、いくら 安くなりますか。', opts: ['1000円', '5000円', '6000円', '11000円'], ans: 1, exp: 'Hemat 5,000 yen.' },
+      { id: 'D41', title: '【宅配便】', passage: '留守のときはポストに不在連絡票が入ります。', q: '留守で 荷物を 受け取れなかった とき、どうなりますか。', opts: ['捨てられる', '不在連絡票が入る', '来年届く', '隣に置く'], ans: 1, exp: 'Slip tidak di rumah di kotak pos.' },
+      { id: 'D42', title: '【休憩室】', passage: '使ったコップやお皿は自分で洗って元の場所に戻してください。', q: '休憩室で コップを 使った あと、どうしますか。', opts: ['そのまま置く', '自分で洗って元に戻す', 'ゴミ箱へ', '事務室へ'], ans: 1, exp: 'Dicuci dan dikembalikan.' },
+      { id: 'D43', title: '【遅刻の連絡】', passage: '事故で電車が15分おくれており、9時の始業に10分ほど遅れそうです。', q: 'ラフィさんは どうして 会社に おくれますか。', opts: ['寝坊', '事故で電車がおくれている', '病院', '道違い'], ans: 1, exp: 'Kereta terlambat karena kecelakaan.' },
+      { id: 'D44', title: '【自販機故障】', passage: 'ただいま1,000円札が使えません。100円玉や500円玉硬貨をお使いください。', q: 'この 自動販売機で 飲み物を 買う とき、何が 使えますか。', opts: ['1000円札', '5000円札', '100円玉と500円玉', 'カード'], ans: 2, exp: 'Koin 100 dan 500 yen.' },
+      { id: 'D45', title: '【朝ごはん】', passage: '時間がなくてもバナナ1本や牛乳1ぱいだけでも飲むといいです。', q: '時間が ない ときは どうすると いいと 書いて ありますか。', opts: ['食べない', 'バナナや牛乳だけでもとる', '昼を2回', '夜食べる'], ans: 1, exp: 'Setidaknya makan pisang atau minum susu.' },
+      { id: 'D46', title: '【防犯】', passage: '自転車から離れるときは短い時間でもかならずかぎをかけてください。', q: '自転車から 離れる とき、何を しなければ なりませんか。', opts: ['荷物を入れる', '短い時間でもかぎをかける', '電気をつける', '道路真ん中に置く'], ans: 1, exp: 'Mengunci sepeda.' },
+      { id: 'D47', title: '【葉書】', passage: '先月仕事で大阪に引っ越しました。大阪はたこ焼きがおいしいです。', q: 'この 葉書を 書いた 人は 今 どこに 住んでいますか。', opts: ['東京', '大阪', '北海道', '沖縄'], ans: 1, exp: 'Osaka.' },
+      { id: 'D48', title: '【試験会場】', passage: '机の上に置いていいのは受験票、えんぴつ、消しゴムだけです。', q: '試験中、机の 上に おいても いい ものは どれですか。', opts: ['スマホ', '腕時計', '消しゴム', '辞書'], ans: 2, exp: 'Penghapus (消しゴム).' },
+      { id: 'D49', title: '【夏祭り】', passage: '8月15日17時中央公園で夏祭り。雨の場合は16日に延期します。', q: '8月15日が 雨だったら、夏祭りは どうなりますか。', opts: ['中止', '16日に行う', '体育館', '来年'], ans: 1, exp: 'Ditunda ke tanggal 16.' },
+      { id: 'D50', title: '【リサイクル】', passage: '新聞紙やダンボールはひもでしばって出します。', q: '新聞紙や ダンボールは どうやって 出しますか。', opts: ['袋に入れる', 'ひもでしばって出す', '水にぬらす', '小さく切る'], ans: 1, exp: 'Diikat dengan tali.' }
     ];
 
     const choukaiBank = [
       {
         id: 'C01',
-        scenario: '会社で 先輩と 後輩が 会議の 準備に ついて 話して います。',
-        script: '女：アルディさん、あしたの 会議の 資料は もう コピーしましたか。\n男：はい、30部 コピーして、会議室の 机に 並べて おきました。\n女：ありがとう。じゃあ、あとは プロジェクターの テストだけですね。私が やるから、アルディさんは 部長に 準備が 終わったと 伝えて きて ください。\n男：わかりました。すぐ 行って きます。',
-        q: '男の 人は これから 何を しますか。',
-        opts: ['資料を コピーする', '机を 並べる', 'プロジェクターの テスト', '部長に 準備が 終わったと 伝える'],
-        ans: 3,
-        exp: 'Menyampaikan kepada kepala bagian bahwa persiapan selesai.'
+        situation: 'スーパーで 女の人と 店員が 話しています。',
+        script: [
+          { speaker: 'F', text: 'すみません、この りんごは ひとつ いくらですか。' },
+          { speaker: 'M', text: 'ひとつ 150円です。3つ セットなら 400円ですよ。' },
+          { speaker: 'F', text: 'じゃあ、3つ セットを ください。' }
+        ],
+        q: '女の人は りんごを いくつ 買いますか。',
+        opts: ['1つ', '2つ', '3つ', '4つ'],
+        ans: 2,
+        transcript: '女：このりんごはひとついくらですか。\n店員：150円です。3つセットなら400円です。\n女：じゃあ、3つセットをください。',
+        exp: 'Membeli paket isi 3 apel.'
       },
       {
         id: 'C02',
-        scenario: '電話で 男の 人と 病院の 受付が 話して います。',
-        script: '男：今日の 午前11時に 予約して いる ファジャルですが、電車が 事故で 止まって 30分ぐらい 遅れそうです。\n女：そうですか。11時30分ですね。気をつけて いらして ください。',
-        q: '男の 人は 何時ごろ 病院に 着きますか。',
-        opts: ['10:30', '11:00', '11:30', '13:00'],
+        situation: '会社で 会議の 時間に ついて 話しています。',
+        script: [
+          { speaker: 'M', text: '今日の 会議は 2時からですね。' },
+          { speaker: 'F', text: 'いいえ、部長が おくれるので 30分 おそくなり、2時半からです。' }
+        ],
+        q: '会議は 何時からですか。',
+        opts: ['1時半', '2時', '2時半', '3時'],
         ans: 2,
-        exp: 'Terlambat 30 menit menjadi pukul 11:30.'
+        exp: 'Pukul 2:30.'
       },
       {
         id: 'C03',
-        scenario: '食品工場で リーダーが 話して います。',
-        script: '男：今日の お弁当の 注文は 1,000個です。アユさんと シティさんは、今日は ごはんの ラインを 手伝って ください。',
-        q: 'アユさんは 今日 どの 仕事を しますか。',
-        opts: ['野菜を切る', 'ごはんを入れる', '弁当を運ぶ', '掃除'],
-        ans: 1,
-        exp: 'Membantu lini pengisian nasi.'
+        situation: '駅で 電車の ホームを 聞いています。',
+        script: [
+          { speaker: 'F', text: '京都行きの 電車は 何番線ですか。' },
+          { speaker: 'M', text: '3番線へ 行って ください。4番線は 大阪行きです。' }
+        ],
+        q: '京都行きの 電車は 何番線ですか。',
+        opts: ['1番線', '2番線', '3番線', '4番線'],
+        ans: 2,
+        exp: 'Peron 3.'
       },
       {
         id: 'C04',
-        scenario: '駅の 改札で 話して います。',
-        script: '男：みどり病院へ 行きたいんですが。\n女：東口の 2番出口から 出てください。1番出口は 工事中です。',
-        q: '男の 人は 何番出口から 出ますか。',
-        opts: ['1番', '2番', '3番', '5番'],
-        ans: 1,
-        exp: 'Pintu nomor 2 (2番出口).'
+        situation: '病院で 医者から 注意を 聞いています。',
+        script: [
+          { speaker: 'F', text: '熱が ありますから、今日は おふろに 入らないで ください。シャワーも だめです。' }
+        ],
+        q: '男の人は 今日 何を してはいけませんか。',
+        opts: ['薬を飲む', '早く寝る', 'おふろやシャワーに入る', '水を飲む'],
+        ans: 2,
+        exp: 'Dilarang mandi / shower.'
       },
       {
         id: 'C05',
-        scenario: 'レストランで 店長と アルバイトが 話して います。',
-        script: '男：3番のお皿を 片付けて。あ、その前に 5番にお水を 持って行って。\n女：わかりました！',
-        q: '女の 人は 最初に 何を しますか。',
-        opts: ['お皿を 片付ける', '5番にお水を 持って行く', 'レジをする', 'メニューを渡す'],
-        ans: 1,
-        exp: 'Mengantar air ke meja nomor 5 terlebih dahulu.'
+        situation: 'レストランで 飲み物を 注文します。',
+        script: [
+          { speaker: 'M', text: '私は コーヒーにします。リナさんは？' },
+          { speaker: 'F', text: '今日は 少し 寒いから、温かい 紅茶にします。' }
+        ],
+        q: '女の人は 何を 注文しますか。',
+        opts: ['冷たいコーヒー', 'アイスティー', 'アイスコーヒー', '温かい 紅茶'],
+        ans: 3,
+        exp: 'Teh hitam hangat.'
       },
       {
         id: 'C06',
-        scenario: 'アパートの 管理人と 留学生が 話して います。',
-        script: '女：お湯が 出なくなりました。\n男：外の ガスメーターを 見に 行きましょう。',
-        q: '二人は 今すぐ 何を しますか。',
-        opts: ['部屋を探す', 'ガスメーターを見に行く', '掃除する', '電話する'],
+        situation: '駅の前で 待ち合わせを しています。',
+        script: [
+          { speaker: 'M', text: '改札の 前に 着きました。' },
+          { speaker: 'F', text: '本屋で 本を見ています。本屋の 前に 来てください。' }
+        ],
+        q: '二人は どこで 会いますか。',
+        opts: ['改札の前', '本屋の前', '映画館の前', 'バス停'],
         ans: 1,
-        exp: 'Mengecek meteran gas di luar.'
+        exp: 'Depan toko buku.'
       },
       {
         id: 'C07',
-        scenario: '職場で 昼ごはんに ついて 話して います。',
-        script: '女：日替わりは カレーと 焼き魚ですが、カレーは もう 売り切れました。\n男：じゃあ、焼き魚に します。',
-        q: '男の 人は 昼ごはんに 何を 食べますか。',
-        opts: ['カレー', '焼き魚', 'ラーメン', 'パン'],
+        situation: '教室で テストの 注意を聞きます。',
+        script: [
+          { speaker: 'F', text: 'まず、問題用紙に 名前と 番号を 書いて ください。' }
+        ],
+        q: '生徒は 最初に 何を しますか。',
+        opts: ['問題を解く', '名前と番号を書く', '辞書を開く', '手をあげる'],
         ans: 1,
-        exp: 'Memilih ikan bakar (焼き魚).'
+        exp: 'Menulis nama dan nomor.'
       },
       {
         id: 'C08',
-        scenario: '介護施設で 話して います。',
-        script: '女：午後2時から レクリエーションです。1時50分に 佐藤さんの 部屋へ 迎えに 行って ください。',
-        q: '男の 人は 何時に 佐藤さんの 部屋へ 行きますか。',
-        opts: ['1:00', '1:30', '1:50', '2:00'],
-        ans: 2,
-        exp: 'Pukul 1:50.'
+        situation: '家で 買い物リストを確認しています。',
+        script: [
+          { speaker: 'F', text: 'カレーを作るのに、にんじんと じゃがいもを買ってきて。お肉と玉ねぎはあります。' }
+        ],
+        q: '夫は 何を 買ってきますか。',
+        opts: ['お肉と玉ねぎ', 'にんじんとじゃがいも', 'ルーだけ', 'お肉とニンジン'],
+        ans: 1,
+        exp: 'Wortel dan kentang.'
       },
       {
         id: 'C09',
-        scenario: 'デパートの 案内所にて。',
-        script: '男：コーヒーカップ売り場は 5階です。プレゼントの 包装は 同じ 5階の カウンターで できます。',
-        q: 'コーヒーカップは 何階で 売って いますか。',
-        opts: ['1階', '3階', '5階', '7階'],
+        situation: '工場で ロッカーの使い方を教わります。',
+        script: [
+          { speaker: 'M', text: 'かばんやスマホは更衣室のロッカーに入れて鍵をかけてください。' }
+        ],
+        q: '社員は かばんを どこに 入れますか。',
+        opts: ['作業場の床', '事務所の棚', '更衣室のロッカー', '食堂'],
         ans: 2,
-        exp: 'Lantai 5.'
+        exp: 'Loker ruang ganti.'
       },
       {
         id: 'C10',
-        scenario: '農業の 職場で 話して います。',
-        script: '男：あしたは 午後から 雨だから、午前中に トマトを 全部 とって しまいましょう。',
-        q: 'あしたの 午前中は 何の 作業を しますか。',
-        opts: ['トマトの収穫', '箱詰め', '運転', '休み'],
-        ans: 0,
-        exp: 'Panen tomat (トマトの収穫).'
+        situation: 'ホテルのフロントで朝食の時間を聞いています。',
+        script: [
+          { speaker: 'F', text: '朝ごはんは1階のレストランで、朝6時半から9時半までです。' }
+        ],
+        q: '朝ごはんは 何時から 何時までですか。',
+        opts: ['6時〜9時', '6時半〜9時半', '7時〜9時', '7時半〜10時'],
+        ans: 1,
+        exp: 'Pukul 6:30 - 9:30.'
       },
       {
         id: 'C11',
-        scenario: 'ホテルの フロントにて。',
-        script: '男：朝の 5時30分に チェックアウトしたいんですが。\n女：カードキーを フロントの 青い 箱に 入れて ください。',
-        q: '男の 人は 朝、かぎを どうしますか。',
-        opts: ['机に置く', '青い箱に入れる', '持ち帰る', 'ポストに入れる'],
-        ans: 1,
-        exp: 'Memasukkan ke kotak biru di resepsionis.'
+        situation: '週末の天気について話しています。',
+        script: [
+          { speaker: 'M', text: '日曜日は朝から雨が降るそうですよ。' }
+        ],
+        q: '日曜日の 天気は どうですか。',
+        opts: ['晴れ', 'くもり', '雨', '雪'],
+        ans: 2,
+        exp: 'Hujan.'
       },
       {
         id: 'C12',
-        scenario: '宅配便の 電話。',
-        script: '女：あと 15分で 帰ります。\n男：じゃあ、30分後に もう 一度 うかがいます。',
-        q: '宅配便の 人は いつ また 来ますか。',
-        opts: ['5分後', '15分後', '30分後', '明日'],
+        situation: '郵便局で海外へ荷物を送ります。',
+        script: [
+          { speaker: 'F', text: '航空便なら2,400円、船便なら1,200円です。\n男：急ぎますから航空便で。' }
+        ],
+        q: '男の人は いくら 払いますか。',
+        opts: ['1,000円', '1,200円', '2,400円', '3,600円'],
         ans: 2,
-        exp: '30 menit kemudian.'
+        exp: '2,400 yen.'
       },
       {
         id: 'C13',
-        scenario: '建設現場にて。',
-        script: '男：1階の 木材を トラックから 下ろすのを 手伝って くれ。',
-        q: 'プトラさんは 昼休みまでに 何を しますか。',
-        opts: ['ペンキ塗り', '木材を下ろす', 'ヘルメットを洗う', '食事'],
+        situation: 'オフィスのコピー機の前で。',
+        script: [
+          { speaker: 'F', text: 'この資料を15部、白黒でコピーしてください。' }
+        ],
+        q: '男の人は これから 何を しますか。',
+        opts: ['カラー5部', '白黒15部コピー', '捨てる', 'メール送信'],
         ans: 1,
-        exp: 'Menurunkan kayu dari truk.'
+        exp: 'Fotokopi hitam putih 15 rangkap.'
       },
       {
         id: 'C14',
-        scenario: '市役所の 窓口。',
-        script: '女：緑色の 紙に 書いて ください。それと、在留カードを 見せて ください。',
-        q: '男の 人は 紙に 書く ほかに、何を 見せますか。',
-        opts: ['パスポート', '在留カード', 'キャッシュカード', '健康診断書'],
-        ans: 1,
-        exp: 'Zairyu Card (在留カード).'
+        situation: 'バス車内のアナウンス。',
+        script: [
+          { speaker: 'F', text: 'つぎは、市役所前、市役所前です。' }
+        ],
+        q: 'つぎの バス停は どこですか。',
+        opts: ['駅前', '病院前', '市役所前', '図書館前'],
+        ans: 2,
+        exp: 'Shiyakusho-mae.'
       },
       {
         id: 'C15',
-        scenario: 'コピー機の 前で。',
-        script: '女：赤い ランプが 光って います。\n男：「紙が ありません」と 出て いますね。',
-        q: 'コピー機は どうして 止まって いますか。',
-        opts: ['電気がない', '紙がない', 'インクがない', '紙詰まり'],
+        situation: 'プレゼント選び。',
+        script: [
+          { speaker: 'F', text: 'マリアさんは料理が好きだから、かわいいエプロンはどう？\n男：いいね、それにしよう。' }
+        ],
+        q: '二人は マリアさんに 何を あげますか。',
+        opts: ['花', 'エプロン', 'ケーキ', '本'],
         ans: 1,
-        exp: 'Kertas habis.'
+        exp: 'Celemek.'
       },
       {
         id: 'C16',
-        scenario: 'パン屋にて。',
-        script: '男：カレーパンは もう 焼かなくて いいよ。残りの 食パンに「20%引き」の シールを はって。',
-        q: 'スタッフは これから 何を しますか。',
-        opts: ['カレーパンを焼く', '食パンに20%引きのシールをはる', '店を閉める', '値上げする'],
-        ans: 1,
-        exp: 'Menempel stiker diskon 20% pada roti tawar.'
+        situation: '図書館での本の貸出期限。',
+        script: [
+          { speaker: 'M', text: '今日は10月1日ですので、2週間後の10月15日までです。' }
+        ],
+        q: '本は 何月何日までに 返しますか。',
+        opts: ['10月7日', '10月10日', '10月15日', '10月31日'],
+        ans: 2,
+        exp: '15 Oktober.'
       },
       {
         id: 'C17',
-        scenario: '日本語学校にて。',
-        script: '女：月曜日は 祝日で 休みです。火曜日に 漢字の 小テストを します。',
-        q: '漢字の 小テストは いつ ありますか。',
-        opts: ['金曜日', '月曜日', '火曜日', '水曜日'],
+        situation: '靴屋での買い物。',
+        script: [
+          { speaker: 'F', text: '26センチは売り切れです。26.5ならあります。\n客：じゃあ26.5にします。' }
+        ],
+        q: '男の人は 何センチの 靴を 買いますか。',
+        opts: ['25.5', '26', '26.5', '27'],
         ans: 2,
-        exp: 'Hari Selasa.'
+        exp: 'Ukuran 26.5.'
       },
       {
         id: 'C18',
-        scenario: 'バーベキューの 相談。',
-        script: '男：肉と野菜は 僕が 買うから、紙コップと 紙皿を 買って。',
-        q: '女の 人は 何を 持って 行きますか。',
-        opts: ['肉と野菜', '紙コップと紙皿', '飲み物', 'コンロ'],
+        situation: '昼食の相談。',
+        script: [
+          { speaker: 'F', text: '昨日ラーメンだったので、今日はうどんがよいです。' }
+        ],
+        q: '二人は 何を 食べに 行きますか。',
+        opts: ['ラーメン', 'うどん', 'カレー', 'すし'],
         ans: 1,
-        exp: 'Gelas dan piring kertas.'
+        exp: 'Udon.'
       },
       {
         id: 'C19',
-        scenario: '薬局にて。',
-        script: '女：青い うがい薬は 水に 5滴入れて うがいを してください。決して 飲まないでください。',
-        q: '青い 薬は どう使いますか。',
-        opts: ['飲む', 'うがいをする', '目にさす', '塗る'],
-        ans: 1,
-        exp: 'Untuk berkumur.'
+        situation: '歯医者の予約電話。',
+        script: [
+          { speaker: 'F', text: '木曜日は休みです。金曜日の午後3時は？\n男：それでお願いします。' }
+        ],
+        q: '男の人は いつ 歯医者へ 行きますか。',
+        opts: ['木曜午前', '木曜午後', '金曜午後3時', '土曜午後'],
+        ans: 2,
+        exp: 'Jumat jam 3 sore.'
       },
       {
         id: 'C20',
-        scenario: '工場にて。',
-        script: '女：赤い 工具箱は 高橋さんが 第2倉庫へ 持って 行きましたよ。',
-        q: '赤い 工具箱は 今 どこに ありますか。',
-        opts: ['事務所', '第1倉庫', '第2倉庫', '食堂'],
-        ans: 2,
-        exp: 'Gudang 2.'
+        situation: '学校の持ち物連絡。',
+        script: [
+          { speaker: 'F', text: 'えんぴつと消しゴムを持ってきてください。色えんぴつは学校にあります。' }
+        ],
+        q: 'あした 家から 持ってくる ものは 何ですか。',
+        opts: ['えんぴつと消しゴム', '色えんぴつ', 'カメラ', '辞書'],
+        ans: 0,
+        exp: 'Pensil dan penghapus.'
       },
       {
         id: 'C21',
-        scenario: 'スーパーの レジ。',
-        script: '女：合計1,855円です。\n男：カードで。',
-        q: '男の 人は いくら 払いますか。',
-        opts: ['1,800円', '1,850円', '1,855円', '1,900円'],
-        ans: 2,
-        exp: '1.855 yen.'
+        situation: 'エアコンの故障について。',
+        script: [
+          { speaker: 'M', text: 'リモコンの電池は変えましたか。\n女：まだです。変えてみます。' }
+        ],
+        q: '女の人は まず 何を しますか。',
+        opts: ['エアコン買い替え', 'リモコン電池交換', '引越し', '電気屋を呼ぶ'],
+        ans: 1,
+        exp: 'Ganti baterai remote.'
       },
       {
         id: 'C22',
-        scenario: '出張の 新幹線について。',
-        script: '男：会議が 10時に なったから、8時ちょうどの 新幹線に してくれ。',
-        q: 'アンディさんは 何時の 新幹線を 買いますか。',
-        opts: ['7時', '8時', '9時', '10時'],
+        situation: '家族の写真を見ています。',
+        script: [
+          { speaker: 'F', text: '背の高いめがねは父で、そのとなりの帽子をかぶっているのが兄です。' }
+        ],
+        q: '女の人の お兄さんは どの 人ですか。',
+        opts: ['めがねの人', '帽子をかぶっている人', '背が低い人', 'カメラマン'],
         ans: 1,
-        exp: 'Pukul 8:00.'
+        exp: 'Yang memakai topi.'
       },
       {
         id: 'C23',
-        scenario: '寮の 入り口。',
-        script: '男：雨が 降そうだから、君のシャツと バユさんの ジーンズも 一緒に 入れて あげて。',
-        q: 'リズキさんは 何を 入れますか。',
-        opts: ['自分のシャツだけ', 'シャツとジーンズ', '洗濯機', '何も入れない'],
+        situation: 'コンビニのお弁当。',
+        script: [
+          { speaker: 'F', text: 'お弁当は温めますか。\n客：家に帰ってからなので温めなくていいです。おはしをつけてください。' }
+        ],
+        q: '店員は お弁当を どうしますか。',
+        opts: ['温める', '温めないでおはしをつける', '温めてスプーン', '何もしない'],
         ans: 1,
-        exp: 'Kemeja miliknya dan celana Bayu.'
+        exp: 'Tidak dihangatkan, beri sumpit.'
       },
       {
         id: 'C24',
-        scenario: 'バス停にて。',
-        script: '男：体育館へ 行くなら、道路の 反対側の 3番の バス停から 乗って ください。',
-        q: 'どこから バスに 乗りますか。',
-        opts: ['今のバス停', '反対側の3番', 'タクシー乗り場', '駅の改札'],
-        ans: 1,
-        exp: 'Halte nomor 3 di seberang jalan.'
+        situation: '趣味についての会話。',
+        script: [
+          { speaker: 'F', text: 'よくケーキやクッキーを作ります。甘いものを作るのが大好きです。' }
+        ],
+        q: '女の人の 趣味は 何ですか。',
+        opts: ['お菓子作り', 'サッカー', '映画', '登山'],
+        ans: 0,
+        exp: 'Membuat kue.'
       },
       {
         id: 'C25',
-        scenario: '給湯室にて。',
-        script: '女：私の プリンが ありません。\n男：山田さんが 食べて いましたよ。',
-        q: 'どうして プリンが なくなりましたか。',
-        opts: ['自分で食べた', '山田さんが食べた', '捨てた', '腐った'],
+        situation: '電話の伝言。',
+        script: [
+          { speaker: 'F', text: 'ABC商事の佐藤さんからお電話です。3時ごろまたかけ直すそうです。' }
+        ],
+        q: '誰から 電話が ありましたか。',
+        opts: ['鈴木さん', 'ABC商事の佐藤さん', '田中部長', '銀行員'],
         ans: 1,
-        exp: 'Dimakan oleh Yamada.'
+        exp: 'Sato-san dari ABC Shouji.'
       },
       {
         id: 'C26',
-        scenario: '洋服店にて。',
-        script: '男：白い Lサイズは 売り切れで、ベージュなら ございます。\n女：じゃあ ベージュの Lサイズを。',
-        q: 'どの セーターを 見せて もらいますか。',
-        opts: ['白のM', '白のL', 'ベージュのL', '紺のM'],
+        situation: '駅のアナウンス。',
+        script: [
+          { speaker: 'M', text: '強い風のため、電車が約10分おくれております。' }
+        ],
+        q: '電車が おくれている 理由は 何ですか。',
+        opts: ['大雨', '雪', '強い風', '事故'],
         ans: 2,
-        exp: 'Warna beige ukuran L.'
+        exp: 'Angin kencang.'
       },
       {
         id: 'C27',
-        scenario: '終業前の 工場。',
-        script: '男：工具は かならず 元の 番号の 場所に 戻して ください。',
-        q: '帰る前に工具をどうしますか。',
-        opts: ['持ち帰る', '元の場所に戻す', '捨てる', '並べる'],
+        situation: 'カフェでの注文。',
+        script: [
+          { speaker: 'M', text: '店内ですか、お持ち帰りですか。\n女：持ち帰りで。' }
+        ],
+        q: '女の人は ジュースを どうしますか。',
+        opts: ['店内で飲む', '持ち帰る', 'あげる', 'キャンセル'],
         ans: 1,
-        exp: 'Mengembalikan ke tempat semula.'
+        exp: 'Dibawa pulang (take-away).'
       },
       {
         id: 'C28',
-        scenario: '郵便局にて。',
-        script: '男：来週 誕生日なので、早く 届く ほう（航空便 3,500円）で お願いします。',
-        q: '男の 人は どうやって 送りますか。',
-        opts: ['航空便', '船便', '送らない', '手渡し'],
-        ans: 0,
-        exp: 'Pos udara (航空便).'
+        situation: '会社のフロア案内。',
+        script: [
+          { speaker: 'F', text: '2階は食堂、3階は事務所、会議室は4階です。' }
+        ],
+        q: '第2会議室は 何階に ありますか。',
+        opts: ['1階', '2階', '3階', '4階'],
+        ans: 3,
+        exp: 'Lantai 4.'
       },
       {
         id: 'C29',
-        scenario: 'オフィスの パソコン。',
-        script: '男：電源ボタンを 5秒ぐらい 長押しして 再起動して みよう。',
-        q: 'これから パソコンを どうしますか。',
-        opts: ['たたく', '長押しして再起動', 'マウスを替える', '電源を抜く'],
+        situation: '勤務時間について。',
+        script: [
+          { speaker: 'F', text: '朝9時から夕方6時まで。昼休み1時間で働く時間は8時間です。' }
+        ],
+        q: '女の人は 毎日 何時間 はたらきますか。',
+        opts: ['7時間', '8時間', '9時間', '10時間'],
         ans: 1,
-        exp: 'Tekan tombol power untuk restart.'
+        exp: '8 jam.'
       },
       {
         id: 'C30',
-        scenario: '居酒屋の 予約。',
-        script: '男：金曜の夜7時から8人で個室を。料理は行ってから決めます。',
-        q: '予約の内容として正しいものはどれですか。',
-        opts: ['コース付', '席だけ（個室）', '土曜日に変更', '予約できず'],
+        situation: 'デパートの迷子案内。',
+        script: [
+          { speaker: 'F', text: '白いTシャツに青いズボンをはいた男の子が母親を探しています。' }
+        ],
+        q: '男の子は どんな 服を 着ていますか。',
+        opts: ['青いTシャツ', '白いTシャツと青いズボン', '赤いシャツ', '黄色い帽子'],
         ans: 1,
-        exp: 'Pesan tempat (private room) saja.'
+        exp: 'Kaus putih dan celana biru.'
       },
       {
         id: 'C31',
-        scenario: '介護施設。',
-        script: '女：せきが出ているのでお風呂はやめて体をふいて。食事はベッドで。',
-        q: '高橋さんは今日どうしますか。',
-        opts: ['お風呂に入る', 'お風呂に入らず部屋で食べる', 'ホールで食べる', '散歩する'],
+        situation: '旅行の交通手段。',
+        script: [
+          { speaker: 'M', text: '新幹線のほうが便利だから新幹線で行くよ。' }
+        ],
+        q: '二人は 何で 京都へ 行きますか。',
+        opts: ['飛行機', '新幹線', '夜行バス', '車'],
         ans: 1,
-        exp: 'Tidak mandi dan makan di kamar.'
+        exp: 'Shinkansen.'
       },
       {
         id: 'C32',
-        scenario: '図書館にて。',
-        script: '男：次に 予約して いる 方が いるので 延長が できません。',
-        q: 'どうして 延長できませんか。',
-        opts: ['破れている', '期限過ぎ', '次に予約する人がいる', '休館'],
+        situation: '料理の手順。',
+        script: [
+          { speaker: 'F', text: 'まず、玉ねぎを細かく切ってください。そのあとでにんじんです。' }
+        ],
+        q: '最初に 何を 切りますか。',
+        opts: ['にんじん', 'キャベツ', '玉ねぎ', 'じゃがいも'],
         ans: 2,
-        exp: 'Ada antrean peminjam berikutnya.'
+        exp: 'Bawang bombay.'
       },
       {
         id: 'C33',
-        scenario: '駐車場の 案内。',
-        script: '男：来客用の 3番に とめて、ダッシュボードに 名前を 置いて。',
-        q: '男の 人は 車を どこに とめますか。',
-        opts: ['裏の社員用', '来客用3番', '有料駐車場', '路上'],
+        situation: '忘れ物の場所。',
+        script: [
+          { speaker: 'M', text: '昼ごはんを食べた食堂に置いてきちゃった！' }
+        ],
+        q: '男の人は どこに かさを 忘れましたか。',
+        opts: ['電車', '食堂', '会議室', 'トイレ'],
         ans: 1,
-        exp: 'Area tamu nomor 3.'
+        exp: 'Kantin.'
       },
       {
         id: 'C34',
-        scenario: '弁当工場にて。',
-        script: '女：指輪や ピアスは 作業室に 持ち込めないから ロッカーに しまって。',
-        q: '新人のラニさんは何をしますか。',
-        opts: ['帽子をぬぐ', '指輪をロッカーにしまう', '髪を切る', '食べる'],
-        ans: 1,
-        exp: 'Menyimpan cincin di loker.'
+        situation: '病院の会計。',
+        script: [
+          { speaker: 'M', text: '診察代1,200円、くすり代600円で全部で1,800円です。' }
+        ],
+        q: '今日の 料金は 全部で いくらですか。',
+        opts: ['600円', '1,200円', '1,800円', '2,000円'],
+        ans: 2,
+        exp: '1,800 yen.'
       },
       {
         id: 'C35',
-        scenario: '不動産屋にて。',
-        script: '男：駅から12分だけどリフォーム済みで4万8千円のBの部屋にします。',
-        q: 'どの部屋を選びましたか。',
-        opts: ['Aの部屋', 'Bの部屋', '一戸建て', 'なし'],
-        ans: 1,
-        exp: 'Kamar B.'
+        situation: '引っ越しの予定。',
+        script: [
+          { speaker: 'F', text: '来週の日曜日に引っ越します。' }
+        ],
+        q: '女の人は いつ 引っ越しますか。',
+        opts: ['今週土曜', '今週日曜', '来週土曜', '来週日曜'],
+        ans: 3,
+        exp: 'Hari Minggu depan.'
       },
       {
         id: 'C36',
-        scenario: '美容院の 電話予約。',
-        script: '女：山本ですと午後2時からあいております。',
-        q: '予約は何時に決まりましたか。',
-        opts: ['午前10時', '午後1時', '午後2時', '月曜日'],
-        ans: 2,
-        exp: 'Pukul 14:00 (午後2時).'
+        situation: '銀行での手続き。',
+        script: [
+          { speaker: 'F', text: 'まず、あちらの機械で番号札をお取りください。' }
+        ],
+        q: '男の人は まず 何を しますか。',
+        opts: ['番号札をとる', 'ATMでお金を入れる', '外に出る', '通帳を捨てる'],
+        ans: 0,
+        exp: 'Ambil nomor antrean.'
       },
       {
         id: 'C37',
-        scenario: '送別会の プレゼント。',
-        script: '女：マグカップとコーヒー豆のセットは？\n男：いいね！それにしよう。',
-        q: '何をプレゼントすることにしましたか。',
-        opts: ['ゴルフボール', 'マグカップとコーヒー豆', 'ネクタイ', '花束'],
-        ans: 1,
-        exp: 'Set mug dan biji kopi.'
+        situation: '映画の上映時間。',
+        script: [
+          { speaker: 'M', text: '3時から始まって2時間あるから5時に終わります。' }
+        ],
+        q: '映画は 何時に 終わりますか。',
+        opts: ['3時', '4時', '5時', '6時'],
+        ans: 2,
+        exp: 'Pukul 5.'
       },
       {
         id: 'C38',
-        scenario: '電車の アナウンス。',
-        script: '男：この電車は鶴見には止まりません。鶴見へは2番線の各駅停車にお乗り換えください。',
-        q: '鶴見駅へ行きたい人はどうしますか。',
-        opts: ['そのまま乗る', '2番線の各駅停車に乗り換える', 'バスに乗る', '歩く'],
+        situation: '出社時間の変更。',
+        script: [
+          { speaker: 'M', text: '明日のお客様のため30分早く。' },
+          { speaker: 'F', text: '普段9時だから8時半ですね。' }
+        ],
+        q: '女の人は あした 何時に 出社しますか。',
+        opts: ['8時', '8時半', '9時', '9時半'],
         ans: 1,
-        exp: 'Pindah ke kereta lokal di jalur 2.'
+        exp: 'Pukul 8:30.'
       },
       {
         id: 'C39',
-        scenario: '工場で 機械の 音。',
-        script: '女：赤い ストップボタンを 押して 機械を 止めて。',
-        q: '男の 人は 今すぐ 何を しますか。',
-        opts: ['ベルトを外す', '赤いストップボタンを押して止める', '保線課へ走る', '続ける'],
-        ans: 1,
-        exp: 'Menekan tombol stop merah.'
+        situation: '花屋で母親の誕生日プレゼント。',
+        script: [
+          { speaker: 'F', text: '母はピンクが好きなのでピンクのカーネーションにします。' }
+        ],
+        q: '女の人は 何色の 花を 買いますか。',
+        opts: ['赤', '黄色', '白', 'ピンク'],
+        ans: 3,
+        exp: 'Pink.'
       },
       {
         id: 'C40',
-        scenario: 'コンビニのおでん。',
-        script: '女：大根とたまごは半分以下になったら新しいのを補充して。',
-        q: '大根やたまごはいつ補充しますか。',
-        opts: ['1個売れたとき', '半分以下になったとき', '全部なくなったとき', '夜10時'],
+        situation: '休日の過ごし方。',
+        script: [
+          { speaker: 'M', text: '平日は疲れているので、休日は家で本を読んだり音楽を聞いたりしています。' }
+        ],
+        q: '男の人は 休日に いつも 何を していますか。',
+        opts: ['旅行', '読書や音楽鑑賞', '仕事', 'ジム'],
         ans: 1,
-        exp: 'Saat tersisa setengah atau kurang.'
+        exp: 'Membaca buku dan dengar musik di rumah.'
       },
       {
         id: 'C41',
-        scenario: '会社の 傘の 貸し借り。',
-        script: '女：黒い大きい傘と赤い折りたたみがあるよ。\n男：じゃあ黒い方を。',
-        q: 'どの傘を借りますか。',
-        opts: ['黒い大きい傘', '赤い折りたたみ', 'ビニール傘', '青い傘'],
-        ans: 0,
-        exp: 'Payung hitam besar.'
+        situation: '空港の搭乗口案内。',
+        script: [
+          { speaker: 'F', text: '東京行きは12番ゲートに変更になりました。' }
+        ],
+        q: '東京行きの 搭乗口は 何番ゲートですか。',
+        opts: ['10番', '12番', '14番', '20番'],
+        ans: 1,
+        exp: 'Gate 12.'
       },
       {
         id: 'C42',
-        scenario: 'ホテルの レストラン。',
-        script: '女：朝食付きプランで確認できましたので、そのままお入りいただけます。',
-        q: '男の 人は これから どうしますか。',
-        opts: ['部屋に戻る', 'お金を払う', 'そのまま入って食べる', '外で食べる'],
-        ans: 2,
-        exp: 'Langsung masuk dan makan.'
+        situation: '教室の掃除当番。',
+        script: [
+          { speaker: 'M', text: '私が黒板を消します。' },
+          { speaker: 'F', text: 'じゃあ私はほうきで床をはきます。' }
+        ],
+        q: '女の人は 何を しますか。',
+        opts: ['黒板消し', '床をはく', '窓ふき', 'ゴミ捨て'],
+        ans: 1,
+        exp: 'Menyapu lantai.'
       },
       {
         id: 'C43',
-        scenario: '訪問の 準備。',
-        script: '男：12時45分に 1階の ロビーに 集まろう。',
-        q: '何時にロビーに集まりますか。',
-        opts: ['12:30', '12:45', '1:00', '1:15'],
-        ans: 1,
-        exp: 'Pukul 12:45.'
+        situation: '遅刻の理由。',
+        script: [
+          { speaker: 'M', text: 'バスに乗っているんだけど道がこんでいて15分遅れそう。' }
+        ],
+        q: '男の人は どうして おくれますか。',
+        opts: ['道がこんでいる', '財布忘れ', 'バス間違い', '雨'],
+        ans: 0,
+        exp: 'Jalan macet.'
       },
       {
         id: 'C44',
-        scenario: 'クリーニング店。',
-        script: '男：襟のシミ抜きもお願いします。\n女：木曜日の夕方5時以降にどうぞ。',
-        q: '何を頼みましたか。',
-        opts: ['ワイシャツを捨てる', '洗濯とシミ抜き', '当日仕上げ', 'ボタン交換'],
+        situation: 'スーパーのタイムセール。',
+        script: [
+          { speaker: 'F', text: 'お惣菜のお弁当と天ぷらがすべて半額になります！' }
+        ],
+        q: '今から 半額に なる ものは 何ですか。',
+        opts: ['果物', 'お弁当と天ぷら', '牛乳とパン', 'お米'],
         ans: 1,
-        exp: 'Cuci dan penghilangan noda.'
+        exp: 'Bento dan tempura.'
       },
       {
         id: 'C45',
-        scenario: '体育館の 予約。',
-        script: '男：午後1時から3時までの2時間お願いします。ボールも借りられますか。',
-        q: '何時から何時まで予約しましたか。',
-        opts: ['9-11', '1-3', '3-5', '5-7'],
-        ans: 1,
-        exp: 'Pukul 13:00 - 15:00.'
+        situation: '家の鍵の場所。',
+        script: [
+          { speaker: 'F', text: '車の鍵？玄関の棚の上においてあるよ。' }
+        ],
+        q: '車の かぎは どこに ありましたか。',
+        opts: ['テーブル', 'ポケット', '玄関の棚の上', '車内'],
+        ans: 2,
+        exp: 'Rak pintu masuk.'
       },
       {
         id: 'C46',
-        scenario: '農業ハウスにて。',
-        script: '女：窓を半分あけて風が通るようにして。\n女2：はい。',
-        q: '今すぐ何をしますか。',
-        opts: ['水をやる', '窓を半分あける', 'ストーブをつける', '食べる'],
-        ans: 1,
-        exp: 'Membuka setengah jendela plastik.'
+        situation: '通勤手段について。',
+        script: [
+          { speaker: 'M', text: '寮から会社まで15分なので毎日自転車で来ています。' }
+        ],
+        q: '男の人は 毎日 何で 会社へ 来ますか。',
+        opts: ['電車', 'バス', '自転車', '車'],
+        ans: 2,
+        exp: 'Sepeda.'
       },
       {
         id: 'C47',
-        scenario: '携帯ショップ。',
-        script: '女：20ギガプランに変更ですね。来月の1日から適用されます。',
-        q: '新しいプランはいつから使えますか。',
-        opts: ['今日', '明日', '来月の1日から', '来年'],
-        ans: 2,
-        exp: 'Tanggal 1 bulan depan.'
+        situation: 'レストランでの追加注文。',
+        script: [
+          { speaker: 'M', text: 'お水をもう一杯と、フォークも一本お願いします。' }
+        ],
+        q: '男の人は 何を 頼みましたか。',
+        opts: ['お水とフォーク', 'お茶とスプーン', 'お水とナイフ', 'コーヒー'],
+        ans: 0,
+        exp: 'Air dan garpu.'
       },
       {
         id: 'C48',
-        scenario: '資格試験の 相談。',
-        script: '女：今週の金曜午後5時までだよ。\n男：今夜すぐ申し込みます！',
-        q: '男の人は今夜何をしますか。',
-        opts: ['会場に行く', 'ネットで申し込む', '寝る', '教科書をあげる'],
+        situation: '漢字の勉強法。',
+        script: [
+          { speaker: 'F', text: '毎日ノートに10回ずつ書いて声に出して読んでいます。' }
+        ],
+        q: '女の人は どうやって 漢字を 覚えますか。',
+        opts: ['見るだけ', '書いて声に出す', 'テレビを見る', '何もしない'],
         ans: 1,
-        exp: 'Mendaftar secara online.'
+        exp: 'Menulis dan membaca bersuara.'
       },
       {
         id: 'C49',
-        scenario: 'スーパーの 牛乳補充。',
-        script: '男：古い日付を前に、新しい日付の牛乳を奥に入れてください。',
-        q: '新しい日付の牛乳はどこに置きますか。',
-        opts: ['一番前', '棚の奥', 'レジの横', '床'],
-        ans: 1,
-        exp: 'Di bagian belakang (棚の奥).'
+        situation: 'お寺でのマナー。',
+        script: [
+          { speaker: 'M', text: '建物の中ではフラッシュを使って写真を撮らないでください。' }
+        ],
+        q: '建物の中で してはいけない ことは 何ですか。',
+        opts: ['靴をぬぐ', '静かに歩く', 'フラッシュ撮影', '話を聞く'],
+        ans: 2,
+        exp: 'Foto dengan flash.'
       },
       {
         id: 'C50',
-        scenario: '駅の 券売機。',
-        script: '男：となりピンク色の機械なら1万円札も使えますよ。\n女：じゃあとなりで。',
-        q: '女の人はどうしますか。',
-        opts: ['青い機械で買う', 'ピンク色の機械で買う', 'あきらめる', '歩く'],
-        ans: 1,
-        exp: 'Menggunakan mesin merah muda.'
+        situation: 'テストの結果報告。',
+        script: [
+          { speaker: 'F', text: 'ドキドキしましたが225点でした！合格です！' }
+        ],
+        q: '女の人は 何点 でしたか。',
+        opts: ['185', '200', '225', '250'],
+        ans: 2,
+        exp: '225 poin.'
       }
     ];
 
     // =========================================================================
-    // 2. STATE MANAGEMENT & FISHER-YATES SHUFFLE ENGINE
+    // 2. STATE & FISHER-YATES SHUFFLE ENGINE
     // =========================================================================
-    const examState = {
-      candidateName: 'RIZKY PRATAMA',
-      candidateDob: '2002-05-14',
-      candidateAvatar: '🧑‍💼',
-      candidatePhotoDataUrl: null,
-      registrationId: 'JFT-2026-884210',
-      packetCode: 'N4-JFT-2026A',
-      durationSeconds: 3600,
-      remainingSeconds: 3600,
-      timerInterval: null,
-      questions: [],
-      answers: {},
-      flags: {},
-      playCounts: {},
-      speechRate: 1.0,
+    const state = {
+      candidateName: '',
+      examId: '',
+      packetCode: '',
+      examQuestions: [],
+      userAnswers: {},
+      flaggedQuestions: {},
+      audioPlayCounts: {},
+      audioRate: 1.0,
       currentIndex: 0,
       navFilter: 'all',
-      revFilter: 'all',
-      bankTab: 'kanji',
-      certStyle: 'jft',
-      spiritPreviewMode: false,
-      lastScoreReport: null
+      secondsRemaining: 60 * 60,
+      timerInterval: null,
+      isSubmitted: false,
+      lastResult: null
     };
 
-    function fisherYatesShuffle(arr) {
-      const copy = [...arr];
-      for (let i = copy.length - 1; i > 0; i--) {
+    function fisherYatesShuffle(sourceArray) {
+      const arr = [...sourceArray];
+      for (let i = arr.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
-        [copy[i], copy[j]] = [copy[j], copy[i]];
+        [arr[i], arr[j]] = [arr[j], arr[i]];
       }
-      return copy;
+      return arr;
     }
 
-    function cloneAndShuffleQuestion(rawQ, category) {
-      const indexedOpts = rawQ.opts.map((text, idx) => ({ text, isCorrect: idx === rawQ.ans }));
-      const shuffledOpts = fisherYatesShuffle(indexedOpts);
-      return {
-        ...rawQ,
-        category,
-        opts: shuffledOpts.map(o => o.text),
-        ans: shuffledOpts.findIndex(o => o.isCorrect)
-      };
-    }
+    function generateShuffledExamPacket() {
+      const pickedKanji = fisherYatesShuffle(kanjiBank).slice(0, 20).map(item => ({
+        ...item, category: 'kanji', categoryLabel: '文字・語彙 (Kanji & Kosakata)'
+      }));
+      const pickedDokkai = fisherYatesShuffle(dokkaiBank).slice(0, 15).map(item => ({
+        ...item, category: 'dokkai', categoryLabel: '読解 (Dokkai / Membaca)'
+      }));
+      const pickedChoukai = fisherYatesShuffle(choukaiBank).slice(0, 15).map(item => ({
+        ...item, category: 'choukai', categoryLabel: '聴解 (Choukai / Mendengarkan)'
+      }));
 
-    function buildShuffledExamPacket() {
-      const pickedKanji = fisherYatesShuffle(kanjiBank).slice(0, 20).map(q => cloneAndShuffleQuestion(q, 'kanji'));
-      const pickedDokkai = fisherYatesShuffle(dokkaiBank).slice(0, 15).map(q => cloneAndShuffleQuestion(q, 'dokkai'));
-      const pickedChoukai = fisherYatesShuffle(choukaiBank).slice(0, 15).map(q => cloneAndShuffleQuestion(q, 'choukai'));
-
-      examState.questions = [...pickedKanji, ...pickedDokkai, ...pickedChoukai];
-      examState.answers = {};
-      examState.flags = {};
-      examState.playCounts = {};
-      examState.currentIndex = 0;
-
-      const randomDigits = Math.floor(100000 + Math.random() * 900000);
+      state.examQuestions = [...pickedKanji, ...pickedDokkai, ...pickedChoukai];
+      const randomHex = Math.floor(1000 + Math.random() * 9000);
       const suffixChar = String.fromCharCode(65 + Math.floor(Math.random() * 26));
-      examState.registrationId = `JFT-2026-${randomDigits}`;
-      examState.packetCode = `N4-JFT-${randomDigits.toString().slice(0, 3)}${suffixChar}`;
+      state.packetCode = `PKT-150-${randomHex}${suffixChar}`;
 
       const packetEl = document.getElementById('packet-code');
-      if (packetEl) packetEl.textContent = examState.packetCode;
+      if (packetEl) packetEl.textContent = state.packetCode;
     }
 
     // =========================================================================
-    // 3. TOAST & SAKURA UTILS
+    // 3. UI UTILS & WEB SPEECH TTS
     // =========================================================================
-    let toastTimer = null;
-    function showToast(message, icon = '🌸') {
-      const box = document.getElementById('toast-box');
-      const msgEl = document.getElementById('toast-message');
-      const iconEl = document.getElementById('toast-icon');
-      if (!box || !msgEl) return;
-
-      iconEl.textContent = icon;
-      msgEl.textContent = message;
-      box.classList.remove('translate-y-24', 'opacity-0');
-      box.classList.add('translate-y-0', 'opacity-100');
-
-      if (toastTimer) clearTimeout(toastTimer);
-      toastTimer = setTimeout(() => {
-        box.classList.add('translate-y-24', 'opacity-0');
-        box.classList.remove('translate-y-0', 'opacity-100');
-      }, 3200);
-    }
-
-    function spawnSakuraPetals(count = 14) {
+    function spawnSakuraPetals(count = 16, celebratory = false) {
       const container = document.getElementById('sakura-container');
-      if (!container) return;
       container.innerHTML = '';
       for (let i = 0; i < count; i++) {
         const petal = document.createElement('div');
         petal.className = 'sakura-petal';
-        const size = 10 + Math.random() * 10;
-        petal.style.left = `${Math.random() * 100}vw`;
-        petal.style.animationDuration = `${9 + Math.random() * 10}s`;
-        petal.style.animationDelay = `${Math.random() * 6}s`;
-        petal.innerHTML = `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="#FDA4AF" opacity="0.75"><path d="M12 2C9 6 4 9 4 14c0 4 3.5 7 8 7s8-3 8-7c0-5-5-8-8-12z"/></svg>`;
+        const left = Math.random() * 100;
+        const duration = (celebratory ? 5 : 9) + Math.random() * 7;
+        const delay = Math.random() * 6;
+        const size = 12 + Math.random() * 10;
+        const fill = celebratory && i % 3 === 0 ? '#D4AF37' : '#FFB7C5';
+
+        petal.style.left = `${left}vw`;
+        petal.style.animationDuration = `${duration}s`;
+        petal.style.animationDelay = `${delay}s`;
+        petal.innerHTML = `<svg width="${size}" height="${size}" viewBox="0 0 24 24" fill="${fill}"><path d="M12 2C9 6 5 9 6 14C7 18 11 21 12 22C13 21 17 18 18 14C19 9 15 6 12 2ZM12 5C13 7 13 9 12 10C11 9 11 7 12 5Z"/></svg>`;
         container.appendChild(petal);
       }
     }
 
-    // =========================================================================
-    // 4. AUDIO CHIME & TTS
-    // =========================================================================
-    function playChoukaiChime() {
-      try {
-        const AudioCtx = window.AudioContext || window.webkitAudioContext;
-        if (!AudioCtx) return;
-        const ctx = new AudioCtx();
-        const notes = [523.25, 659.25, 783.99];
-        notes.forEach((freq, idx) => {
-          const osc = ctx.createOscillator();
-          const gain = ctx.createGain();
-          osc.type = 'sine';
-          osc.frequency.value = freq;
-          gain.gain.setValueAtTime(0.08, ctx.currentTime + idx * 0.16);
-          gain.gain.exponentialRampToValueAtTime(0.0001, ctx.currentTime + idx * 0.16 + 0.35);
-          osc.connect(gain);
-          gain.connect(ctx.destination);
-          osc.start(ctx.currentTime + idx * 0.16);
-          osc.stop(ctx.currentTime + idx * 0.16 + 0.36);
-        });
-      } catch (e) {}
+    let toastTimeout = null;
+    function showToast(message, icon = '🌸') {
+      const box = document.getElementById('toast-box');
+      document.getElementById('toast-message').textContent = message;
+      document.getElementById('toast-icon').textContent = icon;
+      box.classList.remove('translate-y-24', 'opacity-0');
+      clearTimeout(toastTimeout);
+      toastTimeout = setTimeout(() => { box.classList.add('translate-y-24', 'opacity-0'); }, 3400);
     }
 
+    function openConfirmModal(title, bodyHtml, onConfirm) {
+      const modal = document.getElementById('confirm-modal');
+      document.getElementById('modal-title').textContent = title;
+      document.getElementById('modal-body').innerHTML = bodyHtml;
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+
+      const cancelBtn = document.getElementById('modal-cancel-btn');
+      const confirmBtn = document.getElementById('modal-confirm-btn');
+      const close = () => { modal.classList.add('hidden'); modal.classList.remove('flex'); };
+      cancelBtn.onclick = close;
+      confirmBtn.onclick = () => { close(); onConfirm(); };
+    }
+
+    let isSpeaking = false;
     function stopSpeech() {
       if ('speechSynthesis' in window) window.speechSynthesis.cancel();
-      const eq = document.getElementById('choukai-eq-bars');
+      isSpeaking = false;
+      const eq = document.getElementById('audio-visualizer');
       if (eq) eq.classList.remove('eq-playing');
     }
 
-    function speakJapaneseScript(scriptText, rate = 1.0, onStartCb = null, onEndCb = null) {
-      if (!('speechSynthesis' in window)) {
-        if (onEndCb) onEndCb();
-        return;
-      }
+    function getJapaneseVoices() {
+      if (!('speechSynthesis' in window)) return [];
+      return window.speechSynthesis.getVoices().filter(v => v.lang && v.lang.toLowerCase().includes('ja'));
+    }
+
+    function speakJapaneseScript(scriptTurns, rate = 1.0, onEndCallback = null) {
+      if (!('speechSynthesis' in window)) return;
       stopSpeech();
-      playChoukaiChime();
+      isSpeaking = true;
+      const eq = document.getElementById('audio-visualizer');
+      if (eq) eq.classList.add('eq-playing');
 
-      const lines = scriptText.split('\n').map(l => l.trim()).filter(Boolean);
-      const voices = window.speechSynthesis.getVoices();
-      const jpVoice = voices.find(v => v.lang && v.lang.toLowerCase().includes('ja')) || null;
+      const jaVoices = getJapaneseVoices();
+      let turnIndex = 0;
 
-      let lineIdx = 0;
-      if (onStartCb) onStartCb();
-
-      function speakNextLine() {
-        if (lineIdx >= lines.length) {
-          if (onEndCb) onEndCb();
+      function speakNextTurn() {
+        if (!isSpeaking || turnIndex >= scriptTurns.length) {
+          isSpeaking = false;
+          if (eq) eq.classList.remove('eq-playing');
+          if (onEndCallback) onEndCallback();
           return;
         }
-        const rawLine = lines[lineIdx++];
-        const cleanText = rawLine.replace(/^(男2|女2|男|女|先生|駅員|店員|店長|部長|課長)：/, '');
-        const utter = new SpeechSynthesisUtterance(cleanText);
+        const turn = scriptTurns[turnIndex];
+        const utter = new SpeechSynthesisUtterance(turn.text);
         utter.lang = 'ja-JP';
         utter.rate = rate;
-        if (jpVoice) utter.voice = jpVoice;
-        utter.pitch = rawLine.startsWith('男') ? 0.85 : (rawLine.startsWith('女') ? 1.2 : 1.0);
+        if (jaVoices.length > 0) {
+          utter.voice = turn.speaker === 'M' && jaVoices.length > 1 ? jaVoices[1] : jaVoices[0];
+        }
+        utter.pitch = turn.speaker === 'M' ? 0.92 : 1.08;
 
-        utter.onend = () => setTimeout(speakNextLine, 260);
-        utter.onerror = () => { if (onEndCb) onEndCb(); };
+        utter.onend = () => { turnIndex++; setTimeout(speakNextTurn, 280); };
+        utter.onerror = () => { isSpeaking = false; if (eq) eq.classList.remove('eq-playing'); };
         window.speechSynthesis.speak(utter);
       }
-      setTimeout(speakNextLine, 450);
+      speakNextTurn();
     }
 
     // =========================================================================
-    // 5. BANK SOAL EXPLORER MODAL
+    // 4. CBT EXAM FLOW
     // =========================================================================
-    function renderBankExplorer() {
-      const container = document.getElementById('bank-list-body');
-      const searchInput = document.getElementById('bank-search-input');
-      if (!container) return;
+    function startExam() {
+      const nameInput = document.getElementById('candidate-name');
+      const errorEl = document.getElementById('name-error');
+      const rawName = nameInput.value.trim();
 
-      const keyword = (searchInput ? searchInput.value : '').trim().toLowerCase();
-      let sourceList = kanjiBank;
-      let badgeLabel = '文字・語彙 (Kanji & Goi)';
-      let badgeColor = 'bg-indigoJp text-white';
-
-      if (examState.bankTab === 'dokkai') {
-        sourceList = dokkaiBank;
-        badgeLabel = '読解 (Dokkai)';
-        badgeColor = 'bg-amber-800 text-white';
-      } else if (examState.bankTab === 'choukai') {
-        sourceList = choukaiBank;
-        badgeLabel = '聴解 (Choukai)';
-        badgeColor = 'bg-torii text-white';
-      }
-
-      const filtered = sourceList.filter(item => {
-        if (!keyword) return true;
-        const hay = `${item.id} ${item.q} ${item.exp} ${item.passage || ''} ${item.script || ''} ${item.opts.join(' ')}`.toLowerCase();
-        return hay.includes(keyword);
-      });
-
-      if (filtered.length === 0) {
-        container.innerHTML = `<div class="p-8 text-center text-slate-500 font-bold text-sm">Tidak ditemukan soal yang cocok.</div>`;
+      if (!rawName) {
+        errorEl.classList.remove('hidden');
+        nameInput.focus();
+        nameInput.classList.add('border-torii');
         return;
       }
 
-      container.innerHTML = filtered.map((item, idx) => `
-        <div class="bg-white rounded-2xl p-4 border border-slate-200 shadow-xs space-y-2">
-          <div class="flex items-center justify-between gap-2">
-            <span class="px-2.5 py-0.5 rounded-md text-[11px] font-extrabold ${badgeColor}">${item.id} • ${badgeLabel}</span>
-            <span class="text-xs font-bold text-emerald-700">Kunci: ${String.fromCharCode(65 + item.ans)}. ${item.opts[item.ans]}</span>
-          </div>
-          ${item.passage ? `<div class="text-xs bg-washiDark p-3 rounded-xl font-jp whitespace-pre-line text-slate-700">${item.passage}</div>` : ''}
-          ${item.script ? `<div class="text-xs bg-slate-900 text-slate-200 p-3 rounded-xl font-jp whitespace-pre-line">${item.script}</div>` : ''}
-          <p class="font-jp font-bold text-sm text-slate-900">${idx + 1}. ${item.q}</p>
-          <p class="text-xs text-slate-600 bg-amber-50 px-3 py-1.5 rounded-lg border border-amber-200">💡 <strong>Pembahasan:</strong> ${item.exp}</p>
-        </div>
-      `).join('');
+      errorEl.classList.add('hidden');
+      nameInput.classList.remove('border-torii');
+
+      state.candidateName = rawName;
+      state.examId = `JFT-${new Date().getFullYear()}-${Math.floor(100000 + Math.random() * 900000)}`;
+      state.userAnswers = {};
+      state.flaggedQuestions = {};
+      state.audioPlayCounts = {};
+      state.currentIndex = 0;
+      state.navFilter = 'all';
+      state.secondsRemaining = 60 * 60;
+      state.isSubmitted = false;
+
+      if (state.examQuestions.length !== 50) generateShuffledExamPacket();
+
+      document.getElementById('exam-candidate-display').textContent = state.candidateName;
+      document.getElementById('exam-id-display').textContent = `ID: ${state.examId}`;
+
+      switchView('view-exam');
+      renderNavigatorGrid();
+      renderCurrentQuestion();
+      startCountdownTimer();
+      showToast(`Ujian dimulai! Paket ${state.packetCode} dimuat.`, '⛩️');
     }
 
-    // =========================================================================
-    // 6. CBT EXAM INTERFACE & TIMER
-    // =========================================================================
-    function formatTimer(sec) {
-      const m = Math.floor(sec / 60);
-      const s = sec % 60;
-      return `${String(m).padStart(2, '0')}:${String(s).padStart(2, '0')}`;
+    function switchView(viewId) {
+      stopSpeech();
+      ['view-lobby', 'view-exam', 'view-result'].forEach(id => {
+        const el = document.getElementById(id);
+        if (id === viewId) { el.classList.remove('hidden'); el.classList.add('flex'); }
+        else { el.classList.add('hidden'); el.classList.remove('flex'); }
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
     }
 
-    function startExamTimer() {
-      if (examState.timerInterval) clearInterval(examState.timerInterval);
-      const timerEl = document.getElementById('timer-display');
-      if (timerEl) timerEl.textContent = formatTimer(examState.remainingSeconds);
-
-      examState.timerInterval = setInterval(() => {
-        examState.remainingSeconds--;
-        if (timerEl) {
-          timerEl.textContent = formatTimer(Math.max(0, examState.remainingSeconds));
-          if (examState.remainingSeconds <= 300) {
-            timerEl.classList.add('text-torii', 'animate-pulse');
-          }
-        }
-        if (examState.remainingSeconds <= 0) {
-          clearInterval(examState.timerInterval);
-          showToast('Waktu ujian habis! Jawaban dikumpulkan otomatis.', '⏰');
-          finalizeAndGradeExam();
+    function startCountdownTimer() {
+      clearInterval(state.timerInterval);
+      updateTimerUI();
+      state.timerInterval = setInterval(() => {
+        state.secondsRemaining--;
+        updateTimerUI();
+        if (state.secondsRemaining <= 0) {
+          clearInterval(state.timerInterval);
+          showToast('Waktu ujian habis! Jawaban dikumpulkan.', '⏱️');
+          finalizeAndScoreExam();
         }
       }, 1000);
     }
 
+    function updateTimerUI() {
+      const mins = Math.floor(Math.max(0, state.secondsRemaining) / 60);
+      const secs = Math.max(0, state.secondsRemaining) % 60;
+      document.getElementById('timer-display').textContent = `${String(mins).padStart(2, '0')}:${String(secs).padStart(2, '0')}`;
+    }
+
     function renderCurrentQuestion() {
       stopSpeech();
-      const idx = examState.currentIndex;
-      const qObj = examState.questions[idx];
+      const idx = state.currentIndex;
+      const qObj = state.examQuestions[idx];
       if (!qObj) return;
 
       document.getElementById('q-number-badge').textContent = `Soal ${idx + 1} / 50`;
-      const catBadge = document.getElementById('q-category-badge');
-      if (qObj.category === 'kanji') {
-        catBadge.textContent = `文字・語彙 (Kanji) • ${qObj.id}`;
-      } else if (qObj.category === 'dokkai') {
-        catBadge.textContent = `読解 (Dokkai) • ${qObj.id}`;
-      } else {
-        catBadge.textContent = `聴解 (Choukai) • ${qObj.id}`;
-      }
+      document.getElementById('q-category-badge').textContent = qObj.categoryLabel;
 
-      const isFlagged = !!examState.flags[idx];
+      const isFlagged = !!state.flaggedQuestions[idx];
       const flagBtn = document.getElementById('btn-flag-question');
-      const flagIcon = document.getElementById('flag-icon');
-      const flagText = document.getElementById('flag-text');
       if (isFlagged) {
-        flagBtn.className = 'px-3.5 py-1.5 rounded-xl bg-goldBright text-indigoJp font-extrabold text-xs flex items-center gap-1.5 shadow-xs transition';
-        flagIcon.textContent = '🚩';
-        flagText.textContent = 'Ditandai Ragu-ragu (見直し中)';
+        flagBtn.className = 'px-3.5 py-1.5 rounded-xl bg-goldJp/25 border-2 border-goldJp text-amber-900 text-xs font-extrabold flex items-center gap-1.5 transition';
+        document.getElementById('flag-icon').textContent = '🚩';
+        document.getElementById('flag-text').textContent = 'Ditandai Ragu-ragu';
       } else {
-        flagBtn.className = 'px-3.5 py-1.5 rounded-xl border border-slate-300 text-slate-600 hover:border-goldJp hover:text-amber-900 text-xs font-bold flex items-center gap-1.5 transition';
-        flagIcon.textContent = '🏳️';
-        flagText.textContent = 'Tandai Ragu-ragu (見直し)';
+        flagBtn.className = 'px-3.5 py-1.5 rounded-xl border border-slate-300 text-slate-600 hover:border-goldJp text-xs font-bold flex items-center gap-1.5 transition';
+        document.getElementById('flag-icon').textContent = '🏳️';
+        document.getElementById('flag-text').textContent = 'Tandai Ragu-ragu (見直し)';
       }
 
       const stimulusEl = document.getElementById('question-stimulus-area');
-      const layoutGrid = document.getElementById('question-layout-grid');
+      stimulusEl.innerHTML = '';
 
       if (qObj.category === 'dokkai') {
-        layoutGrid.className = 'grid grid-cols-1 md:grid-cols-12 gap-6 items-start';
-        stimulusEl.className = 'md:col-span-6 bg-washiDark/90 p-5 rounded-2xl border-2 border-goldJp/40 shadow-inner block';
         stimulusEl.innerHTML = `
-          <div class="text-xs font-extrabold text-amber-900 uppercase tracking-wider mb-2 pb-2 border-b border-goldJp/30 font-jp">
-            📄 ${qObj.title || 'Bacaan Soal'}
+          <div class="bg-[#FDFBF7] border-2 border-indigoJp/20 rounded-2xl p-4 sm:p-6 shadow-inner mb-5">
+            <div class="flex items-center justify-between border-b border-slate-200 pb-2.5 mb-3">
+              <span class="font-jp font-bold text-sm sm:text-base text-indigoJp">${qObj.title}</span>
+              <span class="text-[11px] font-bold px-2 py-0.5 rounded bg-indigoJp/10 text-indigoJp">テキスト読解</span>
+            </div>
+            <div class="font-jp text-base sm:text-[17px] text-slate-800 leading-[1.95] whitespace-pre-line">${qObj.passage}</div>
           </div>
-          <div class="font-jp text-sm sm:text-base text-slate-800 leading-relaxed whitespace-pre-line">${qObj.passage}</div>
         `;
-        stimulusEl.nextElementSibling.className = 'md:col-span-6 flex flex-col justify-between';
       } else if (qObj.category === 'choukai') {
-        layoutGrid.className = 'grid grid-cols-1 gap-5';
-        stimulusEl.className = 'block bg-gradient-to-r from-indigoJp via-indigoMid to-slate-900 text-white p-5 rounded-2xl border-2 border-goldJp shadow-lg';
-        const usedPlays = examState.playCounts[idx] || 0;
-        const remainingPlays = Math.max(0, 2 - usedPlays);
+        const playsUsed = state.audioPlayCounts[idx] || 0;
+        const playsLeft = Math.max(0, 2 - playsUsed);
+        const isExhausted = playsLeft === 0;
 
         stimulusEl.innerHTML = `
-          <div class="flex flex-wrap items-center justify-between gap-3 mb-3">
-            <div>
-              <span class="text-[11px] font-extrabold uppercase tracking-wider text-goldBright">🎧 JFT-Basic / JLPT N4 Audio Player</span>
-              <p class="text-xs text-slate-200 font-jp mt-0.5">${qObj.scenario}</p>
+          <div class="bg-gradient-to-br from-indigoJp to-[#132744] text-white rounded-2xl p-5 border-2 border-goldJp/50 shadow-lg mb-5">
+            <div class="flex flex-wrap items-center justify-between gap-2 mb-3">
+              <div class="flex items-center gap-2">
+                <span class="px-2.5 py-0.5 rounded bg-torii text-white text-xs font-bold">🎧 聴解 AUDIO CBT</span>
+                <span class="text-xs text-goldLight font-medium">Batas Putar Ujian JFT: Maksimal 2x</span>
+              </div>
+              <span class="text-xs font-extrabold px-3 py-1 rounded-full ${isExhausted ? 'bg-red-500/30 text-red-200 border border-red-400/40' : 'bg-emerald-500/25 text-emerald-200 border border-emerald-400/40'}">
+                Sisa Putar: ${playsLeft} / 2
+              </span>
             </div>
-            <div class="flex items-center gap-2">
-              <button type="button" id="btn-rate-normal" class="px-2.5 py-1 rounded-lg text-xs font-bold ${examState.speechRate === 1.0 ? 'bg-goldBright text-indigoJp' : 'bg-white/10 text-slate-200'}">1.0x</button>
-              <button type="button" id="btn-rate-slow" class="px-2.5 py-1 rounded-lg text-xs font-bold ${examState.speechRate === 0.85 ? 'bg-goldBright text-indigoJp' : 'bg-white/10 text-slate-200'}">0.85x</button>
-            </div>
-          </div>
-          <div class="flex flex-wrap items-center justify-between gap-4 bg-slate-950/60 p-4 rounded-xl border border-white/10">
-            <div class="flex items-center gap-3.5">
-              <button
-                type="button"
-                id="btn-play-choukai"
-                ${remainingPlays === 0 ? 'disabled' : ''}
-                class="px-5 py-2.5 rounded-xl font-extrabold text-xs sm:text-sm flex items-center gap-2 transition ${
-                  remainingPlays > 0 ? 'bg-torii hover:bg-toriiDark text-white shadow-lg' : 'bg-slate-700 text-slate-400 cursor-not-allowed'
-                }"
-              >
-                <span>▶️</span>
-                <span>${remainingPlays > 0 ? `Putar Audio (${remainingPlays}x)` : 'Batas Putar Habis'}</span>
-              </button>
-              <button type="button" id="btn-stop-choukai" class="px-3 py-2.5 rounded-xl bg-white/10 hover:bg-white/20 text-xs font-bold text-slate-200 transition">⏹️ Berhenti</button>
-            </div>
-            <div id="choukai-eq-bars" class="flex items-center gap-1.5 h-8 px-3">
-              <span class="eq-bar"></span><span class="eq-bar"></span><span class="eq-bar"></span><span class="eq-bar"></span><span class="eq-bar"></span>
-              <span class="eq-bar"></span><span class="eq-bar"></span><span class="eq-bar"></span>
+            <p class="font-jp text-sm sm:text-base text-slate-100 bg-white/10 p-3 rounded-xl mb-4 leading-relaxed">
+              <strong>Situasi:</strong> ${qObj.situation}
+            </p>
+            <div class="flex flex-wrap items-center justify-between gap-4 bg-slate-900/50 p-3.5 rounded-xl border border-white/10">
+              <div class="flex items-center gap-3">
+                <button
+                  type="button"
+                  id="btn-play-choukai"
+                  ${isExhausted ? 'disabled' : ''}
+                  class="px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center gap-2 transition ${isExhausted ? 'bg-slate-600 text-slate-300 cursor-not-allowed' : 'bg-goldJp hover:bg-amber-400 text-indigoJp shadow-md'}"
+                >
+                  <span>${isExhausted ? '🔒' : '▶️'}</span>
+                  <span>${isExhausted ? 'Batas 2x Tercapai' : 'Putar Audio Jepang'}</span>
+                </button>
+                <div id="audio-visualizer" class="flex items-center gap-1 h-8 px-2" aria-hidden="true">
+                  <div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div>
+                  <div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div>
+                </div>
+              </div>
+              <div class="flex items-center gap-1.5 text-xs">
+                <span class="text-slate-300">Kecepatan:</span>
+                <button type="button" data-rate="1.0" class="rate-btn px-2.5 py-1 rounded-lg font-bold ${state.audioRate === 1.0 ? 'bg-torii text-white' : 'bg-white/10 text-slate-200'}">1.0x</button>
+                <button type="button" data-rate="0.85" class="rate-btn px-2.5 py-1 rounded-lg font-bold ${state.audioRate === 0.85 ? 'bg-torii text-white' : 'bg-white/10 text-slate-200'}">0.85x</button>
+              </div>
             </div>
           </div>
         `;
-        stimulusEl.nextElementSibling.className = 'flex flex-col justify-between';
-      } else {
-        layoutGrid.className = 'grid grid-cols-1 gap-6';
-        stimulusEl.className = 'hidden';
-        stimulusEl.innerHTML = '';
-        stimulusEl.nextElementSibling.className = 'flex flex-col justify-between';
+
+        const playBtn = document.getElementById('btn-play-choukai');
+        if (playBtn && !isExhausted) {
+          playBtn.onclick = () => {
+            const used = state.audioPlayCounts[idx] || 0;
+            if (used >= 2) return;
+            state.audioPlayCounts[idx] = used + 1;
+            speakJapaneseScript(qObj.script, state.audioRate);
+            const remaining = 2 - state.audioPlayCounts[idx];
+            playBtn.innerHTML = remaining === 0 ? '<span>🔊</span><span>Sedang Diputar (Terakhir)...</span>' : `<span>🔊</span><span>Sedang Diputar (Sisa ${remaining}x)...</span>`;
+            if (remaining === 0) {
+              playBtn.disabled = true;
+              playBtn.className = 'px-4 py-2.5 rounded-xl font-bold text-xs sm:text-sm flex items-center gap-2 bg-slate-600 text-slate-200 cursor-not-allowed';
+            }
+          };
+        }
+
+        document.querySelectorAll('.rate-btn').forEach(btn => {
+          btn.onclick = () => {
+            state.audioRate = parseFloat(btn.dataset.rate);
+            document.querySelectorAll('.rate-btn').forEach(b => {
+              b.className = `rate-btn px-2.5 py-1 rounded-lg font-bold ${parseFloat(b.dataset.rate) === state.audioRate ? 'bg-torii text-white' : 'bg-white/10 text-slate-200'}`;
+            });
+          };
+        });
       }
 
       document.getElementById('question-prompt-jp').innerHTML = qObj.q;
-      document.getElementById('question-subprompt').textContent = qObj.sub || 'Pilih jawaban yang paling tepat:';
+      document.getElementById('question-subprompt').textContent = qObj.sub || 'Pilih satu jawaban yang paling tepat (A, B, C, atau D):';
 
-      const optsContainer = document.getElementById('options-container');
-      const selectedOpt = examState.answers[idx];
-      optsContainer.innerHTML = qObj.opts.map((optText, optIdx) => {
+      const optionsContainer = document.getElementById('options-container');
+      optionsContainer.innerHTML = '';
+      const letters = ['A', 'B', 'C', 'D'];
+      const selectedOpt = state.userAnswers[idx];
+
+      qObj.opts.forEach((optText, optIdx) => {
         const isSelected = selectedOpt === optIdx;
-        const letter = String.fromCharCode(65 + optIdx);
-        return `
-          <button
-            type="button"
-            data-opt-index="${optIdx}"
-            class="option-choice-btn w-full text-left p-4 rounded-2xl border-2 transition flex items-center gap-3.5 group ${
-              isSelected ? 'bg-indigoJp text-white border-goldBright shadow-md' : 'bg-white hover:bg-washiDark/80 text-slate-800 border-slate-200'
-            }"
-          >
-            <span class="w-9 h-9 rounded-xl font-extrabold text-sm flex items-center justify-center shrink-0 transition ${
-              isSelected ? 'bg-goldBright text-indigoJp' : 'bg-slate-100 text-slate-700 group-hover:bg-indigoJp group-hover:text-white'
-            }">
-              ${letter}
-            </span>
-            <span class="font-jp font-bold text-base sm:text-lg leading-snug">${optText}</span>
-          </button>
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.className = `w-full text-left p-4 rounded-2xl border-2 transition flex items-center gap-4 group ${isSelected ? 'border-indigoJp bg-indigoJp/5 shadow-sm' : 'border-slate-200 bg-white hover:border-indigoJp/50 hover:bg-slate-50'}`;
+        btn.innerHTML = `
+          <span class="w-9 h-9 rounded-xl flex items-center justify-center font-extrabold text-sm shrink-0 transition ${isSelected ? 'bg-indigoJp text-goldLight' : 'bg-slate-100 text-slate-700 group-hover:bg-indigoJp/15 group-hover:text-indigoJp'}">${letters[optIdx]}</span>
+          <span class="font-jp text-base sm:text-lg font-medium text-slate-800">${optText}</span>
         `;
-      }).join('');
-
-      optsContainer.querySelectorAll('.option-choice-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-          examState.answers[idx] = parseInt(btn.getAttribute('data-opt-index'), 10);
+        btn.onclick = () => {
+          state.userAnswers[idx] = optIdx;
           renderCurrentQuestion();
-          renderQuestionNavigator();
-        });
+          renderNavigatorGrid();
+        };
+        optionsContainer.appendChild(btn);
       });
-
-      if (qObj.category === 'choukai') {
-        const playBtn = document.getElementById('btn-play-choukai');
-        const stopBtn = document.getElementById('btn-stop-choukai');
-        const rateNorm = document.getElementById('btn-rate-normal');
-        const rateSlow = document.getElementById('btn-rate-slow');
-
-        if (playBtn) {
-          playBtn.addEventListener('click', () => {
-            const count = examState.playCounts[idx] || 0;
-            if (count >= 2) {
-              showToast('Batas putar audio habis (maksimal 2x).', '🔇');
-              return;
-            }
-            examState.playCounts[idx] = count + 1;
-            renderCurrentQuestion();
-            const updatedEq = document.getElementById('choukai-eq-bars');
-            speakJapaneseScript(
-              qObj.script,
-              examState.speechRate,
-              () => { if (updatedEq) updatedEq.classList.add('eq-playing'); },
-              () => { if (updatedEq) updatedEq.classList.remove('eq-playing'); }
-            );
-          });
-        }
-        if (stopBtn) stopBtn.addEventListener('click', () => stopSpeech());
-        if (rateNorm) rateNorm.addEventListener('click', () => { examState.speechRate = 1.0; renderCurrentQuestion(); });
-        if (rateSlow) rateSlow.addEventListener('click', () => { examState.speechRate = 0.85; renderCurrentQuestion(); });
-      }
 
       document.getElementById('btn-prev-q').disabled = idx === 0;
       const nextBtn = document.getElementById('btn-next-q');
       if (idx === 49) {
-        nextBtn.innerHTML = `<span>Selesai & Kumpulkan</span><span>✓</span>`;
-        nextBtn.className = 'px-6 py-3 rounded-xl bg-torii hover:bg-toriiDark text-white font-extrabold text-sm flex items-center gap-2 shadow-md transition';
+        nextBtn.innerHTML = '<span>Selesai & Kumpulkan</span><span>✓</span>';
+        nextBtn.className = 'px-6 py-3 rounded-xl bg-torii hover:bg-toriiDark text-white font-bold text-sm flex items-center gap-2 shadow-md transition';
       } else {
-        nextBtn.innerHTML = `<span>Berikutnya</span><span>→</span>`;
+        nextBtn.innerHTML = '<span>Berikutnya</span><span>→</span>';
         nextBtn.className = 'px-6 py-3 rounded-xl bg-indigoJp hover:bg-indigoLight text-white font-bold text-sm flex items-center gap-2 shadow-md transition';
       }
 
-      const answeredCount = Object.keys(examState.answers).length;
-      document.getElementById('answered-counter').textContent = `Terjawab: ${answeredCount} / 50`;
-      const pct = Math.max(2, Math.round((answeredCount / 50) * 100));
-      document.getElementById('exam-progress-bar').style.width = `${pct}%`;
+      renderNavigatorGrid();
     }
 
-    function renderQuestionNavigator() {
+    function renderNavigatorGrid() {
       const grid = document.getElementById('nav-grid');
-      if (!grid) return;
+      grid.innerHTML = '';
 
-      grid.innerHTML = examState.questions.map((q, idx) => {
-        if (examState.navFilter !== 'all' && q.category !== examState.navFilter) return '';
-        const isCurrent = idx === examState.currentIndex;
-        const isAnswered = examState.answers[idx] !== undefined;
-        const isFlagged = !!examState.flags[idx];
+      const answeredCount = Object.keys(state.userAnswers).length;
+      document.getElementById('answered-counter').textContent = `Terjawab: ${answeredCount} / 50`;
 
-        let btnClass = 'bg-white text-slate-700 border border-slate-300';
-        if (isFlagged) btnClass = 'bg-goldBright text-indigoJp font-black border-2 border-amber-600';
-        else if (isAnswered) btnClass = 'bg-indigoJp text-white font-bold';
-        if (isCurrent) btnClass += ' ring-2 ring-torii ring-offset-2';
+      state.examQuestions.forEach((q, i) => {
+        if (state.navFilter !== 'all' && q.category !== state.navFilter) return;
 
-        return `<button type="button" data-nav-idx="${idx}" class="nav-num-btn h-9 rounded-xl text-xs font-extrabold transition flex items-center justify-center ${btnClass}">${idx + 1}</button>`;
-      }).join('');
+        const isActive = i === state.currentIndex;
+        const isAnswered = state.userAnswers[i] !== undefined;
+        const isFlagged = !!state.flaggedQuestions[i];
 
-      grid.querySelectorAll('.nav-num-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-          examState.currentIndex = parseInt(btn.getAttribute('data-nav-idx'), 10);
-          renderCurrentQuestion();
-          renderQuestionNavigator();
-        });
+        const btn = document.createElement('button');
+        btn.type = 'button';
+        btn.textContent = i + 1;
+
+        let baseStyle = 'h-10 rounded-xl font-bold text-xs transition relative flex items-center justify-center ';
+        if (isActive) baseStyle += 'ring-2 ring-torii ring-offset-1 ';
+        if (isFlagged) baseStyle += 'bg-goldJp text-indigoJp font-extrabold shadow-xs';
+        else if (isAnswered) baseStyle += 'bg-indigoJp text-white shadow-xs';
+        else baseStyle += 'bg-white border border-slate-300 text-slate-700 hover:bg-slate-100';
+
+        btn.className = baseStyle;
+        btn.onclick = () => { state.currentIndex = i; renderCurrentQuestion(); };
+        grid.appendChild(btn);
       });
     }
 
-    // =========================================================================
-    // 7. GRADING & RESULTS
-    // =========================================================================
-    function openSubmitConfirmationModal() {
-      const modal = document.getElementById('confirm-modal');
-      const body = document.getElementById('modal-body');
-      const answeredCount = Object.keys(examState.answers).length;
-      const unansweredCount = 50 - answeredCount;
-      const flaggedCount = Object.values(examState.flags).filter(Boolean).length;
+    function requestExamSubmission() {
+      const totalAnswered = Object.keys(state.userAnswers).length;
+      const unanswered = 50 - totalAnswered;
+      const flaggedCount = Object.values(state.flaggedQuestions).filter(Boolean).length;
 
-      body.innerHTML = `
-        <div class="flex justify-between py-1 border-b border-slate-200"><span>Soal Terjawab:</span><strong class="text-emerald-700">${answeredCount} / 50</strong></div>
-        <div class="flex justify-between py-1 border-b border-slate-200"><span>Belum Dijawab:</span><strong class="${unansweredCount > 0 ? 'text-torii' : ''}">${unansweredCount}</strong></div>
-        <div class="flex justify-between py-1"><span>Ragu-ragu:</span><strong class="text-amber-700">${flaggedCount}</strong></div>
+      const bodyHtml = `
+        <div class="flex justify-between"><span>Soal Terjawab:</span><strong class="text-indigoJp">${totalAnswered} / 50</strong></div>
+        <div class="flex justify-between"><span>Belum Dijawab:</span><strong class="${unanswered > 0 ? 'text-torii' : 'text-emerald-700'}">${unanswered}</strong></div>
+        <div class="flex justify-between"><span>Ditandai Ragu-ragu:</span><strong class="text-amber-700">${flaggedCount}</strong></div>
       `;
-      modal.classList.remove('hidden');
-      modal.classList.add('flex');
+      openConfirmModal('Kumpulkan & Nilai Ujian Sekarang?', bodyHtml, finalizeAndScoreExam);
     }
 
-    function finalizeAndGradeExam() {
+    // =========================================================================
+    // 5. SCORING & RESULTS
+    // =========================================================================
+    function finalizeAndScoreExam() {
+      clearInterval(state.timerInterval);
       stopSpeech();
-      if (examState.timerInterval) clearInterval(examState.timerInterval);
-      document.getElementById('confirm-modal').classList.add('hidden');
-      document.getElementById('confirm-modal').classList.remove('flex');
+      state.isSubmitted = true;
 
       let kanjiCorrect = 0, dokkaiCorrect = 0, choukaiCorrect = 0;
-      examState.questions.forEach((q, idx) => {
-        if (examState.answers[idx] === q.ans) {
+      state.examQuestions.forEach((q, idx) => {
+        if (state.userAnswers[idx] === q.ans) {
           if (q.category === 'kanji') kanjiCorrect++;
           else if (q.category === 'dokkai') dokkaiCorrect++;
           else if (q.category === 'choukai') choukaiCorrect++;
         }
       });
 
+      const kanjiScore = kanjiCorrect * 5;
+      const dokkaiScore = dokkaiCorrect * 5;
+      const choukaiScore = choukaiCorrect * 5;
+      const totalScore = kanjiScore + dokkaiScore + choukaiScore;
       const totalCorrect = kanjiCorrect + dokkaiCorrect + choukaiCorrect;
-      const kanjiPts = kanjiCorrect * 5;
-      const dokkaiPts = dokkaiCorrect * 5;
-      const choukaiPts = choukaiCorrect * 5;
-      const totalPts = totalCorrect * 5;
-      const passed = totalPts >= 200;
+      const isPassed = totalScore >= 200;
 
-      examState.lastScoreReport = {
+      state.lastResult = {
         kanjiCorrect, dokkaiCorrect, choukaiCorrect, totalCorrect,
-        kanjiPts, dokkaiPts, choukaiPts, totalPts, passed,
-        dateFormatted: new Date().toLocaleDateString('id-ID', { day: '2-digit', month: 'long', year: 'numeric' })
+        kanjiScore, dokkaiScore, choukaiScore, totalScore, isPassed,
+        dateStr: new Date().toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })
       };
-      examState.spiritPreviewMode = false;
 
-      document.getElementById('view-lobby').classList.add('hidden');
-      document.getElementById('view-exam').classList.add('hidden');
-      document.getElementById('view-result').classList.remove('hidden');
-      document.getElementById('view-result').classList.add('flex');
-
-      renderResultDashboard();
-      renderCertificates();
-      renderAnswerReviewList();
-      window.scrollTo({ top: 0, behavior: 'smooth' });
+      renderResultsScreen();
+      switchView('view-result');
     }
 
-    function renderResultDashboard() {
-      const rep = examState.lastScoreReport;
-      if (!rep) return;
+    function renderResultsScreen() {
+      const res = state.lastResult;
+      if (!res) return;
+
+      document.getElementById('res-total-score').textContent = res.totalScore;
+      document.getElementById('res-total-correct').textContent = `${res.totalCorrect} dari 50 soal benar`;
+      document.getElementById('res-kanji-score').textContent = res.kanjiScore;
+      document.getElementById('res-kanji-correct').textContent = `${res.kanjiCorrect} / 20 soal benar`;
+      document.getElementById('res-dokkai-score').textContent = res.dokkaiScore;
+      document.getElementById('res-dokkai-correct').textContent = `${res.dokkaiCorrect} / 15 soal benar`;
+      document.getElementById('res-choukai-score').textContent = res.choukaiScore;
+      document.getElementById('res-choukai-correct').textContent = `${res.choukaiCorrect} / 15 soal benar`;
 
       const banner = document.getElementById('result-status-banner');
-      if (rep.passed) {
-        spawnSakuraPetals(28);
-        banner.className = 'rounded-3xl p-6 sm:p-8 border-2 border-emerald-500 bg-gradient-to-r from-emerald-950 via-indigoJp to-slate-900 text-white shadow-xl';
+      const certNote = document.getElementById('cert-motivational-note');
+
+      if (res.isPassed) {
+        spawnSakuraPetals(32, true);
+        certNote.classList.add('hidden');
+        banner.className = 'rounded-3xl p-6 sm:p-8 border-2 border-goldJp bg-gradient-to-r from-indigoJp via-[#1f3f6d] to-indigoJp text-white shadow-2xl relative overflow-hidden';
         banner.innerHTML = `
-          <h3 class="text-2xl sm:text-3xl font-black font-serifJp">Selamat, <span class="text-goldBright">${examState.candidateName}</span>! LULUS (合格)</h3>
-          <p class="text-xs sm:text-sm text-slate-300 mt-2">Skor Anda: <strong>${rep.totalPts} / 250 Poin</strong> (${rep.totalCorrect} soal benar). Sertifikat siap diunduh!</p>
-        `;
-      } else {
-        banner.className = 'rounded-3xl p-6 sm:p-8 border-2 border-torii bg-gradient-to-r from-slate-900 via-indigoJp to-red-950 text-white shadow-xl';
-        banner.innerHTML = `
-          <h3 class="text-2xl sm:text-3xl font-black font-serifJp">Tetap Semangat, <span class="text-goldBright">${examState.candidateName}</span>! TIDAK LOLOS (不合格)</h3>
-          <p class="text-xs sm:text-sm text-slate-300 mt-2">Skor Anda: <strong>${rep.totalPts} / 250 Poin</strong>. Gunakan tombol "Pratinjau Semangat" untuk melihat sertifikat kelulusan.</p>
-        `;
-      }
-
-      document.getElementById('res-total-score').textContent = rep.totalPts;
-      document.getElementById('res-total-correct').textContent = `${rep.totalCorrect} dari 50 soal benar`;
-      document.getElementById('res-kanji-score').textContent = rep.kanjiPts;
-      document.getElementById('res-kanji-correct').textContent = `${rep.kanjiCorrect} / 20 soal benar`;
-      document.getElementById('res-dokkai-score').textContent = rep.dokkaiPts;
-      document.getElementById('res-dokkai-correct').textContent = `${rep.dokkaiCorrect} / 15 soal benar`;
-      document.getElementById('res-choukai-score').textContent = rep.choukaiPts;
-      document.getElementById('res-choukai-correct').textContent = `${rep.choukaiCorrect} / 15 soal benar`;
-    }
-
-    function getDisplayedCertificateData() {
-      const rep = examState.lastScoreReport;
-      if (examState.spiritPreviewMode) {
-        return { kanjiCorrect: 20, dokkaiCorrect: 15, choukaiCorrect: 15, totalCorrect: 50, kanjiPts: 100, dokkaiPts: 75, choukaiPts: 75, totalPts: 250, passed: true, dateFormatted: rep ? rep.dateFormatted : '13 November 2026' };
-      }
-      return rep;
-    }
-
-    function renderCertificates() {
-      const data = getDisplayedCertificateData();
-      if (!data) return;
-
-      const noteEl = document.getElementById('cert-motivational-note');
-      if (examState.spiritPreviewMode) noteEl.classList.remove('hidden');
-      else noteEl.classList.add('hidden');
-
-      document.getElementById('jft-reg-id').textContent = examState.registrationId;
-      document.getElementById('jft-test-date').textContent = data.dateFormatted;
-      document.getElementById('jft-cert-name').textContent = examState.candidateName;
-      document.getElementById('jft-cert-total').textContent = `${data.totalPts} / 250`;
-      document.getElementById('jft-sec1-corr').textContent = `${data.kanjiCorrect} / 20`;
-      document.getElementById('jft-sec1-pts').textContent = `${data.kanjiPts} / 100`;
-      document.getElementById('jft-sec2-corr').textContent = `${data.dokkaiCorrect} / 15`;
-      document.getElementById('jft-sec2-pts').textContent = `${data.dokkaiPts} / 75`;
-      document.getElementById('jft-sec3-corr').textContent = `${data.choukaiCorrect} / 15`;
-      document.getElementById('jft-sec3-pts').textContent = `${data.choukaiPts} / 75`;
-    }
-
-    function renderAnswerReviewList() {
-      const container = document.getElementById('review-list-container');
-      if (!container) return;
-
-      const filtered = examState.questions.map((q, idx) => ({ q, idx, userAns: examState.answers[idx] })).filter(item => {
-        const isCorrect = item.userAns === item.q.ans;
-        if (examState.revFilter === 'wrong') return !isCorrect;
-        if (examState.revFilter === 'correct') return isCorrect;
-        if (['kanji', 'dokkai', 'choukai'].includes(examState.revFilter)) return item.q.category === examState.revFilter;
-        return true;
-      });
-
-      container.innerHTML = filtered.map(({ q, idx, userAns }) => {
-        const isCorrect = userAns === q.ans;
-        return `
-          <div class="washi-card rounded-2xl p-5 border-l-4 ${isCorrect ? 'border-l-emerald-500' : 'border-l-torii'} space-y-2">
-            <div class="flex justify-between text-xs font-bold">
-              <span>Soal ${idx + 1} (${q.category.toUpperCase()})</span>
-              <span class="${isCorrect ? 'text-emerald-700' : 'text-torii'}">${isCorrect ? '✓ Benar' : '✕ Salah'}</span>
+          <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+            <div class="space-y-2">
+              <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-goldJp text-indigoJp font-black text-xs uppercase tracking-wider">
+                <span>🏆</span><span>SELAMAT! LULUS (合格 • PASSED)</span>
+              </div>
+              <h3 class="text-2xl sm:text-3xl font-black font-serifJp">おめでとうございます！ <span class="text-goldLight">${state.candidateName}</span></h3>
+              <p class="text-sm text-slate-200">Skor Anda <strong class="text-goldLight">${res.totalScore} / 250 poin</strong>. Sertifikat resmi siap diunduh!</p>
             </div>
-            <p class="font-jp font-bold text-sm">${q.q}</p>
-            <p class="text-xs text-slate-600">💡 <strong>Pembahasan:</strong> ${q.exp}</p>
+            <div class="bg-white/10 backdrop-blur border-2 border-goldJp rounded-2xl px-6 py-4 text-center shrink-0">
+              <div class="font-serifJp text-3xl font-black text-goldJp">合格</div>
+              <div class="text-xs font-bold tracking-widest uppercase text-white mt-0.5">PASSED</div>
+            </div>
           </div>
         `;
-      }).join('');
+      } else {
+        const gap = 200 - res.totalScore;
+        certNote.classList.remove('hidden');
+        banner.className = 'rounded-3xl p-6 sm:p-8 border-2 border-torii/40 bg-gradient-to-r from-white via-[#FFF6F6] to-amber-50 text-slate-900 shadow-xl relative overflow-hidden';
+        banner.innerHTML = `
+          <div class="flex flex-col md:flex-row items-start md:items-center justify-between gap-6">
+            <div class="space-y-2">
+              <div class="inline-flex items-center gap-2 px-3.5 py-1 rounded-full bg-torii text-white font-black text-xs uppercase tracking-wider">
+                <span>🔥</span><span>BELUM LULUS (不合格) — KURANG ${gap} POIN</span>
+              </div>
+              <h3 class="text-2xl sm:text-3xl font-black font-serifJp text-indigoJp">七転び八起き (Nanakorobi Yaoki)</h3>
+              <p class="text-sm text-slate-600">Skor Anda saat ini <strong>${res.totalScore} / 250 poin</strong> (butuh minimal 200).</p>
+            </div>
+            <div class="bg-torii/10 border-2 border-torii rounded-2xl px-6 py-4 text-center shrink-0">
+              <div class="font-serifJp text-3xl font-black text-torii">不合格</div>
+              <div class="text-xs font-bold tracking-widest uppercase text-torii mt-0.5">Skor: ${res.totalScore}</div>
+            </div>
+          </div>
+        `;
+      }
+
+      populateCertificateData();
+      renderReviewList('all');
+      setResultTab('cert');
+    }
+
+    function populateCertificateData() {
+      const res = state.lastResult;
+      document.getElementById('cert-reg-number').textContent = state.examId;
+      document.getElementById('cert-date').textContent = res.dateStr;
+      document.getElementById('cert-recipient-name').textContent = state.candidateName;
+      document.getElementById('cert-kanji-right').textContent = `${res.kanjiCorrect} / 20`;
+      document.getElementById('cert-kanji-pts').textContent = res.kanjiScore;
+      document.getElementById('cert-dokkai-right').textContent = `${res.dokkaiCorrect} / 15`;
+      document.getElementById('cert-dokkai-pts').textContent = res.dokkaiScore;
+      document.getElementById('cert-choukai-right').textContent = `${res.choukaiCorrect} / 15`;
+      document.getElementById('cert-choukai-pts').textContent = res.choukaiScore;
+      document.getElementById('cert-total-right').textContent = `${res.totalCorrect} / 50`;
+      document.getElementById('cert-total-pts').textContent = `${res.totalScore} / 250`;
+
+      const stampEl = document.getElementById('cert-result-stamp');
+      if (res.isPassed) {
+        stampEl.className = 'inline-block px-6 py-1.5 rounded-lg border-2 border-emerald-700 bg-emerald-50 text-emerald-800 font-serifJp font-black text-lg tracking-wider';
+        stampEl.textContent = '合格 • PASSED';
+      } else {
+        stampEl.className = 'inline-block px-6 py-1.5 rounded-lg border-2 border-amber-600 bg-amber-50 text-amber-800 font-serifJp font-black text-sm tracking-wider';
+        stampEl.textContent = '不合格 • NOT PASSED';
+      }
+
+      document.getElementById('cert-qr-box').innerHTML = `
+        <svg viewBox="0 0 36 36" class="w-full h-full text-indigoJp" fill="currentColor">
+          <path d="M2 2h10v10H2V2zm2 2v6h6V4H4zm2 2h2v2H6V6zm18-4h10v10H24V2zm2 2v6h6V4h-6zm2 2h2v2h-2V6zM2 24h10v10H2V24zm2 2v6h6v-6H4zm2 2h2v2H6v-2zm10-24h2v4h-2V4zm4 2h2v6h-2V6zm-6 6h4v2h-4v-2zm6 2h4v4h-4v-4zm-10 4h4v4h-4v-4zm6 4h2v4h-2v-4zm4 2h6v2h-6v-2zm-2 4h4v6h-4v-6zm6 2h4v4h-4v-4z"/>
+        </svg>
+      `;
+    }
+
+    function downloadCertificatePNG() {
+      const res = state.lastResult;
+      if (!res) return;
+
+      const canvas = document.getElementById('cert-export-canvas');
+      const ctx = canvas.getContext('2d');
+      const W = canvas.width;
+      const H = canvas.height;
+
+      ctx.fillStyle = '#FFFDF8';
+      ctx.fillRect(0, 0, W, H);
+
+      ctx.strokeStyle = '#1B365D';
+      ctx.lineWidth = 12;
+      ctx.strokeRect(32, 32, W - 64, H - 64);
+      ctx.strokeStyle = '#D4AF37';
+      ctx.lineWidth = 5;
+      ctx.strokeRect(52, 52, W - 104, H - 104);
+      ctx.strokeStyle = '#BC002D';
+      ctx.lineWidth = 2;
+      ctx.strokeRect(66, 66, W - 132, H - 132);
+
+      ctx.fillStyle = '#1B365D';
+      ctx.font = 'bold 18px "Plus Jakarta Sans", sans-serif';
+      ctx.fillText('JAPAN FOUNDATION TEST & JLPT CBT SIMULATION BOARD', 110, 125);
+      ctx.fillStyle = '#475569';
+      ctx.font = '16px "Noto Serif JP", serif';
+      ctx.fillText('国際交流基金日本語基礎テスト・模擬認定委員会', 110, 152);
+
+      ctx.textAlign = 'right';
+      ctx.font = 'bold 17px monospace';
+      ctx.fillStyle = '#1B365D';
+      ctx.fillText(`No. Reg: ${state.examId}`, W - 110, 125);
+      ctx.fillStyle = '#475569';
+      ctx.fillText(`Tanggal: ${res.dateStr}`, W - 110, 152);
+
+      ctx.textAlign = 'center';
+      ctx.fillStyle = '#BC002D';
+      ctx.font = 'bold 34px "Noto Serif JP", serif';
+      ctx.fillText('日本語能力試験・JFT-Basic 認定証', W / 2, 245);
+      ctx.fillStyle = '#1B365D';
+      ctx.font = '900 42px "Noto Serif JP", serif';
+      ctx.fillText('CERTIFICATE OF JAPANESE LANGUAGE PROFICIENCY', W / 2, 305);
+
+      ctx.fillStyle = '#D4AF37';
+      ctx.fillRect(W / 2 - 120, 325, 240, 4);
+
+      ctx.fillStyle = '#64748B';
+      ctx.font = '18px "Plus Jakarta Sans", sans-serif';
+      ctx.fillText('DIBERIKAN KEPADA / THIS IS TO CERTIFY THAT', W / 2, 380);
+
+      ctx.fillStyle = '#0F172A';
+      ctx.font = '900 54px "Noto Serif JP", serif';
+      ctx.fillText(state.candidateName, W / 2, 452);
+
+      // Trigger PNG Download
+      const link = document.createElement('a');
+      link.download = `Sertifikat_${state.candidateName.replace(/\s+/g, '_')}.png`;
+      link.href = canvas.toDataURL('image/png');
+      link.click();
+      showToast('Sertifikat PNG berhasil diunduh!', '📜');
+    }
+
+    function setResultTab(tabName) {
+      const btnCert = document.getElementById('tab-btn-cert');
+      const btnRev = document.getElementById('tab-btn-review');
+      const panelCert = document.getElementById('panel-certificate');
+      const panelRev = document.getElementById('panel-review');
+      const certActions = document.getElementById('cert-actions-bar');
+
+      if (tabName === 'cert') {
+        btnCert.className = 'px-5 py-2.5 rounded-xl bg-indigoJp text-white font-bold text-sm shadow transition';
+        btnRev.className = 'px-5 py-2.5 rounded-xl bg-white text-slate-700 border border-slate-300 font-bold text-sm transition';
+        panelCert.classList.remove('hidden');
+        panelRev.classList.add('hidden');
+        certActions.classList.remove('hidden');
+      } else {
+        btnRev.className = 'px-5 py-2.5 rounded-xl bg-indigoJp text-white font-bold text-sm shadow transition';
+        btnCert.className = 'px-5 py-2.5 rounded-xl bg-white text-slate-700 border border-slate-300 font-bold text-sm transition';
+        panelRev.classList.remove('hidden');
+        panelCert.classList.add('hidden');
+        certActions.classList.add('hidden');
+      }
+    }
+
+    function renderReviewList(filter) {
+      const container = document.getElementById('review-list-container');
+      container.innerHTML = '';
+      const letters = ['A', 'B', 'C', 'D'];
+
+      state.examQuestions.forEach((q, idx) => {
+        const userAns = state.userAnswers[idx];
+        const isCorrect = userAns === q.ans;
+        if (filter === 'wrong' && isCorrect) return;
+        if (filter === 'correct' && !isCorrect) return;
+        if (['kanji', 'dokkai', 'choukai'].includes(filter) && q.category !== filter) return;
+
+        const card = document.createElement('div');
+        card.className = `washi-card rounded-2xl p-5 border-l-4 ${isCorrect ? 'border-l-emerald-600' : 'border-l-torii'}`;
+
+        let extraContent = '';
+        if (q.category === 'dokkai') {
+          extraContent = `<div class="bg-slate-50 border rounded-xl p-3 mb-3 text-xs sm:text-sm font-jp">${q.title}<br>${q.passage}</div>`;
+        } else if (q.category === 'choukai') {
+          extraContent = `<div class="bg-indigoJp/5 border rounded-xl p-3 mb-3 text-xs sm:text-sm font-jp"><strong>Transkrip:</strong><br>${q.transcript}</div>`;
+        }
+
+        const optionsHtml = q.opts.map((opt, oIdx) => {
+          const isThisCorrect = oIdx === q.ans;
+          const isThisUser = oIdx === userAns;
+          let rowClass = 'bg-white border-slate-200 text-slate-700';
+          let badge = '';
+          if (isThisCorrect) { rowClass = 'bg-emerald-50 border-emerald-500 font-bold'; badge = '<span class="ml-auto text-emerald-700 text-xs">✓ Kunci</span>'; }
+          else if (isThisUser) { rowClass = 'bg-red-50 border-torii font-bold'; badge = '<span class="ml-auto text-torii text-xs">✗ Jawaban Anda</span>'; }
+          return `<div class="px-3 py-2 rounded-xl border ${rowClass} flex items-center gap-2 text-sm font-jp"><span class="font-bold text-xs px-2 py-0.5 rounded bg-slate-200">${letters[oIdx]}</span><span>${opt}</span>${badge}</div>`;
+        }).join('');
+
+        card.innerHTML = `
+          <div class="flex justify-between items-center mb-2">
+            <span class="px-2 py-0.5 rounded bg-indigoJp text-white font-bold text-xs">Soal ${idx + 1}</span>
+            <span class="text-xs font-bold ${isCorrect ? 'text-emerald-700' : 'text-torii'}">${isCorrect ? 'BENAR' : 'SALAH'}</span>
+          </div>
+          ${extraContent}
+          <p class="font-jp font-bold text-base mb-3">${q.q}</p>
+          <div class="grid sm:grid-cols-2 gap-2 mb-3">${optionsHtml}</div>
+          <div class="bg-amber-50 border rounded-xl p-3 text-xs sm:text-sm"><strong>Pembahasan:</strong> ${q.exp}</div>
+        `;
+        container.appendChild(card);
+      });
     }
 
     // =========================================================================
-    // 8. PASSWORD GATEWAY & MAIN INIT
+    // 6. INITIALIZATION & GATEWAY PASSWORD CHECK
     // =========================================================================
     window.addEventListener('DOMContentLoaded', () => {
-      const correctPassword = "jft2026"; // Password akses Anda
+      const correctPassword = "JFT2026";
       const authGate = document.getElementById('auth-gate-screen');
       const passInput = document.getElementById('access-password-input');
       const submitPassBtn = document.getElementById('btn-submit-password');
       const authErrorMsg = document.getElementById('auth-error-msg');
       const logoutBtn = document.getElementById('btn-logout');
 
-      // Cek apakah sudah pernah login di browser ini
       if (sessionStorage.getItem("isLoggedIn") === "true") {
         authGate.style.display = "none";
       }
@@ -2531,156 +2227,89 @@
         if (passInput.value === correctPassword) {
           sessionStorage.setItem("isLoggedIn", "true");
           authGate.style.display = "none";
-          showToast('Login berhasil! Selamat datang di CBT.', '⛩️');
+          showToast('Login berhasil! Selamat datang.', '⛩️');
         } else {
           authErrorMsg.classList.remove('hidden');
           passInput.focus();
         }
       }
 
-      submitPassBtn.addEventListener('click', handleLogin);
-      passInput.addEventListener('keypress', (e) => {
-        if (e.key === 'Enter') handleLogin();
-      });
+      submitPassBtn.onclick = handleLogin;
+      passInput.onkeypress = (e) => { if (e.key === 'Enter') handleLogin(); };
 
-      logoutBtn.addEventListener('click', () => {
+      logoutBtn.onclick = () => {
         sessionStorage.removeItem("isLoggedIn");
         location.reload();
-      });
+      };
 
-      // Inisialisasi Aplikasi CBT
-      spawnSakuraPetals(14);
-      buildShuffledExamPacket();
+      spawnSakuraPetals(16, false);
+      generateShuffledExamPacket();
 
-      if ('speechSynthesis' in window) window.speechSynthesis.getVoices();
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.getVoices();
+        window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+      }
 
-      // Modal Bank Soal
-      document.getElementById('btn-open-bank').addEventListener('click', () => {
-        renderBankExplorer();
-        document.getElementById('bank-modal').classList.remove('hidden');
-        document.getElementById('bank-modal').classList.add('flex');
-      });
-      document.getElementById('btn-close-bank').addEventListener('click', () => {
-        document.getElementById('bank-modal').classList.add('hidden');
-        document.getElementById('bank-modal').classList.remove('flex');
-      });
-      document.querySelectorAll('.bank-tab-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-          examState.bankTab = btn.getAttribute('data-bank-tab');
-          document.querySelectorAll('.bank-tab-btn').forEach(b => b.className = 'bank-tab-btn px-4 py-2 rounded-xl bg-white text-slate-700 border border-slate-300 font-bold text-xs');
-          btn.className = 'bank-tab-btn px-4 py-2 rounded-xl bg-indigoJp text-white font-bold text-xs';
-          renderBankExplorer();
-        });
-      });
-      document.getElementById('bank-search-input').addEventListener('input', renderBankExplorer);
+      document.getElementById('btn-reshuffle').onclick = () => {
+        generateShuffledExamPacket();
+        showToast(`Paket soal diacak ulang! Kode: ${state.packetCode}`, '🎲');
+      };
 
-      // Reshuffle
-      document.getElementById('btn-reshuffle').addEventListener('click', () => {
-        buildShuffledExamPacket();
-        showToast(`Paket soal diacak ulang (${examState.packetCode})!`, '🎲');
-      });
+      document.getElementById('btn-test-audio').onclick = () => {
+        speakJapaneseScript([{ speaker: 'F', text: 'こんにちは。日本語基礎テストへようこそ。' }], 1.0);
+        showToast('Memutar sampel suara...', '🔊');
+      };
 
-      // Test Audio
-      document.getElementById('btn-test-audio').addEventListener('click', () => {
-        speakJapaneseScript('こんにちは。JLPT N4 と JFTベーシックの 聴解テストです。', 1.0);
-        showToast('Memutar tes audio...', '🔊');
-      });
+      document.getElementById('btn-start-exam').onclick = startExam;
+      document.getElementById('candidate-name').onkeydown = (e) => { if (e.key === 'Enter') startExam(); };
 
-      // Start Exam
-      document.getElementById('btn-start-exam').addEventListener('click', () => {
-        const nameInput = document.getElementById('candidate-name');
-        const rawName = nameInput.value.trim();
-        if (!rawName) {
-          document.getElementById('name-error').classList.remove('hidden');
-          nameInput.focus();
-          showToast('Masukkan Nama Lengkap Anda!', '⚠️');
-          return;
-        }
-        document.getElementById('name-error').classList.add('hidden');
-        examState.candidateName = rawName.toUpperCase();
-
-        document.getElementById('exam-id-display').textContent = `ID: ${examState.registrationId}`;
-        document.getElementById('exam-candidate-display').textContent = examState.candidateName;
-
-        document.getElementById('view-lobby').classList.add('hidden');
-        document.getElementById('view-result').classList.add('hidden');
-        document.getElementById('view-exam').classList.remove('hidden');
-        document.getElementById('view-exam').classList.add('flex');
-
+      document.getElementById('btn-flag-question').onclick = () => {
+        state.flaggedQuestions[state.currentIndex] = !state.flaggedQuestions[state.currentIndex];
         renderCurrentQuestion();
-        renderQuestionNavigator();
-        startExamTimer();
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        showToast('Ujian dimulai! Semoga berhasil meraih skor 250 (合格)!', '⛩️');
-      });
+      };
 
-      // Navigasi Ujian
-      document.getElementById('btn-flag-question').addEventListener('click', () => {
-        examState.flags[examState.currentIndex] = !examState.flags[examState.currentIndex];
-        renderCurrentQuestion();
-        renderQuestionNavigator();
-      });
-      document.getElementById('btn-prev-q').addEventListener('click', () => {
-        if (examState.currentIndex > 0) { examState.currentIndex--; renderCurrentQuestion(); renderQuestionNavigator(); }
-      });
-      document.getElementById('btn-next-q').addEventListener('click', () => {
-        if (examState.currentIndex < 49) { examState.currentIndex++; renderCurrentQuestion(); renderQuestionNavigator(); }
-        else { openSubmitConfirmationModal(); }
-      });
+      document.getElementById('btn-prev-q').onclick = () => {
+        if (state.currentIndex > 0) { state.currentIndex--; renderCurrentQuestion(); }
+      };
+
+      document.getElementById('btn-next-q').onclick = () => {
+        if (state.currentIndex < 49) { state.currentIndex++; renderCurrentQuestion(); }
+        else { requestExamSubmission(); }
+      };
 
       document.querySelectorAll('.nav-filter-btn').forEach(btn => {
-        btn.addEventListener('click', () => {
-          examState.navFilter = btn.getAttribute('data-nav-filter');
-          document.querySelectorAll('.nav-filter-btn').forEach(b => b.className = 'nav-filter-btn py-1.5 rounded-lg text-slate-600 hover:bg-white/60 transition');
-          btn.className = 'nav-filter-btn py-1.5 rounded-lg bg-indigoJp text-white transition';
-          renderQuestionNavigator();
-        });
+        btn.onclick = () => {
+          state.navFilter = btn.dataset.navFilter;
+          document.querySelectorAll('.nav-filter-btn').forEach(b => {
+            b.className = b.dataset.navFilter === state.navFilter ? 'nav-filter-btn py-1.5 rounded-lg bg-indigoJp text-white transition' : 'nav-filter-btn py-1.5 rounded-lg text-slate-600 hover:bg-white/60 transition';
+          });
+          renderNavigatorGrid();
+        };
       });
 
-      document.getElementById('btn-finish-exam-top').addEventListener('click', openSubmitConfirmationModal);
-      document.getElementById('btn-submit-exam-side').addEventListener('click', openSubmitConfirmationModal);
-      document.getElementById('modal-cancel-btn').addEventListener('click', () => {
-        document.getElementById('confirm-modal').classList.add('hidden');
-        document.getElementById('confirm-modal').classList.remove('flex');
-      });
-      document.getElementById('modal-confirm-btn').addEventListener('click', finalizeAndGradeExam);
+      document.getElementById('btn-finish-exam-top').onclick = requestExamSubmission;
+      document.getElementById('btn-submit-exam-side').onclick = requestExamSubmission;
 
-      // Tab Result Switcher
-      document.getElementById('tab-btn-cert').addEventListener('click', () => {
-        document.getElementById('panel-certificate').classList.remove('hidden');
-        document.getElementById('panel-review').classList.add('hidden');
-        document.getElementById('cert-actions-bar').classList.remove('hidden');
-      });
-      document.getElementById('tab-btn-review').addEventListener('click', () => {
-        document.getElementById('panel-certificate').classList.add('hidden');
-        document.getElementById('panel-review').classList.remove('hidden');
-        document.getElementById('cert-actions-bar').classList.add('hidden');
+      document.getElementById('tab-btn-cert').onclick = () => setResultTab('cert');
+      document.getElementById('tab-btn-review').onclick = () => setResultTab('review');
+
+      document.querySelectorAll('.rev-filter-btn').forEach(btn => {
+        btn.onclick = () => {
+          const f = btn.dataset.revFilter;
+          document.querySelectorAll('.rev-filter-btn').forEach(b => {
+            b.className = b.dataset.revFilter === f ? 'rev-filter-btn px-3.5 py-2 rounded-xl bg-indigoJp text-white' : 'rev-filter-btn px-3.5 py-2 rounded-xl bg-white border border-slate-300 text-slate-700';
+          });
+          renderReviewList(f);
+        };
       });
 
-      document.getElementById('btn-style-jft').addEventListener('click', () => {
-        document.getElementById('cert-view-jft').classList.remove('hidden');
-        document.getElementById('cert-view-jlpt').classList.add('hidden');
-      });
-      document.getElementById('btn-style-jlpt').addEventListener('click', () => {
-        document.getElementById('cert-view-jlpt').classList.remove('hidden');
-        document.getElementById('cert-view-jft').classList.add('hidden');
-      });
-
-      document.getElementById('btn-toggle-spirit-mode').addEventListener('click', () => {
-        examState.spiritPreviewMode = !examState.spiritPreviewMode;
-        document.getElementById('spirit-mode-label').textContent = examState.spiritPreviewMode ? 'Skor Asli Saya' : 'Pratinjau Semangat (250)';
-        renderCertificates();
-      });
-
-      document.getElementById('btn-retake-exam').addEventListener('click', () => {
-        stopSpeech();
-        buildShuffledExamPacket();
-        document.getElementById('view-result').classList.add('hidden');
-        document.getElementById('view-exam').classList.add('hidden');
-        document.getElementById('view-lobby').classList.remove('hidden');
-        window.scrollTo({ top: 0, behavior: 'smooth' });
-        showToast('Bank soal diacak ulang!', '🎲');
-      });
+      document.getElementById('btn-download-png').onclick = downloadCertificatePNG;
+      document.getElementById('btn-print-cert').onclick = () => window.print();
+      document.getElementById('btn-retake-exam').onclick = () => {
+        generateShuffledExamPacket();
+        switchView('view-lobby');
+        showToast('Paket soal baru diacak! Silakan mulai ujian.', '🎲');
+      };
     });
   </script>
 </body>
