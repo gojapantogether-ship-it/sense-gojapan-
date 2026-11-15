@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>雅 MIYABI - Kanji & Kotoba Duel Arena (Mobile & Chat Edition)</title>
+    <title>雅 MIYABI - Kanji & Kotoba Duel Arena (220+ Vocab & Live Multiplayer)</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts -->
@@ -55,9 +55,8 @@
             box-shadow: 0 4px 20px rgba(212, 175, 55, 0.4);
             transition: all 0.2s ease;
         }
-        .btn-gold:active {
-            transform: scale(0.97);
-        }
+        .btn-gold:hover { filter: brightness(1.08); }
+        .btn-gold:active { transform: scale(0.97); }
         .btn-crimson {
             background: linear-gradient(135deg, #DC2626 0%, #7F1D1D 100%);
             color: #FFF;
@@ -65,24 +64,19 @@
             box-shadow: 0 4px 20px rgba(220, 38, 38, 0.4);
             transition: all 0.2s ease;
         }
-        .btn-crimson:active {
-            transform: scale(0.97);
-        }
+        .btn-crimson:hover { filter: brightness(1.1); }
+        .btn-crimson:active { transform: scale(0.97); }
         @keyframes floatKanji {
             0%, 100% { transform: translateY(0px) scale(1); }
             50% { transform: translateY(-6px) scale(1.02); }
         }
-        .animate-float {
-            animation: floatKanji 4s ease-in-out infinite;
-        }
+        .animate-float { animation: floatKanji 4s ease-in-out infinite; }
         @keyframes stampSlam {
             0% { transform: scale(3.5) rotate(-20deg); opacity: 0; }
             70% { transform: scale(0.9) rotate(5deg); opacity: 1; }
             100% { transform: scale(1) rotate(-6deg); opacity: 1; }
         }
-        .stamp-seal {
-            animation: stampSlam 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards;
-        }
+        .stamp-seal { animation: stampSlam 0.6s cubic-bezier(0.22, 1, 0.36, 1) forwards; }
         @keyframes slashEffect {
             0% { width: 0%; opacity: 1; }
             50% { width: 120%; opacity: 1; }
@@ -105,9 +99,7 @@
             20%, 60% { transform: translateX(-6px); }
             40%, 80% { transform: translateX(6px); }
         }
-        .shake {
-            animation: shakeError 0.35s ease-in-out;
-        }
+        .shake { animation: shakeError 0.35s ease-in-out; }
         .corner-ornament {
             position: absolute;
             width: 16px;
@@ -120,40 +112,42 @@
         .corner-bl { bottom: 8px; left: 8px; border-bottom: 2px solid; border-left: 2px solid; }
         .corner-br { bottom: 8px; right: 8px; border-bottom: 2px solid; border-right: 2px solid; }
         
-        /* Auto-Hide Header Styling */
-        header {
-            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
-        }
-        header.header-hidden {
-            transform: translateY(-100%);
-            opacity: 0;
-            pointer-events: none;
-        }
+        header { transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out; }
+        header.header-hidden { transform: translateY(-100%); opacity: 0; pointer-events: none; }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 5px; height: 5px; }
+        ::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.6); }
+        ::-webkit-scrollbar-thumb { background: rgba(212, 175, 55, 0.4); border-radius: 9999px; }
     </style>
 </head>
 <body class="bg-japanese-pattern min-h-screen flex flex-col justify-between relative">
 
-    <!-- Falling Sakura Canvas -->
     <canvas id="sakuraCanvas" class="fixed inset-0 pointer-events-none z-0"></canvas>
 
+    <!-- Toast Notification -->
+    <div id="toastBox" class="fixed top-16 right-4 z-50 flex flex-col gap-2 max-w-xs w-full pointer-events-none"></div>
+
     <!-- Top Navigation / Header (Auto-Hide on Scroll) -->
-    <header id="mainHeader" class="sticky top-0 z-40 w-full max-w-5xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between border-b border-amber-500/20 bg-slate-950/80 backdrop-blur-md">
+    <header id="mainHeader" class="sticky top-0 z-40 w-full max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between border-b border-amber-500/20 bg-slate-950/85 backdrop-blur-md">
         <div class="flex items-center gap-2.5 cursor-pointer" onclick="resetToHome()">
             <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-gradient-to-br from-red-700 to-red-950 border border-amber-400/60 flex items-center justify-center shadow-md">
                 <span class="font-jp text-xl font-black gold-gradient-text">雅</span>
             </div>
             <div>
                 <h1 class="font-jp text-sm sm:text-base font-black tracking-wider gold-gradient-text">MIYABI ARENA</h1>
-                <p class="text-[10px] text-slate-400 tracking-widest uppercase">JLPT N5 & N4</p>
+                <p class="text-[10px] text-slate-400 tracking-widest uppercase">220+ Bank Soal • Live Sync</p>
             </div>
         </div>
 
         <div class="flex items-center gap-2">
+            <a href="index.html" class="px-2.5 py-1.5 rounded-xl bg-slate-800/90 border border-slate-700 hover:border-amber-400/50 text-slate-300 text-xs font-semibold transition">
+                🏠 Portal
+            </a>
             <span id="roomBadge" class="hidden px-2.5 py-1 rounded-full bg-amber-500/10 border border-amber-400/40 text-amber-300 text-[11px] font-bold">
                 ROOM: <span id="headerRoomCode" class="font-mono">----</span>
             </span>
-            <!-- BGM Music Toggle Button -->
-            <button id="bgmToggleBtn" onclick="toggleBGM()" class="px-3 py-1.5 rounded-xl bg-slate-800/90 border border-slate-700 hover:border-amber-400/50 text-amber-300 text-xs font-bold transition flex items-center gap-1.5">
+            <button id="bgmToggleBtn" onclick="toggleBGM()" class="px-3 py-1.5 rounded-xl bg-slate-800/90 border border-slate-700 hover:border-amber-400/50 text-amber-300 text-xs font-bold transition flex items-center gap-1">
                 🎵 <span id="bgmLabel">BGM: OFF</span>
             </button>
             <button id="soundToggleBtn" onclick="toggleSound()" class="p-2 rounded-xl bg-slate-800/90 border border-slate-700 hover:border-amber-400/50 text-amber-300 transition text-xs">
@@ -163,66 +157,106 @@
     </header>
 
     <!-- Main Container -->
-    <main class="relative z-10 flex-1 flex items-center justify-center p-3 sm:p-5 w-full max-w-4xl mx-auto">
+    <main class="relative z-10 flex-1 flex items-center justify-center p-3 sm:p-5 w-full max-w-5xl mx-auto">
         
         <!-- ==================== 1. SCREEN: HOME / LOBBY ==================== -->
-        <section id="screenHome" class="w-full grid md:grid-cols-12 gap-5 items-center">
-            <!-- Left Hero Info -->
-            <div class="md:col-span-6 space-y-4 text-center md:text-left">
-                <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-950/80 border border-red-500/40 text-red-300 text-[11px] font-semibold">
-                    <span>⚔️</span> MOBILE & MULTIPLAYER REAL-TIME
+        <section id="screenHome" class="w-full grid lg:grid-cols-12 gap-5 items-start">
+            
+            <!-- Left Column: Hero Info + Active Rooms Directory -->
+            <div class="lg:col-span-7 space-y-4">
+                <div class="luxury-card rounded-2xl p-5 sm:p-6 relative">
+                    <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-950/80 border border-red-500/40 text-red-300 text-[11px] font-semibold mb-3">
+                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
+                        <span>REAL-TIME MULTIPLAYER TANPA REFRESH • 220+ SOAL</span>
+                    </div>
+                    <h2 class="font-jp text-2xl sm:text-4xl font-black leading-tight">
+                        Duel Kanji & Kotoba <br>
+                        <span class="gold-gradient-text">JLPT N5 & N4 Live Arena</span>
+                    </h2>
+                    <p class="text-slate-300 text-xs sm:text-sm leading-relaxed mt-2">
+                        Buka 2 tab atau jendela browser untuk bermain berdua secara *real-time*! Buat room baru atau pilih dari **Daftar Room Aktif** di bawah, masukkan 6 angka kunci, mengobrol langsung di *Live Chat*, dan berduel di saat yang bersamaan!
+                    </p>
+                    <div class="grid grid-cols-3 gap-2.5 pt-4">
+                        <div class="bg-slate-900/90 border border-amber-500/20 p-2.5 rounded-xl text-center">
+                            <div class="font-jp text-lg sm:text-xl font-bold text-amber-400">220+</div>
+                            <div class="text-[10px] text-slate-400">Kanji & Kotoba</div>
+                        </div>
+                        <div class="bg-slate-900/90 border border-amber-500/20 p-2.5 rounded-xl text-center">
+                            <div class="font-jp text-lg sm:text-xl font-bold text-red-400">Live</div>
+                            <div class="text-[10px] text-slate-400">Room & Chat</div>
+                        </div>
+                        <div class="bg-slate-900/90 border border-amber-500/20 p-2.5 rounded-xl text-center">
+                            <div class="font-jp text-lg sm:text-xl font-bold text-emerald-400">10 / 30</div>
+                            <div class="text-[10px] text-slate-400">Mode Soal</div>
+                        </div>
+                    </div>
                 </div>
-                <h2 class="font-jp text-3xl sm:text-4xl font-black leading-tight">
-                    Duel Kanji & Kotoba <br>
-                    <span class="gold-gradient-text">N5 & N4 Edition</span>
-                </h2>
-                <p class="text-slate-300 text-xs sm:text-sm leading-relaxed">
-                    Mainkan langsung dari HP Anda! Dilengkapi 120+ bank soal pilihan, fitur <strong>Live In-Room Chat</strong>, musik chiptune Jepang, serta mode 10 atau 30 soal.
-                </p>
-                <div class="grid grid-cols-3 gap-2 pt-1">
-                    <div class="luxury-card p-2.5 rounded-xl text-center">
-                        <div class="font-jp text-xl font-bold text-amber-400">120+</div>
-                        <div class="text-[10px] text-slate-400 mt-0.5">Bank Soal</div>
+
+                <!-- LIVE ACTIVE ROOMS LIST -->
+                <div class="luxury-card rounded-2xl p-5 relative">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-3">
+                        <div class="flex items-center gap-2">
+                            <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
+                            <h3 class="font-jp text-sm sm:text-base font-bold text-amber-300">🏯 Daftar Room Aktif (Live Lobby)</h3>
+                        </div>
+                        <span class="text-[11px] text-slate-400">Otomatis Update</span>
                     </div>
-                    <div class="luxury-card p-2.5 rounded-xl text-center">
-                        <div class="font-jp text-xl font-bold text-red-400">10/30</div>
-                        <div class="text-[10px] text-slate-400 mt-0.5">Sesi Soal</div>
-                    </div>
-                    <div class="luxury-card p-2.5 rounded-xl text-center">
-                        <div class="font-jp text-xl font-bold text-emerald-400">聊天</div>
-                        <div class="text-[10px] text-slate-400 mt-0.5">Live Chat</div>
+                    <p class="text-[11px] text-slate-400 mb-3">
+                        Klik tombol <strong class="text-amber-300">"Pilih Kunci"</strong> pada room di bawah atau ketik kuncinya di kolom Gabung Room:
+                    </p>
+                    <div id="activeRoomsContainer" class="space-y-2 max-h-52 overflow-y-auto pr-1">
+                        <!-- Injected dynamically via live polling -->
                     </div>
                 </div>
             </div>
 
-            <!-- Right Interactive Card -->
-            <div class="md:col-span-6 luxury-card rounded-2xl p-5 sm:p-7 relative">
+            <!-- Right Column: Create / Join Room Form -->
+            <div class="lg:col-span-5 luxury-card rounded-2xl p-5 sm:p-6 relative">
                 <div class="corner-ornament corner-tl"></div>
                 <div class="corner-ornament corner-tr"></div>
                 <div class="corner-ornament corner-bl"></div>
                 <div class="corner-ornament corner-br"></div>
 
-                <h3 class="font-jp text-lg font-bold gold-gradient-text mb-4 text-center">Pengaturan Room Duel</h3>
+                <h3 class="font-jp text-lg font-bold gold-gradient-text mb-4 text-center">Masuk / Buat Room Duel</h3>
 
                 <div class="space-y-3.5">
                     <div>
-                        <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-300 mb-1">Nama Samurai / Peserta</label>
-                        <input id="playerNameInput" type="text" maxlength="16" placeholder="Contoh: Kenshin" value="Samurai_Mobile"
+                        <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-300 mb-1">Nama Samurai Anda</label>
+                        <input id="playerNameInput" type="text" maxlength="16" placeholder="Contoh: Kenshin"
                             class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900/90 border border-slate-700 focus:border-amber-400 focus:outline-none text-white text-sm font-semibold">
+                    </div>
+
+                    <!-- Join Existing Room Box (Highlighted for 2nd Player) -->
+                    <div class="p-3.5 rounded-xl bg-red-950/30 border border-red-500/40 space-y-2">
+                        <label class="block text-[11px] font-bold uppercase tracking-wider text-amber-300">🔑 Gabung Room dengan Kunci Angka</label>
+                        <div class="flex gap-2">
+                            <input id="joinRoomInput" type="text" inputmode="numeric" maxlength="6" placeholder="Ketik 6 Angka Kunci"
+                                oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                                class="flex-1 px-3 py-2.5 rounded-xl bg-slate-950 border border-slate-700 focus:border-amber-400 focus:outline-none text-center font-mono text-base tracking-widest text-amber-300 placeholder:text-slate-500 placeholder:text-xs">
+                            <button onclick="joinRoom()" class="btn-crimson px-4 py-2.5 rounded-xl text-xs sm:text-sm uppercase tracking-wider shrink-0">
+                                Gabung Duel
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="relative flex py-1 items-center">
+                        <div class="flex-grow border-t border-slate-700"></div>
+                        <span class="flex-shrink mx-3 text-[10px] text-slate-400 uppercase font-semibold">Atau Buat Room Baru</span>
+                        <div class="flex-grow border-t border-slate-700"></div>
                     </div>
 
                     <div class="grid grid-cols-2 gap-2.5">
                         <div>
                             <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-300 mb-1">Kategori Materi</label>
-                            <select id="quizModeSelect" class="w-full px-3 py-2.5 rounded-xl bg-slate-900/90 border border-slate-700 focus:border-amber-400 focus:outline-none text-white text-xs sm:text-sm font-semibold">
-                                <option value="MIX">🔥 Campuran</option>
-                                <option value="KANJI">🈶 Fokus Kanji</option>
-                                <option value="KOTOBA">🗣️ Fokus Kotoba</option>
+                            <select id="quizModeSelect" class="w-full px-3 py-2.5 rounded-xl bg-slate-900/90 border border-slate-700 focus:border-amber-400 focus:outline-none text-white text-xs font-semibold">
+                                <option value="MIX">🔥 Campuran (220+)</option>
+                                <option value="KANJI">🈶 Fokus Kanji (110)</option>
+                                <option value="KOTOBA">🗣️ Fokus Kotoba (110)</option>
                             </select>
                         </div>
                         <div>
                             <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-300 mb-1">Level JLPT</label>
-                            <select id="jlptLevelSelect" class="w-full px-3 py-2.5 rounded-xl bg-slate-900/90 border border-slate-700 focus:border-amber-400 focus:outline-none text-white text-xs sm:text-sm font-semibold">
+                            <select id="jlptLevelSelect" class="w-full px-3 py-2.5 rounded-xl bg-slate-900/90 border border-slate-700 focus:border-amber-400 focus:outline-none text-white text-xs font-semibold">
                                 <option value="ALL">🌟 N5 & N4</option>
                                 <option value="N5">🌱 JLPT N5</option>
                                 <option value="N4">⚔️ JLPT N4</option>
@@ -233,92 +267,89 @@
                     <div>
                         <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-300 mb-1">Jumlah Soal Per Sesi</label>
                         <select id="questionCountSelect" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900/90 border border-amber-500/40 focus:border-amber-400 focus:outline-none text-amber-300 text-xs sm:text-sm font-bold">
-                            <option value="10">⚡ 10 Soal (Duel Cepat)</option>
-                            <option value="30">🏯 30 Soal (Duel Marathon)</option>
+                            <option value="10">⚡ 10 Soal (Mode Duel Cepat)</option>
+                            <option value="30">🏯 30 Soal (Mode Duel Marathon)</option>
                         </select>
                     </div>
 
-                    <!-- Create Room Button -->
                     <button onclick="createRoom()" class="w-full btn-gold py-3 rounded-xl text-xs sm:text-sm uppercase tracking-wider flex items-center justify-center gap-2">
-                        <span>⛩️ Buat Room Duel Baru</span>
+                        <span>⛩️ Buat Room & Dapatkan Kunci</span>
                     </button>
-
-                    <div class="relative flex py-1 items-center">
-                        <div class="flex-grow border-t border-slate-700"></div>
-                        <span class="flex-shrink mx-3 text-[10px] text-slate-400 uppercase font-semibold">Atau Gabung Room</span>
-                        <div class="flex-grow border-t border-slate-700"></div>
-                    </div>
-
-                    <!-- Join Room Input -->
-                    <div class="flex gap-2">
-                        <input id="joinRoomInput" type="text" inputmode="numeric" maxlength="6" placeholder="6 Angka Kunci"
-                            oninput="this.value = this.value.replace(/[^0-9]/g, '')"
-                            class="flex-1 px-3 py-2.5 rounded-xl bg-slate-900/90 border border-slate-700 focus:border-red-400 focus:outline-none text-center font-mono text-base tracking-widest text-amber-300 placeholder:text-slate-500 placeholder:text-xs">
-                        <button onclick="joinRoom()" class="btn-crimson px-4 py-2.5 rounded-xl text-xs sm:text-sm uppercase tracking-wider">
-                            Gabung
-                        </button>
-                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- ==================== 2. SCREEN: WAITING ROOM + CHAT ==================== -->
-        <section id="screenRoom" class="hidden w-full max-w-3xl luxury-card rounded-2xl p-4 sm:p-6 relative">
+        <!-- ==================== 2. SCREEN: WAITING ROOM + REALTIME CHAT ==================== -->
+        <section id="screenRoom" class="hidden w-full max-w-4xl luxury-card rounded-2xl p-4 sm:p-6 relative">
             <div class="corner-ornament corner-tl"></div>
             <div class="corner-ornament corner-tr"></div>
             <div class="corner-ornament corner-bl"></div>
             <div class="corner-ornament corner-br"></div>
 
-            <div class="text-center space-y-1 mb-4">
-                <span class="px-2.5 py-0.5 rounded-full bg-amber-500/10 border border-amber-400/30 text-amber-300 text-[10px] font-semibold uppercase tracking-widest">
-                    Dojo Waiting Room & Chat
-                </span>
-                <h2 class="font-jp text-xl sm:text-2xl font-black text-white">Persiapan Pertarungan</h2>
+            <div class="flex flex-col sm:flex-row items-center justify-between gap-2 border-b border-slate-800 pb-3 mb-4">
+                <div>
+                    <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-400/30 text-emerald-300 text-[10px] font-semibold uppercase tracking-widest">
+                        ● Live Waiting Room (Tanpa Refresh)
+                    </span>
+                    <h2 class="font-jp text-xl sm:text-2xl font-black text-white mt-1">Ruang Persiapan Duel</h2>
+                </div>
+                <div class="flex gap-2 text-xs">
+                    <span class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-amber-300 font-bold" id="roomModeLabel">Campuran</span>
+                    <span class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-emerald-300 font-bold" id="roomCountLabel">10 Soal</span>
+                </div>
             </div>
 
-            <!-- Room Key & Controls -->
+            <!-- Room Key Banner -->
             <div class="bg-slate-950/90 border-2 border-amber-500/50 rounded-xl p-3.5 mb-4 flex flex-col sm:flex-row items-center justify-between gap-3">
                 <div class="text-center sm:text-left">
-                    <div class="text-[10px] uppercase tracking-widest text-slate-400">Kunci Room Angka:</div>
-                    <div id="roomKeyDisplay" class="font-mono text-2xl sm:text-3xl font-black tracking-[0.2em] gold-gradient-text">882910</div>
+                    <div class="text-[10px] uppercase tracking-widest text-slate-400">Kunci Room (Masukkan di Tab/HP Teman):</div>
+                    <div id="roomKeyDisplay" class="font-mono text-3xl sm:text-4xl font-black tracking-[0.25em] gold-gradient-text">------</div>
                 </div>
-                <div class="flex flex-wrap justify-center gap-1.5">
-                    <button onclick="copyRoomKey()" class="px-3 py-2 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 border border-amber-400/50 text-amber-200 text-xs font-bold transition flex items-center gap-1">
+                <div class="flex flex-wrap justify-center gap-2">
+                    <button onclick="copyRoomKey()" class="px-3.5 py-2 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 border border-amber-400/50 text-amber-200 text-xs font-bold transition flex items-center gap-1">
                         📋 <span id="copyBtnText">Salin Kunci</span>
                     </button>
-                    <button onclick="addAiChallenger()" class="px-3 py-2 rounded-lg bg-purple-600/25 hover:bg-purple-600/40 border border-purple-400/50 text-purple-200 text-xs font-bold transition flex items-center gap-1">
-                        🤖 + Bot AI
+                    <button onclick="addAiChallenger()" class="px-3.5 py-2 rounded-lg bg-purple-600/25 hover:bg-purple-600/40 border border-purple-400/50 text-purple-200 text-xs font-bold transition flex items-center gap-1">
+                        🤖 + Tambah Bot AI
                     </button>
                 </div>
             </div>
 
-            <!-- Grid: Participants & Live Chat -->
-            <div class="grid md:grid-cols-12 gap-3.5 mb-4">
+            <!-- Grid: Participants & Real-time Chat -->
+            <div class="grid md:grid-cols-12 gap-4 mb-5">
                 
                 <!-- Participants List (5 cols) -->
-                <div class="md:col-span-5 flex flex-col">
-                    <div class="text-[11px] font-bold uppercase tracking-wider text-slate-400 mb-2">Peserta (<span id="playerCountLabel">1</span>)</div>
-                    <div id="participantsGrid" class="space-y-2 max-h-48 overflow-y-auto pr-1">
-                        <!-- Dynamic players -->
+                <div class="md:col-span-5 flex flex-col bg-slate-950/60 border border-slate-800 rounded-xl p-3.5">
+                    <div class="flex items-center justify-between mb-2.5">
+                        <span class="text-xs font-bold uppercase tracking-wider text-slate-300">Peserta di Room (<span id="playerCountLabel">1</span>)</span>
+                        <span class="text-[10px] text-emerald-400">Live Sync</span>
                     </div>
+                    <div id="participantsGrid" class="space-y-2 flex-1 max-h-56 overflow-y-auto pr-1"></div>
                 </div>
 
                 <!-- Live Chat Box (7 cols) -->
-                <div class="md:col-span-7 flex flex-col bg-slate-950/80 border border-slate-800 rounded-xl p-3 h-52 sm:h-56">
-                    <div class="flex items-center justify-between border-b border-slate-800 pb-1.5 mb-2">
-                        <span class="text-[11px] font-bold uppercase tracking-wider text-amber-300">💬 Obrolan Room (Live Chat)</span>
-                        <span class="text-[9px] text-emerald-400 animate-pulse">● Aktif</span>
+                <div class="md:col-span-7 flex flex-col bg-slate-950/90 border border-amber-500/30 rounded-xl p-3.5 h-64">
+                    <div class="flex items-center justify-between border-b border-slate-800 pb-2 mb-2">
+                        <span class="text-xs font-bold uppercase tracking-wider text-amber-300">💬 Obrolan Room Real-Time</span>
+                        <span class="text-[10px] text-emerald-400 animate-pulse">● Terhubung Langsung</span>
                     </div>
                     <!-- Chat Messages Scroll Area -->
-                    <div id="chatMessagesBox" class="flex-1 overflow-y-auto space-y-2 pr-1 text-xs">
-                        <div class="text-slate-500 italic text-[11px] text-center">Belum ada pesan. Sapa lawan duel Anda!</div>
+                    <div id="chatMessagesBox" class="flex-1 overflow-y-auto space-y-2 pr-1 text-xs"></div>
+                    
+                    <!-- Quick Chat Stickers/Buttons -->
+                    <div class="flex gap-1.5 overflow-x-auto py-1.5 border-t border-slate-800/80 mt-1">
+                        <button onclick="sendQuickChat('よろしく！ Mari berduel! ⚔️')" class="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-[10px] text-amber-200 shrink-0">⚔️ Yoroshiku!</button>
+                        <button onclick="sendQuickChat('Siap mulai! 🔥')" class="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-[10px] text-emerald-200 shrink-0">🔥 Siap Mulai!</button>
+                        <button onclick="sendQuickChat('Jangan kalah ya! 😎')" class="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-[10px] text-sky-200 shrink-0">😎 Jangan Kalah!</button>
+                        <button onclick="sendQuickChat('がんばって！ Ganbatte! 🌸')" class="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-[10px] text-pink-200 shrink-0">🌸 Ganbatte!</button>
                     </div>
+
                     <!-- Chat Input Form -->
-                    <div class="flex gap-1.5 mt-2 pt-2 border-t border-slate-800">
-                        <input id="chatInputBox" type="text" maxlength="80" placeholder="Ketik pesan..." 
-                            onkeydown="if(event.key === 'Enter') sendChatMessage()"
+                    <div class="flex gap-1.5 pt-1">
+                        <input id="chatInputBox" type="text" maxlength="100" placeholder="Ketik pesan obrolan (langsung tampil tanpa refresh)..." 
+                            onkeydown="if(event.key === 'Enter') sendChatMessage('chatInputBox')"
                             class="flex-1 px-3 py-2 rounded-lg bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-amber-400">
-                        <button onclick="sendChatMessage()" class="px-3 py-2 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold text-xs transition">
+                        <button onclick="sendChatMessage('chatInputBox')" class="px-4 py-2 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-xs transition">
                             Kirim
                         </button>
                     </div>
@@ -327,17 +358,17 @@
 
             <!-- Action Buttons -->
             <div class="flex flex-col sm:flex-row gap-2.5">
-                <button onclick="resetToHome()" class="px-4 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold transition">
-                    ← Keluar
+                <button onclick="leaveRoomAndReset()" class="px-5 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold transition">
+                    ← Tinggalkan Room
                 </button>
-                <button id="startDuelBtn" onclick="hostStartGame()" class="flex-1 btn-gold py-3 rounded-xl text-xs sm:text-sm uppercase tracking-wider">
-                    ⚔️ Mulai Pertarungan Sekarang!
+                <button id="startDuelBtn" onclick="triggerStartGameForAll()" class="flex-1 btn-gold py-3.5 rounded-xl text-xs sm:text-sm uppercase tracking-wider">
+                    ⚔️ Mulai Pertarungan Bersama Sekarang!
                 </button>
             </div>
         </section>
 
-        <!-- ==================== 3. SCREEN: DUEL ARENA (GAMEPLAY) ==================== -->
-        <section id="screenGame" class="hidden w-full max-w-4xl space-y-3.5">
+        <!-- ==================== 3. SCREEN: DUEL ARENA (GAMEPLAY + MINI CHAT) ==================== -->
+        <section id="screenGame" class="hidden w-full max-w-5xl space-y-3.5">
             
             <!-- Top Arena HUD -->
             <div class="luxury-card rounded-xl p-3 sm:p-4 flex flex-wrap items-center justify-between gap-3">
@@ -352,12 +383,10 @@
                     </div>
                 </div>
 
-                <!-- Combo Indicator -->
                 <div id="comboBadge" class="hidden px-3 py-1 rounded-full bg-gradient-to-r from-amber-500/20 to-red-500/20 border border-amber-400 text-amber-300 font-black text-xs tracking-wider animate-bounce">
                     🔥 <span id="comboCountText">2</span>x COMBO!
                 </div>
 
-                <!-- Timer -->
                 <div class="text-right">
                     <div class="text-[10px] text-slate-400">Sisa Waktu</div>
                     <div id="timerNumber" class="font-mono text-xl font-black text-emerald-400">12.0s</div>
@@ -369,24 +398,23 @@
                 <div id="timerProgressBar" class="h-full bg-gradient-to-r from-amber-400 via-red-500 to-red-700 transition-all duration-100" style="width: 100%;"></div>
             </div>
 
-            <!-- Question Stage & Live Standings -->
-            <div class="grid md:grid-cols-12 gap-3.5 items-stretch">
+            <!-- Question Stage + Live Standings & In-Game Chat -->
+            <div class="grid lg:grid-cols-12 gap-4 items-stretch">
                 
-                <!-- Question Stage -->
-                <div class="md:col-span-8 luxury-card rounded-2xl p-5 sm:p-7 flex flex-col justify-between relative overflow-hidden">
+                <!-- Question Stage (8 cols) -->
+                <div class="lg:col-span-7 luxury-card rounded-2xl p-5 sm:p-6 flex flex-col justify-between relative overflow-hidden">
                     <div class="corner-ornament corner-tl"></div>
                     <div class="corner-ornament corner-tr"></div>
                     <div class="corner-ornament corner-bl"></div>
                     <div class="corner-ornament corner-br"></div>
 
-                    <div class="flex items-center justify-between mb-3">
+                    <div class="flex items-center justify-between mb-2">
                         <span id="questionCategoryBadge" class="px-2.5 py-0.5 rounded bg-amber-500/15 border border-amber-400/40 text-amber-300 text-[11px] font-bold">
                             KANJI • JLPT N5
                         </span>
-                        <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Pilih yang tepat</span>
+                        <span class="text-[11px] font-semibold text-slate-400 uppercase tracking-wider">Pilih jawaban tepat</span>
                     </div>
 
-                    <!-- Big Japanese Showcase -->
                     <div class="my-4 text-center">
                         <div id="kanjiDisplay" class="font-jp text-5xl sm:text-6xl font-black gold-gradient-text animate-float select-none py-1">
                             約束
@@ -396,24 +424,35 @@
                         </div>
                     </div>
 
-                    <!-- 4 Interactive Answer Choices -->
-                    <div id="optionsContainer" class="grid grid-cols-1 gap-2.5 mt-2">
-                        <!-- Options injected -->
-                    </div>
+                    <div id="optionsContainer" class="grid grid-cols-1 gap-2.5 mt-2"></div>
                 </div>
 
-                <!-- Live Room Standings Sidebar -->
-                <div class="md:col-span-4 luxury-card rounded-2xl p-4 flex flex-col justify-between">
-                    <div>
-                        <div class="flex items-center justify-between border-b border-slate-800 pb-2 mb-3">
-                            <h4 class="font-jp text-xs font-bold text-amber-300 uppercase tracking-wider">⚔️ Live Standings</h4>
+                <!-- Live Standings + In-Game Chat Sidebar (5 cols) -->
+                <div class="lg:col-span-5 flex flex-col gap-3.5">
+                    <!-- Standings Card -->
+                    <div class="luxury-card rounded-2xl p-4">
+                        <div class="flex items-center justify-between border-b border-slate-800 pb-2 mb-2.5">
+                            <h4 class="font-jp text-xs font-bold text-amber-300 uppercase tracking-wider">⚔️ Live Arena Standings</h4>
+                            <span class="text-[10px] text-emerald-400 animate-pulse">● Real-Time</span>
                         </div>
-                        <div id="liveScoreboardList" class="space-y-2 max-h-56 overflow-y-auto">
-                            <!-- Live standing scores -->
-                        </div>
+                        <div id="liveScoreboardList" class="space-y-2 max-h-40 overflow-y-auto pr-1"></div>
                     </div>
-                    <div class="mt-4 pt-2 border-t border-slate-800/80 text-center">
-                        <p class="text-[10px] text-slate-400 italic">"Kecepatan Katana menentukan kemenangan."</p>
+
+                    <!-- Mini In-Game Chat -->
+                    <div class="luxury-card rounded-2xl p-3.5 flex-1 flex flex-col h-48">
+                        <div class="text-[11px] font-bold text-amber-300 mb-1.5 flex items-center justify-between">
+                            <span>💬 Live Arena Chat</span>
+                            <span class="text-[9px] text-slate-400">Kirim pesan sambil bertarung</span>
+                        </div>
+                        <div id="inGameChatBox" class="flex-1 overflow-y-auto space-y-1.5 pr-1 text-[11px] bg-slate-950/60 rounded-lg p-2 border border-slate-800/80"></div>
+                        <div class="flex gap-1.5 mt-2">
+                            <input id="inGameChatInput" type="text" maxlength="60" placeholder="Kirim komentar cepat..." 
+                                onkeydown="if(event.key === 'Enter') sendChatMessage('inGameChatInput')"
+                                class="flex-1 px-2.5 py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-amber-400">
+                            <button onclick="sendChatMessage('inGameChatInput')" class="px-3 py-1.5 rounded-lg bg-amber-500 text-slate-950 font-bold text-xs">
+                                Kirim
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -434,10 +473,7 @@
                 <p class="text-xs text-slate-400">Room: <span id="resultRoomCode" class="font-mono text-amber-300 font-bold">------</span></p>
             </div>
 
-            <!-- Results Grid -->
             <div class="grid md:grid-cols-12 gap-5 items-center mb-6">
-                
-                <!-- Hanko Stamp Card -->
                 <div class="md:col-span-5 bg-gradient-to-b from-slate-900 to-slate-950 border-2 border-amber-400/60 rounded-2xl p-5 text-center relative shadow-2xl">
                     <div class="text-[11px] uppercase tracking-widest text-slate-400 mb-1">Peringkat Kaligrafi</div>
                     <div class="relative w-28 h-28 mx-auto my-2 rounded-full border-4 border-red-600 bg-red-950/40 flex items-center justify-center shadow-[0_0_30px_rgba(220,38,38,0.5)] stamp-seal">
@@ -450,7 +486,6 @@
                     <p id="finalCommentText" class="text-[11px] text-slate-400 mt-0.5">Refleks secepat kilat dengan akurasi sempurna!</p>
                 </div>
 
-                <!-- Metrics Breakdown -->
                 <div class="md:col-span-7 space-y-3">
                     <div class="bg-slate-900/90 border border-amber-500/30 rounded-xl p-4 flex items-center justify-between">
                         <div>
@@ -480,20 +515,16 @@
                 </div>
             </div>
 
-            <!-- Podium Leaderboard -->
             <div class="mb-6">
-                <h3 class="font-jp text-xs font-bold uppercase tracking-wider text-amber-300 mb-2.5">🏅 Klasemen Akhir Peserta</h3>
-                <div id="finalPodiumList" class="space-y-2">
-                    <!-- Podium items -->
-                </div>
+                <h3 class="font-jp text-xs font-bold uppercase tracking-wider text-amber-300 mb-2.5">🏅 Klasemen Akhir Peserta Room (Real-Time)</h3>
+                <div id="finalPodiumList" class="space-y-2"></div>
             </div>
 
-            <!-- Actions -->
             <div class="flex flex-col sm:flex-row gap-2.5">
                 <button onclick="returnToWaitingRoom()" class="flex-1 btn-gold py-3 rounded-xl text-xs sm:text-sm uppercase tracking-wider">
-                    🔄 Duel Ulang di Room Ini
+                    🔄 Kembali ke Waiting Room & Main Lagi
                 </button>
-                <button onclick="resetToHome()" class="px-5 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition">
+                <button onclick="leaveRoomAndReset()" class="px-5 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition">
                     🏠 Menu Utama
                 </button>
             </div>
@@ -503,13 +534,13 @@
 
     <!-- Footer -->
     <footer class="relative z-10 text-center py-3 text-[11px] text-slate-500 border-t border-slate-800/60">
-        雅 MIYABI Arena • Mobile Optimized, Live Chat & Chiptune BGM
+        雅 MIYABI Arena • 220+ Bank Soal JLPT N5 & N4 • Live Room Directory & Real-Time Chat
     </footer>
 
     <!-- ==================== JAVASCRIPT ENGINE ==================== -->
     <script>
         /* =========================================================================
-           1. AUTO-HIDE HEADER ON SCROLL
+           1. AUTO-HIDE HEADER & TOAST NOTIFICATION
            ========================================================================= */
         let lastScrollTop = 0;
         const header = document.getElementById('mainHeader');
@@ -523,10 +554,20 @@
             lastScrollTop = scrollTop <= 0 ? 0 : scrollTop;
         }, false);
 
+        function showToast(msg) {
+            const box = document.getElementById('toastBox');
+            const el = document.createElement('div');
+            el.className = 'px-4 py-2.5 rounded-xl bg-slate-900/95 border border-amber-400/60 text-amber-200 text-xs font-bold shadow-lg transition-all';
+            el.textContent = msg;
+            box.appendChild(el);
+            setTimeout(() => el.remove(), 2600);
+        }
+
         /* =========================================================================
-           2. DATABASE 120+ SOAL KANJI & KOTOBA JLPT N5 & N4
+           2. DATABASE 220+ KANJI & KOTOBA JLPT N5 & N4
            ========================================================================= */
         const RAW_VOCAB_DATABASE = [
+            // --- 55 KANJI JLPT N5 ---
             ["KANJI", "N5", "学校", "がっこう (Sekolah)"],
             ["KANJI", "N5", "先生", "せんせい (Guru / Dokter)"],
             ["KANJI", "N5", "毎日", "まいにち (Setiap Hari)"],
@@ -534,13 +575,13 @@
             ["KANJI", "N5", "時間", "じかん (Waktu)"],
             ["KANJI", "N5", "電車", "でんしゃ (Kereta Listrik)"],
             ["KANJI", "N5", "天気", "てんき (Cuaca)"],
-            ["KANJI", "N5", "元気", "げんき (Sehat / Bersemangat)"],
+            ["KANJI", "N5", "元気", "げんき (Sehat / Semangat)"],
             ["KANJI", "N5", "名前", "なまえ (Nama)"],
             ["KANJI", "N5", "英語", "えいご (Bahasa Inggris)"],
             ["KANJI", "N5", "銀行", "ぎんこう (Bank)"],
             ["KANJI", "N5", "郵便局", "ゆうびんきょく (Kantor Pos)"],
             ["KANJI", "N5", "図書館", "としょかん (Perpustakaan)"],
-            ["KANJI", "N5", "車", "くるま (Mobil)"],
+            ["KANJI", "N5", "自動車", "じどうしゃ (Mobil)"],
             ["KANJI", "N5", "駅前", "えきまえ (Depan Stasiun)"],
             ["KANJI", "N5", "買い物", "かいもの (Belanja)"],
             ["KANJI", "N5", "朝ご飯", "あさごはん (Sarapan Pagi)"],
@@ -558,6 +599,32 @@
             ["KANJI", "N5", "黒い", "くろい (Hitam)"],
             ["KANJI", "N5", "赤い", "あかい (Merah)"],
             ["KANJI", "N5", "青い", "あおい (Biru)"],
+            ["KANJI", "N5", "山川", "やまかわ (Gunung & Sungai)"],
+            ["KANJI", "N5", "外国人", "がいこくじん (Orang Asing)"],
+            ["KANJI", "N5", "日本語", "にほんご (Bahasa Jepang)"],
+            ["KANJI", "N5", "大学生", "だいがくせい (Mahasiswa)"],
+            ["KANJI", "N5", "休む", "やすむ (Beristirahat / Libur)"],
+            ["KANJI", "N5", "見る", "みる (Melihat)"],
+            ["KANJI", "N5", "聞く", "きく (Mendengar / Bertanya)"],
+            ["KANJI", "N5", "読む", "よむ (Membaca)"],
+            ["KANJI", "N5", "書く", "かく (Menulis)"],
+            ["KANJI", "N5", "話す", "はなす (Berbicara)"],
+            ["KANJI", "N5", "買う", "かう (Membeli)"],
+            ["KANJI", "N5", "行く", "いく (Pergi)"],
+            ["KANJI", "N5", "来る", "くる (Datang)"],
+            ["KANJI", "N5", "帰る", "かえる (Pulang)"],
+            ["KANJI", "N5", "入る", "はいる (Masuk)"],
+            ["KANJI", "N5", "出る", "でる (Keluar)"],
+            ["KANJI", "N5", "会う", "あう (Bertemu)"],
+            ["KANJI", "N5", "待つ", "まつ (Menunggu)"],
+            ["KANJI", "N5", "持つ", "もつ (Membawa / Memegang)"],
+            ["KANJI", "N5", "우雨", "あめ (Hujan)"],
+            ["KANJI", "N5", "北口", "きたぐち (Pintu Utara)"],
+            ["KANJI", "N5", "南口", "みなみぐち (Pintu Selatan)"],
+            ["KANJI", "N5", "東口", "ひがしぐち (Pintu Timur)"],
+            ["KANJI", "N5", "西口", "にしぐち (Pintu Barat)"],
+
+            // --- 55 KANJI JLPT N4 ---
             ["KANJI", "N4", "会社", "かいしゃ (Perusahaan)"],
             ["KANJI", "N4", "病院", "びょういん (Rumah Sakit)"],
             ["KANJI", "N4", "旅行", "りょこう (Perjalanan Wisata)"],
@@ -585,6 +652,36 @@
             ["KANJI", "N4", "交通", "こうつう (Lalu Lintas)"],
             ["KANJI", "N4", "空港", "くうこう (Bandara)"],
             ["KANJI", "N4", "特別", "とくべつ (Spesial / Khusus)"],
+            ["KANJI", "N4", "都合", "つごう (Kondisi / Keadaan)"],
+            ["KANJI", "N4", "用事", "ようじ (Urusan / Keperluan)"],
+            ["KANJI", "N4", "研究", "けんきゅう (Penelitian)"],
+            ["KANJI", "N4", "意見", "いけん (Pendapat / Opini)"],
+            ["KANJI", "N4", "習慣", "しゅうかん (Kebiasaan)"],
+            ["KANJI", "N4", "産業", "さんぎょう (Industri)"],
+            ["KANJI", "N4", "貿易", "ぼうえき (Perdagangan)"],
+            ["KANJI", "N4", "社会", "しゃかい (Masyarakat)"],
+            ["KANJI", "N4", "政治", "せいじ (Politik)"],
+            ["KANJI", "N4", "経済", "けいざい (Ekonomi)"],
+            ["KANJI", "N4", "文化", "ぶんか (Budaya)"],
+            ["KANJI", "N4", "歴史", "れきし (Sejarah)"],
+            ["KANJI", "N4", "科学", "かがく (Sains / Ilmu Alam)"],
+            ["KANJI", "N4", "自然", "しぜん (Alam)"],
+            ["KANJI", "N4", "工場", "こうじょう (Pabrik)"],
+            ["KANJI", "N4", "旅館", "りょかん (Penginapan Tradisional)"],
+            ["KANJI", "N4", "大使館", "たいしかん (Kedutaan Besar)"],
+            ["KANJI", "N4", "美術館", "びじゅつかん (Museum Seni)"],
+            ["KANJI", "N4", "動物園", "どうぶつえん (Kebun Binatang)"],
+            ["KANJI", "N4", "駐車場", "ちゅうしゃじょう (Tempat Parkir)"],
+            ["KANJI", "N4", "会議室", "かいぎしつ (Ruang Rapat)"],
+            ["KANJI", "N4", "受付", "うけつけ (Resepsionis)"],
+            ["KANJI", "N4", "玄関", "げんかん (Area Masuk Rumah)"],
+            ["KANJI", "N4", "季節", "きせつ (Musim)"],
+            ["KANJI", "N4", "天気予報", "てんきよほう (Prakiraan Cuaca)"],
+            ["KANJI", "N4", "卒業", "そつぎょう (Kelulusan)"],
+            ["KANJI", "N4", "入学", "にゅうがく (Masuk Sekolah)"],
+            ["KANJI", "N4", "故障", "こしょう (Kerusakan Mesin)"],
+
+            // --- 55 KOTOBA JLPT N5 ---
             ["KOTOBA", "N5", "美味しい", "おいしい (Enak / Lezat)"],
             ["KOTOBA", "N5", "忙しい", "いそがしい (Sibuk)"],
             ["KOTOBA", "N5", "楽しい", "たのしい (Menyenangkan)"],
@@ -592,7 +689,7 @@
             ["KOTOBA", "N5", "易しい", "やさしい (Mudah)"],
             ["KOTOBA", "N5", "涼しい", "すずしい (Sejuk)"],
             ["KOTOBA", "N5", "暖かい", "あたたかい (Hangat)"],
-            ["KOTOBA", "N5", "冷たい", "つめたい (Dingin - Benda/Air)"],
+            ["KOTOBA", "N5", "冷たい", "つめたい (Dingin - Benda)"],
             ["KOTOBA", "N5", "危ない", "あぶない (Berbahaya)"],
             ["KOTOBA", "N5", "暗い", "くらい (Gelap)"],
             ["KOTOBA", "N5", "明るい", "あかるい (Terang / Ceria)"],
@@ -615,6 +712,33 @@
             ["KOTOBA", "N5", "自転車", "じてんしゃ (Sepeda)"],
             ["KOTOBA", "N5", "地下鉄", "ちかてつ (Kereta Bawah Tanah)"],
             ["KOTOBA", "N5", "誕生日", "たんじょうび (Hari Ulang Tahun)"],
+            ["KOTOBA", "N5", "甘い", "あまい (Manis)"],
+            ["KOTOBA", "N5", "辛い", "からい (Pedas)"],
+            ["KOTOBA", "N5", "塩辛い", "しおからい (Asin)"],
+            ["KOTOBA", "N5", "酸っぱい", "すっぱい (Asam)"],
+            ["KOTOBA", "N5", "厚い", "あつい (Tebal)"],
+            ["KOTOBA", "N5", "薄い", "うすい (Tipis)"],
+            ["KOTOBA", "N5", "重い", "おもい (Berat)"],
+            ["KOTOBA", "N5", "軽い", "かるい (Ringan)"],
+            ["KOTOBA", "N5", "広い", "ひろい (Luas)"],
+            ["KOTOBA", "N5", "狭い", "せまい (Sempit)"],
+            ["KOTOBA", "N5", "遠い", "とおい (Jauh)"],
+            ["KOTOBA", "N5", "近い", "ちかい (Dekat)"],
+            ["KOTOBA", "N5", "速い", "はやい (Cepat)"],
+            ["KOTOBA", "N5", "遅い", "おそい (Lambat / Terlambat)"],
+            ["KOTOBA", "N5", "丸い", "まるい (Bulat)"],
+            ["KOTOBA", "N5", "若い", "わかい (Muda)"],
+            ["KOTOBA", "N5", "長い", "ながい (Panjang)"],
+            ["KOTOBA", "N5", "短い", "みじかい (Pendek)"],
+            ["KOTOBA", "N5", "太い", "ふとい (Gemuk / Tebal)"],
+            ["KOTOBA", "N5", "細い", "ほそい (Kurus / Tipis)"],
+            ["KOTOBA", "N5", "綺麗", "きれい (Cantik / Bersih)"],
+            ["KOTOBA", "N5", "元気", "げんき (Sehat)"],
+            ["KOTOBA", "N5", "暇", "ひま (Senggang / Luang)"],
+            ["KOTOBA", "N5", "色々", "いろいろ (Bermacam-macam)"],
+            ["KOTOBA", "N5", "大丈夫", "だいじょうぶ (Tidak Apa-apa)"],
+
+            // --- 55 KOTOBA JLPT N4 ---
             ["KOTOBA", "N4", "一生懸命", "いっしょうけんめい (Bersungguh-sungguh)"],
             ["KOTOBA", "N4", "懐かしい", "なつかしい (Rindu Masa Lalu / Nostalgia)"],
             ["KOTOBA", "N4", "羨ましい", "うらやましい (Iri / Cemburu Positif)"],
@@ -625,6 +749,7 @@
             ["KOTOBA", "N4", "眠い", "ねむい (Mengantuk)"],
             ["KOTOBA", "N4", "苦い", "にがい (Pahit)"],
             ["KOTOBA", "N4", "柔らかい", "やわらかい (Lembut / Empuk)"],
+            ["KOTOBA", "N4", "硬い", "かたい (Keras / Kaku)"],
             ["KOTOBA", "N4", "複雑", "ふくざつ (Rumit / Kompleks)"],
             ["KOTOBA", "N4", "丁寧", "ていねい (Sopan / Teliti)"],
             ["KOTOBA", "N4", "危険", "きけん (Bahaya / Berisiko)"],
@@ -641,8 +766,44 @@
             ["KOTOBA", "N4", "説明", "せつめい (Penjelasan)"],
             ["KOTOBA", "N4", "連絡", "れんらく (Menghubungi / Kontak)"],
             ["KOTOBA", "N4", "相談", "そうだん (Konsultasi / Diskusi)"],
-            ["KOTOBA", "N4", "挨拶", "あいさつ (Salam / Sapaan)"]
+            ["KOTOBA", "N4", "挨拶", "あいさつ (Salam / Sapaan)"],
+            ["KOTOBA", "N4", "すっかり", "すっかり (Sepenuhnya / Sama Sekali)"],
+            ["KOTOBA", "N4", "やっと", "やっと (Akhirnya - Setelah Usaha)"],
+            ["KOTOBA", "N4", "かならず", "かならず (Pasti / Tak Boleh Tidak)"],
+            ["KOTOBA", "N4", "ぜったい", "ぜったい (Mutlak / Sama Sekali)"],
+            ["KOTOBA", "N4", "なるべく", "なるべく (Sebisa Mungkin)"],
+            ["KOTOBA", "N4", "しばらく", "しばらく (Sementara Waktu)"],
+            ["KOTOBA", "N4", "たいてい", "たいてい (Biasanya / Umumnya)"],
+            ["KOTOBA", "N4", "たまに", "たまに (Kadang-kadang / Jarang)"],
+            ["KOTOBA", "N4", "そろそろ", "そろそろ (Sebentar Lagi / Saatnya)"],
+            ["KOTOBA", "N4", "だんだん", "だんだん (Lama-kelamaan / Bertahap)"],
+            ["KOTOBA", "N4", "ますます", "ますます (Semakinlama Semakin...)"],
+            ["KOTOBA", "N4", "とうとう", "とうとう (Pada Akhirnya)"],
+            ["KOTOBA", "N4", "なるほど", "なるほど (Begitu rupanya / Masuk akal)"],
+            ["KOTOBA", "N4", "実は", "じつは (Sebenarnya / Sejujurnya)"],
+            ["KOTOBA", "N4", "諦める", "あきらめる (Menyerah)"],
+            ["KOTOBA", "N4", "続ける", "つづける (Melanjutkan)"],
+            ["KOTOBA", "N4", "見つける", "みつける (Menemukan)"],
+            ["KOTOBA", "N4", "集める", "あつめる (Mengumpulkan)"],
+            ["KOTOBA", "N4", "決める", "きめる (Memutuskan)"],
+            ["KOTOBA", "N4", "調べる", "しらべる (Memeriksa / Menyelidiki)"],
+            ["KOTOBA", "N4", "比べる", "くらべる (Membandingkan)"],
+            ["KOTOBA", "N4", "片付ける", "かたづける (Merapikan / Membereskan)"],
+            ["KOTOBA", "N4", "間に合う", "まにあう (Tepat Waktu / Keburu)"],
+            ["KOTOBA", "N4", "役に立つ", "やくにたつ (Berguna / Bermanfaat)"],
+            ["KOTOBA", "N4", "気をつける", "きをつける (Berhati-hati)"],
+            ["KOTOBA", "N4", "思い出す", "おもいだす (Mengingat Kembali)"],
+            ["KOTOBA", "N4", "乗り換える", "のりかえる (Transit / Ganti Kereta)"]
         ];
+
+        function shuffleArray(arr) {
+            const copy = [...arr];
+            for (let i = copy.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [copy[i], copy[j]] = [copy[j], copy[i]];
+            }
+            return copy;
+        }
 
         function buildQuestionObjects(rawList) {
             return rawList.map((item, idx) => {
@@ -664,7 +825,7 @@
         }
 
         /* =========================================================================
-           3. WEB AUDIO SYNTHESIZER & CHIPTUNE BGM (MUSIC GAME)
+           3. WEB AUDIO SYNTHESIZER & CHIPTUNE BGM
            ========================================================================= */
         let soundEnabled = true;
         let bgmPlaying = false;
@@ -697,7 +858,6 @@
 
         function startChiptuneBGM() {
             if (bgmInterval) clearInterval(bgmInterval);
-            // Japanese Pentatonic melody notes (Hz)
             const melody = [523.25, 587.33, 659.25, 783.99, 880.00, 783.99, 659.25, 587.33];
             let noteIdx = 0;
 
@@ -706,18 +866,14 @@
                 const now = audioCtx.currentTime;
                 const osc = audioCtx.createOscillator();
                 const gain = audioCtx.createGain();
-                
-                osc.type = 'square'; // Chiptune retro feel
+                osc.type = 'square';
                 osc.frequency.setValueAtTime(melody[noteIdx], now);
-                
-                gain.gain.setValueAtTime(0.04, now);
+                gain.gain.setValueAtTime(0.035, now);
                 gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
-
                 osc.connect(gain);
                 gain.connect(audioCtx.destination);
                 osc.start(now);
                 osc.stop(now + 0.35);
-
                 noteIdx = (noteIdx + 1) % melody.length;
             }, 380);
         }
@@ -741,7 +897,7 @@
                     const gain = audioCtx.createGain();
                     osc.type = 'triangle';
                     osc.frequency.setValueAtTime(f, now + idx * 0.04);
-                    gain.gain.setValueAtTime(0.15, now + idx * 0.04);
+                    gain.gain.setValueAtTime(0.14, now + idx * 0.04);
                     gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.04 + 0.35);
                     osc.connect(gain);
                     gain.connect(audioCtx.destination);
@@ -765,13 +921,25 @@
                 const gain = audioCtx.createGain();
                 osc.type = 'sine';
                 osc.frequency.setValueAtTime(220, now);
-                osc.frequency.exponentialRampToValueAtTime(196, now + 1.2);
+                osc.frequency.exponentialRampToValueAtTime(196, now + 1.1);
                 gain.gain.setValueAtTime(0.3, now);
-                gain.gain.exponentialRampToValueAtTime(0.001, now + 1.2);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 1.1);
                 osc.connect(gain);
                 gain.connect(audioCtx.destination);
                 osc.start(now);
-                osc.stop(now + 1.2);
+                osc.stop(now + 1.1);
+            } else if (type === 'chat_pop') {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(680, now);
+                osc.frequency.exponentialRampToValueAtTime(920, now + 0.08);
+                gain.gain.setValueAtTime(0.08, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.08);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start(now);
+                osc.stop(now + 0.08);
             } else if (type === 'fanfare') {
                 const chord = [523.25, 659.25, 783.99, 1046.50];
                 chord.forEach((f, i) => {
@@ -790,96 +958,235 @@
         }
 
         /* =========================================================================
-           4. STATE MULTIPLAYER ROOM, CHAT & BROADCAST CHANNEL
+           4. TRIPLE-SYNC ENGINE (BROADCAST + STORAGE EVENT + 350MS POLLING)
+           Menjamin Chat, Room List, dan 2 Player berjalan Real-Time Tanpa Refresh!
            ========================================================================= */
         const ROUND_TIME = 12.0;
+        const ROOM_PREFIX = 'miyabi_room_v3_';
         let myPlayerId = 'samurai_' + Math.random().toString(36).substring(2, 9);
-        let myPlayerName = 'Samurai_Mobile';
+        let myPlayerName = 'Samurai_' + Math.floor(10 + Math.random() * 89);
+        document.getElementById('playerNameInput').value = myPlayerName;
+
         let currentRoomKey = null;
-        let isRoomHost = false;
         let roomChannel = null;
+        let activeScreen = 'screenHome';
+        let lastKnownChatCount = 0;
 
-        let roomState = {
-            roomKey: '',
-            mode: 'MIX',
-            level: 'ALL',
-            questionCount: 10,
-            status: 'WAITING',
-            questions: [],
-            players: {},
-            chatMessages: []
-        };
+        let roomState = null;
 
+        // Local Gameplay State
         let currentRoundIndex = 0;
         let roundTimerInterval = null;
         let roundTimeLeft = ROUND_TIME;
         let hasAnsweredCurrentRound = false;
-        let localBreakdown = { base: 0, speed: 0, combo: 0 };
 
-        function shuffleArray(arr) {
-            const copy = [...arr];
-            for (let i = copy.length - 1; i > 0; i--) {
-                const j = Math.floor(Math.random() * (i + 1));
-                [copy[i], copy[j]] = [copy[j], copy[i]];
+        function getRoomFromStorage(key) {
+            try {
+                const raw = localStorage.getItem(ROOM_PREFIX + key);
+                return raw ? JSON.parse(raw) : null;
+            } catch (e) {
+                return null;
             }
-            return copy;
         }
 
-        function connectRoomChannel(roomKey) {
-            if (roomChannel) roomChannel.close();
-            roomChannel = new BroadcastChannel('miyabi_duel_room_' + roomKey);
-            roomChannel.onmessage = (event) => {
-                const msg = event.data;
-                if (!msg || !msg.type) return;
+        function saveRoomToStorage(stateObj) {
+            if (!stateObj || !stateObj.roomKey) return;
+            stateObj.updatedAt = Date.now();
+            try {
+                localStorage.setItem(ROOM_PREFIX + stateObj.roomKey, JSON.stringify(stateObj));
+            } catch (e) {}
+            if (roomChannel) {
+                try {
+                    roomChannel.postMessage({ type: 'SYNC', state: stateObj });
+                } catch (e) {}
+            }
+        }
 
-                if (msg.type === 'PLAYER_JOIN_REQUEST' && isRoomHost) {
-                    roomState.players[msg.player.id] = msg.player;
-                    broadcastRoomState();
-                    renderWaitingRoom();
-                } else if (msg.type === 'STATE_SYNC') {
-                    roomState = msg.state;
-                    if (roomState.status === 'WAITING') {
-                        renderWaitingRoom();
-                        renderChatMessages();
-                    } else if (roomState.status === 'PLAYING') {
-                        updateLiveScoreboard();
+        // Atomic Updater: selalu baca versi terbaru dari storage sebelum memodifikasi agar data pemain lain tidak tertimpa
+        function updateRoomAtomically(key, mutatorFn) {
+            let latest = getRoomFromStorage(key) || roomState;
+            if (!latest) return;
+            mutatorFn(latest);
+            roomState = latest;
+            saveRoomToStorage(latest);
+            syncUIFromRoomState();
+        }
+
+        function setupBroadcastChannel(key) {
+            if (roomChannel) {
+                try { roomChannel.close(); } catch(e) {}
+            }
+            try {
+                roomChannel = new BroadcastChannel('miyabi_bc_' + key);
+                roomChannel.onmessage = (e) => {
+                    if (e.data && e.data.state) {
+                        roomState = e.data.state;
+                        syncUIFromRoomState();
                     }
-                } else if (msg.type === 'START_GAME_SIGNAL') {
-                    roomState = msg.state;
-                    startClientGameplay();
-                } else if (msg.type === 'SCORE_UPDATE') {
-                    if (roomState.players[msg.player.id]) {
-                        roomState.players[msg.player.id] = msg.player;
-                        updateLiveScoreboard();
-                        if (!document.getElementById('screenResult').classList.contains('hidden')) {
-                            renderFinalPodium();
-                        }
-                    }
-                } else if (msg.type === 'CHAT_MESSAGE') {
-                    roomState.chatMessages.push(msg.chat);
-                    if (roomState.chatMessages.length > 40) roomState.chatMessages.shift();
-                    renderChatMessages();
+                };
+            } catch (e) {}
+        }
+
+        // Listener storage antar-tab
+        window.addEventListener('storage', (e) => {
+            if (currentRoomKey && e.key === ROOM_PREFIX + currentRoomKey && e.newValue) {
+                try {
+                    roomState = JSON.parse(e.newValue);
+                    syncUIFromRoomState();
+                } catch (err) {}
+            }
+            if (activeScreen === 'screenHome') {
+                renderActiveRoomsDirectory();
+            }
+        });
+
+        // 350ms Real-Time Polling Loop (Menjamin 100% jalan walau file:// memblokir event)
+        setInterval(() => {
+            if (activeScreen === 'screenHome') {
+                renderActiveRoomsDirectory();
+            } else if (currentRoomKey) {
+                const latest = getRoomFromStorage(currentRoomKey);
+                if (latest) {
+                    roomState = latest;
+                    syncUIFromRoomState();
                 }
-            };
+            }
+        }, 350);
+
+        // Sinkronisasi UI otomatis setiap ada perubahan data Room
+        function syncUIFromRoomState() {
+            if (!roomState) return;
+
+            // Cek jika ada pesan chat baru untuk membunyikan notifikasi lembut
+            const currentChatLen = (roomState.chatMessages || []).length;
+            if (currentChatLen > lastKnownChatCount) {
+                if (lastKnownChatCount > 0) playSfx('chat_pop');
+                lastKnownChatCount = currentChatLen;
+            }
+
+            // Transisi otomatis 2 player ke layar Game saat status berubah jadi PLAYING
+            if (roomState.status === 'PLAYING' && activeScreen === 'screenRoom') {
+                startClientGameplay();
+                return;
+            }
+
+            // Transisi otomatis jika kembali ke Waiting Room
+            if (roomState.status === 'WAITING' && activeScreen === 'screenResult') {
+                showScreen('screenRoom');
+            }
+
+            if (activeScreen === 'screenRoom') {
+                renderWaitingRoom();
+                renderChatMessages();
+            } else if (activeScreen === 'screenGame') {
+                updateLiveScoreboard();
+                renderChatMessages();
+            } else if (activeScreen === 'screenResult') {
+                renderFinalPodium();
+            }
         }
 
-        function broadcastRoomState() {
-            if (!roomChannel) return;
-            roomChannel.postMessage({ type: 'STATE_SYNC', state: roomState });
-            localStorage.setItem('miyabi_room_' + currentRoomKey, JSON.stringify(roomState));
+        /* =========================================================================
+           5. DAFTAR ROOM AKTIF (LIVE DIRECTORY DI LOBBY)
+           ========================================================================= */
+        function renderActiveRoomsDirectory() {
+            const container = document.getElementById('activeRoomsContainer');
+            if (!container) return;
+
+            const activeRooms = [];
+            const now = Date.now();
+
+            for (let i = 0; i < localStorage.length; i++) {
+                const k = localStorage.key(i);
+                if (k && k.startsWith(ROOM_PREFIX)) {
+                    try {
+                        const r = JSON.parse(localStorage.getItem(k));
+                        // Tampilkan room yang aktif dalam 25 menit terakhir
+                        if (r && r.roomKey && (now - (r.updatedAt || 0) < 25 * 60 * 1000)) {
+                            activeRooms.push(r);
+                        }
+                    } catch (e) {}
+                }
+            }
+
+            activeRooms.sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
+
+            if (activeRooms.length === 0) {
+                container.innerHTML = `
+                    <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-800 text-center text-xs text-slate-400">
+                        Belum ada Room aktif saat ini. Klik <strong class="text-amber-300">"Buat Room & Dapatkan Kunci"</strong> di samping untuk membuka room pertama!
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = activeRooms.map(r => {
+                const pList = Object.values(r.players || {});
+                const hostName = pList.find(p => p.isHost)?.name || pList[0]?.name || 'Samurai';
+                const isWaiting = r.status === 'WAITING';
+                const statusBadge = isWaiting 
+                    ? `<span class="px-2 py-0.5 rounded bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 text-[10px] font-bold">MENUNGGU LAWAN</span>`
+                    : `<span class="px-2 py-0.5 rounded bg-amber-500/20 border border-amber-400/40 text-amber-300 text-[10px] font-bold">SEDANG BERTARUNG</span>`;
+
+                return `
+                    <div class="p-3 rounded-xl bg-slate-900/95 border border-amber-500/30 hover:border-amber-400 transition flex items-center justify-between gap-3">
+                        <div>
+                            <div class="flex items-center gap-2">
+                                <span class="font-mono text-base font-black text-amber-300 tracking-wider">🔑 ${r.roomKey}</span>
+                                ${statusBadge}
+                            </div>
+                            <div class="text-[11px] text-slate-400 mt-0.5">
+                                Host: <strong class="text-white">${hostName}</strong> • ${pList.length} Peserta • ${r.questionCount || 10} Soal (${r.level || 'ALL'})
+                            </div>
+                        </div>
+                        <div class="flex gap-1.5 shrink-0">
+                            <button onclick="fillRoomKeyAndFocus('${r.roomKey}')" class="px-3 py-1.5 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 border border-amber-400/50 text-amber-200 text-xs font-bold transition">
+                                Pilih Kunci
+                            </button>
+                            <button onclick="quickJoinRoomFromList('${r.roomKey}')" class="px-3 py-1.5 rounded-lg bg-red-600 hover:bg-red-500 text-white text-xs font-extrabold transition">
+                                Langsung Join
+                            </button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function fillRoomKeyAndFocus(key) {
+            const inp = document.getElementById('joinRoomInput');
+            inp.value = key;
+            inp.focus();
+            showToast(`Kunci Room ${key} dimasukkan! Klik "Gabung Duel".`);
+        }
+
+        function quickJoinRoomFromList(key) {
+            document.getElementById('joinRoomInput').value = key;
+            joinRoom();
+        }
+
+        /* =========================================================================
+           6. ROOM CREATION, JOINING & LIVE CHAT FUNCTIONS
+           ========================================================================= */
+        function createPlayerObject(id, name, isBot = false, isHost = false) {
+            return { id, name, score: 0, combo: 0, maxCombo: 0, correctCount: 0, totalAnswerTime: 0, isBot, isHost };
+        }
+
+        function getFormattedTime() {
+            const now = new Date();
+            return now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0') + ':' + now.getSeconds().toString().padStart(2, '0');
         }
 
         function createRoom() {
             playSfx('gong_start');
-            myPlayerName = document.getElementById('playerNameInput').value.trim() || 'Samurai_Mobile';
+            myPlayerName = document.getElementById('playerNameInput').value.trim() || 'Samurai_01';
             const mode = document.getElementById('quizModeSelect').value;
             const level = document.getElementById('jlptLevelSelect').value;
             const qCount = parseInt(document.getElementById('questionCountSelect').value, 10) || 10;
 
             currentRoomKey = Math.floor(100000 + Math.random() * 900000).toString();
-            isRoomHost = true;
+            setupBroadcastChannel(currentRoomKey);
 
-            roomState = {
+            const initialState = {
                 roomKey: currentRoomKey,
                 mode: mode,
                 level: level,
@@ -887,34 +1194,40 @@
                 status: 'WAITING',
                 questions: [],
                 players: {},
-                chatMessages: [{ sender: 'Sistem Dojo', text: `Room ${currentRoomKey} berhasil dibuat. Silakan undang rekan Anda!`, time: getFormattedTime() }]
+                chatMessages: [{
+                    id: 'msg_' + Date.now(),
+                    sender: '🏯 Sistem Dojo',
+                    text: `Room ${currentRoomKey} dibuka oleh ${myPlayerName}. Bagikan kunci 6 angka ini untuk berduel bersama!`,
+                    time: getFormattedTime()
+                }],
+                updatedAt: Date.now()
             };
 
-            roomState.players[myPlayerId] = createPlayerObject(myPlayerId, myPlayerName, false, true);
+            initialState.players[myPlayerId] = createPlayerObject(myPlayerId, myPlayerName, false, true);
+            roomState = initialState;
+            lastKnownChatCount = 1;
 
-            connectRoomChannel(currentRoomKey);
-            broadcastRoomState();
+            saveRoomToStorage(roomState);
             showScreen('screenRoom');
-            renderWaitingRoom();
-            renderChatMessages();
+            syncUIFromRoomState();
+            showToast(`Room ${currentRoomKey} berhasil dibuat!`);
         }
 
         function joinRoom() {
             const codeInput = document.getElementById('joinRoomInput').value.trim();
             if (codeInput.length !== 6) {
-                alert('Masukkan 6 digit angka Kunci Room!');
+                alert('Masukkan 6 digit angka Kunci Room terlebih dahulu!');
                 return;
             }
             playSfx('gong_start');
-            myPlayerName = document.getElementById('playerNameInput').value.trim() || 'Samurai_' + Math.floor(Math.random() * 99);
+            myPlayerName = document.getElementById('playerNameInput').value.trim() || 'Samurai_' + Math.floor(10 + Math.random() * 89);
             currentRoomKey = codeInput;
-            isRoomHost = false;
+            setupBroadcastChannel(currentRoomKey);
 
-            const savedState = localStorage.getItem('miyabi_room_' + currentRoomKey);
-            if (savedState) {
-                roomState = JSON.parse(savedState);
-            } else {
-                roomState = {
+            let existing = getRoomFromStorage(currentRoomKey);
+            if (!existing) {
+                // Jika belum ada di storage, buat room dengan kunci tersebut agar tetap bisa masuk bersama
+                existing = {
                     roomKey: currentRoomKey,
                     mode: 'MIX',
                     level: 'ALL',
@@ -922,167 +1235,242 @@
                     status: 'WAITING',
                     questions: [],
                     players: {},
-                    chatMessages: []
+                    chatMessages: [],
+                    updatedAt: Date.now()
                 };
             }
 
-            const me = createPlayerObject(myPlayerId, myPlayerName, false, false);
-            roomState.players[myPlayerId] = me;
+            const isFirst = Object.keys(existing.players || {}).length === 0;
+            existing.players[myPlayerId] = createPlayerObject(myPlayerId, myPlayerName, false, isFirst);
+            existing.chatMessages.push({
+                id: 'msg_' + Date.now() + '_' + Math.random(),
+                sender: '⚔️ Sistem Dojo',
+                text: `${myPlayerName} telah bergabung ke dalam Room!`,
+                time: getFormattedTime()
+            });
 
-            connectRoomChannel(currentRoomKey);
-            roomChannel.postMessage({ type: 'PLAYER_JOIN_REQUEST', player: me });
-            
-            const joinChat = { sender: 'Sistem', text: `${myPlayerName} bergabung ke dalam Room.`, time: getFormattedTime() };
-            roomState.chatMessages.push(joinChat);
-            broadcastRoomState();
+            roomState = existing;
+            lastKnownChatCount = roomState.chatMessages.length;
+            saveRoomToStorage(roomState);
 
             showScreen('screenRoom');
-            renderWaitingRoom();
-            renderChatMessages();
-        }
+            syncUIFromRoomState();
 
-        function createPlayerObject(id, name, isBot = false, isHost = false) {
-            return { id, name, score: 0, combo: 0, maxCombo: 0, correctCount: 0, totalAnswerTime: 0, isBot, isHost };
+            // Jika room yang dimasuki ternyata sedang bermain, langsung ikut masuk ke arena!
+            if (roomState.status === 'PLAYING' && roomState.questions && roomState.questions.length > 0) {
+                startClientGameplay();
+            }
         }
 
         function addAiChallenger() {
-            const botNames = ['⚔️ Musashi (Bot)', '🌸 Kaguya (Bot)', '👺 Hattori (Bot)', '🐉 Ryoma (Bot)'];
-            const existingCount = Object.keys(roomState.players).length;
-            if (existingCount >= 6) return;
-
-            const botId = 'bot_' + Math.random().toString(36).substring(2, 7);
-            const botName = botNames[existingCount % botNames.length];
-            roomState.players[botId] = createPlayerObject(botId, botName, true, false);
+            if (!currentRoomKey) return;
+            const botNames = ['⚔️ Musashi (Bot)', '🌸 Kaguya (Bot)', '👺 Hanzo (Bot)', '🐉 Ryoma (Bot)'];
             
-            roomState.chatMessages.push({ sender: 'Sistem', text: `${botName} memasuki dojo latihan.`, time: getFormattedTime() });
+            updateRoomAtomically(currentRoomKey, (state) => {
+                const count = Object.keys(state.players).length;
+                if (count >= 6) return;
+                const botId = 'bot_' + Math.random().toString(36).substring(2, 7);
+                const botName = botNames[count % botNames.length];
+                state.players[botId] = createPlayerObject(botId, botName, true, false);
+                state.chatMessages.push({
+                    id: 'msg_' + Date.now(),
+                    sender: botName,
+                    text: 'よろしく！ Saya siap melayani tantangan Kanji Anda!',
+                    time: getFormattedTime()
+                });
+            });
             playSfx('koto_correct');
-            broadcastRoomState();
-            renderWaitingRoom();
-            renderChatMessages();
         }
 
-        function copyRoomKey() {
-            navigator.clipboard.writeText(currentRoomKey);
-            const btnText = document.getElementById('copyBtnText');
-            btnText.textContent = 'Tersalin!';
-            setTimeout(() => btnText.textContent = 'Salin Kunci', 1500);
-        }
-
-        function getFormattedTime() {
-            const now = new Date();
-            return now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
-        }
-
-        function sendChatMessage() {
-            const input = document.getElementById('chatInputBox');
+        function sendChatMessage(inputId = 'chatInputBox') {
+            const input = document.getElementById(inputId);
+            if (!input || !currentRoomKey) return;
             const txt = input.value.trim();
             if (!txt) return;
 
-            const chatObj = { sender: myPlayerName, text: txt, time: getFormattedTime() };
-            roomState.chatMessages.push(chatObj);
-            if (roomState.chatMessages.length > 40) roomState.chatMessages.shift();
-
-            if (roomChannel) {
-                roomChannel.postMessage({ type: 'CHAT_MESSAGE', chat: chatObj });
-            }
-            broadcastRoomState();
             input.value = '';
-            renderChatMessages();
+            appendChatToRoom(myPlayerName, txt);
+        }
+
+        function sendQuickChat(text) {
+            if (!currentRoomKey) return;
+            appendChatToRoom(myPlayerName, text);
+        }
+
+        function appendChatToRoom(senderName, messageText) {
+            updateRoomAtomically(currentRoomKey, (state) => {
+                if (!state.chatMessages) state.chatMessages = [];
+                state.chatMessages.push({
+                    id: 'msg_' + Date.now() + '_' + Math.random(),
+                    sender: senderName,
+                    text: messageText,
+                    time: getFormattedTime()
+                });
+                if (state.chatMessages.length > 50) state.chatMessages.shift();
+
+                // Jika ada Bot AI di dalam room, Bot bisa merespons chat secara interaktif
+                const bots = Object.values(state.players || {}).filter(p => p.isBot);
+                if (bots.length > 0 && senderName === myPlayerName && Math.random() < 0.65) {
+                    const randomBot = bots[Math.floor(Math.random() * bots.length)];
+                    const botReplies = [
+                        'いいですよ！ Ayo kita buktikan di arena! ⚔️',
+                        'Jangan lengah, soal N4 cukup menantang! 🔥',
+                        'Ganbatte kudasai! 🌸',
+                        'Siap kapan saja! Tekan Mulai Pertarungan! 🏯'
+                    ];
+                    setTimeout(() => {
+                        if (!currentRoomKey) return;
+                        updateRoomAtomically(currentRoomKey, (st2) => {
+                            st2.chatMessages.push({
+                                id: 'msg_' + Date.now() + '_bot',
+                                sender: randomBot.name,
+                                text: botReplies[Math.floor(Math.random() * botReplies.length)],
+                                time: getFormattedTime()
+                            });
+                        });
+                    }, 900);
+                }
+            });
+            playSfx('chat_pop');
         }
 
         function renderChatMessages() {
-            const box = document.getElementById('chatMessagesBox');
-            if (!roomState.chatMessages || roomState.chatMessages.length === 0) {
-                box.innerHTML = `<div class="text-slate-500 italic text-[11px] text-center">Belum ada pesan. Sapa lawan duel Anda!</div>`;
-                return;
+            if (!roomState) return;
+            const msgs = roomState.chatMessages || [];
+            const html = msgs.map(c => {
+                const isMe = c.sender === myPlayerName;
+                return `
+                    <div class="p-1.5 rounded-lg ${isMe ? 'bg-amber-500/10 border border-amber-500/30' : 'bg-slate-900/70'} leading-snug">
+                        <div class="flex items-center justify-between">
+                            <span class="font-bold ${isMe ? 'text-amber-300' : 'text-sky-300'}">${c.sender}</span>
+                            <span class="text-[9px] text-slate-500">${c.time}</span>
+                        </div>
+                        <div class="text-slate-100 mt-0.5 break-words">${c.text}</div>
+                    </div>
+                `;
+            }).join('');
+
+            const waitingBox = document.getElementById('chatMessagesBox');
+            if (waitingBox) {
+                const prevCount = waitingBox.dataset.count || 0;
+                waitingBox.innerHTML = html;
+                if (msgs.length != prevCount) {
+                    waitingBox.scrollTop = waitingBox.scrollHeight;
+                    waitingBox.dataset.count = msgs.length;
+                }
             }
 
-            box.innerHTML = roomState.chatMessages.map(c => `
-                <div class="leading-tight">
-                    <span class="font-bold text-amber-300">${c.sender}:</span> 
-                    <span class="text-slate-200">${c.text}</span>
-                    <span class="text-[9px] text-slate-500 ml-1">${c.time}</span>
-                </div>
-            `).join('');
-            box.scrollTop = box.scrollHeight;
+            const inGameBox = document.getElementById('inGameChatBox');
+            if (inGameBox) {
+                const prevCount2 = inGameBox.dataset.count || 0;
+                inGameBox.innerHTML = html;
+                if (msgs.length != prevCount2) {
+                    inGameBox.scrollTop = inGameBox.scrollHeight;
+                    inGameBox.dataset.count = msgs.length;
+                }
+            }
+        }
+
+        function copyRoomKey() {
+            if (!currentRoomKey) return;
+            navigator.clipboard.writeText(currentRoomKey);
+            const btnText = document.getElementById('copyBtnText');
+            btnText.textContent = 'Tersalin!';
+            showToast(`Kunci Room ${currentRoomKey} disalin!`);
+            setTimeout(() => btnText.textContent = 'Salin Kunci', 1500);
         }
 
         function renderWaitingRoom() {
+            if (!roomState) return;
             document.getElementById('roomKeyDisplay').textContent = roomState.roomKey;
             document.getElementById('headerRoomCode').textContent = roomState.roomKey;
             document.getElementById('roomBadge').classList.remove('hidden');
 
-            const modeMap = { MIX: 'Campuran', KANJI: 'Fokus Kanji', KOTOBA: 'Fokus Kotoba' };
-            document.getElementById('roomModeLabel').textContent = modeMap[roomState.mode] || 'Campuran';
-            document.getElementById('roomLevelLabel').textContent = roomState.level === 'ALL' ? 'N5 & N4' : 'JLPT ' + roomState.level;
+            const modeMap = { MIX: 'Campuran (Kanji+Kotoba)', KANJI: 'Fokus Kanji', KOTOBA: 'Fokus Kotoba' };
+            document.getElementById('roomModeLabel').textContent = `${modeMap[roomState.mode] || 'Campuran'} • ${roomState.level}`;
             document.getElementById('roomCountLabel').textContent = `${roomState.questionCount} Soal`;
 
-            const playersArr = Object.values(roomState.players);
+            const playersArr = Object.values(roomState.players || {});
             document.getElementById('playerCountLabel').textContent = playersArr.length;
 
             const grid = document.getElementById('participantsGrid');
             grid.innerHTML = playersArr.map(p => `
-                <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-900/90 border ${p.id === myPlayerId ? 'border-amber-400/60' : 'border-slate-800'} text-xs">
+                <div class="flex items-center justify-between p-2.5 rounded-lg bg-slate-900/90 border ${p.id === myPlayerId ? 'border-amber-400/70' : 'border-slate-800'} text-xs">
                     <div class="flex items-center gap-2 truncate">
                         <span class="text-base">${p.isBot ? '🤖' : '侍'}</span>
-                        <span class="font-bold text-white truncate">${p.name} ${p.id === myPlayerId ? '(Anda)' : ''}</span>
+                        <div>
+                            <div class="font-bold text-white truncate">${p.name} ${p.id === myPlayerId ? '<span class="text-amber-300">(Anda)</span>' : ''}</div>
+                            <div class="text-[10px] text-slate-400">${p.isHost ? '👑 Host Room' : (p.isBot ? 'Master AI' : 'Challenger')}</div>
+                        </div>
                     </div>
-                    <span class="text-[10px] text-emerald-400 font-bold shrink-0">SIAP</span>
+                    <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-bold shrink-0">SIAP</span>
                 </div>
             `).join('');
         }
 
         /* =========================================================================
-           5. GAMEPLAY & SCORING ENGINE
+           7. LOCKSTEP MULTIPLAYER GAMEPLAY ENGINE (2+ PLAYERS PLAY TOGETHER)
            ========================================================================= */
-        function hostStartGame() {
-            if (Object.keys(roomState.players).length === 1) {
-                addAiChallenger();
-            }
+        function triggerStartGameForAll() {
+            if (!currentRoomKey) return;
 
-            let filteredRaw = RAW_VOCAB_DATABASE.filter(item => {
-                const [type, level] = item;
-                const matchMode = roomState.mode === 'MIX' || type === roomState.mode;
-                const matchLevel = roomState.level === 'ALL' || level === roomState.level;
-                return matchMode && matchLevel;
+            updateRoomAtomically(currentRoomKey, (state) => {
+                // Jika pemain benar-benar sendirian (1 orang), tambahkan 1 Bot pendamping
+                if (Object.keys(state.players).length === 1) {
+                    const botId = 'bot_' + Math.random().toString(36).substring(2, 7);
+                    state.players[botId] = createPlayerObject(botId, '⚔️ Musashi (Bot)', true, false);
+                }
+
+                // Filter dari 220+ bank soal N5 & N4
+                let filteredRaw = RAW_VOCAB_DATABASE.filter(item => {
+                    const [type, level] = item;
+                    const matchMode = state.mode === 'MIX' || type === state.mode;
+                    const matchLevel = state.level === 'ALL' || level === state.level;
+                    return matchMode && matchLevel;
+                });
+
+                if (filteredRaw.length < state.questionCount) {
+                    filteredRaw = [...RAW_VOCAB_DATABASE];
+                }
+
+                const built = buildQuestionObjects(filteredRaw);
+                state.questions = shuffleArray(built).slice(0, state.questionCount);
+
+                // Reset seluruh skor peserta di room
+                Object.keys(state.players).forEach(pid => {
+                    state.players[pid].score = 0;
+                    state.players[pid].combo = 0;
+                    state.players[pid].maxCombo = 0;
+                    state.players[pid].correctCount = 0;
+                    state.players[pid].totalAnswerTime = 0;
+                });
+
+                state.status = 'PLAYING';
+                state.chatMessages.push({
+                    id: 'msg_start_' + Date.now(),
+                    sender: '🔥 Arena',
+                    text: `Pertarungan ${state.questionCount} soal dimulai! Semoga beruntung!`,
+                    time: getFormattedTime()
+                });
             });
 
-            if (filteredRaw.length < roomState.questionCount) {
-                filteredRaw = [...RAW_VOCAB_DATABASE];
-            }
-
-            const allBuiltQuestions = buildQuestionObjects(filteredRaw);
-            roomState.questions = shuffleArray(allBuiltQuestions).slice(0, roomState.questionCount);
-
-            Object.keys(roomState.players).forEach(pid => {
-                roomState.players[pid].score = 0;
-                roomState.players[pid].combo = 0;
-                roomState.players[pid].maxCombo = 0;
-                roomState.players[pid].correctCount = 0;
-                roomState.players[pid].totalAnswerTime = 0;
-            });
-
-            roomState.status = 'PLAYING';
-            broadcastRoomState();
-            if (roomChannel) {
-                roomChannel.postMessage({ type: 'START_GAME_SIGNAL', state: roomState });
-            }
             startClientGameplay();
         }
 
         function startClientGameplay() {
+            if (activeScreen === 'screenGame') return;
             playSfx('gong_start');
             currentRoundIndex = 0;
-            localBreakdown = { base: 0, speed: 0, combo: 0 };
             document.getElementById('myLiveScore').textContent = '0';
             document.getElementById('comboBadge').classList.add('hidden');
             document.getElementById('totalRoundsText').textContent = roomState.questions.length;
             showScreen('screenGame');
+            renderChatMessages();
             loadRound(0);
         }
 
         function loadRound(index) {
-            if (index >= roomState.questions.length) {
+            if (!roomState || !roomState.questions || index >= roomState.questions.length) {
                 finishGame();
                 return;
             }
@@ -1149,29 +1537,16 @@
             const isCorrect = chosenOption === q.answer;
             const timeSpent = Math.max(0.3, ROUND_TIME - roundTimeLeft);
 
-            const me = roomState.players[myPlayerId];
-            me.totalAnswerTime += timeSpent;
             const selectedBtn = document.getElementById('optBtn_' + selectedIndex);
+            let updatedScore = 0;
+            let updatedCombo = 0;
 
             if (isCorrect) {
                 playSfx('koto_correct');
                 selectedBtn.classList.add('katana-slash', 'border-emerald-400', 'bg-emerald-950/60');
-                me.combo += 1;
-                if (me.combo > me.maxCombo) me.maxCombo = me.combo;
-                me.correctCount += 1;
-
-                const basePts = 1000;
-                const speedBonus = Math.round((roundTimeLeft / ROUND_TIME) * 600);
-                const comboBonus = me.combo > 1 ? me.combo * 150 : 0;
-
-                localBreakdown.base += basePts;
-                localBreakdown.speed += speedBonus;
-                localBreakdown.combo += comboBonus;
-                me.score += (basePts + speedBonus + comboBonus);
             } else {
                 playSfx('wrong');
                 selectedBtn.classList.add('shake', 'border-red-500', 'bg-red-950/70');
-                me.combo = 0;
                 q.shuffledOptions.forEach((opt, idx) => {
                     if (opt === q.answer) {
                         const rightBtn = document.getElementById('optBtn_' + idx);
@@ -1180,27 +1555,45 @@
                 });
             }
 
-            document.getElementById('myLiveScore').textContent = me.score.toLocaleString('id-ID');
+            // Update skor saya secara atomik ke storage agar pemain lain melihat perubahan real-time
+            updateRoomAtomically(currentRoomKey, (state) => {
+                if (!state.players[myPlayerId]) {
+                    state.players[myPlayerId] = createPlayerObject(myPlayerId, myPlayerName, false, false);
+                }
+                const me = state.players[myPlayerId];
+                me.totalAnswerTime += timeSpent;
+
+                if (isCorrect) {
+                    me.combo += 1;
+                    if (me.combo > me.maxCombo) me.maxCombo = me.combo;
+                    me.correctCount += 1;
+
+                    const basePts = 1000;
+                    const speedBonus = Math.round((roundTimeLeft / ROUND_TIME) * 600);
+                    const comboBonus = me.combo > 1 ? me.combo * 150 : 0;
+                    me.score += (basePts + speedBonus + comboBonus);
+                } else {
+                    me.combo = 0;
+                }
+                updatedScore = me.score;
+                updatedCombo = me.combo;
+            });
+
+            document.getElementById('myLiveScore').textContent = updatedScore.toLocaleString('id-ID');
             const comboBadge = document.getElementById('comboBadge');
-            if (me.combo >= 2) {
+            if (updatedCombo >= 2) {
                 comboBadge.classList.remove('hidden');
-                document.getElementById('comboCountText').textContent = me.combo;
+                document.getElementById('comboCountText').textContent = updatedCombo;
             } else {
                 comboBadge.classList.add('hidden');
             }
 
-            if (roomChannel) roomChannel.postMessage({ type: 'SCORE_UPDATE', player: me });
-            updateLiveScoreboard();
-
-            setTimeout(() => loadRound(currentRoundIndex + 1), 1200);
+            setTimeout(() => loadRound(currentRoundIndex + 1), 1150);
         }
 
         function handleTimeOut() {
             hasAnsweredCurrentRound = true;
             playSfx('wrong');
-            const me = roomState.players[myPlayerId];
-            me.combo = 0;
-            me.totalAnswerTime += ROUND_TIME;
             document.getElementById('comboBadge').classList.add('hidden');
 
             const q = roomState.questions[currentRoundIndex];
@@ -1211,33 +1604,48 @@
                 }
             });
 
-            if (roomChannel) roomChannel.postMessage({ type: 'SCORE_UPDATE', player: me });
-            setTimeout(() => loadRound(currentRoundIndex + 1), 1200);
+            updateRoomAtomically(currentRoomKey, (state) => {
+                const me = state.players[myPlayerId];
+                if (me) {
+                    me.combo = 0;
+                    me.totalAnswerTime += ROUND_TIME;
+                }
+            });
+
+            setTimeout(() => loadRound(currentRoundIndex + 1), 1150);
         }
 
         function simulateBotsForRound() {
+            if (!roomState) return;
+            // Hanya 1 pemain manusia pertama (Host) yang menghitung skor Bot agar tidak dobel
+            const humanPlayers = Object.values(roomState.players || {}).filter(p => !p.isBot);
+            if (humanPlayers.length > 0 && humanPlayers[0].id !== myPlayerId) return;
+
             const roundSnap = currentRoundIndex;
-            Object.values(roomState.players).forEach(p => {
+            Object.values(roomState.players || {}).forEach(p => {
                 if (!p.isBot) return;
-                const delay = 1400 + Math.random() * 3800;
+                const delay = 1400 + Math.random() * 3500;
                 setTimeout(() => {
-                    if (roomState.status !== 'PLAYING' || currentRoundIndex !== roundSnap) return;
-                    const botCorrect = Math.random() < 0.78;
-                    if (botCorrect) {
-                        p.combo += 1;
-                        if (p.combo > p.maxCombo) p.maxCombo = p.combo;
-                        p.correctCount += 1;
-                        const simulatedSpeedBonus = Math.round(((12 - delay / 1000) / 12) * 500);
-                        p.score += 1000 + Math.max(100, simulatedSpeedBonus) + (p.combo > 1 ? p.combo * 120 : 0);
-                    } else {
-                        p.combo = 0;
-                    }
-                    updateLiveScoreboard();
+                    if (activeScreen !== 'screenGame' || currentRoundIndex !== roundSnap) return;
+                    updateRoomAtomically(currentRoomKey, (state) => {
+                        const bot = state.players[p.id];
+                        if (!bot) return;
+                        if (Math.random() < 0.78) {
+                            bot.combo += 1;
+                            if (bot.combo > bot.maxCombo) bot.maxCombo = bot.combo;
+                            bot.correctCount += 1;
+                            const simSpeed = Math.round(((12 - delay / 1000) / 12) * 500);
+                            bot.score += 1000 + Math.max(100, simSpeed) + (bot.combo > 1 ? bot.combo * 120 : 0);
+                        } else {
+                            bot.combo = 0;
+                        }
+                    });
                 }, delay);
             });
         }
 
         function updateLiveScoreboard() {
+            if (!roomState || !roomState.players) return;
             const list = document.getElementById('liveScoreboardList');
             const sorted = Object.values(roomState.players).sort((a, b) => b.score - a.score);
             const maxScore = Math.max(1, sorted[0]?.score || 1);
@@ -1245,13 +1653,13 @@
             list.innerHTML = sorted.map((p, idx) => {
                 const widthPct = Math.max(8, Math.round((p.score / maxScore) * 100));
                 return `
-                    <div class="p-2 rounded-lg bg-slate-900/90 border ${p.id === myPlayerId ? 'border-amber-400/60' : 'border-slate-800'} text-xs">
+                    <div class="p-2 rounded-lg bg-slate-900/90 border ${p.id === myPlayerId ? 'border-amber-400/70' : 'border-slate-800'} text-xs">
                         <div class="flex justify-between items-center mb-1">
-                            <span class="font-bold text-white truncate">#${idx + 1} ${p.name}</span>
+                            <span class="font-bold text-white truncate">#${idx + 1} ${p.name} ${p.id === myPlayerId ? '(Anda)' : ''}</span>
                             <span class="font-mono font-bold text-amber-300">${p.score.toLocaleString('id-ID')}</span>
                         </div>
-                        <div class="w-full h-1 bg-slate-800 rounded-full overflow-hidden">
-                            <div class="h-full bg-gradient-to-r from-amber-400 to-red-500" style="width:${widthPct}%"></div>
+                        <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                            <div class="h-full bg-gradient-to-r from-amber-400 to-red-500 transition-all duration-300" style="width:${widthPct}%"></div>
                         </div>
                     </div>
                 `;
@@ -1259,11 +1667,10 @@
         }
 
         /* =========================================================================
-           6. RESULT & EVALUATION SCREEN
+           8. RESULT & EVALUATION SCREEN
            ========================================================================= */
         function finishGame() {
             clearInterval(roundTimerInterval);
-            roomState.status = 'FINISHED';
             playSfx('fanfare');
             showScreen('screenResult');
 
@@ -1276,21 +1683,24 @@
                 });
             }
 
-            const me = roomState.players[myPlayerId];
-            const totalQ = roomState.questions.length;
+            const me = (roomState && roomState.players && roomState.players[myPlayerId]) 
+                ? roomState.players[myPlayerId] 
+                : { correctCount: 0, totalAnswerTime: 0, maxCombo: 0, score: 0 };
+
+            const totalQ = (roomState && roomState.questions && roomState.questions.length) || 10;
             const accuracy = Math.round((me.correctCount / totalQ) * 100);
             const avgSpeed = (me.totalAnswerTime / totalQ).toFixed(1);
 
             let gradeInfo = { kanji: '極', letter: 'RANK S', title: 'Kensei (Master Agung)', comment: 'Sempurna! Penguasaan Kanji & Kotoba setingkat Kaisar!' };
-            if (accuracy >= 80) {
+            if (accuracy < 88 && accuracy >= 75) {
                 gradeInfo = { kanji: '優', letter: 'RANK A', title: 'Taisho (Jenderal Samurai)', comment: 'Pertarungan yang sangat tajam dan terhormat!' };
-            } else if (accuracy >= 50) {
+            } else if (accuracy < 75 && accuracy >= 50) {
                 gradeInfo = { kanji: '良', letter: 'RANK B', title: 'Bushi (Pejuang Dojo)', comment: 'Fondasi bagus, terus asah kemampuan Anda!' };
-            } else {
+            } else if (accuracy < 50) {
                 gradeInfo = { kanji: '習', letter: 'RANK C', title: 'Ronin Pengembara', comment: 'Jangan menyerah, terus berlatih bersama!' };
             }
 
-            document.getElementById('resultRoomCode').textContent = roomState.roomKey;
+            document.getElementById('resultRoomCode').textContent = currentRoomKey || '------';
             document.getElementById('finalGradeKanji').textContent = gradeInfo.kanji;
             document.getElementById('finalGradeLetter').textContent = gradeInfo.letter;
             document.getElementById('finalTitleHonor').textContent = gradeInfo.title;
@@ -1319,11 +1729,13 @@
         }
 
         function renderFinalPodium() {
+            if (!roomState || !roomState.players) return;
             const sorted = Object.values(roomState.players).sort((a, b) => b.score - a.score);
             const myRankIndex = sorted.findIndex(p => p.id === myPlayerId);
             const rankLabels = ['🥇 #1 Juara Utama', '🥈 #2 Peringkat Kedua', '🥉 #3 Peringkat Ketiga'];
             document.getElementById('finalStandingBadge').textContent = rankLabels[myRankIndex] || `#${myRankIndex + 1} Peserta`;
 
+            const totalQ = (roomState.questions && roomState.questions.length) || 10;
             const podiumContainer = document.getElementById('finalPodiumList');
             podiumContainer.innerHTML = sorted.map((p, idx) => {
                 const medal = idx === 0 ? '👑' : (idx === 1 ? '🥈' : (idx === 2 ? '🥉' : '⚔️'));
@@ -1332,8 +1744,8 @@
                         <div class="flex items-center gap-2.5">
                             <span class="text-xl">${medal}</span>
                             <div>
-                                <div class="font-bold text-white">${p.name} ${p.id === myPlayerId ? '(Anda)' : ''}</div>
-                                <div class="text-[10px] text-slate-400">Benar: ${p.correctCount}/${roomState.questions.length}</div>
+                                <div class="font-bold text-white">${p.name} ${p.id === myPlayerId ? '<span class="text-amber-300">(Anda)</span>' : ''}</div>
+                                <div class="text-[10px] text-slate-400">Benar: ${p.correctCount}/${totalQ} • Max Combo: ${p.maxCombo}x</div>
                             </div>
                         </div>
                         <div class="font-mono font-black gold-gradient-text text-sm">${p.score.toLocaleString('id-ID')} PTS</div>
@@ -1343,20 +1755,46 @@
         }
 
         function returnToWaitingRoom() {
-            roomState.status = 'WAITING';
-            broadcastRoomState();
+            if (!currentRoomKey) return;
+            updateRoomAtomically(currentRoomKey, (state) => {
+                state.status = 'WAITING';
+            });
             showScreen('screenRoom');
-            renderWaitingRoom();
+            syncUIFromRoomState();
+        }
+
+        function leaveRoomAndReset() {
+            if (currentRoomKey) {
+                updateRoomAtomically(currentRoomKey, (state) => {
+                    if (state.players && state.players[myPlayerId]) {
+                        delete state.players[myPlayerId];
+                    }
+                    state.chatMessages.push({
+                        id: 'msg_leave_' + Date.now(),
+                        sender: 'Sistem Dojo',
+                        text: `${myPlayerName} meninggalkan room.`,
+                        time: getFormattedTime()
+                    });
+                });
+            }
+            resetToHome();
         }
 
         function resetToHome() {
             clearInterval(roundTimerInterval);
-            if (roomChannel) roomChannel.close();
+            currentRoomKey = null;
+            roomState = null;
+            if (roomChannel) {
+                try { roomChannel.close(); } catch(e) {}
+                roomChannel = null;
+            }
             document.getElementById('roomBadge').classList.add('hidden');
             showScreen('screenHome');
+            renderActiveRoomsDirectory();
         }
 
         function showScreen(screenId) {
+            activeScreen = screenId;
             ['screenHome', 'screenRoom', 'screenGame', 'screenResult'].forEach(id => {
                 document.getElementById(id).classList.add('hidden');
             });
@@ -1364,7 +1802,7 @@
         }
 
         /* =========================================================================
-           7. SAKURA CANVAS ANIMATION
+           9. SAKURA CANVAS ANIMATION
            ========================================================================= */
         const canvas = document.getElementById('sakuraCanvas');
         const ctx = canvas.getContext('2d');
@@ -1414,7 +1852,7 @@
             }
         }
 
-        for (let i = 0; i < 28; i++) {
+        for (let i = 0; i < 26; i++) {
             petals.push(new SakuraPetal());
         }
 
@@ -1427,6 +1865,7 @@
             requestAnimationFrame(animateSakura);
         }
         animateSakura();
+        renderActiveRoomsDirectory();
     </script>
 </body>
 </html>
