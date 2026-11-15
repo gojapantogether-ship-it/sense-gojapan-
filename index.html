@@ -307,25 +307,25 @@
                 </div>
             </div>
 
-            <!-- 3. MODUL BELAJAR -->
-            <div onclick="openModal('modul')" class="course-card cursor-pointer group bg-white rounded-2xl p-5 sm:p-6 border border-slate-200/80 relative overflow-hidden flex flex-col justify-between">
-                <div class="absolute -right-3 -top-3 font-jp text-6xl font-black text-slate-100 group-hover:text-sky-50 transition-colors select-none pointer-events-none">教材</div>
+            <!-- 3. DUEL KANJI ARENA (MENGARAH KE game.html) -->
+            <div onclick="window.location.href='game.html'" class="course-card cursor-pointer group bg-white rounded-2xl p-5 sm:p-6 border border-slate-200/80 relative overflow-hidden flex flex-col justify-between">
+                <div class="absolute -right-3 -top-3 font-jp text-6xl font-black text-slate-100 group-hover:text-amber-50 transition-colors select-none pointer-events-none">対戦</div>
                 <div>
                     <div class="flex items-center justify-between mb-4">
-                        <div class="w-12 h-12 rounded-2xl bg-sky-50 text-sky-600 flex items-center justify-center text-2xl">
-                            <i class="ph-duotone ph-books"></i>
+                        <div class="w-12 h-12 rounded-2xl bg-amber-50 text-amber-600 flex items-center justify-center text-2xl">
+                            <i class="ph-duotone ph-swords"></i>
                         </div>
-                        <span class="px-2.5 py-1 rounded-full text-[11px] font-semibold bg-sky-50 text-sky-600 border border-sky-100">E-Book & Modul</span>
+                        <span class="px-2.5 py-1 rounded-full text-[11px] font-semibold bg-amber-50 text-amber-700 border border-amber-200">Multiplayer & AI</span>
                     </div>
-                    <h3 class="font-bold text-base sm:text-lg text-slate-900 group-hover:text-sky-600 transition-colors mb-1">
-                        Modul Terstruktur
+                    <h3 class="font-bold text-base sm:text-lg text-slate-900 group-hover:text-amber-600 transition-colors mb-1">
+                        Duel Kanji Arena
                     </h3>
                     <p class="text-xs sm:text-sm text-slate-500 leading-relaxed">
-                        Kumpulan modul ringkas Minna no Nihongo, Irodori, dan percakapan sehari-hari siap baca.
+                        Game web kuis Kanji/Kotoba sistem room multiplayer & bot AI dengan penilaian skor imperial mewah.
                     </p>
                 </div>
-                <div class="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-semibold text-sky-600">
-                    <span>Buka Daftar Modul</span>
+                <div class="mt-5 pt-3 border-t border-slate-100 flex items-center justify-between text-xs font-semibold text-amber-600">
+                    <span>Masuk Arena Duel</span>
                     <i class="ph-bold ph-arrow-right group-hover:translate-x-1 transition-transform"></i>
                 </div>
             </div>
@@ -462,7 +462,7 @@
         <span class="text-xs font-bold tracking-wide">Minta Kode VIP</span>
     </a>
 
-    <!-- UNIVERSAL INTERACTIVE MODAL (Untuk Kana, Materi, Modul, Kuis, & Input VIP Terkunci) -->
+    <!-- UNIVERSAL INTERACTIVE MODAL (Untuk Kana, Materi, Kuis, & Input VIP Terkunci) -->
     <div id="content-modal" class="fixed inset-0 z-50 hidden items-center justify-center p-3 sm:p-6 bg-slate-900/60 backdrop-blur-sm opacity-0 transition-opacity duration-200">
         <div id="modal-panel" class="bg-white rounded-3xl max-w-3xl w-full max-h-[88vh] flex flex-col shadow-2xl border border-slate-100 overflow-hidden transform scale-95 transition-transform duration-200">
             
@@ -550,7 +550,6 @@
                 showToast("Kode VIP Valid! Seluruh fitur VIP berhasil dibuka.", "success");
                 closeModal();
                 
-                // Jika user sebelumnya mengklik menu VIP yang terkunci, otomatis arahkan ke halaman web tujuannya
                 if (pendingTargetUrl) {
                     setTimeout(() => {
                         window.location.href = pendingTargetUrl;
@@ -568,13 +567,11 @@
         function unlockVipFeatures() {
             isVipUnlocked = true;
 
-            // Update Navbar Badge
             const navBadge = document.getElementById('nav-vip-badge');
             navBadge.className = "flex items-center gap-1.5 px-3 py-1.5 rounded-full text-xs font-bold bg-amber-100 text-amber-800 border border-amber-300";
             document.getElementById('nav-vip-icon').className = "ph-fill ph-crown text-amber-600 text-sm";
             document.getElementById('nav-vip-text').textContent = "Member VIP Aktif";
 
-            // Update VIP Banner
             const vipBox = document.getElementById('vip-box');
             vipBox.className = "glass-panel rounded-2xl p-4 sm:p-6 border-2 border-emerald-400/80 shadow-md vip-glow transition-all duration-300";
             document.getElementById('vip-icon-wrapper').className = "w-11 h-11 sm:w-12 sm:h-12 rounded-2xl bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-600 shrink-0";
@@ -591,7 +588,6 @@
                 </div>
             `;
 
-            // Update Card 1 (JLPT/JFT VIP)
             document.getElementById('vip-card1-icon').className = "ph-duotone ph-medal";
             const badge1 = document.getElementById('vip-card1-badge');
             badge1.className = "inline-flex items-center gap-1 px-2.5 py-1 rounded-full text-[11px] font-bold bg-emerald-600 text-white shadow-sm";
@@ -599,7 +595,6 @@
             document.getElementById('vip-card1-cta').textContent = "Buka Latihan VIP Sekarang";
             document.getElementById('vip-card1-arrow').className = "ph-bold ph-arrow-right group-hover:translate-x-1 transition-transform";
 
-            // Update Card 2 (500 Kanji VIP)
             document.getElementById('vip-card2-icon').className = "ph-duotone ph-translate";
             const badge2 = document.getElementById('vip-card2-badge');
             badge2.className = "inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-bold bg-amber-400 text-slate-950";
@@ -610,7 +605,6 @@
             `;
         }
 
-        // Handler klik kartu VIP: jika belum terbuka munculkan modal input kode, jika sudah terbuka langsung lempar ke file HTML tujuan
         function handleVipCardClick(sectionKey, targetHtmlPage) {
             if (isVipUnlocked) {
                 window.location.href = targetHtmlPage;
@@ -658,7 +652,7 @@
         }
 
         // ==========================================
-        // 3. INTERACTIVE CONTENT DATA & MODAL (Kana, Materi, Modul, Kuis)
+        // 3. INTERACTIVE CONTENT DATA & MODAL (Kana, Materi, Kuis)
         // ==========================================
         const hiraganaList = [
             { char: 'あ', romaji: 'a' }, { char: 'い', romaji: 'i' }, { char: 'う', romaji: 'u' }, { char: 'え', romaji: 'e' }, { char: 'お', romaji: 'o' },
@@ -702,19 +696,6 @@
                             <span class="text-[11px] font-bold uppercase px-2 py-0.5 rounded bg-indigo-600 text-white">Level N5 Dasar</span>
                             <h4 class="font-bold text-slate-900 mt-2 text-base font-jp">1. ～は ～です (Wa ... Desu)</h4>
                             <p class="text-xs sm:text-sm text-slate-600 mt-1">Pola kalimat positif dasar untuk menyatakan identitas atau keterangan benda.</p>
-                        </div>
-                    </div>
-                `;
-            }
-            else if (type === 'modul') {
-                icon.innerHTML = '<i class="ph-duotone ph-books"></i>';
-                icon.className = "w-10 h-10 rounded-xl bg-sky-50 text-sky-600 flex items-center justify-center text-xl";
-                title.textContent = "Modul Belajar Terstruktur";
-                subtitle.textContent = "Pilih modul materi siap baca";
-                body.innerHTML = `
-                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-3.5">
-                        <div class="p-4 rounded-2xl border border-slate-200 bg-white">
-                            <h4 class="font-bold text-slate-900">Minna no Nihongo I (Bab 1-25)</h4>
                         </div>
                     </div>
                 `;
