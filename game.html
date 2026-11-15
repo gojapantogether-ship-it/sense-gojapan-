@@ -1,0 +1,1397 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>雅 MIYABI - Kanji & Kotoba Duel Arena (N5 & N4 Edition)</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Google Fonts: Japanese & Gaming Typography -->
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@500;700;900&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
+    <!-- Canvas Confetti -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <style>
+        :root {
+            --gold: #D4AF37;
+            --gold-light: #F3E5AB;
+            --crimson: #991B1B;
+            --ink: #0F141C;
+        }
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--ink);
+            color: #F8FAFC;
+            overflow-x: hidden;
+            user-select: none;
+        }
+        .font-jp {
+            font-family: 'Noto Serif JP', serif;
+        }
+        .bg-japanese-pattern {
+            background-color: #0b0f17;
+            background-image: 
+                radial-gradient(circle at 50% 20%, rgba(185, 28, 28, 0.18) 0%, transparent 60%),
+                radial-gradient(circle at 85% 80%, rgba(212, 175, 55, 0.12) 0%, transparent 50%),
+                linear-gradient(135deg, rgba(255,255,255,0.02) 25%, transparent 25%),
+                linear-gradient(225deg, rgba(255,255,255,0.02) 25%, transparent 25%);
+            background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
+        }
+        .luxury-card {
+            background: rgba(17, 24, 39, 0.85);
+            backdrop-filter: blur(16px);
+            border: 1px solid rgba(212, 175, 55, 0.35);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.7), inset 0 0 20px rgba(212, 175, 55, 0.08);
+        }
+        .gold-gradient-text {
+            background: linear-gradient(135deg, #FFF3B0 0%, #D4AF37 50%, #AA771C 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .btn-gold {
+            background: linear-gradient(135deg, #D4AF37 0%, #9A6F1A 100%);
+            color: #0F141C;
+            font-weight: 800;
+            box-shadow: 0 4px 20px rgba(212, 175, 55, 0.4);
+            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .btn-gold:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 30px rgba(212, 175, 55, 0.65);
+        }
+        .btn-crimson {
+            background: linear-gradient(135deg, #DC2626 0%, #7F1D1D 100%);
+            color: #FFF;
+            font-weight: 800;
+            box-shadow: 0 4px 20px rgba(220, 38, 38, 0.4);
+            transition: all 0.25s cubic-bezier(0.34, 1.56, 0.64, 1);
+        }
+        .btn-crimson:hover {
+            transform: translateY(-3px) scale(1.02);
+            box-shadow: 0 8px 30px rgba(220, 38, 38, 0.65);
+        }
+        @keyframes floatKanji {
+            0%, 100% { transform: translateY(0px) scale(1); }
+            50% { transform: translateY(-8px) scale(1.03); }
+        }
+        .animate-float {
+            animation: floatKanji 4s ease-in-out infinite;
+        }
+        @keyframes stampSlam {
+            0% { transform: scale(4) rotate(-25deg); opacity: 0; }
+            70% { transform: scale(0.9) rotate(5deg); opacity: 1; }
+            85% { transform: scale(1.05) rotate(-3deg); }
+            100% { transform: scale(1) rotate(-6deg); opacity: 1; }
+        }
+        .stamp-seal {
+            animation: stampSlam 0.7s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+        }
+        @keyframes slashEffect {
+            0% { width: 0%; opacity: 1; }
+            50% { width: 120%; opacity: 1; }
+            100% { width: 120%; opacity: 0; }
+        }
+        .katana-slash::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: -10%;
+            height: 3px;
+            background: linear-gradient(90deg, transparent, #fff, #F3E5AB, transparent);
+            box-shadow: 0 0 15px #D4AF37;
+            transform: rotate(-8deg);
+            animation: slashEffect 0.4s ease-out forwards;
+            pointer-events: none;
+        }
+        @keyframes shakeError {
+            0%, 100% { transform: translateX(0); }
+            20%, 60% { transform: translateX(-8px); }
+            40%, 80% { transform: translateX(8px); }
+        }
+        .shake {
+            animation: shakeError 0.4s ease-in-out;
+        }
+        .corner-ornament {
+            position: absolute;
+            width: 22px;
+            height: 22px;
+            border-color: #D4AF37;
+            pointer-events: none;
+        }
+        .corner-tl { top: 10px; left: 10px; border-top: 2px solid; border-left: 2px solid; }
+        .corner-tr { top: 10px; right: 10px; border-top: 2px solid; border-right: 2px solid; }
+        .corner-bl { bottom: 10px; left: 10px; border-bottom: 2px solid; border-left: 2px solid; }
+        .corner-br { bottom: 10px; right: 10px; border-bottom: 2px solid; border-right: 2px solid; }
+    </style>
+</head>
+<body class="bg-japanese-pattern min-h-screen flex flex-col justify-between relative">
+
+    <!-- Falling Sakura Canvas -->
+    <canvas id="sakuraCanvas" class="fixed inset-0 pointer-events-none z-0"></canvas>
+
+    <!-- Top Navigation / Header -->
+    <header class="relative z-10 w-full max-w-6xl mx-auto px-6 py-4 flex items-center justify-between border-b border-amber-500/20">
+        <div class="flex items-center gap-3 cursor-pointer" onclick="resetToHome()">
+            <div class="w-11 h-11 rounded-lg bg-gradient-to-br from-red-700 to-red-950 border border-amber-400/60 flex items-center justify-center shadow-lg">
+                <span class="font-jp text-2xl font-black gold-gradient-text">雅</span>
+            </div>
+            <div>
+                <h1 class="font-jp text-xl font-black tracking-wider gold-gradient-text">MIYABI DUEL</h1>
+                <p class="text-xs text-slate-400 tracking-widest uppercase">JLPT N5 & N4 Battle Arena (120+ Bank Soal)</p>
+            </div>
+        </div>
+
+        <div class="flex items-center gap-3">
+            <span id="roomBadge" class="hidden px-3 py-1.5 rounded-full bg-amber-500/10 border border-amber-400/40 text-amber-300 text-xs font-bold tracking-wider">
+                ROOM: <span id="headerRoomCode" class="font-mono text-sm">----</span>
+            </span>
+            <button id="soundToggleBtn" onclick="toggleSound()" class="p-2.5 rounded-xl bg-slate-800/80 border border-slate-700 hover:border-amber-400/50 text-amber-300 transition">
+                🔊
+            </button>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="relative z-10 flex-1 flex items-center justify-center p-4 sm:p-6">
+        
+        <!-- ==================== 1. SCREEN: HOME / LOBBY ==================== -->
+        <section id="screenHome" class="w-full max-w-4xl grid md:grid-cols-12 gap-6 items-center">
+            <!-- Left Hero Info -->
+            <div class="md:col-span-6 space-y-5 text-center md:text-left">
+                <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-red-950/80 border border-red-500/40 text-red-300 text-xs font-semibold tracking-wide">
+                    <span>⚔️</span> EDISI FOKUS JLPT N5 & N4 • 120+ SOAL
+                </div>
+                <h2 class="font-jp text-4xl sm:text-5xl font-black leading-tight">
+                    Duel Penguasaan <br>
+                    <span class="gold-gradient-text">Kanji & Kotoba</span>
+                </h2>
+                <p class="text-slate-300 text-sm sm:text-base leading-relaxed">
+                    Dilengkapi <strong>120+ kosakata & kanji esensial JLPT N5 - N4</strong>. Pilih sesi <strong>10 Soal</strong> atau <strong>30 Soal</strong>, buat room dengan 6 digit kunci angka, dan raih gelar kehormatan Samurai tertinggi!
+                </p>
+                <div class="grid grid-cols-3 gap-3 pt-2">
+                    <div class="luxury-card p-3 rounded-xl text-center">
+                        <div class="font-jp text-2xl font-bold text-amber-400">120+</div>
+                        <div class="text-xs text-slate-400 mt-1">Bank N5 & N4</div>
+                    </div>
+                    <div class="luxury-card p-3 rounded-xl text-center">
+                        <div class="font-jp text-2xl font-bold text-red-400">10 / 30</div>
+                        <div class="text-xs text-slate-400 mt-1">Pilihan Soal</div>
+                    </div>
+                    <div class="luxury-card p-3 rounded-xl text-center">
+                        <div class="font-jp text-2xl font-bold text-emerald-400">極み</div>
+                        <div class="text-xs text-slate-400 mt-1">Evaluasi Mewah</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right Interactive Card -->
+            <div class="md:col-span-6 luxury-card rounded-2xl p-6 sm:p-8 relative">
+                <div class="corner-ornament corner-tl"></div>
+                <div class="corner-ornament corner-tr"></div>
+                <div class="corner-ornament corner-bl"></div>
+                <div class="corner-ornament corner-br"></div>
+
+                <h3 class="font-jp text-xl font-bold gold-gradient-text mb-5 text-center">Pengaturan Room Duel</h3>
+
+                <div class="space-y-4">
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Nama Samurai / Peserta</label>
+                        <input id="playerNameInput" type="text" maxlength="16" placeholder="Contoh: Kenshin" value="Samurai_N4"
+                            class="w-full px-4 py-3 rounded-xl bg-slate-900/90 border border-slate-700 focus:border-amber-400 focus:outline-none text-white font-semibold">
+                    </div>
+
+                    <div class="grid grid-cols-2 gap-3">
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Kategori Materi</label>
+                            <select id="quizModeSelect" class="w-full px-3 py-3 rounded-xl bg-slate-900/90 border border-slate-700 focus:border-amber-400 focus:outline-none text-white text-sm font-semibold">
+                                <option value="MIX">🔥 Campuran (Kanji + Kotoba)</option>
+                                <option value="KANJI">🈶 Fokus Kanji (N5-N4)</option>
+                                <option value="KOTOBA">🗣️ Fokus Kotoba (N5-N4)</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Level JLPT</label>
+                            <select id="jlptLevelSelect" class="w-full px-3 py-3 rounded-xl bg-slate-900/90 border border-slate-700 focus:border-amber-400 focus:outline-none text-white text-sm font-semibold">
+                                <option value="ALL">🌟 Gabungan (N5 & N4)</option>
+                                <option value="N5">🌱 Fokus JLPT N5</option>
+                                <option value="N4">⚔️ Fokus JLPT N4</option>
+                            </select>
+                        </div>
+                    </div>
+
+                    <!-- Question Count Selection (10 or 30 Questions) -->
+                    <div>
+                        <label class="block text-xs font-bold uppercase tracking-wider text-slate-300 mb-1.5">Jumlah Soal Per Sesi</label>
+                        <select id="questionCountSelect" class="w-full px-4 py-3 rounded-xl bg-slate-900/90 border border-amber-500/40 focus:border-amber-400 focus:outline-none text-amber-300 text-sm font-bold">
+                            <option value="10">⚡ 10 Soal (Mode Duel Cepat)</option>
+                            <option value="30">🏯 30 Soal (Mode Duel Marathon / Ujian Intensif)</option>
+                        </select>
+                    </div>
+
+                    <!-- Create Room Button -->
+                    <button onclick="createRoom()" class="w-full btn-gold py-3.5 rounded-xl text-sm uppercase tracking-wider flex items-center justify-center gap-2">
+                        <span>⛩️ Buat Room Duel Baru</span>
+                    </button>
+
+                    <div class="relative flex py-1.5 items-center">
+                        <div class="flex-grow border-t border-slate-700"></div>
+                        <span class="flex-shrink mx-4 text-xs text-slate-400 uppercase font-semibold">Atau Gabung Room Teman</span>
+                        <div class="flex-grow border-t border-slate-700"></div>
+                    </div>
+
+                    <!-- Join Room with 6-digit numeric key -->
+                    <div class="flex gap-2">
+                        <input id="joinRoomInput" type="text" inputmode="numeric" maxlength="6" placeholder="Masukkan 6 Angka Kunci"
+                            oninput="this.value = this.value.replace(/[^0-9]/g, '')"
+                            class="flex-1 px-4 py-3 rounded-xl bg-slate-900/90 border border-slate-700 focus:border-red-400 focus:outline-none text-center font-mono text-lg tracking-widest text-amber-300 placeholder:text-slate-500 placeholder:text-xs placeholder:tracking-normal">
+                        <button onclick="joinRoom()" class="btn-crimson px-5 py-3 rounded-xl text-sm uppercase tracking-wider">
+                            Gabung
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== 2. SCREEN: WAITING ROOM ==================== -->
+        <section id="screenRoom" class="hidden w-full max-w-3xl luxury-card rounded-2xl p-6 sm:p-8 relative">
+            <div class="corner-ornament corner-tl"></div>
+            <div class="corner-ornament corner-tr"></div>
+            <div class="corner-ornament corner-bl"></div>
+            <div class="corner-ornament corner-br"></div>
+
+            <div class="text-center space-y-2 mb-6">
+                <span class="px-3 py-1 rounded-full bg-amber-500/10 border border-amber-400/30 text-amber-300 text-xs font-semibold uppercase tracking-widest">
+                    Dojo Waiting Room
+                </span>
+                <h2 class="font-jp text-2xl sm:text-3xl font-black text-white">Undang Lawan Duel Anda</h2>
+                <p class="text-xs sm:text-sm text-slate-400">Bagikan 6 digit kunci angka di bawah kepada peserta lain (buka tab baru untuk simulasi live multiplayer)</p>
+            </div>
+
+            <!-- Room Key Display Box -->
+            <div class="bg-slate-950/90 border-2 border-amber-500/50 rounded-2xl p-5 mb-6 flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="text-center sm:text-left">
+                    <div class="text-xs uppercase tracking-widest text-slate-400">Kunci Room Angka:</div>
+                    <div id="roomKeyDisplay" class="font-mono text-4xl sm:text-5xl font-black tracking-[0.25em] gold-gradient-text mt-1">882910</div>
+                </div>
+                <div class="flex flex-wrap justify-center gap-2">
+                    <button onclick="copyRoomKey()" class="px-4 py-2.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 border border-amber-400/50 text-amber-200 text-xs font-bold transition flex items-center gap-1.5">
+                        📋 <span id="copyBtnText">Salin Kunci</span>
+                    </button>
+                    <button onclick="addAiChallenger()" class="px-4 py-2.5 rounded-xl bg-purple-600/25 hover:bg-purple-600/40 border border-purple-400/50 text-purple-200 text-xs font-bold transition flex items-center gap-1.5">
+                        🤖 + Tambah Lawan Bot Jepang
+                    </button>
+                </div>
+            </div>
+
+            <!-- Room Settings Info -->
+            <div class="grid grid-cols-3 gap-2 px-4 py-3 rounded-xl bg-slate-900/70 border border-slate-800 mb-5 text-xs text-slate-300 text-center">
+                <div>Mode: <strong id="roomModeLabel" class="text-amber-300 block sm:inline">Campuran</strong></div>
+                <div>Level: <strong id="roomLevelLabel" class="text-amber-300 block sm:inline">N5 & N4</strong></div>
+                <div>Sesi: <strong id="roomCountLabel" class="text-emerald-400 block sm:inline">10 Soal</strong></div>
+            </div>
+
+            <!-- Participant List -->
+            <div class="mb-6">
+                <div class="flex items-center justify-between mb-3">
+                    <h4 class="text-xs font-bold uppercase tracking-wider text-slate-400">Peserta di Dalam Room (<span id="playerCountLabel">1</span>)</h4>
+                    <span class="text-xs text-emerald-400 animate-pulse">● Sinkronisasi Real-Time Aktif</span>
+                </div>
+                <div id="participantsGrid" class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+                    <!-- Dynamic Players Injected Here -->
+                </div>
+            </div>
+
+            <!-- Action Buttons -->
+            <div class="flex flex-col sm:flex-row gap-3">
+                <button onclick="resetToHome()" class="px-5 py-3.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-sm font-bold transition">
+                    ← Keluar Room
+                </button>
+                <button id="startDuelBtn" onclick="hostStartGame()" class="flex-1 btn-gold py-3.5 rounded-xl text-sm uppercase tracking-wider">
+                    ⚔️ Mulai Pertarungan Sekarang!
+                </button>
+            </div>
+        </section>
+
+        <!-- ==================== 3. SCREEN: DUEL ARENA (GAMEPLAY) ==================== -->
+        <section id="screenGame" class="hidden w-full max-w-4xl space-y-5">
+            
+            <!-- Top Arena HUD -->
+            <div class="luxury-card rounded-2xl p-4 sm:p-5 flex flex-wrap items-center justify-between gap-4">
+                <div class="flex items-center gap-4">
+                    <div class="text-center px-3.5 py-1.5 rounded-xl bg-red-950/70 border border-red-500/40">
+                        <div class="text-[10px] uppercase tracking-wider text-red-300">Soal</div>
+                        <div class="font-jp text-lg font-black text-white"><span id="roundNumberText">1</span> / <span id="totalRoundsText">10</span></div>
+                    </div>
+                    <div>
+                        <div class="text-xs text-slate-400">Skor Anda</div>
+                        <div id="myLiveScore" class="font-mono text-2xl sm:text-3xl font-black gold-gradient-text">0</div>
+                    </div>
+                </div>
+
+                <!-- Combo Indicator -->
+                <div id="comboBadge" class="hidden px-4 py-1.5 rounded-full bg-gradient-to-r from-amber-500/20 to-red-500/20 border border-amber-400 text-amber-300 font-black text-sm tracking-wider animate-bounce">
+                    🔥 <span id="comboCountText">2</span>x COMBO!
+                </div>
+
+                <!-- Timer Bar & Countdown -->
+                <div class="flex items-center gap-3">
+                    <div class="text-right">
+                        <div class="text-xs text-slate-400">Sisa Waktu</div>
+                        <div id="timerNumber" class="font-mono text-2xl font-black text-emerald-400">12.0s</div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Visual Progress Timer Bar -->
+            <div class="w-full h-2.5 bg-slate-900 rounded-full overflow-hidden border border-slate-800">
+                <div id="timerProgressBar" class="h-full bg-gradient-to-r from-amber-400 via-red-500 to-red-700 transition-all duration-100" style="width: 100%;"></div>
+            </div>
+
+            <!-- Center Kanji / Kotoba Stage + Live Leaderboard Sidebar -->
+            <div class="grid md:grid-cols-12 gap-5 items-stretch">
+                
+                <!-- Question Stage -->
+                <div class="md:col-span-8 luxury-card rounded-2xl p-6 sm:p-8 flex flex-col justify-between relative overflow-hidden">
+                    <div class="corner-ornament corner-tl"></div>
+                    <div class="corner-ornament corner-tr"></div>
+                    <div class="corner-ornament corner-bl"></div>
+                    <div class="corner-ornament corner-br"></div>
+
+                    <div class="flex items-center justify-between mb-4">
+                        <span id="questionCategoryBadge" class="px-3 py-1 rounded-md bg-amber-500/15 border border-amber-400/40 text-amber-300 text-xs font-bold">
+                            KANJI • JLPT N5
+                        </span>
+                        <span id="questionPromptType" class="text-xs font-semibold text-slate-400 uppercase tracking-wider">
+                            Pilih bacaan & arti yang tepat
+                        </span>
+                    </div>
+
+                    <!-- Big Japanese Kanji/Kotoba Showcase -->
+                    <div class="my-6 text-center">
+                        <div id="kanjiDisplay" class="font-jp text-5xl sm:text-7xl font-black gold-gradient-text animate-float select-none py-2">
+                            約束
+                        </div>
+                        <div id="questionSubPrompt" class="text-sm sm:text-base text-slate-300 mt-3 font-medium">
+                            Apa bacaan (Hiragana) dan arti dari Kanji di atas?
+                        </div>
+                    </div>
+
+                    <!-- 4 Interactive Answer Choices -->
+                    <div id="optionsContainer" class="grid grid-cols-1 sm:grid-cols-2 gap-3 mt-4">
+                        <!-- Options injected via JS -->
+                    </div>
+                </div>
+
+                <!-- Live Room Duel Standings -->
+                <div class="md:col-span-4 luxury-card rounded-2xl p-5 flex flex-col justify-between">
+                    <div>
+                        <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
+                            <h4 class="font-jp text-sm font-bold text-amber-300 uppercase tracking-wider">⚔️ Arena Standings</h4>
+                            <span class="text-[11px] text-slate-400">Live Score</span>
+                        </div>
+                        <div id="liveScoreboardList" class="space-y-3">
+                            <!-- Live players score bars -->
+                        </div>
+                    </div>
+
+                    <div class="mt-6 pt-3 border-t border-slate-800/80 text-center">
+                        <p class="text-[11px] text-slate-400 italic">
+                            "Fokus JLPT N5 & N4: Ketepatan & Kecepatan Katana."
+                        </p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ==================== 4. SCREEN: LUXURY EVALUATION & PODIUM ==================== -->
+        <section id="screenResult" class="hidden w-full max-w-4xl luxury-card rounded-3xl p-6 sm:p-10 relative overflow-hidden">
+            <div class="corner-ornament corner-tl"></div>
+            <div class="corner-ornament corner-tr"></div>
+            <div class="corner-ornament corner-bl"></div>
+            <div class="corner-ornament corner-br"></div>
+
+            <!-- Top Luxury Header -->
+            <div class="text-center space-y-2 mb-8">
+                <div class="inline-block px-4 py-1 rounded-full bg-amber-500/15 border border-amber-400/50 text-amber-300 text-xs font-bold uppercase tracking-widest">
+                    🏆 Hasil Akhir Pertarungan
+                </div>
+                <h2 class="font-jp text-3xl sm:text-4xl font-black gold-gradient-text">Penilaian Kehormatan Imperial</h2>
+                <p class="text-xs sm:text-sm text-slate-400">
+                    Room Kunci: <span id="resultRoomCode" class="font-mono text-amber-300 font-bold">------</span> • 
+                    Sesi: <span id="resultTotalQuestions" class="text-emerald-400 font-bold">10 Soal</span>
+                </p>
+            </div>
+
+            <!-- Main Luxury Rank & Stats Grid -->
+            <div class="grid md:grid-cols-12 gap-6 items-center mb-8">
+                
+                <!-- Imperial Calligraphy Stamp Card -->
+                <div class="md:col-span-5 bg-gradient-to-b from-slate-900 to-slate-950 border-2 border-amber-400/60 rounded-2xl p-6 text-center relative shadow-2xl">
+                    <div class="text-xs uppercase tracking-widest text-slate-400 mb-2">Peringkat Kaligrafi Anda</div>
+                    
+                    <!-- Animated Hanko Stamp -->
+                    <div class="relative w-32 h-32 mx-auto my-3 rounded-full border-4 border-red-600 bg-red-950/40 flex items-center justify-center shadow-[0_0_40px_rgba(220,38,38,0.5)] stamp-seal">
+                        <div class="text-center">
+                            <div id="finalGradeKanji" class="font-jp text-4xl font-black text-red-400 leading-none">極</div>
+                            <div id="finalGradeLetter" class="font-black text-2xl gold-gradient-text mt-1">RANK S</div>
+                        </div>
+                    </div>
+
+                    <div id="finalTitleHonor" class="font-jp text-xl font-bold text-amber-300 mt-3">Kensei (Master Kanji Agung)</div>
+                    <p id="finalCommentText" class="text-xs text-slate-400 mt-1">Refleks secepat kilat dengan akurasi sempurna!</p>
+                </div>
+
+                <!-- Detailed Luxury Metrics Breakdown -->
+                <div class="md:col-span-7 space-y-4">
+                    <div class="bg-slate-900/90 border border-amber-500/30 rounded-2xl p-5 flex items-center justify-between">
+                        <div>
+                            <div class="text-xs uppercase tracking-wider text-slate-400">Total Skor Akhir</div>
+                            <div id="finalScoreCounter" class="font-mono text-4xl sm:text-5xl font-black gold-gradient-text mt-1">0</div>
+                        </div>
+                        <div class="text-right">
+                            <div class="text-xs text-slate-400">Peringkat Room</div>
+                            <div id="finalStandingBadge" class="font-jp text-2xl font-black text-emerald-400 mt-1">#1 Juara</div>
+                        </div>
+                    </div>
+
+                    <div class="grid grid-cols-3 gap-3">
+                        <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-3.5 text-center">
+                            <div class="text-xs text-slate-400">Akurasi</div>
+                            <div id="statAccuracy" class="font-mono text-xl font-bold text-emerald-400 mt-1">100%</div>
+                        </div>
+                        <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-3.5 text-center">
+                            <div class="text-xs text-slate-400">Max Combo</div>
+                            <div id="statMaxCombo" class="font-mono text-xl font-bold text-amber-400 mt-1">10x</div>
+                        </div>
+                        <div class="bg-slate-900/80 border border-slate-800 rounded-xl p-3.5 text-center">
+                            <div class="text-xs text-slate-400">Kecepatan Rata2</div>
+                            <div id="statAvgSpeed" class="font-mono text-xl font-bold text-sky-400 mt-1">2.4s</div>
+                        </div>
+                    </div>
+
+                    <!-- Score Breakdown Bars -->
+                    <div class="bg-slate-900/60 border border-slate-800 rounded-xl p-4 space-y-2 text-xs">
+                        <div class="flex justify-between">
+                            <span class="text-slate-400">Poin Ketepatan Jawaban:</span>
+                            <span id="breakdownBase" class="font-mono font-bold text-white">+0</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate-400">Bonus Kecepatan Katana (Time Bonus):</span>
+                            <span id="breakdownSpeed" class="font-mono font-bold text-amber-300">+0</span>
+                        </div>
+                        <div class="flex justify-between">
+                            <span class="text-slate-400">Bonus Rentetan Combo:</span>
+                            <span id="breakdownCombo" class="font-mono font-bold text-red-400">+0</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Final Room Podium Leaderboard -->
+            <div class="mb-8">
+                <h3 class="font-jp text-sm font-bold uppercase tracking-wider text-amber-300 mb-3">🏅 Klasemen Akhir Peserta Room</h3>
+                <div id="finalPodiumList" class="space-y-2.5">
+                    <!-- Podium rows injected via JS -->
+                </div>
+            </div>
+
+            <!-- Replay / Home Actions -->
+            <div class="flex flex-col sm:flex-row gap-3">
+                <button onclick="returnToWaitingRoom()" class="flex-1 btn-gold py-3.5 rounded-xl text-sm uppercase tracking-wider">
+                    🔄 Duel Ulang di Room Ini
+                </button>
+                <button onclick="resetToHome()" class="px-6 py-3.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-sm font-bold transition">
+                    🏠 Ke Menu Utama
+                </button>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Footer -->
+    <footer class="relative z-10 text-center py-4 text-xs text-slate-500 border-t border-slate-800/60">
+        雅 MIYABI Kanji & Kotoba Arena (120+ Bank Soal JLPT N5 & N4) • Mendukung Mode 10 Soal & 30 Soal
+    </footer>
+
+    <!-- ==================== JAVASCRIPT ENGINE ==================== -->
+    <script>
+        /* =========================================================================
+           1. DATABASE 120+ SOAL KANJI & KOTOBA KHUSUS JLPT N5 & N4
+           Format Ringkas: [Tipe, Level, Kanji/Kotoba, Jawaban Benar (Bacaan + Arti)]
+           Pengecoh (Distractor) dibuat otomatis secara pintar dari kategori setara!
+           ========================================================================= */
+        const RAW_VOCAB_DATABASE = [
+            // --- 30 KANJI JLPT N5 ---
+            ["KANJI", "N5", "学校", "がっこう (Sekolah)"],
+            ["KANJI", "N5", "先生", "せんせい (Guru / Dokter)"],
+            ["KANJI", "N5", "毎日", "まいにち (Setiap Hari)"],
+            ["KANJI", "N5", "友達", "ともだち (Teman)"],
+            ["KANJI", "N5", "時間", "じかん (Waktu)"],
+            ["KANJI", "N5", "電車", "でんしゃ (Kereta Listrik)"],
+            ["KANJI", "N5", "天気", "てんき (Cuaca)"],
+            ["KANJI", "N5", "元気", "げんき (Sehat / Bersemangat)"],
+            ["KANJI", "N5", "名前", "なまえ (Nama)"],
+            ["KANJI", "N5", "英語", "えいご (Bahasa Inggris)"],
+            ["KANJI", "N5", "銀行", "ぎんこう (Bank)"],
+            ["KANJI", "N5", "郵便局", "ゆうびんきょく (Kantor Pos)"],
+            ["KANJI", "N5", "図書館", "としょかん (Perpustakaan)"],
+            ["KANJI", "N5", "車", "くるま (Mobil)"],
+            ["KANJI", "N5", "駅前", "えきまえ (Depan Stasiun)"],
+            ["KANJI", "N5", "買い物", "かいもの (Belanja)"],
+            ["KANJI", "N5", "朝ご飯", "あさごはん (Sarapan Pagi)"],
+            ["KANJI", "N5", "飲み物", "のみもの (Minuman)"],
+            ["KANJI", "N5", "食べ物", "たべもの (Makanan)"],
+            ["KANJI", "N5", "新しい", "あたらしい (Baru)"],
+            ["KANJI", "N5", "古い", "ふるい (Lama / Kuno)"],
+            ["KANJI", "N5", "高い", "たかい (Tinggi / Mahal)"],
+            ["KANJI", "N5", "安い", "やすい (Murah)"],
+            ["KANJI", "N5", "大きい", "おおきい (Besar)"],
+            ["KANJI", "N5", "小さい", "ちいさい (Kecil)"],
+            ["KANJI", "N5", "多い", "おおい (Banyak)"],
+            ["KANJI", "N5", "少ない", "すくない (Sedikit)"],
+            ["KANJI", "N5", "白い", "しろい (Putih)"],
+            ["KANJI", "N5", "黒い", "くろい (Hitam)"],
+            ["KANJI", "N5", "赤い", "あかい (Merah)"],
+            ["KANJI", "N5", "青い", "あおい (Biru)"],
+            ["KANJI", "N5", "山川", "やまかわ (Gunung dan Sungai)"],
+
+            // --- 30 KANJI JLPT N4 ---
+            ["KANJI", "N4", "会社", "かいしゃ (Perusahaan)"],
+            ["KANJI", "N4", "病院", "びょういん (Rumah Sakit)"],
+            ["KANJI", "N4", "旅行", "りょこう (Perjalanan Wisata)"],
+            ["KANJI", "N4", "料理", "りょうり (Masakan)"],
+            ["KANJI", "N4", "仕事", "しごと (Pekerjaan)"],
+            ["KANJI", "N4", "意味", "いみ (Arti / Makna)"],
+            ["KANJI", "N4", "音楽", "おんがく (Musik)"],
+            ["KANJI", "N4", "映画", "えいが (Film)"],
+            ["KANJI", "N4", "写真", "しゃしん (Foto)"],
+            ["KANJI", "N4", "家族", "かぞく (Keluarga)"],
+            ["KANJI", "N4", "兄弟", "きょうだい (Saudara Kandung)"],
+            ["KANJI", "N4", "両親", "りょうしん (Orang Tua)"],
+            ["KANJI", "N4", "世界", "せかい (Dunia)"],
+            ["KANJI", "N4", "場所", "ばしょ (Tempat / Lokasi)"],
+            ["KANJI", "N4", "都合", "つごう (Kondisi / Keadaan)"],
+            ["KANJI", "N4", "用事", "ようじ (Urusan / Keperluan)"],
+            ["KANJI", "N4", "準備", "じゅんび (Persiapan)"],
+            ["KANJI", "N4", "練習", "れんしゅう (Latihan)"],
+            ["KANJI", "N4", "勉強", "べんきょう (Belajar)"],
+            ["KANJI", "N4", "研究", "けんきゅう (Penelitian)"],
+            ["KANJI", "N4", "質問", "しつもん (Pertanyaan)"],
+            ["KANJI", "N4", "問題", "もんだい (Masalah / Soal)"],
+            ["KANJI", "N4", "答え", "こたえ (Jawaban)"],
+            ["KANJI", "N4", "意見", "いけん (Pendapat / Opini)"],
+            ["KANJI", "N4", "趣味", "しゅみ (Hobi)"],
+            ["KANJI", "N4", "経験", "けいけん (Pengalaman)"],
+            ["KANJI", "N4", "習慣", "しゅうかん (Kebiasaan)"],
+            ["KANJI", "N4", "約束", "やくそく (Janji)"],
+            ["KANJI", "N4", "試合", "しあい (Pertandingan)"],
+            ["KANJI", "N4", "交通", "こうつう (Lalu Lintas)"],
+            ["KANJI", "N4", "空港", "くうこう (Bandara)"],
+            ["KANJI", "N4", "特別", "とくべつ (Spesial / Khusus)"],
+
+            // --- 30 KOTOBA JLPT N5 ---
+            ["KOTOBA", "N5", "美味しい", "おいしい (Enak / Lezat)"],
+            ["KOTOBA", "N5", "忙しい", "いそがしい (Sibuk)"],
+            ["KOTOBA", "N5", "楽しい", "たのしい (Menyenangkan)"],
+            ["KOTOBA", "N5", "難しい", "むずかしい (Sulit / Susah)"],
+            ["KOTOBA", "N5", "易しい", "やさしい (Mudah)"],
+            ["KOTOBA", "N5", "涼しい", "すずしい (Sejuk)"],
+            ["KOTOBA", "N5", "暖かい", "あたたかい (Hangat)"],
+            ["KOTOBA", "N5", "冷たい", "つめたい (Dingin - Benda/Air)"],
+            ["KOTOBA", "N5", "危ない", "あぶない (Berbahaya)"],
+            ["KOTOBA", "N5", "暗い", "くらい (Gelap)"],
+            ["KOTOBA", "N5", "明るい", "あかるい (Terang / Ceria)"],
+            ["KOTOBA", "N5", "静か", "しずか (Tenang / Sunyi)"],
+            ["KOTOBA", "N5", "賑やか", "にぎやか (Ramai / Semarak)"],
+            ["KOTOBA", "N5", "有名", "ゆうめい (Terkenal)"],
+            ["KOTOBA", "N5", "親切", "しんせつ (Ramah / Baik Hati)"],
+            ["KOTOBA", "N5", "便利", "べんり (Praktis / Nyaman)"],
+            ["KOTOBA", "N5", "大切", "たいせつ (Penting / Berharga)"],
+            ["KOTOBA", "N5", "大好き", "だいすき (Sangat Suka)"],
+            ["KOTOBA", "N5", "上手", "じょうず (Pandai / Mahir)"],
+            ["KOTOBA", "N5", "下手", "へた (Tidak Mahir / Payah)"],
+            ["KOTOBA", "N5", "掃除", "そうじ (Membersihkan)"],
+            ["KOTOBA", "N5", "洗濯", "せんたく (Mencuci Pakaian)"],
+            ["KOTOBA", "N5", "散歩", "さんぽ (Jalan-jalan Santai)"],
+            ["KOTOBA", "N5", "宿題", "しゅくだい (Pekerjaan Rumah / PR)"],
+            ["KOTOBA", "N5", "果物", "くだもの (Buah-buahan)"],
+            ["KOTOBA", "N5", "野菜", "やさい (Sayur-sayuran)"],
+            ["KOTOBA", "N5", "飛行機", "ひこうき (Pesawat Terbang)"],
+            ["KOTOBA", "N5", "自転車", "じてんしゃ (Sepeda)"],
+            ["KOTOBA", "N5", "地下鉄", "ちかてつ (Kereta Bawah Tanah)"],
+            ["KOTOBA", "N5", "誕生日", "たんじょうび (Hari Ulang Tahun)"],
+
+            // --- 30 KOTOBA JLPT N4 ---
+            ["KOTOBA", "N4", "一生懸命", "いっしょうけんめい (Bersungguh-sungguh)"],
+            ["KOTOBA", "N4", "懐かしい", "なつかしい (Rindu Masa Lalu / Nostalgia)"],
+            ["KOTOBA", "N4", "羨ましい", "うらやましい (Iri / Cemburu Positif)"],
+            ["KOTOBA", "N4", "恥ずかしい", "はずかしい (Malu)"],
+            ["KOTOBA", "N4", "素晴らしい", "すばらしい (Luar Biasa / Mengagumkan)"],
+            ["KOTOBA", "N4", "厳しい", "きびしい (Tegas / Ketat)"],
+            ["KOTOBA", "N4", "寂しい", "さびしい (Kesepian)"],
+            ["KOTOBA", "N4", "眠い", "ねむい (Mengantuk)"],
+            ["KOTOBA", "N4", "苦い", "にがい (Pahit)"],
+            ["KOTOBA", "N4", "柔らかい", "やわらかい (Lembut / Empuk)"],
+            ["KOTOBA", "N4", "硬い", "かたい (Keras / Kaku)"],
+            ["KOTOBA", "N4", "複雑", "ふくざつ (Rumit / Kompleks)"],
+            ["KOTOBA", "N4", "丁寧", "ていねい (Sopan / Teliti)"],
+            ["KOTOBA", "N4", "危険", "きけん (Bahaya / Berisiko)"],
+            ["KOTOBA", "N4", "安全", "あんぜん (Aman)"],
+            ["KOTOBA", "N4", "自由", "じゆう (Bebas / Kebebasan)"],
+            ["KOTOBA", "N4", "十分", "じゅうぶん (Cukup)"],
+            ["KOTOBA", "N4", "無理", "むり (Mustahil / Memaksakan Diri)"],
+            ["KOTOBA", "N4", "残念", "ざんねん (Sayang Sekali / Menyesal)"],
+            ["KOTOBA", "N4", "心配", "しんぱい (Khawatir / Cemas)"],
+            ["KOTOBA", "N4", "安心", "あんしん (Lega / Tenang Pikiran)"],
+            ["KOTOBA", "N4", "びっくり", "びっくり (Terkejut / Kaget)"],
+            ["KOTOBA", "N4", "っかり", "すっかり (Sepenuhnya / Sama Sekali)"],
+            ["KOTOBA", "N4", "やっと", "やっと (Akhirnya - Setelah Usaha)"],
+            ["KOTOBA", "N4", "かならず", "かならず (Pasti / Tak Boleh Tidak)"],
+            ["KOTOBA", "N4", "ぜったい", "ぜったい (Mutlak / Sama Sekali)"],
+            ["KOTOBA", "N4", "なるべく", "なるべく (Sebisa Mungkin)"],
+            ["KOTOBA", "N4", "しばらく", "しばらく (Sementara Waktu)"],
+            ["KOTOBA", "N4", "紹介", "しょうかい (Perkenalan)"],
+            ["KOTOBA", "N4", "案内", "あんない (Memandu / Informasi)"],
+            ["KOTOBA", "N4", "説明", "せつめい (Penjelasan)"],
+            ["KOTOBA", "N4", "連絡", "れんらく (Menghubungi / Kontak)"],
+            ["KOTOBA", "N4", "相談", "そうだん (Konsultasi / Diskusi)"],
+            ["KOTOBA", "N4", "挨拶", "あいさつ (Salam / Sapaan)"]
+        ];
+
+        // Generator Pengecoh Pintar (Smart Distractor) agar opsi jawaban selalu segar
+        function buildQuestionObjects(rawList) {
+            return rawList.map((item, idx) => {
+                const [type, level, kanji, answer] = item;
+                // Cari kandidat pengecoh dari tipe yang sama
+                const sameTypeAnswers = rawList
+                    .filter((other, oIdx) => oIdx !== idx && other[0] === type)
+                    .map(other => other[3]);
+
+                const distractors = shuffleArray(sameTypeAnswers).slice(0, 3);
+                const allOptions = shuffleArray([answer, ...distractors]);
+
+                return {
+                    type,
+                    level,
+                    kanji,
+                    prompt: type === "KANJI" 
+                        ? `Pilih bacaan & arti Kanji JLPT ${level} ini!` 
+                        : `Pilih bacaan & makna Kotoba JLPT ${level} ini!`,
+                    answer,
+                    shuffledOptions: allOptions
+                };
+            });
+        }
+
+        /* =========================================================================
+           2. WEB AUDIO SYNTHESIZER (EFEK SUARA JEPANG INTERAKTIF)
+           ========================================================================= */
+        let soundEnabled = true;
+        const AudioCtx = window.AudioContext || window.webkitAudioContext;
+        let audioCtx = null;
+
+        function initAudio() {
+            if (!audioCtx) audioCtx = new AudioCtx();
+            if (audioCtx.state === 'suspended') audioCtx.resume();
+        }
+
+        function toggleSound() {
+            soundEnabled = !soundEnabled;
+            document.getElementById('soundToggleBtn').textContent = soundEnabled ? '🔊' : '🔇';
+        }
+
+        function playSfx(type) {
+            if (!soundEnabled) return;
+            initAudio();
+            const now = audioCtx.currentTime;
+
+            if (type === 'koto_correct') {
+                const freqs = [523.25, 587.33, 659.25, 783.99, 1046.50];
+                freqs.forEach((f, idx) => {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(f, now + idx * 0.045);
+                    gain.gain.setValueAtTime(0.18, now + idx * 0.045);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + idx * 0.045 + 0.4);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(now + idx * 0.045);
+                    osc.stop(now + idx * 0.045 + 0.4);
+                });
+            } else if (type === 'wrong') {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'sawtooth';
+                osc.frequency.setValueAtTime(140, now);
+                osc.frequency.exponentialRampToValueAtTime(55, now + 0.35);
+                gain.gain.setValueAtTime(0.25, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 0.35);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start(now);
+                osc.stop(now + 0.35);
+            } else if (type === 'gong_start') {
+                const osc = audioCtx.createOscillator();
+                const gain = audioCtx.createGain();
+                osc.type = 'sine';
+                osc.frequency.setValueAtTime(220, now);
+                osc.frequency.exponentialRampToValueAtTime(196, now + 1.4);
+                gain.gain.setValueAtTime(0.35, now);
+                gain.gain.exponentialRampToValueAtTime(0.001, now + 1.4);
+                osc.connect(gain);
+                gain.connect(audioCtx.destination);
+                osc.start(now);
+                osc.stop(now + 1.4);
+            } else if (type === 'fanfare') {
+                const chord = [523.25, 659.25, 783.99, 1046.50];
+                chord.forEach((f, i) => {
+                    const osc = audioCtx.createOscillator();
+                    const gain = audioCtx.createGain();
+                    osc.type = 'triangle';
+                    osc.frequency.setValueAtTime(f, now + i * 0.08);
+                    gain.gain.setValueAtTime(0.2, now + i * 0.08);
+                    gain.gain.exponentialRampToValueAtTime(0.001, now + 1.2);
+                    osc.connect(gain);
+                    gain.connect(audioCtx.destination);
+                    osc.start(now + i * 0.08);
+                    osc.stop(now + i * 0.08 + 1.2);
+                });
+            }
+        }
+
+        /* =========================================================================
+           3. STATE MULTIPLAYER ROOM & BROADCAST CHANNEL SYNC
+           ========================================================================= */
+        const ROUND_TIME = 12.0; // seconds per question
+
+        let myPlayerId = 'samurai_' + Math.random().toString(36).substring(2, 9);
+        let myPlayerName = 'Samurai_N4';
+        let currentRoomKey = null;
+        let isRoomHost = false;
+        let roomChannel = null;
+
+        let roomState = {
+            roomKey: '',
+            mode: 'MIX',
+            level: 'ALL',
+            questionCount: 10, // 10 or 30
+            status: 'WAITING',
+            questions: [],
+            players: {}
+        };
+
+        // Local Gameplay State
+        let currentRoundIndex = 0;
+        let roundTimerInterval = null;
+        let roundTimeLeft = ROUND_TIME;
+        let hasAnsweredCurrentRound = false;
+        let localBreakdown = { base: 0, speed: 0, combo: 0 };
+
+        function shuffleArray(arr) {
+            const copy = [...arr];
+            for (let i = copy.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [copy[i], copy[j]] = [copy[j], copy[i]];
+            }
+            return copy;
+        }
+
+        function connectRoomChannel(roomKey) {
+            if (roomChannel) roomChannel.close();
+            roomChannel = new BroadcastChannel('miyabi_duel_room_' + roomKey);
+            roomChannel.onmessage = (event) => {
+                const msg = event.data;
+                if (!msg || !msg.type) return;
+
+                if (msg.type === 'PLAYER_JOIN_REQUEST' && isRoomHost) {
+                    roomState.players[msg.player.id] = msg.player;
+                    broadcastRoomState();
+                    renderWaitingRoom();
+                } else if (msg.type === 'STATE_SYNC') {
+                    roomState = msg.state;
+                    if (roomState.status === 'WAITING') {
+                        renderWaitingRoom();
+                    } else if (roomState.status === 'PLAYING') {
+                        updateLiveScoreboard();
+                    }
+                } else if (msg.type === 'START_GAME_SIGNAL') {
+                    roomState = msg.state;
+                    startClientGameplay();
+                } else if (msg.type === 'SCORE_UPDATE') {
+                    if (roomState.players[msg.player.id]) {
+                        roomState.players[msg.player.id] = msg.player;
+                        updateLiveScoreboard();
+                        if (!document.getElementById('screenResult').classList.contains('hidden')) {
+                            renderFinalPodium();
+                        }
+                    }
+                }
+            };
+        }
+
+        function broadcastRoomState() {
+            if (!roomChannel) return;
+            roomChannel.postMessage({ type: 'STATE_SYNC', state: roomState });
+            localStorage.setItem('miyabi_room_' + currentRoomKey, JSON.stringify(roomState));
+        }
+
+        function createRoom() {
+            playSfx('gong_start');
+            myPlayerName = document.getElementById('playerNameInput').value.trim() || 'Samurai_N4';
+            const mode = document.getElementById('quizModeSelect').value;
+            const level = document.getElementById('jlptLevelSelect').value;
+            const qCount = parseInt(document.getElementById('questionCountSelect').value, 10) || 10;
+
+            currentRoomKey = Math.floor(100000 + Math.random() * 900000).toString();
+            isRoomHost = true;
+
+            roomState = {
+                roomKey: currentRoomKey,
+                mode: mode,
+                level: level,
+                questionCount: qCount,
+                status: 'WAITING',
+                questions: [],
+                players: {}
+            };
+
+            roomState.players[myPlayerId] = createPlayerObject(myPlayerId, myPlayerName, false, true);
+
+            connectRoomChannel(currentRoomKey);
+            broadcastRoomState();
+            showScreen('screenRoom');
+            renderWaitingRoom();
+        }
+
+        function joinRoom() {
+            const codeInput = document.getElementById('joinRoomInput').value.trim();
+            if (codeInput.length !== 6) {
+                alert('Masukkan 6 digit angka Kunci Room terlebih dahulu!');
+                return;
+            }
+            playSfx('gong_start');
+            myPlayerName = document.getElementById('playerNameInput').value.trim() || 'Challenger_' + Math.floor(Math.random() * 99);
+            currentRoomKey = codeInput;
+            isRoomHost = false;
+
+            const savedState = localStorage.getItem('miyabi_room_' + currentRoomKey);
+            if (savedState) {
+                roomState = JSON.parse(savedState);
+            } else {
+                roomState = {
+                    roomKey: currentRoomKey,
+                    mode: 'MIX',
+                    level: 'ALL',
+                    questionCount: 10,
+                    status: 'WAITING',
+                    questions: [],
+                    players: {}
+                };
+            }
+
+            const me = createPlayerObject(myPlayerId, myPlayerName, false, false);
+            roomState.players[myPlayerId] = me;
+
+            connectRoomChannel(currentRoomKey);
+            roomChannel.postMessage({ type: 'PLAYER_JOIN_REQUEST', player: me });
+            broadcastRoomState();
+
+            showScreen('screenRoom');
+            renderWaitingRoom();
+        }
+
+        function createPlayerObject(id, name, isBot = false, isHost = false) {
+            return {
+                id,
+                name,
+                score: 0,
+                combo: 0,
+                maxCombo: 0,
+                correctCount: 0,
+                totalAnswerTime: 0,
+                isBot,
+                isHost
+            };
+        }
+
+        function addAiChallenger() {
+            const botNames = ['⚔️ Musashi (Bot)', '🌸 Kaguya-hime (Bot)', '👺 Hattori Hanzo (Bot)', '🐉 Ryoma (Bot)'];
+            const existingCount = Object.keys(roomState.players).length;
+            if (existingCount >= 6) return;
+
+            const botId = 'bot_' + Math.random().toString(36).substring(2, 7);
+            const botName = botNames[existingCount % botNames.length];
+            roomState.players[botId] = createPlayerObject(botId, botName, true, false);
+            playSfx('koto_correct');
+            broadcastRoomState();
+            renderWaitingRoom();
+        }
+
+        function copyRoomKey() {
+            navigator.clipboard.writeText(currentRoomKey);
+            const btnText = document.getElementById('copyBtnText');
+            btnText.textContent = 'Tersalin!';
+            setTimeout(() => btnText.textContent = 'Salin Kunci', 1800);
+        }
+
+        function renderWaitingRoom() {
+            document.getElementById('roomKeyDisplay').textContent = roomState.roomKey;
+            document.getElementById('headerRoomCode').textContent = roomState.roomKey;
+            document.getElementById('roomBadge').classList.remove('hidden');
+
+            const modeMap = { MIX: 'Campuran (Kanji & Kotoba)', KANJI: 'Fokus Kanji', KOTOBA: 'Fokus Kotoba' };
+            document.getElementById('roomModeLabel').textContent = modeMap[roomState.mode] || 'Campuran';
+            document.getElementById('roomLevelLabel').textContent = roomState.level === 'ALL' ? 'Gabungan N5 & N4' : 'JLPT ' + roomState.level;
+            document.getElementById('roomCountLabel').textContent = `${roomState.questionCount} Soal`;
+
+            const playersArr = Object.values(roomState.players);
+            document.getElementById('playerCountLabel').textContent = playersArr.length;
+
+            const grid = document.getElementById('participantsGrid');
+            grid.innerHTML = playersArr.map(p => `
+                <div class="flex items-center justify-between p-3.5 rounded-xl bg-slate-900/90 border ${p.id === myPlayerId ? 'border-amber-400/70' : 'border-slate-800'}">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-gradient-to-br from-red-800 to-slate-900 border border-amber-400/40 flex items-center justify-center font-jp font-bold text-amber-300">
+                            ${p.isBot ? '🤖' : '侍'}
+                        </div>
+                        <div>
+                            <div class="text-sm font-bold text-white flex items-center gap-1.5">
+                                ${p.name}
+                                ${p.id === myPlayerId ? '<span class="text-[10px] px-2 py-0.5 rounded bg-amber-500/20 text-amber-300">Anda</span>' : ''}
+                            </div>
+                            <div class="text-[11px] text-slate-400">${p.isHost ? '👑 Pemilik Room' : (p.isBot ? 'Master AI' : 'Peserta Siap')}</div>
+                        </div>
+                    </div>
+                    <span class="text-xs font-bold text-emerald-400">SIAP</span>
+                </div>
+            `).join('');
+        }
+
+        /* =========================================================================
+           4. GAMEPLAY ENGINE & SCORING
+           ========================================================================= */
+        function hostStartGame() {
+            if (Object.keys(roomState.players).length === 1) {
+                addAiChallenger();
+            }
+
+            // Filter dari 120+ bank soal N5 & N4
+            let filteredRaw = RAW_VOCAB_DATABASE.filter(item => {
+                const [type, level] = item;
+                const matchMode = roomState.mode === 'MIX' || type === roomState.mode;
+                const matchLevel = roomState.level === 'ALL' || level === roomState.level;
+                return matchMode && matchLevel;
+            });
+
+            // Jika filter terlalu sempit untuk 30 soal, gabungkan dengan pool cadangan
+            if (filteredRaw.length < roomState.questionCount) {
+                filteredRaw = [...RAW_VOCAB_DATABASE];
+            }
+
+            const allBuiltQuestions = buildQuestionObjects(filteredRaw);
+            roomState.questions = shuffleArray(allBuiltQuestions).slice(0, roomState.questionCount);
+
+            // Reset seluruh skor peserta
+            Object.keys(roomState.players).forEach(pid => {
+                roomState.players[pid].score = 0;
+                roomState.players[pid].combo = 0;
+                roomState.players[pid].maxCombo = 0;
+                roomState.players[pid].correctCount = 0;
+                roomState.players[pid].totalAnswerTime = 0;
+            });
+
+            roomState.status = 'PLAYING';
+            broadcastRoomState();
+            if (roomChannel) {
+                roomChannel.postMessage({ type: 'START_GAME_SIGNAL', state: roomState });
+            }
+            startClientGameplay();
+        }
+
+        function startClientGameplay() {
+            playSfx('gong_start');
+            currentRoundIndex = 0;
+            localBreakdown = { base: 0, speed: 0, combo: 0 };
+            document.getElementById('myLiveScore').textContent = '0';
+            document.getElementById('comboBadge').classList.add('hidden');
+            document.getElementById('totalRoundsText').textContent = roomState.questions.length;
+            showScreen('screenGame');
+            loadRound(0);
+        }
+
+        function loadRound(index) {
+            if (index >= roomState.questions.length) {
+                finishGame();
+                return;
+            }
+
+            currentRoundIndex = index;
+            hasAnsweredCurrentRound = false;
+            roundTimeLeft = ROUND_TIME;
+
+            const q = roomState.questions[index];
+            document.getElementById('roundNumberText').textContent = index + 1;
+            document.getElementById('questionCategoryBadge').textContent = `${q.type} • JLPT ${q.level}`;
+            document.getElementById('kanjiDisplay').textContent = q.kanji;
+            document.getElementById('questionSubPrompt').textContent = q.prompt;
+
+            const optionsContainer = document.getElementById('optionsContainer');
+            optionsContainer.innerHTML = q.shuffledOptions.map((opt, idx) => `
+                <button onclick="selectAnswer(${idx})" id="optBtn_${idx}"
+                    class="relative overflow-hidden text-left p-4 rounded-xl bg-slate-900/90 hover:bg-slate-800 border border-slate-700 hover:border-amber-400/60 transition group">
+                    <div class="flex items-center gap-3">
+                        <span class="w-7 h-7 rounded-lg bg-slate-800 group-hover:bg-amber-500/20 border border-slate-600 text-amber-300 flex items-center justify-center text-xs font-bold shrink-0">
+                            ${['一', '二', '三', '四'][idx]}
+                        </span>
+                        <span class="text-sm sm:text-base font-semibold text-slate-100">${opt}</span>
+                    </div>
+                </button>
+            `).join('');
+
+            updateLiveScoreboard();
+            startRoundTimer();
+            simulateBotsForRound();
+        }
+
+        function startRoundTimer() {
+            clearInterval(roundTimerInterval);
+            const timerNum = document.getElementById('timerNumber');
+            const bar = document.getElementById('timerProgressBar');
+
+            roundTimerInterval = setInterval(() => {
+                roundTimeLeft = Math.max(0, roundTimeLeft - 0.1);
+                timerNum.textContent = roundTimeLeft.toFixed(1) + 's';
+                const pct = (roundTimeLeft / ROUND_TIME) * 100;
+                bar.style.width = pct + '%';
+
+                if (roundTimeLeft <= 4) {
+                    timerNum.className = 'font-mono text-2xl font-black text-red-400 animate-pulse';
+                } else {
+                    timerNum.className = 'font-mono text-2xl font-black text-emerald-400';
+                }
+
+                if (roundTimeLeft <= 0) {
+                    clearInterval(roundTimerInterval);
+                    if (!hasAnsweredCurrentRound) {
+                        handleTimeOut();
+                    }
+                }
+            }, 100);
+        }
+
+        function selectAnswer(selectedIndex) {
+            if (hasAnsweredCurrentRound) return;
+            hasAnsweredCurrentRound = true;
+            clearInterval(roundTimerInterval);
+
+            const q = roomState.questions[currentRoundIndex];
+            const chosenOption = q.shuffledOptions[selectedIndex];
+            const isCorrect = chosenOption === q.answer;
+            const timeSpent = Math.max(0.4, ROUND_TIME - roundTimeLeft);
+
+            const me = roomState.players[myPlayerId];
+            me.totalAnswerTime += timeSpent;
+
+            const selectedBtn = document.getElementById('optBtn_' + selectedIndex);
+
+            if (isCorrect) {
+                playSfx('koto_correct');
+                selectedBtn.classList.add('katana-slash', 'border-emerald-400', 'bg-emerald-950/60');
+
+                me.combo += 1;
+                if (me.combo > me.maxCombo) me.maxCombo = me.combo;
+                me.correctCount += 1;
+
+                const basePts = 1000;
+                const speedBonus = Math.round((roundTimeLeft / ROUND_TIME) * 600);
+                const comboBonus = me.combo > 1 ? me.combo * 150 : 0;
+
+                localBreakdown.base += basePts;
+                localBreakdown.speed += speedBonus;
+                localBreakdown.combo += comboBonus;
+
+                me.score += (basePts + speedBonus + comboBonus);
+            } else {
+                playSfx('wrong');
+                selectedBtn.classList.add('shake', 'border-red-500', 'bg-red-950/70');
+                me.combo = 0;
+
+                q.shuffledOptions.forEach((opt, idx) => {
+                    if (opt === q.answer) {
+                        const rightBtn = document.getElementById('optBtn_' + idx);
+                        if (rightBtn) rightBtn.classList.add('border-emerald-400', 'bg-emerald-950/50');
+                    }
+                });
+            }
+
+            document.getElementById('myLiveScore').textContent = me.score.toLocaleString('id-ID');
+            const comboBadge = document.getElementById('comboBadge');
+            if (me.combo >= 2) {
+                comboBadge.classList.remove('hidden');
+                document.getElementById('comboCountText').textContent = me.combo;
+            } else {
+                comboBadge.classList.add('hidden');
+            }
+
+            if (roomChannel) {
+                roomChannel.postMessage({ type: 'SCORE_UPDATE', player: me });
+            }
+            updateLiveScoreboard();
+
+            setTimeout(() => {
+                loadRound(currentRoundIndex + 1);
+            }, 1300);
+        }
+
+        function handleTimeOut() {
+            hasAnsweredCurrentRound = true;
+            playSfx('wrong');
+            const me = roomState.players[myPlayerId];
+            me.combo = 0;
+            me.totalAnswerTime += ROUND_TIME;
+            document.getElementById('comboBadge').classList.add('hidden');
+
+            const q = roomState.questions[currentRoundIndex];
+            q.shuffledOptions.forEach((opt, idx) => {
+                if (opt === q.answer) {
+                    const rightBtn = document.getElementById('optBtn_' + idx);
+                    if (rightBtn) rightBtn.classList.add('border-emerald-400', 'bg-emerald-950/50');
+                }
+            });
+
+            if (roomChannel) {
+                roomChannel.postMessage({ type: 'SCORE_UPDATE', player: me });
+            }
+            setTimeout(() => {
+                loadRound(currentRoundIndex + 1);
+            }, 1300);
+        }
+
+        function simulateBotsForRound() {
+            const roundSnap = currentRoundIndex;
+            Object.values(roomState.players).forEach(p => {
+                if (!p.isBot) return;
+                const delay = 1500 + Math.random() * 4000;
+                setTimeout(() => {
+                    if (roomState.status !== 'PLAYING' || currentRoundIndex !== roundSnap) return;
+                    const botCorrect = Math.random() < 0.78;
+                    if (botCorrect) {
+                        p.combo += 1;
+                        if (p.combo > p.maxCombo) p.maxCombo = p.combo;
+                        p.correctCount += 1;
+                        const simulatedSpeedBonus = Math.round(((12 - delay / 1000) / 12) * 500);
+                        p.score += 1000 + Math.max(100, simulatedSpeedBonus) + (p.combo > 1 ? p.combo * 120 : 0);
+                    } else {
+                        p.combo = 0;
+                    }
+                    updateLiveScoreboard();
+                }, delay);
+            });
+        }
+
+        function updateLiveScoreboard() {
+            const list = document.getElementById('liveScoreboardList');
+            const sorted = Object.values(roomState.players).sort((a, b) => b.score - a.score);
+            const maxScore = Math.max(1, sorted[0]?.score || 1);
+
+            list.innerHTML = sorted.map((p, idx) => {
+                const widthPct = Math.max(8, Math.round((p.score / maxScore) * 100));
+                return `
+                    <div class="p-2.5 rounded-xl bg-slate-900/90 border ${p.id === myPlayerId ? 'border-amber-400/60' : 'border-slate-800'}">
+                        <div class="flex justify-between items-center text-xs mb-1">
+                            <span class="font-bold text-white truncate">
+                                #${idx + 1} ${p.name}
+                            </span>
+                            <span class="font-mono font-bold text-amber-300">${p.score.toLocaleString('id-ID')}</span>
+                        </div>
+                        <div class="w-full h-1.5 bg-slate-800 rounded-full overflow-hidden">
+                            <div class="h-full bg-gradient-to-r from-amber-400 to-red-500 transition-all duration-500" style="width:${widthPct}%"></div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        /* =========================================================================
+           5. LUXURY EVALUATION SCREEN & CONFETTI CELEBRATION
+           ========================================================================= */
+        function finishGame() {
+            clearInterval(roundTimerInterval);
+            roomState.status = 'FINISHED';
+            playSfx('fanfare');
+            showScreen('screenResult');
+
+            if (typeof confetti === 'function') {
+                confetti({
+                    particleCount: 120,
+                    spread: 85,
+                    origin: { y: 0.6 },
+                    colors: ['#D4AF37', '#F3E5AB', '#DC2626', '#ffffff']
+                });
+            }
+
+            const me = roomState.players[myPlayerId];
+            const totalQ = roomState.questions.length;
+            const accuracy = Math.round((me.correctCount / totalQ) * 100);
+            const avgSpeed = (me.totalAnswerTime / totalQ).toFixed(1);
+
+            let gradeInfo = { kanji: '極', letter: 'RANK S', title: '剣聖 • Kensei (Master Agung N5-N4)', comment: 'Sempurna! Penguasaan Kanji & Kotoba setingkat Kaisar!' };
+            if (accuracy >= 88) {
+                gradeInfo = { kanji: '極', letter: 'RANK S', title: '剣聖 • Kensei (Master Agung N5-N4)', comment: 'Refleks secepat kilat dengan ketepatan luar biasa!' };
+            } else if (accuracy >= 70) {
+                gradeInfo = { kanji: '優', letter: 'RANK A', title: '侍大将 • Taisho (Jenderal Samurai)', comment: 'Pertarungan yang sangat terhormat dan tajam!' };
+            } else if (accuracy >= 50) {
+                gradeInfo = { kanji: '良', letter: 'RANK B', title: '武士 • Bushi (Pejuang Dojo)', comment: 'Fondasi yang kuat, terus asah ketajaman Kanji Anda!' };
+            } else {
+                gradeInfo = { kanji: '習', letter: 'RANK C', title: '浪人 • Ronin Pengembara', comment: 'Jangan menyerah! Latihan berulang adalah jalan menuju Master.' };
+            }
+
+            document.getElementById('resultRoomCode').textContent = roomState.roomKey;
+            document.getElementById('resultTotalQuestions').textContent = `${totalQ} Soal`;
+            document.getElementById('finalGradeKanji').textContent = gradeInfo.kanji;
+            document.getElementById('finalGradeLetter').textContent = gradeInfo.letter;
+            document.getElementById('finalTitleHonor').textContent = gradeInfo.title;
+            document.getElementById('finalCommentText').textContent = gradeInfo.comment;
+
+            document.getElementById('statAccuracy').textContent = accuracy + '%';
+            document.getElementById('statMaxCombo').textContent = me.maxCombo + 'x';
+            document.getElementById('statAvgSpeed').textContent = avgSpeed + 's';
+
+            document.getElementById('breakdownBase').textContent = '+' + localBreakdown.base.toLocaleString('id-ID');
+            document.getElementById('breakdownSpeed').textContent = '+' + localBreakdown.speed.toLocaleString('id-ID');
+            document.getElementById('breakdownCombo').textContent = '+' + localBreakdown.combo.toLocaleString('id-ID');
+
+            animateNumberRoll('finalScoreCounter', me.score);
+            renderFinalPodium();
+        }
+
+        function animateNumberRoll(elementId, targetValue) {
+            const el = document.getElementById(elementId);
+            let current = 0;
+            const step = Math.max(50, Math.ceil(targetValue / 45));
+            const interval = setInterval(() => {
+                current += step;
+                if (current >= targetValue) {
+                    current = targetValue;
+                    clearInterval(interval);
+                }
+                el.textContent = current.toLocaleString('id-ID');
+            }, 25);
+        }
+
+        function renderFinalPodium() {
+            const sorted = Object.values(roomState.players).sort((a, b) => b.score - a.score);
+            const myRankIndex = sorted.findIndex(p => p.id === myPlayerId);
+            const rankLabels = ['🥇 #1 Juara Utama', '🥈 #2 Peringkat Kedua', '🥉 #3 Peringkat Ketiga'];
+            document.getElementById('finalStandingBadge').textContent = rankLabels[myRankIndex] || `#${myRankIndex + 1} Peserta`;
+
+            const podiumContainer = document.getElementById('finalPodiumList');
+            podiumContainer.innerHTML = sorted.map((p, idx) => {
+                const medal = idx === 0 ? '👑' : (idx === 1 ? '🥈' : (idx === 2 ? '🥉' : '⚔️'));
+                return `
+                    <div class="flex items-center justify-between p-4 rounded-xl bg-slate-900/90 border ${idx === 0 ? 'border-amber-400 shadow-[0_0_20px_rgba(212,175,55,0.2)]' : 'border-slate-800'}">
+                        <div class="flex items-center gap-3">
+                            <span class="text-2xl">${medal}</span>
+                            <div>
+                                <div class="font-bold text-white text-sm sm:text-base">
+                                    ${p.name} ${p.id === myPlayerId ? '<span class="text-xs text-amber-300">(Anda)</span>' : ''}
+                                </div>
+                                <div class="text-xs text-slate-400">Benar: ${p.correctCount}/${roomState.questions.length} • Max Combo: ${p.maxCombo}x</div>
+                            </div>
+                        </div>
+                        <div class="text-right">
+                            <div class="font-mono text-lg sm:text-xl font-black gold-gradient-text">${p.score.toLocaleString('id-ID')} PTS</div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function returnToWaitingRoom() {
+            roomState.status = 'WAITING';
+            broadcastRoomState();
+            showScreen('screenRoom');
+            renderWaitingRoom();
+        }
+
+        function resetToHome() {
+            clearInterval(roundTimerInterval);
+            if (roomChannel) roomChannel.close();
+            document.getElementById('roomBadge').classList.add('hidden');
+            showScreen('screenHome');
+        }
+
+        function showScreen(screenId) {
+            ['screenHome', 'screenRoom', 'screenGame', 'screenResult'].forEach(id => {
+                document.getElementById(id).classList.add('hidden');
+            });
+            document.getElementById(screenId).classList.remove('hidden');
+        }
+
+        /* =========================================================================
+           6. ANIMASI KELOPAK BUNGA SAKURA (HTML5 CANVAS)
+           ========================================================================= */
+        const canvas = document.getElementById('sakuraCanvas');
+        const ctx = canvas.getContext('2d');
+        let petals = [];
+
+        function resizeCanvas() {
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+        }
+        window.addEventListener('resize', resizeCanvas);
+        resizeCanvas();
+
+        class SakuraPetal {
+            constructor() {
+                this.reset();
+                this.y = Math.random() * canvas.height;
+            }
+            reset() {
+                this.x = Math.random() * canvas.width;
+                this.y = -20;
+                this.size = 6 + Math.random() * 8;
+                this.speedY = 0.6 + Math.random() * 1.2;
+                this.speedX = -0.5 + Math.random() * 1.5;
+                this.angle = Math.random() * Math.PI * 2;
+                this.spin = (Math.random() - 0.5) * 0.03;
+                this.opacity = 0.25 + Math.random() * 0.45;
+            }
+            update() {
+                this.y += this.speedY;
+                this.x += this.speedX + Math.sin(this.angle) * 0.4;
+                this.angle += this.spin;
+                if (this.y > canvas.height + 20 || this.x > canvas.width + 20 || this.x < -20) {
+                    this.reset();
+                }
+            }
+            draw() {
+                ctx.save();
+                ctx.translate(this.x, this.y);
+                ctx.rotate(this.angle);
+                ctx.beginPath();
+                ctx.moveTo(0, 0);
+                ctx.bezierCurveTo(this.size / 2, -this.size / 2, this.size, 0, 0, this.size);
+                ctx.bezierCurveTo(-this.size, 0, -this.size / 2, -this.size / 2, 0, 0);
+                ctx.fillStyle = `rgba(253, 164, 175, ${this.opacity})`;
+                ctx.fill();
+                ctx.restore();
+            }
+        }
+
+        for (let i = 0; i < 38; i++) {
+            petals.push(new SakuraPetal());
+        }
+
+        function animateSakura() {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+            petals.forEach(p => {
+                p.update();
+                p.draw();
+            });
+            requestAnimationFrame(animateSakura);
+        }
+        animateSakura();
+    </script>
+</body>
+</html>
