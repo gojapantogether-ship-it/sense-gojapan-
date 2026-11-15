@@ -10,9 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@500;700;900&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <!-- Canvas Confetti -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <!-- PeerJS (WebRTC Online Cross-Device Multiplayer Tanpa Backend) -->
-    <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
-    <!-- MQTT.js (Untuk Live Global Room List & Realtime Sync Cadangan) -->
+    <!-- MQTT.js (Untuk Live Global Room List & Realtime Sync) -->
     <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
 
     <style>
@@ -140,22 +138,22 @@
                 <h1 class="font-jp text-sm sm:text-base font-black tracking-wider gold-gradient-text">MIYABI ONLINE</h1>
                 <div class="flex items-center gap-1.5">
                     <span id="netStatusDot" class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
-                    <p id="netStatusText" class="text-[10px] text-slate-400 tracking-wider uppercase">Menghubungkan Cloud...</p>
+                    <p id="netStatusText" class="text-[10px] text-slate-400 tracking-wider uppercase">Menghubungkan...</p>
                 </div>
             </div>
         </div>
 
         <div class="flex items-center gap-2">
-            <a href="index.html" class="px-2.5 py-1.5 rounded-xl bg-slate-800/90 border border-slate-700 hover:border-amber-400/50 text-slate-300 text-xs font-semibold transition">
+            <a href="index.html" class="px-3 py-2 rounded-xl bg-slate-800/90 border border-slate-700 hover:border-amber-400/50 text-slate-300 text-xs font-semibold transition flex items-center justify-center">
                 🏠 Portal
             </a>
-            <span id="roomBadge" class="hidden px-2.5 py-1 rounded-full bg-amber-500/10 border border-amber-400/40 text-amber-300 text-[11px] font-bold">
-                ROOM: <span id="headerRoomCode" class="font-mono">----</span>
+            <span id="roomBadge" class="hidden px-3 py-2 rounded-full bg-amber-500/10 border border-amber-400/40 text-amber-300 text-xs font-bold items-center">
+                ROOM: <span id="headerRoomCode" class="font-mono ml-1">----</span>
             </span>
-            <button id="bgmToggleBtn" onclick="toggleBGM()" class="px-3 py-1.5 rounded-xl bg-slate-800/90 border border-slate-700 hover:border-amber-400/50 text-amber-300 text-xs font-bold transition flex items-center gap-1">
+            <button id="bgmToggleBtn" onclick="toggleBGM()" class="px-3 py-2 rounded-xl bg-slate-800/90 border border-slate-700 hover:border-amber-400/50 text-amber-300 text-xs font-bold transition flex items-center justify-center gap-1">
                 🎵 <span id="bgmLabel">BGM: OFF</span>
             </button>
-            <button id="soundToggleBtn" onclick="toggleSound()" class="p-2 rounded-xl bg-slate-800/90 border border-slate-700 hover:border-amber-400/50 text-amber-300 transition text-xs">
+            <button id="soundToggleBtn" onclick="toggleSound()" class="p-2.5 rounded-xl bg-slate-800/90 border border-slate-700 hover:border-amber-400/50 text-amber-300 transition text-xs flex items-center justify-center">
                 🔊
             </button>
         </div>
@@ -167,51 +165,19 @@
         <!-- ==================== 1. SCREEN: HOME / LOBBY ==================== -->
         <section id="screenHome" class="w-full grid lg:grid-cols-12 gap-5 items-start">
             
-            <!-- Left Column: Hero Info + Cloud Active Rooms Directory -->
+            <!-- Left Column: Active Rooms Directory -->
             <div class="lg:col-span-7 space-y-4">
-                <div class="luxury-card rounded-2xl p-5 sm:p-6 relative">
-                    <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-950/90 border border-emerald-500/40 text-emerald-300 text-[11px] font-semibold mb-3">
-                        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-                        <span>CLOUD MULTIPLAYER AKTIF • BISA BEDA HP & LAPTOP!</span>
-                    </div>
-                    <h2 class="font-jp text-2xl sm:text-4xl font-black leading-tight">
-                        Duel Kanji & Kotoba <br>
-                        <span class="gold-gradient-text">Cross-Device Online Arena</span>
-                    </h2>
-                    <p class="text-slate-300 text-xs sm:text-sm leading-relaxed mt-2">
-                        Sekarang sudah dilengkapi <strong>Cloud Broker & WebRTC P2P</strong>! Anda bisa membuat Room di HP lalu teman Anda bergabung dari HP lain atau PC berbeda menggunakan 6 angka kunci atau klik langsung dari <strong>Daftar Room Online</strong> di bawah!
-                    </p>
-                    <div class="grid grid-cols-3 gap-2.5 pt-4">
-                        <div class="bg-slate-900/90 border border-amber-500/20 p-2.5 rounded-xl text-center">
-                            <div class="font-jp text-lg sm:text-xl font-bold text-amber-400">220+</div>
-                            <div class="text-[10px] text-slate-400">Kanji & Kotoba</div>
-                        </div>
-                        <div class="bg-slate-900/90 border border-amber-500/20 p-2.5 rounded-xl text-center">
-                            <div class="font-jp text-lg sm:text-xl font-bold text-emerald-400">Online</div>
-                            <div class="text-[10px] text-slate-400">Beda HP / PC</div>
-                        </div>
-                        <div class="bg-slate-900/90 border border-amber-500/20 p-2.5 rounded-xl text-center">
-                            <div class="font-jp text-lg sm:text-xl font-bold text-red-400">10 / 30</div>
-                            <div class="text-[10px] text-slate-400">Mode Soal</div>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- LIVE ONLINE ACTIVE ROOMS LIST -->
                 <div class="luxury-card rounded-2xl p-5 relative">
                     <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-3">
                         <div class="flex items-center gap-2">
                             <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                            <h3 class="font-jp text-sm sm:text-base font-bold text-amber-300">🌐 Daftar Room Online Aktif (Global Lobby)</h3>
+                            <h3 class="font-jp text-sm sm:text-base font-bold text-amber-300">Daftar Room Aktif</h3>
                         </div>
-                        <span class="text-[11px] text-emerald-400 font-semibold">Live Cloud Sync</span>
+                        <span class="text-[11px] text-emerald-400 font-semibold">Live Sync</span>
                     </div>
-                    <p class="text-[11px] text-slate-400 mb-3">
-                        Room yang dibuat oleh pemain lain di perangkat mana pun akan langsung muncul di sini secara otomatis:
-                    </p>
-                    <div id="activeRoomsContainer" class="space-y-2 max-h-56 overflow-y-auto pr-1">
+                    <div id="activeRoomsContainer" class="space-y-2 max-h-72 overflow-y-auto pr-1">
                         <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-800 text-center text-xs text-slate-400">
-                            Memindai Room Online... Buat Room baru di samping untuk memulai!
+                            Memindai Room...
                         </div>
                     </div>
                 </div>
@@ -224,69 +190,69 @@
                 <div class="corner-ornament corner-bl"></div>
                 <div class="corner-ornament corner-br"></div>
 
-                <h3 class="font-jp text-lg font-bold gold-gradient-text mb-4 text-center">Masuk / Buat Room Duel</h3>
+                <h3 class="font-jp text-lg font-bold gold-gradient-text mb-4 text-center">Pengaturan Duel</h3>
 
                 <div class="space-y-3.5">
                     <div>
-                        <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-300 mb-1">Nama Samurai Anda</label>
-                        <input id="playerNameInput" type="text" maxlength="16" placeholder="Contoh: Kenshin"
+                        <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-300 mb-1">Nama Samurai</label>
+                        <input id="playerNameInput" type="text" maxlength="16" placeholder="Nama Anda"
                             class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900/90 border border-slate-700 focus:border-amber-400 focus:outline-none text-white text-sm font-semibold">
                     </div>
 
                     <!-- Join Existing Room Box -->
                     <div class="p-3.5 rounded-xl bg-red-950/30 border border-red-500/40 space-y-2">
-                        <label class="block text-[11px] font-bold uppercase tracking-wider text-amber-300">🔑 Gabung Room dengan Kunci Angka</label>
+                        <label class="block text-[11px] font-bold uppercase tracking-wider text-amber-300">Gabung dengan Kunci Room</label>
                         <div class="flex gap-2">
-                            <input id="joinRoomInput" type="text" inputmode="numeric" maxlength="6" placeholder="Ketik 6 Angka Kunci"
+                            <input id="joinRoomInput" type="text" inputmode="numeric" maxlength="6" placeholder="6 Angka Kunci"
                                 oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                                 class="flex-1 px-3 py-2.5 rounded-xl bg-slate-950 border border-slate-700 focus:border-amber-400 focus:outline-none text-center font-mono text-base tracking-widest text-amber-300 placeholder:text-slate-500 placeholder:text-xs">
-                            <button id="btnJoinRoom" onclick="joinRoom()" class="btn-crimson px-4 py-2.5 rounded-xl text-xs sm:text-sm uppercase tracking-wider shrink-0">
-                                Gabung Duel
+                            <button id="btnJoinRoom" onclick="joinRoom()" class="btn-crimson px-4 py-2.5 rounded-xl text-xs sm:text-sm uppercase tracking-wider shrink-0 flex items-center justify-center">
+                                Gabung
                             </button>
                         </div>
                     </div>
 
                     <div class="relative flex py-1 items-center">
                         <div class="flex-grow border-t border-slate-700"></div>
-                        <span class="flex-shrink mx-3 text-[10px] text-slate-400 uppercase font-semibold">Atau Buat Room Baru</span>
+                        <span class="flex-shrink mx-3 text-[10px] text-slate-400 uppercase font-semibold">Atau</span>
                         <div class="flex-grow border-t border-slate-700"></div>
                     </div>
 
                     <div class="grid grid-cols-2 gap-2.5">
                         <div>
-                            <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-300 mb-1">Kategori Materi</label>
+                            <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-300 mb-1">Kategori</label>
                             <select id="quizModeSelect" class="w-full px-3 py-2.5 rounded-xl bg-slate-900/90 border border-slate-700 focus:border-amber-400 focus:outline-none text-white text-xs font-semibold">
-                                <option value="MIX">🔥 Campuran (220+)</option>
-                                <option value="KANJI">🈶 Fokus Kanji (110)</option>
-                                <option value="KOTOBA">🗣️ Fokus Kotoba (110)</option>
+                                <option value="MIX">Campuran</option>
+                                <option value="KANJI">Fokus Kanji</option>
+                                <option value="KOTOBA">Fokus Kotoba</option>
                             </select>
                         </div>
                         <div>
-                            <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-300 mb-1">Level JLPT</label>
+                            <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-300 mb-1">Level</label>
                             <select id="jlptLevelSelect" class="w-full px-3 py-2.5 rounded-xl bg-slate-900/90 border border-slate-700 focus:border-amber-400 focus:outline-none text-white text-xs font-semibold">
-                                <option value="ALL">🌟 N5 & N4</option>
-                                <option value="N5">🌱 JLPT N5</option>
-                                <option value="N4">⚔️ JLPT N4</option>
+                                <option value="ALL">N5 & N4</option>
+                                <option value="N5">JLPT N5</option>
+                                <option value="N4">JLPT N4</option>
                             </select>
                         </div>
                     </div>
 
                     <div>
-                        <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-300 mb-1">Jumlah Soal Per Sesi</label>
+                        <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-300 mb-1">Jumlah Soal</label>
                         <select id="questionCountSelect" class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900/90 border border-amber-500/40 focus:border-amber-400 focus:outline-none text-amber-300 text-xs sm:text-sm font-bold">
-                            <option value="10">⚡ 10 Soal (Mode Duel Cepat)</option>
-                            <option value="30">🏯 30 Soal (Mode Duel Marathon)</option>
+                            <option value="10">10 Soal (Cepat)</option>
+                            <option value="30">30 Soal (Marathon)</option>
                         </select>
                     </div>
 
                     <button id="btnCreateRoom" onclick="createRoom()" class="w-full btn-gold py-3 rounded-xl text-xs sm:text-sm uppercase tracking-wider flex items-center justify-center gap-2">
-                        <span>⛩️ Buat Room Online Baru</span>
+                        <span>Buat Room Baru</span>
                     </button>
                 </div>
             </div>
         </section>
 
-        <!-- ==================== 2. SCREEN: WAITING ROOM + REALTIME CHAT ==================== -->
+        <!-- ==================== 2. SCREEN: WAITING ROOM + CHAT ==================== -->
         <section id="screenRoom" class="hidden w-full max-w-4xl luxury-card rounded-2xl p-4 sm:p-6 relative">
             <div class="corner-ornament corner-tl"></div>
             <div class="corner-ornament corner-tr"></div>
@@ -296,86 +262,76 @@
             <div class="flex flex-col sm:flex-row items-center justify-between gap-2 border-b border-slate-800 pb-3 mb-4">
                 <div>
                     <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-400/30 text-emerald-300 text-[10px] font-semibold uppercase tracking-widest">
-                        ● Terhubung ke Cloud Room (Tanpa Refresh)
+                        ● Ruang Tunggu
                     </span>
-                    <h2 class="font-jp text-xl sm:text-2xl font-black text-white mt-1">Ruang Persiapan Duel</h2>
+                    <h2 class="font-jp text-xl sm:text-2xl font-black text-white mt-1">Persiapan Duel</h2>
                 </div>
                 <div class="flex gap-2 text-xs">
-                    <span class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-amber-300 font-bold" id="roomModeLabel">Campuran</span>
-                    <span class="px-3 py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-emerald-300 font-bold" id="roomCountLabel">10 Soal</span>
+                    <span class="px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-amber-300 font-bold flex items-center justify-center" id="roomModeLabel">Campuran</span>
+                    <span class="px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-emerald-300 font-bold flex items-center justify-center" id="roomCountLabel">10 Soal</span>
                 </div>
             </div>
 
-            <!-- Room Key Banner -->
             <div class="bg-slate-950/90 border-2 border-amber-500/50 rounded-xl p-3.5 mb-4 flex flex-col sm:flex-row items-center justify-between gap-3">
                 <div class="text-center sm:text-left">
-                    <div class="text-[10px] uppercase tracking-widest text-slate-400">Kunci Room Online (Bagikan ke Teman):</div>
+                    <div class="text-[10px] uppercase tracking-widest text-slate-400">Kunci Room:</div>
                     <div id="roomKeyDisplay" class="font-mono text-3xl sm:text-4xl font-black tracking-[0.25em] gold-gradient-text">------</div>
                 </div>
                 <div class="flex flex-wrap justify-center gap-2">
-                    <button onclick="copyRoomKey()" class="px-3.5 py-2 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 border border-amber-400/50 text-amber-200 text-xs font-bold transition flex items-center gap-1">
+                    <button onclick="copyRoomKey()" class="px-4 py-2.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 border border-amber-400/50 text-amber-200 text-xs font-bold transition flex items-center justify-center gap-1">
                         📋 <span id="copyBtnText">Salin Kunci</span>
                     </button>
-                    <button onclick="addAiChallenger()" class="px-3.5 py-2 rounded-lg bg-purple-600/25 hover:bg-purple-600/40 border border-purple-400/50 text-purple-200 text-xs font-bold transition flex items-center gap-1">
-                        🤖 + Tambah Bot AI
+                    <button onclick="addAiChallenger()" class="px-4 py-2.5 rounded-xl bg-purple-600/25 hover:bg-purple-600/40 border border-purple-400/50 text-purple-200 text-xs font-bold transition flex items-center justify-center gap-1">
+                        🤖 + Bot AI
                     </button>
                 </div>
             </div>
 
-            <!-- Grid: Participants & Real-time Chat -->
             <div class="grid md:grid-cols-12 gap-4 mb-5">
-                
-                <!-- Participants List (5 cols) -->
                 <div class="md:col-span-5 flex flex-col bg-slate-950/60 border border-slate-800 rounded-xl p-3.5">
                     <div class="flex items-center justify-between mb-2.5">
-                        <span class="text-xs font-bold uppercase tracking-wider text-slate-300">Peserta di Room (<span id="playerCountLabel">1</span>)</span>
+                        <span class="text-xs font-bold uppercase tracking-wider text-slate-300">Peserta (<span id="playerCountLabel">1</span>)</span>
                         <span class="text-[10px] text-emerald-400">● Online</span>
                     </div>
                     <div id="participantsGrid" class="space-y-2 flex-1 max-h-56 overflow-y-auto pr-1"></div>
                 </div>
 
-                <!-- Live Chat Box (7 cols) -->
                 <div class="md:col-span-7 flex flex-col bg-slate-950/90 border border-amber-500/30 rounded-xl p-3.5 h-64">
                     <div class="flex items-center justify-between border-b border-slate-800 pb-2 mb-2">
-                        <span class="text-xs font-bold uppercase tracking-wider text-amber-300">💬 Live Chat Antar-Perangkat</span>
+                        <span class="text-xs font-bold uppercase tracking-wider text-amber-300">💬 Live Chat</span>
                         <span class="text-[10px] text-emerald-400 animate-pulse">● Real-Time</span>
                     </div>
                     <div id="chatMessagesBox" class="flex-1 overflow-y-auto space-y-2 pr-1 text-xs"></div>
                     
-                    <!-- Quick Chat Stickers -->
                     <div class="flex gap-1.5 overflow-x-auto py-1.5 border-t border-slate-800/80 mt-1">
-                        <button onclick="sendQuickChat('よろしく！ Mari berduel! ⚔️')" class="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-[10px] text-amber-200 shrink-0">⚔️ Yoroshiku!</button>
-                        <button onclick="sendQuickChat('Siap mulai! 🔥')" class="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-[10px] text-emerald-200 shrink-0">🔥 Siap Mulai!</button>
-                        <button onclick="sendQuickChat('Jangan kalah ya! 😎')" class="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-[10px] text-sky-200 shrink-0">😎 Jangan Kalah!</button>
-                        <button onclick="sendQuickChat('がんばって！ Ganbatte! 🌸')" class="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-[10px] text-pink-200 shrink-0">🌸 Ganbatte!</button>
+                        <button onclick="sendQuickChat('よろしく！ Mari berduel! ⚔️')" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-[10px] text-amber-200 shrink-0 flex items-center justify-center">⚔️ Yoroshiku!</button>
+                        <button onclick="sendQuickChat('Siap mulai! 🔥')" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-[10px] text-emerald-200 shrink-0 flex items-center justify-center">🔥 Siap!</button>
+                        <button onclick="sendQuickChat('Jangan kalah ya! 😎')" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-[10px] text-sky-200 shrink-0 flex items-center justify-center">😎 Semangat!</button>
                     </div>
 
-                    <div class="flex gap-1.5 pt-1">
-                        <input id="chatInputBox" type="text" maxlength="100" placeholder="Ketik pesan obrolan..." 
+                    <div class="flex gap-2 pt-1">
+                        <input id="chatInputBox" type="text" maxlength="100" placeholder="Ketik pesan..." 
                             onkeydown="if(event.key === 'Enter') sendChatMessage('chatInputBox')"
-                            class="flex-1 px-3 py-2 rounded-lg bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-amber-400">
-                        <button onclick="sendChatMessage('chatInputBox')" class="px-4 py-2 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-xs transition">
+                            class="flex-1 px-3.5 py-2.5 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-amber-400">
+                        <button onclick="sendChatMessage('chatInputBox')" class="px-5 py-2.5 rounded-xl bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-xs transition flex items-center justify-center shrink-0">
                             Kirim
                         </button>
                     </div>
                 </div>
             </div>
 
-            <!-- Action Buttons -->
             <div class="flex flex-col sm:flex-row gap-2.5">
-                <button onclick="leaveRoomAndReset()" class="px-5 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold transition">
+                <button onclick="leaveRoomAndReset()" class="px-5 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-bold transition flex items-center justify-center">
                     ← Tinggalkan Room
                 </button>
-                <button id="startDuelBtn" onclick="triggerStartGameForAll()" class="flex-1 btn-gold py-3.5 rounded-xl text-xs sm:text-sm uppercase tracking-wider">
-                    ⚔️ Mulai Pertarungan Bersama Sekarang!
+                <button id="startDuelBtn" onclick="triggerStartGameForAll()" class="flex-1 btn-gold py-3.5 rounded-xl text-xs sm:text-sm uppercase tracking-wider flex items-center justify-center">
+                    ⚔️ Mulai Pertarungan Sekarang!
                 </button>
             </div>
         </section>
 
-        <!-- ==================== 3. SCREEN: DUEL ARENA (GAMEPLAY + MINI CHAT) ==================== -->
+        <!-- ==================== 3. SCREEN: DUEL ARENA (GAMEPLAY) ==================== -->
         <section id="screenGame" class="hidden w-full max-w-5xl space-y-3.5">
-            
-            <!-- Top Arena HUD -->
             <div class="luxury-card rounded-xl p-3 sm:p-4 flex flex-wrap items-center justify-between gap-3">
                 <div class="flex items-center gap-3">
                     <div class="text-center px-3 py-1 rounded-lg bg-red-950/70 border border-red-500/40">
@@ -398,13 +354,11 @@
                 </div>
             </div>
 
-            <!-- Visual Progress Timer Bar -->
             <div class="w-full h-2 bg-slate-900 rounded-full overflow-hidden border border-slate-800">
                 <div id="timerProgressBar" class="h-full bg-gradient-to-r from-amber-400 via-red-500 to-red-700 transition-all duration-100" style="width: 100%;"></div>
             </div>
 
             <div class="grid lg:grid-cols-12 gap-4 items-stretch">
-                <!-- Question Stage -->
                 <div class="lg:col-span-7 luxury-card rounded-2xl p-5 sm:p-6 flex flex-col justify-between relative overflow-hidden">
                     <div class="corner-ornament corner-tl"></div>
                     <div class="corner-ornament corner-tr"></div>
@@ -430,7 +384,6 @@
                     <div id="optionsContainer" class="grid grid-cols-1 gap-2.5 mt-2"></div>
                 </div>
 
-                <!-- Live Standings + In-Game Chat Sidebar -->
                 <div class="lg:col-span-5 flex flex-col gap-3.5">
                     <div class="luxury-card rounded-2xl p-4">
                         <div class="flex items-center justify-between border-b border-slate-800 pb-2 mb-2.5">
@@ -443,14 +396,14 @@
                     <div class="luxury-card rounded-2xl p-3.5 flex-1 flex flex-col h-48">
                         <div class="text-[11px] font-bold text-amber-300 mb-1.5 flex items-center justify-between">
                             <span>💬 Live Arena Chat</span>
-                            <span class="text-[9px] text-slate-400">Langsung tampil di layar lawan</span>
+                            <span class="text-[9px] text-slate-400">Tampil di layar lawan</span>
                         </div>
                         <div id="inGameChatBox" class="flex-1 overflow-y-auto space-y-1.5 pr-1 text-[11px] bg-slate-950/60 rounded-lg p-2 border border-slate-800/80"></div>
-                        <div class="flex gap-1.5 mt-2">
-                            <input id="inGameChatInput" type="text" maxlength="60" placeholder="Kirim pesan cepat..." 
+                        <div class="flex gap-2 mt-2">
+                            <input id="inGameChatInput" type="text" maxlength="60" placeholder="Kirim komentar..." 
                                 onkeydown="if(event.key === 'Enter') sendChatMessage('inGameChatInput')"
-                                class="flex-1 px-2.5 py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-amber-400">
-                            <button onclick="sendChatMessage('inGameChatInput')" class="px-3 py-1.5 rounded-lg bg-amber-500 text-slate-950 font-bold text-xs">
+                                class="flex-1 px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-amber-400">
+                            <button onclick="sendChatMessage('inGameChatInput')" class="px-4 py-2 rounded-xl bg-amber-500 text-slate-950 font-bold text-xs flex items-center justify-center shrink-0">
                                 Kirim
                             </button>
                         </div>
@@ -517,15 +470,15 @@
             </div>
 
             <div class="mb-6">
-                <h3 class="font-jp text-xs font-bold uppercase tracking-wider text-amber-300 mb-2.5">🏅 Klasemen Akhir Peserta Room (Real-Time)</h3>
+                <h3 class="font-jp text-xs font-bold uppercase tracking-wider text-amber-300 mb-2.5">🏅 Klasemen Akhir Peserta Room</h3>
                 <div id="finalPodiumList" class="space-y-2"></div>
             </div>
 
             <div class="flex flex-col sm:flex-row gap-2.5">
-                <button onclick="returnToWaitingRoom()" class="flex-1 btn-gold py-3 rounded-xl text-xs sm:text-sm uppercase tracking-wider">
+                <button onclick="returnToWaitingRoom()" class="flex-1 btn-gold py-3 rounded-xl text-xs sm:text-sm uppercase tracking-wider flex items-center justify-center">
                     🔄 Kembali ke Waiting Room & Main Lagi
                 </button>
-                <button onclick="leaveRoomAndReset()" class="px-5 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition">
+                <button onclick="leaveRoomAndReset()" class="px-5 py-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold transition flex items-center justify-center">
                     🏠 Menu Utama
                 </button>
             </div>
@@ -535,14 +488,11 @@
 
     <!-- Footer -->
     <footer class="relative z-10 text-center py-3 text-[11px] text-slate-500 border-t border-slate-800/60">
-        雅 MIYABI Arena • Online Cross-Device Engine (MQTT Cloud + WebRTC + Local Fallback)
+        雅 MIYABI Arena • 220+ Bank Soal JLPT N5 & N4 • Live Room Directory & Real-Time Chat
     </footer>
 
     <!-- ==================== JAVASCRIPT ENGINE ==================== -->
     <script>
-        /* =========================================================================
-           1. AUTO-HIDE HEADER & TOAST
-           ========================================================================= */
         let lastScrollTop = 0;
         const header = document.getElementById('mainHeader');
         window.addEventListener('scroll', function() {
@@ -564,11 +514,7 @@
             setTimeout(() => el.remove(), 2800);
         }
 
-        /* =========================================================================
-           2. DATABASE 220+ KANJI & KOTOBA JLPT N5 & N4
-           ========================================================================= */
         const RAW_VOCAB_DATABASE = [
-            // --- 55 KANJI JLPT N5 ---
             ["KANJI", "N5", "学校", "がっこう (Sekolah)"],
             ["KANJI", "N5", "先生", "せんせい (Guru / Dokter)"],
             ["KANJI", "N5", "毎日", "まいにち (Setiap Hari)"],
@@ -625,7 +571,6 @@
             ["KANJI", "N5", "東口", "ひがしぐち (Pintu Timur)"],
             ["KANJI", "N5", "西口", "にしぐち (Pintu Barat)"],
 
-            // --- 55 KANJI JLPT N4 ---
             ["KANJI", "N4", "会社", "かいしゃ (Perusahaan)"],
             ["KANJI", "N4", "病院", "びょういん (Rumah Sakit)"],
             ["KANJI", "N4", "旅行", "りょこう (Perjalanan Wisata)"],
@@ -682,7 +627,6 @@
             ["KANJI", "N4", "入学", "にゅうがく (Masuk Sekolah)"],
             ["KANJI", "N4", "故障", "こしょう (Kerusakan Mesin)"],
 
-            // --- 55 KOTOBA JLPT N5 ---
             ["KOTOBA", "N5", "美味しい", "おいしい (Enak / Lezat)"],
             ["KOTOBA", "N5", "忙しい", "いそがしい (Sibuk)"],
             ["KOTOBA", "N5", "楽しい", "たのしい (Menyenangkan)"],
@@ -739,7 +683,6 @@
             ["KOTOBA", "N5", "色々", "いろいろ (Bermacam-macam)"],
             ["KOTOBA", "N5", "大丈夫", "だいじょうぶ (Tidak Apa-apa)"],
 
-            // --- 55 KOTOBA JLPT N4 ---
             ["KOTOBA", "N4", "一生懸命", "いっしょうけんめい (Bersungguh-sungguh)"],
             ["KOTOBA", "N4", "懐かしい", "なつかしい (Rindu Masa Lalu / Nostalgia)"],
             ["KOTOBA", "N4", "羨ましい", "うらやましい (Iri / Cemburu Positif)"],
@@ -826,7 +769,7 @@
         }
 
         /* =========================================================================
-           3. WEB AUDIO SYNTHESIZER & CHIPTUNE BGM
+           3. AUDIO & CHIPTUNE BGM
            ========================================================================= */
         let soundEnabled = true;
         let bgmPlaying = false;
@@ -959,8 +902,7 @@
         }
 
         /* =========================================================================
-           4. HYBRID CLOUD MULTIPLAYER ENGINE (MQTT CLOUD + PEERJS P2P + LOCAL)
-           Bisa konek beda HP, beda Laptop, beda Jaringan tanpa perlu Backend!
+           4. CLOUD MULTIPLAYER ENGINE
            ========================================================================= */
         const ROUND_TIME = 12.0;
         const ROOM_PREFIX = 'miyabi_cloud_v4_';
@@ -976,17 +918,14 @@
         let lastKnownChatCount = 0;
         let roomState = null;
 
-        // Cloud MQTT & PeerJS State
         let mqttClient = null;
-        let globalActiveRooms = {}; // { roomKey: roomSummary }
+        let globalActiveRooms = {};
 
-        // Local Gameplay State
         let currentRoundIndex = 0;
         let roundTimerInterval = null;
         let roundTimeLeft = ROUND_TIME;
         let hasAnsweredCurrentRound = false;
 
-        // Inisialisasi Koneksi Cloud MQTT (HiveMQ Public WebSockets)
         function initCloudNetwork() {
             try {
                 mqttClient = mqtt.connect('wss://broker.hivemq.com:8884/mqtt', {
@@ -998,7 +937,7 @@
 
                 mqttClient.on('connect', () => {
                     document.getElementById('netStatusDot').className = 'w-2 h-2 rounded-full bg-emerald-400';
-                    document.getElementById('netStatusText').textContent = 'Cloud Online (Siap Beda HP/PC)';
+                    document.getElementById('netStatusText').textContent = 'Cloud Online';
                     mqttClient.subscribe(MQTT_LOBBY_TOPIC);
                     if (currentRoomKey) {
                         mqttClient.subscribe(MQTT_ROOM_TOPIC_PREFIX + currentRoomKey);
@@ -1022,14 +961,11 @@
                         }
                     } catch (e) {}
                 });
-            } catch (err) {
-                console.warn('Fallback ke Local Mode:', err);
-            }
+            } catch (err) {}
         }
         initCloudNetwork();
 
         function publishToCloudRoom(roomKey, payload) {
-            // Simpan juga di localStorage untuk tab di browser yang sama
             if (payload.fullState) {
                 try {
                     localStorage.setItem(ROOM_PREFIX + roomKey, JSON.stringify(payload.fullState));
@@ -1065,7 +1001,6 @@
         function handleCloudRoomEvent(data) {
             if (!data) return;
 
-            // Jika ada pemain baru meminta state terbaru dari Host/Peserta di room
             if (data.type === 'REQUEST_SYNC' && roomState && data.requesterId !== myPlayerId) {
                 if (data.newPlayer) {
                     roomState.players[data.newPlayer.id] = data.newPlayer;
@@ -1089,7 +1024,6 @@
             }
         }
 
-        // Atomic Updater: perbarui state lokal + kirim langsung ke Cloud MQTT
         function updateRoomAtomically(key, mutatorFn) {
             if (!roomState) {
                 try {
@@ -1105,7 +1039,6 @@
             syncUIFromRoomState();
         }
 
-        // Heartbeat pengumuman Room ke Global Lobby setiap 4 detik agar HP/PC lain langsung melihat
         setInterval(() => {
             if (currentRoomKey && roomState) {
                 broadcastRoomToGlobalLobby(roomState);
@@ -1115,7 +1048,6 @@
             }
         }, 3500);
 
-        // Listener LocalStorage untuk sesama browser
         window.addEventListener('storage', (e) => {
             if (currentRoomKey && e.key === ROOM_PREFIX + currentRoomKey && e.newValue) {
                 try {
@@ -1156,14 +1088,13 @@
         }
 
         /* =========================================================================
-           5. DAFTAR ROOM ONLINE AKTIF (GLOBAL LOBBY)
+           5. ACTIVE ROOMS DIRECTORY
            ========================================================================= */
         function renderActiveRoomsDirectory() {
             const container = document.getElementById('activeRoomsContainer');
             if (!container) return;
 
             const now = Date.now();
-            // Gabungkan dari LocalStorage & Cloud MQTT
             for (let i = 0; i < localStorage.length; i++) {
                 const k = localStorage.key(i);
                 if (k && k.startsWith(ROOM_PREFIX)) {
@@ -1192,7 +1123,7 @@
             if (roomArray.length === 0) {
                 container.innerHTML = `
                     <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-800 text-center text-xs text-slate-400">
-                        Belum ada Room aktif saat ini. Klik <strong class="text-amber-300">"Buat Room Online Baru"</strong> di samping untuk membuka room pertama!
+                        Belum ada Room aktif saat ini. Silakan buat Room baru di sebelah kanan!
                     </div>
                 `;
                 return;
@@ -1201,8 +1132,8 @@
             container.innerHTML = roomArray.map(r => {
                 const isWaiting = r.status === 'WAITING';
                 const statusBadge = isWaiting 
-                    ? `<span class="px-2 py-0.5 rounded bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 text-[10px] font-bold">MENUNGGU LAWAN</span>`
-                    : `<span class="px-2 py-0.5 rounded bg-amber-500/20 border border-amber-400/40 text-amber-300 text-[10px] font-bold">SEDANG BERTARUNG</span>`;
+                    ? `<span class="px-2 py-0.5 rounded bg-emerald-500/25 border border-emerald-400/40 text-emerald-300 text-[10px] font-bold">MENUNGGU</span>`
+                    : `<span class="px-2 py-0.5 rounded bg-amber-500/25 border border-amber-400/40 text-amber-300 text-[10px] font-bold">BERTARUNG</span>`;
 
                 return `
                     <div class="p-3 rounded-xl bg-slate-900/95 border border-amber-500/30 hover:border-amber-400 transition flex items-center justify-between gap-3">
@@ -1212,17 +1143,12 @@
                                 ${statusBadge}
                             </div>
                             <div class="text-[11px] text-slate-400 mt-0.5">
-                                Host: <strong class="text-white">${r.hostName}</strong> • ${r.playerCount} Peserta • ${r.questionCount} Soal (${r.level})
+                                Host: <strong class="text-white">${r.hostName}</strong> • ${r.playerCount} Peserta • ${r.questionCount} Soal
                             </div>
                         </div>
-                        <div class="flex gap-1.5 shrink-0">
-                            <button onclick="fillRoomKeyAndFocus('${r.roomKey}')" class="px-3 py-1.5 rounded-lg bg-amber-500/20 hover:bg-amber-500/30 border border-amber-400/50 text-amber-200 text-xs font-bold transition">
-                                Pilih Kunci
-                            </button>
-                            <button onclick="quickJoinRoomFromList('${r.roomKey}')" class="px-3 py-1.5 rounded-lg bg-red-600 hover:bg-red-500 text-white text-xs font-extrabold transition">
-                                Langsung Join
-                            </button>
-                        </div>
+                        <button onclick="fillRoomKeyAndFocus('${r.roomKey}')" class="px-3.5 py-2 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 border border-amber-400/50 text-amber-200 text-xs font-bold transition shrink-0 flex items-center justify-center">
+                            Pilih Kunci
+                        </button>
                     </div>
                 `;
             }).join('');
@@ -1232,16 +1158,11 @@
             const inp = document.getElementById('joinRoomInput');
             inp.value = key;
             inp.focus();
-            showToast(`Kunci Room ${key} dimasukkan! Klik "Gabung Duel".`);
-        }
-
-        function quickJoinRoomFromList(key) {
-            document.getElementById('joinRoomInput').value = key;
-            joinRoom();
+            showToast(`Kunci Room ${key} dimasukkan!`);
         }
 
         /* =========================================================================
-           6. ROOM CREATION, JOINING & LIVE CHAT FUNCTIONS
+           6. ROOM MANAGEMENT & CHAT
            ========================================================================= */
         function createPlayerObject(id, name, isBot = false, isHost = false) {
             return { id, name, score: 0, combo: 0, maxCombo: 0, correctCount: 0, totalAnswerTime: 0, isBot, isHost };
@@ -1274,8 +1195,8 @@
                 players: {},
                 chatMessages: [{
                     id: 'msg_' + Date.now(),
-                    sender: '🏯 Sistem Cloud',
-                    text: `Room Online ${currentRoomKey} dibuka oleh ${myPlayerName}. Teman di HP/PC lain bisa langsung join sekarang!`,
+                    sender: '🏯 Sistem',
+                    text: `Room ${currentRoomKey} dibuka oleh ${myPlayerName}.`,
                     time: getFormattedTime()
                 }],
                 updatedAt: Date.now()
@@ -1289,13 +1210,13 @@
 
             showScreen('screenRoom');
             syncUIFromRoomState();
-            showToast(`Room Online ${currentRoomKey} aktif!`);
+            showToast(`Room ${currentRoomKey} aktif!`);
         }
 
         function joinRoom() {
             const codeInput = document.getElementById('joinRoomInput').value.trim();
             if (codeInput.length !== 6) {
-                alert('Masukkan 6 digit angka Kunci Room terlebih dahulu!');
+                alert('Masukkan 6 digit angka Kunci Room!');
                 return;
             }
             playSfx('gong_start');
@@ -1309,12 +1230,11 @@
             const me = createPlayerObject(myPlayerId, myPlayerName, false, false);
             const joinChat = {
                 id: 'msg_' + Date.now() + '_' + Math.random(),
-                sender: '⚔️ Sistem Cloud',
-                text: `${myPlayerName} telah bergabung ke dalam Room!`,
+                sender: '⚔️ Sistem',
+                text: `${myPlayerName} bergabung ke room.`,
                 time: getFormattedTime()
             };
 
-            // Cek jika ada di localStorage terlebih dahulu, sembari meminta sinkronisasi dari Host lewat Cloud MQTT
             let localExisting = null;
             try {
                 const raw = localStorage.getItem(ROOM_PREFIX + currentRoomKey);
@@ -1343,7 +1263,6 @@
             showScreen('screenRoom');
             syncUIFromRoomState();
 
-            // Kirim sinyal REQUEST_SYNC ke Cloud agar Host di perangkat lain mengirimkan daftar peserta & chat lengkap
             publishToCloudRoom(currentRoomKey, {
                 type: 'REQUEST_SYNC',
                 requesterId: myPlayerId,
@@ -1368,7 +1287,7 @@
                 state.chatMessages.push({
                     id: 'msg_' + Date.now(),
                     sender: botName,
-                    text: 'よろしく！ Saya siap melayani tantangan Kanji Anda!',
+                    text: 'よろしく！ Siap berduel Kanji!',
                     time: getFormattedTime()
                 });
             });
@@ -1401,16 +1320,10 @@
                 });
                 if (state.chatMessages.length > 50) state.chatMessages.shift();
 
-                // Bot AI membalas chat secara ramah jika ada bot di dalam room
                 const bots = Object.values(state.players || {}).filter(p => p.isBot);
                 if (bots.length > 0 && senderName === myPlayerName && Math.random() < 0.65) {
                     const randomBot = bots[Math.floor(Math.random() * bots.length)];
-                    const botReplies = [
-                        'いいですよ！ Ayo kita buktikan di arena! ⚔️',
-                        'Jangan lengah, soal N4 cukup menantang! 🔥',
-                        'Ganbatte kudasai! 🌸',
-                        'Siap kapan saja! Tekan Mulai Pertarungan! 🏯'
-                    ];
+                    const botReplies = ['Ayo buktikan di arena! ⚔️', 'Soal N4 cukup menantang! 🔥', 'Ganbatte! 🌸', 'Siap kapan saja! 🏯'];
                     setTimeout(() => {
                         if (!currentRoomKey) return;
                         updateRoomAtomically(currentRoomKey, (st2) => {
@@ -1479,7 +1392,7 @@
             document.getElementById('headerRoomCode').textContent = roomState.roomKey;
             document.getElementById('roomBadge').classList.remove('hidden');
 
-            const modeMap = { MIX: 'Campuran (Kanji+Kotoba)', KANJI: 'Fokus Kanji', KOTOBA: 'Fokus Kotoba' };
+            const modeMap = { MIX: 'Campuran', KANJI: 'Fokus Kanji', KOTOBA: 'Fokus Kotoba' };
             document.getElementById('roomModeLabel').textContent = `${modeMap[roomState.mode] || 'Campuran'} • ${roomState.level}`;
             document.getElementById('roomCountLabel').textContent = `${roomState.questionCount} Soal`;
 
@@ -1493,7 +1406,7 @@
                         <span class="text-base">${p.isBot ? '🤖' : '侍'}</span>
                         <div>
                             <div class="font-bold text-white truncate">${p.name} ${p.id === myPlayerId ? '<span class="text-amber-300">(Anda)</span>' : ''}</div>
-                            <div class="text-[10px] text-slate-400">${p.isHost ? '👑 Host Room' : (p.isBot ? 'Master AI' : 'Challenger Online')}</div>
+                            <div class="text-[10px] text-slate-400">${p.isHost ? '👑 Host' : (p.isBot ? 'Bot' : 'Peserta')}</div>
                         </div>
                     </div>
                     <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-bold shrink-0">SIAP</span>
@@ -1502,7 +1415,7 @@
         }
 
         /* =========================================================================
-           7. LOCKSTEP MULTIPLAYER GAMEPLAY ENGINE (2+ PLAYERS PLAY TOGETHER)
+           7. GAMEPLAY ENGINE
            ========================================================================= */
         function triggerStartGameForAll() {
             if (!currentRoomKey) return;
@@ -1538,8 +1451,8 @@
                 state.status = 'PLAYING';
                 state.chatMessages.push({
                     id: 'msg_start_' + Date.now(),
-                    sender: '🔥 Arena Cloud',
-                    text: `Pertarungan ${state.questionCount} soal dimulai serentak!`,
+                    sender: '🔥 Arena',
+                    text: `Pertarungan ${state.questionCount} soal dimulai!`,
                     time: getFormattedTime()
                 });
             });
@@ -1755,7 +1668,7 @@
         }
 
         /* =========================================================================
-           8. RESULT & EVALUATION SCREEN
+           8. RESULTS SCREEN
            ========================================================================= */
         function finishGame() {
             clearInterval(roundTimerInterval);
