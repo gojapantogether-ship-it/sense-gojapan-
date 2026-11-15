@@ -1,0 +1,1290 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>JLPT Free Simulator | Akira Course</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@400;500;700&family=Noto+Serif+JP:wght@500;700;900&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet" />
+
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            torii: '#BC002D',
+            toriiDark: '#920022',
+            indigoJp: '#1B365D',
+            indigoLight: '#2B4C7E',
+            goldJp: '#D4AF37',
+            goldLight: '#F3E5AB',
+            washi: '#FAF7F0',
+            washiDark: '#F0EAE0',
+            inkJp: '#1F242D'
+          },
+          fontFamily: {
+            sans: ['"Plus Jakarta Sans"', '"Noto Sans JP"', 'sans-serif'],
+            jp: ['"Noto Sans JP"', 'sans-serif'],
+            serifJp: ['"Noto Serif JP"', 'serif']
+          }
+        }
+      }
+    };
+  </script>
+
+  <style>
+    body {
+      background-color: #FAF7F0;
+      color: #1F242D;
+      background-image:
+        radial-gradient(rgba(27, 54, 93, 0.035) 1px, transparent 0),
+        radial-gradient(rgba(212, 175, 55, 0.04) 1px, #FAF7F0 0);
+      background-size: 28px 28px;
+      background-position: 0 0, 14px 14px;
+      overflow-x: hidden;
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+    }
+
+    .seigaiha-bg {
+      background-color: #1B365D;
+      background-image:
+        radial-gradient(circle at 100% 150%, #1B365D 24%, #244575 25%, #244575 28%, #1B365D 29%, #1B365D 36%, #244575 36%, #244575 40%, transparent 40%, transparent),
+        radial-gradient(circle at 0   150%, #1B365D 24%, #244575 25%, #244575 28%, #1B365D 29%, #1B365D 36%, #244575 36%, #244575 40%, transparent 40%, transparent),
+        radial-gradient(circle at 50%  100%, #244575 10%, #1B365D 11%, #1B365D 23%, #244575 24%, #244575 30%, #1B365D 31%, #1B365D 43%, #244575 44%, #244575 50%, #1B365D 51%, #1B365D 63%, #244575 64%, #244575 71%, transparent 71%, transparent);
+      background-size: 64px 32px;
+    }
+
+    .washi-card {
+      background: linear-gradient(145deg, #FFFFFF 0%, #FCF9F2 100%);
+      box-shadow: 0 10px 30px -5px rgba(27, 54, 93, 0.08), 0 4px 10px -2px rgba(27, 54, 93, 0.04);
+      border: 1px solid rgba(212, 175, 55, 0.35);
+    }
+
+    .sakura-petal {
+      position: fixed;
+      top: -40px;
+      pointer-events: none;
+      z-index: 40;
+      animation: fallSakura linear infinite;
+    }
+
+    @keyframes fallSakura {
+      0% { transform: translateY(-40px) translateX(0px) rotate(0deg) scale(0.9); opacity: 0; }
+      10% { opacity: 0.85; }
+      50% { transform: translateY(50vh) translateX(45px) rotate(180deg) scale(1); }
+      90% { opacity: 0.75; }
+      100% { transform: translateY(105vh) translateX(-30px) rotate(360deg) scale(0.85); opacity: 0; }
+    }
+
+    .eq-bar {
+      width: 4px;
+      height: 8px;
+      background-color: #D4AF37;
+      border-radius: 9999px;
+      transition: height 0.15s ease;
+    }
+    .eq-playing .eq-bar {
+      animation: eqBounce 0.6s ease-in-out infinite alternate;
+    }
+    .eq-playing .eq-bar:nth-child(2) { animation-delay: 0.12s; }
+    .eq-playing .eq-bar:nth-child(3) { animation-delay: 0.25s; }
+    .eq-playing .eq-bar:nth-child(4) { animation-delay: 0.08s; }
+    .eq-playing .eq-bar:nth-child(5) { animation-delay: 0.32s; }
+    .eq-playing .eq-bar:nth-child(6) { animation-delay: 0.18s; }
+
+    @keyframes eqBounce {
+      0% { height: 6px; background-color: #D4AF37; }
+      100% { height: 28px; background-color: #BC002D; }
+    }
+
+    ::-webkit-scrollbar { width: 8px; height: 8px; }
+    ::-webkit-scrollbar-track { background: #F0EAE0; }
+    ::-webkit-scrollbar-thumb { background: #B8C4D4; border-radius: 4px; }
+    ::-webkit-scrollbar-thumb:hover { background: #1B365D; }
+  </style>
+</head>
+<body class="min-h-screen flex flex-col font-sans antialiased selection:bg-torii selection:text-white">
+
+  <!-- Sakura Petals Container -->
+  <div id="sakura-container" aria-hidden="true"></div>
+
+  <!-- Toast Notification -->
+  <div id="toast-box" class="fixed bottom-5 right-5 z-50 transform translate-y-24 opacity-0 transition-all duration-300 pointer-events-none">
+    <div class="bg-indigoJp text-white px-5 py-3.5 rounded-xl shadow-2xl border border-goldJp/50 flex items-center gap-3 max-w-sm">
+      <span id="toast-icon" class="text-goldJp text-xl">🌸</span>
+      <p id="toast-message" class="text-sm font-medium leading-snug"></p>
+    </div>
+  </div>
+
+  <!-- Confirmation Modal -->
+  <div id="confirm-modal" class="fixed inset-0 z-50 hidden items-center justify-center bg-slate-900/65 backdrop-blur-sm p-4">
+    <div class="washi-card rounded-2xl max-w-md w-full p-6 sm:p-7 border-2 border-goldJp/60">
+      <div class="flex items-center gap-3 mb-4">
+        <div class="w-11 h-11 rounded-xl bg-torii/10 text-torii flex items-center justify-center text-xl font-bold">確認</div>
+        <div>
+          <h3 id="modal-title" class="text-lg font-bold text-indigoJp">Kumpulkan Ujian Sekarang?</h3>
+          <p class="text-xs text-slate-500 font-jp">試験を終了して採点しますか？</p>
+        </div>
+      </div>
+      <div id="modal-body" class="text-sm text-slate-700 space-y-2.5 mb-6 bg-washiDark/70 p-4 rounded-xl border border-slate-200"></div>
+      <div class="flex flex-col sm:flex-row gap-3 justify-end">
+        <button id="modal-cancel-btn" type="button" class="px-4 py-2.5 rounded-xl border border-slate-300 text-slate-700 font-semibold text-sm hover:bg-slate-100 transition">Kembali</button>
+        <button id="modal-confirm-btn" type="button" class="px-5 py-2.5 rounded-xl bg-torii text-white font-bold text-sm hover:bg-toriiDark shadow-lg shadow-torii/25 transition">Ya, Kumpulkan & Nilai</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================================================================== -->
+  <!-- VIEW 1: LOBBY UJIAN (HALAMAN AWAL)                                    -->
+  <!-- ===================================================================== -->
+  <main id="view-lobby" class="flex-1 flex flex-col">
+    <header class="seigaiha-bg text-white border-b-4 border-goldJp shadow-lg">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex flex-wrap items-center justify-between gap-4">
+        <div class="flex items-center gap-3.5">
+          <div class="w-12 h-12 rounded-xl bg-torii flex items-center justify-center shadow-md border border-goldJp/60 shrink-0">
+            <svg class="w-7 h-7 text-white" viewBox="0 0 24 24" fill="currentColor">
+              <path d="M2 4h20v2.5H2V4zm2 3.5h16v2H4v-2zM6.5 9.5h2.5V21H6.5V9.5zm8.5 0h2.5V21H15V9.5zM11 6.5h2v3h-2v-3z"/>
+            </svg>
+          </div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-bold tracking-widest uppercase px-2 py-0.5 rounded bg-goldJp/20 text-goldLight border border-goldJp/40">JLPT Free Edition</span>
+              <span class="text-xs text-slate-300 font-jp">日本語無料模擬試験</span>
+            </div>
+            <h1 class="text-xl sm:text-2xl font-extrabold tracking-tight font-serifJp">Akira Course <span class="text-goldJp">JLPT Free</span> Simulator</h1>
+          </div>
+        </div>
+        <div class="bg-white/10 backdrop-blur px-3.5 py-2 rounded-xl border border-white/15 text-xs sm:text-sm">
+          <span>Total Ujian: <strong class="text-goldLight">30 Soal Proporsional</strong></span>
+        </div>
+      </div>
+    </header>
+
+    <section class="max-w-6xl mx-auto w-full px-4 sm:px-6 py-8 sm:py-12 flex-1">
+      <div class="grid lg:grid-cols-12 gap-8 items-start">
+        <!-- Left Info -->
+        <div class="lg:col-span-7 space-y-6">
+          <div class="inline-flex items-center gap-2 px-3.5 py-1.5 rounded-full bg-torii/10 text-torii border border-torii/25 text-xs font-bold">
+            <span>⛩️</span>
+            <span>Simulasi Ujian Gratis • Level N5–N4 / JFT-Basic</span>
+          </div>
+
+          <h2 class="text-3xl sm:text-4xl font-black text-indigoJp leading-tight font-serifJp">
+            Latihan Ujian Bahasa Jepang <span class="text-torii underline decoration-goldJp decoration-4 underline-offset-4">Gratis & Interaktif</span>
+          </h2>
+
+          <p class="text-slate-600 text-base leading-relaxed">
+            Simulasi ini menyajikan <strong>30 soal pilihan ganda</strong> yang diacak otomatis (10 Kanji/Kosakata, 10 Dokkai/Membaca, dan 10 Choukai/Mendengarkan dengan audio TTS native). Dilengkapi timer dan pembahasan lengkap di akhir.
+          </p>
+
+          <div class="grid sm:grid-cols-3 gap-4 pt-1">
+            <div class="washi-card rounded-2xl p-4 border-t-4 border-t-indigoJp">
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-bold uppercase tracking-wider text-indigoJp bg-indigoJp/10 px-2 py-0.5 rounded-md">Bagian 1</span>
+                <span class="font-serifJp font-bold text-indigoJp">文字・語彙</span>
+              </div>
+              <h3 class="font-bold text-slate-800 text-sm">Kanji & Kosakata</h3>
+              <p class="text-xs text-slate-500 mt-1">10 soal pilihan ganda.</p>
+              <div class="mt-3 pt-2.5 border-t border-slate-200/80 flex justify-between text-xs font-semibold">
+                <span class="text-slate-500">Soal 1–10</span>
+                <span class="text-indigoJp">50 Poin</span>
+              </div>
+            </div>
+
+            <div class="washi-card rounded-2xl p-4 border-t-4 border-t-goldJp">
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-bold uppercase tracking-wider text-amber-800 bg-goldJp/25 px-2 py-0.5 rounded-md">Bagian 2</span>
+                <span class="font-serifJp font-bold text-amber-800">読解</span>
+              </div>
+              <h3 class="font-bold text-slate-800 text-sm">Dokkai (Membaca)</h3>
+              <p class="text-xs text-slate-500 mt-1">10 soal pemahaman teks.</p>
+              <div class="mt-3 pt-2.5 border-t border-slate-200/80 flex justify-between text-xs font-semibold">
+                <span class="text-slate-500">Soal 11–20</span>
+                <span class="text-amber-800">50 Poin</span>
+              </div>
+            </div>
+
+            <div class="washi-card rounded-2xl p-4 border-t-4 border-t-torii">
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-xs font-bold uppercase tracking-wider text-torii bg-torii/10 px-2.5 py-0.5 rounded-md">Bagian 3</span>
+                <span class="font-serifJp font-bold text-torii">聴解</span>
+              </div>
+              <h3 class="font-bold text-slate-800 text-sm">Choukai (Listening)</h3>
+              <p class="text-xs text-slate-500 mt-1">10 soal audio (limit 2x putar).</p>
+              <div class="mt-3 pt-2.5 border-t border-slate-200/80 flex justify-between text-xs font-semibold">
+                <span class="text-slate-500">Soal 21–30</span>
+                <span class="text-torii">50 Poin</span>
+              </div>
+            </div>
+          </div>
+
+          <div class="washi-card rounded-2xl p-5 flex items-center gap-4 bg-gradient-to-r from-indigoJp/5 via-white to-goldJp/10">
+            <div class="w-14 h-14 rounded-2xl bg-indigoJp text-goldJp flex flex-col items-center justify-center shrink-0 shadow">
+              <span class="text-xs font-bold">SKOR</span>
+              <span class="text-lg font-black leading-none">150</span>
+            </div>
+            <div>
+              <h4 class="font-bold text-indigoJp text-sm sm:text-base">Kriteria Kelulusan (合格基準)</h4>
+              <p class="text-xs sm:text-sm text-slate-600 mt-0.5">
+                Setiap jawaban benar bernilai <strong>5 poin</strong>. Skor <strong class="text-emerald-700">≥ 120 poin (min. 24 soal benar)</strong> dinyatakan <span class="font-bold text-emerald-700">LULUS (合格)</span>.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <!-- Right: Registration Box -->
+        <div class="lg:col-span-5">
+          <div class="washi-card rounded-3xl p-6 sm:p-8 border-2 border-goldJp/50 relative overflow-hidden">
+            <div class="absolute top-0 right-0 w-28 h-28 bg-torii/5 rounded-bl-full pointer-events-none"></div>
+
+            <div class="flex items-center justify-between mb-5">
+              <div>
+                <span class="text-xs font-bold uppercase tracking-wider text-torii">Registrasi Peserta</span>
+                <h3 class="text-xl font-extrabold text-indigoJp font-serifJp">Mulai Ujian Gratis</h3>
+              </div>
+              <span class="font-serifJp text-2xl text-goldJp font-black">無料</span>
+            </div>
+
+            <div class="space-y-5">
+              <div>
+                <label for="candidate-name" class="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">
+                  Nama Lengkap Peserta <span class="text-torii">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="candidate-name"
+                  placeholder="Contoh: Siti Rahmawati"
+                  maxlength="48"
+                  class="w-full px-4 py-3 rounded-xl bg-white border-2 border-slate-200 focus:border-indigoJp focus:outline-none text-slate-800 font-semibold transition"
+                />
+                <p id="name-error" class="text-xs text-torii font-semibold mt-1 hidden">
+                  Silakan masukkan nama lengkap Anda terlebih dahulu.
+                </p>
+              </div>
+
+              <div class="bg-washiDark/80 rounded-2xl p-4 border border-goldJp/40">
+                <div class="flex items-center justify-between mb-2">
+                  <span class="text-xs font-bold text-indigoJp">🎲 Status Soal</span>
+                  <span id="packet-code" class="text-xs font-mono font-bold px-2.5 py-0.5 rounded bg-indigoJp text-goldLight">PKT-FREE-30</span>
+                </div>
+                <p class="text-xs text-slate-600 mb-3">30 soal diacak otomatis dari bank soal latihan JLPT.</p>
+                <button
+                  type="button"
+                  id="btn-reshuffle"
+                  class="w-full py-2.5 px-4 rounded-xl bg-white hover:bg-indigoJp/5 text-indigoJp border border-indigoJp/30 font-bold text-xs sm:text-sm flex items-center justify-center gap-2 transition"
+                >
+                  <svg id="shuffle-icon" class="w-4 h-4 text-torii transition-transform duration-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"/>
+                  </svg>
+                  <span>Acak Ulang Soal</span>
+                </button>
+              </div>
+
+              <div class="grid grid-cols-2 gap-3 text-xs">
+                <div class="bg-white p-3 rounded-xl border border-slate-200 flex items-center gap-2.5">
+                  <span class="text-lg">⏱️</span>
+                  <div>
+                    <div class="text-slate-400">Waktu Ujian</div>
+                    <div class="font-bold text-slate-800">40 Menit</div>
+                  </div>
+                </div>
+                <div class="bg-white p-3 rounded-xl border border-slate-200 flex items-center gap-2.5">
+                  <span class="text-lg">🎧</span>
+                  <div>
+                    <div class="text-slate-400">Audio Choukai</div>
+                    <div class="font-bold text-slate-800">Maks 2x Putar</div>
+                  </div>
+                </div>
+              </div>
+
+              <button
+                type="button"
+                id="btn-start-exam"
+                class="w-full py-4 px-6 rounded-2xl bg-gradient-to-r from-torii to-toriiDark hover:from-toriiDark hover:to-torii text-white font-extrabold text-base shadow-xl shadow-torii/30 flex items-center justify-center gap-3 transition"
+              >
+                <span>Mulai Ujian Gratis</span>
+                <span class="font-jp text-sm bg-white/20 px-2 py-0.5 rounded">試験開始</span>
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ===================================================================== -->
+  <!-- VIEW 2: RUANG UJIAN CBT (EXAM INTERFACE)                              -->
+  <!-- ===================================================================== -->
+  <section id="view-exam" class="hidden flex-1 flex-col min-h-screen">
+    <header class="bg-indigoJp text-white border-b-4 border-goldJp sticky top-0 z-30 shadow-md">
+      <div class="max-w-7xl mx-auto px-3 sm:px-6 py-2.5 flex flex-wrap items-center justify-between gap-3">
+        <div class="flex items-center gap-3">
+          <div class="w-9 h-9 rounded-lg bg-torii flex items-center justify-center font-serifJp font-black text-white border border-goldJp/60 shrink-0">試</div>
+          <div>
+            <div class="flex items-center gap-2">
+              <span class="text-xs font-bold text-goldLight">JLPT Free CBT</span>
+              <span id="exam-id-display" class="text-[11px] font-mono bg-white/10 px-2 py-0.5 rounded text-slate-200">ID: JLPT-0000</span>
+            </div>
+            <div class="text-xs sm:text-sm font-bold truncate max-w-[180px] sm:max-w-xs" id="exam-candidate-display">Peserta Ujian</div>
+          </div>
+        </div>
+
+        <div id="active-section-badge" class="hidden md:flex items-center gap-2 px-4 py-1.5 rounded-full bg-white/10 border border-goldJp/40 text-xs font-bold">
+          <span class="w-2 h-2 rounded-full bg-goldJp"></span>
+          <span id="active-section-text">Bagian 1: 文字・語彙</span>
+        </div>
+
+        <div class="flex items-center gap-2.5 sm:gap-4">
+          <div id="timer-box" class="bg-slate-900/60 border border-goldJp/50 px-3.5 py-1.5 rounded-xl flex items-center gap-2">
+            <span class="text-xs text-slate-300 hidden sm:inline">Waktu:</span>
+            <span id="timer-display" class="font-mono text-base sm:text-lg font-extrabold text-goldLight tracking-wider">40:00</span>
+          </div>
+          <button type="button" id="btn-finish-exam-top" class="px-3.5 py-2 rounded-xl bg-torii hover:bg-toriiDark text-white text-xs sm:text-sm font-bold shadow transition">Selesai</button>
+        </div>
+      </div>
+    </header>
+
+    <div class="max-w-7xl mx-auto w-full px-3 sm:px-6 py-5 flex-1 grid lg:grid-cols-12 gap-6 items-start">
+      <div class="lg:col-span-8 space-y-5">
+        <div class="washi-card rounded-2xl p-5 sm:p-7 border border-slate-200/90">
+          <div class="flex flex-wrap items-center justify-between gap-3 pb-4 mb-5 border-b border-slate-200">
+            <div class="flex items-center gap-2.5">
+              <span id="q-number-badge" class="px-3.5 py-1.5 rounded-xl bg-indigoJp text-white font-extrabold text-sm">Soal 1 / 30</span>
+              <span id="q-category-badge" class="px-3 py-1 rounded-lg bg-goldJp/20 text-amber-900 font-bold text-xs font-jp">文字・語彙</span>
+              <span class="text-xs text-slate-400 font-semibold hidden sm:inline">• 5 Poin</span>
+            </div>
+
+            <button type="button" id="btn-flag-question" class="px-3.5 py-1.5 rounded-xl border border-slate-300 text-slate-600 hover:border-goldJp hover:text-amber-800 text-xs font-bold flex items-center gap-1.5 transition">
+              <span id="flag-icon">🏳️</span>
+              <span id="flag-text">Tandai Ragu-ragu</span>
+            </button>
+          </div>
+
+          <div id="question-stimulus-area" class="mb-5"></div>
+
+          <div class="mb-6">
+            <p id="question-prompt-jp" class="font-jp text-lg sm:text-xl font-bold text-slate-900 leading-relaxed"></p>
+            <p id="question-subprompt" class="text-xs text-slate-500 mt-1.5"></p>
+          </div>
+
+          <div id="options-container" class="space-y-3"></div>
+        </div>
+
+        <div class="flex items-center justify-between gap-3">
+          <button type="button" id="btn-prev-q" class="px-5 py-3 rounded-xl bg-white border border-slate-300 text-slate-700 font-bold text-sm hover:bg-slate-50 disabled:opacity-40 disabled:cursor-not-allowed flex items-center gap-2 shadow-sm transition">
+            <span>←</span><span>Sebelumnya</span>
+          </button>
+          <button type="button" id="btn-next-q" class="px-6 py-3 rounded-xl bg-indigoJp hover:bg-indigoLight text-white font-bold text-sm flex items-center gap-2 shadow-md transition">
+            <span>Berikutnya</span><span>→</span>
+          </button>
+        </div>
+      </div>
+
+      <aside class="lg:col-span-4 space-y-4">
+        <div class="washi-card rounded-2xl p-4 sm:p-5 border border-goldJp/40">
+          <div class="flex items-center justify-between mb-3">
+            <h3 class="font-extrabold text-indigoJp text-sm flex items-center gap-2"><span>📋</span> Navigasi Soal</h3>
+            <span id="answered-counter" class="text-xs font-bold px-2.5 py-1 rounded-full bg-indigoJp/10 text-indigoJp">Terjawab: 0 / 30</span>
+          </div>
+
+          <div id="nav-grid" class="grid grid-cols-6 sm:grid-cols-10 lg:grid-cols-6 gap-2 max-h-[300px] overflow-y-auto pr-1"></div>
+
+          <div class="mt-4 pt-3 border-t border-slate-200 grid grid-cols-2 gap-2 text-[11px] text-slate-600 font-medium">
+            <div class="flex items-center gap-1.5"><span class="w-3.5 h-3.5 rounded bg-indigoJp inline-block"></span><span>Terjawab</span></div>
+            <div class="flex items-center gap-1.5"><span class="w-3.5 h-3.5 rounded bg-goldJp inline-block"></span><span>Ragu-ragu</span></div>
+            <div class="flex items-center gap-1.5"><span class="w-3.5 h-3.5 rounded bg-white border-2 border-torii inline-block"></span><span>Aktif</span></div>
+            <div class="flex items-center gap-1.5"><span class="w-3.5 h-3.5 rounded bg-white border border-slate-300 inline-block"></span><span>Kosong</span></div>
+          </div>
+
+          <button type="button" id="btn-submit-exam-side" class="mt-5 w-full py-3.5 px-4 rounded-xl bg-torii hover:bg-toriiDark text-white font-extrabold text-sm shadow-lg shadow-torii/25 transition flex items-center justify-center gap-2">
+            <span>Selesai & Kumpulkan</span>
+          </button>
+        </div>
+      </aside>
+    </div>
+  </section>
+
+  <!-- ===================================================================== -->
+  <!-- VIEW 3: HASIL PENILAIAN & PEMBAHASAN                                  -->
+  <!-- ===================================================================== -->
+  <section id="view-result" class="hidden flex-1 flex-col">
+    <header class="seigaiha-bg text-white border-b-4 border-goldJp shadow-md">
+      <div class="max-w-6xl mx-auto px-4 sm:px-6 py-4 flex flex-wrap items-center justify-between gap-4">
+        <div class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-xl bg-torii flex items-center justify-center font-serifJp font-black text-white border border-goldJp">結果</div>
+          <div>
+            <span class="text-xs text-goldLight font-bold uppercase tracking-wider">Laporan Hasil Ujian</span>
+            <h2 class="text-lg sm:text-xl font-extrabold font-serifJp">Evaluasi & Pembahasan 30 Soal</h2>
+          </div>
+        </div>
+        <button type="button" id="btn-retake-exam" class="px-4 py-2.5 rounded-xl bg-goldJp hover:bg-amber-400 text-indigoJp font-extrabold text-xs sm:text-sm shadow transition flex items-center gap-1.5">
+          <span>🎲</span><span>Ulangi Ujian (Soal Baru)</span>
+        </button>
+      </div>
+    </header>
+
+    <div class="max-w-6xl mx-auto w-full px-4 sm:px-6 py-8 space-y-8">
+      <div id="result-status-banner" class="rounded-3xl p-6 sm:p-8 border-2 shadow-xl relative overflow-hidden"></div>
+
+      <div class="grid sm:grid-cols-4 gap-4">
+        <div class="washi-card rounded-2xl p-5 border-l-4 border-l-indigoJp">
+          <div class="text-xs font-bold text-slate-500 uppercase">Total Skor</div>
+          <div class="mt-1 flex items-baseline gap-1.5">
+            <span id="res-total-score" class="text-3xl font-black text-indigoJp">0</span>
+            <span class="text-sm font-bold text-slate-400">/ 150 Poin</span>
+          </div>
+          <div id="res-total-correct" class="text-xs text-slate-600 mt-1 font-medium">0 dari 30 soal benar</div>
+        </div>
+
+        <div class="washi-card rounded-2xl p-5 border-l-4 border-l-blue-600">
+          <div class="text-xs font-bold text-slate-500 uppercase font-jp">文字・語彙 (Kanji)</div>
+          <div class="mt-1 flex items-baseline gap-1.5">
+            <span id="res-kanji-score" class="text-3xl font-black text-blue-800">0</span>
+            <span class="text-sm font-bold text-slate-400">/ 50 Poin</span>
+          </div>
+          <div id="res-kanji-correct" class="text-xs text-slate-600 mt-1 font-medium">0 / 10 benar</div>
+        </div>
+
+        <div class="washi-card rounded-2xl p-5 border-l-4 border-l-amber-500">
+          <div class="text-xs font-bold text-slate-500 uppercase font-jp">読解 (Dokkai)</div>
+          <div class="mt-1 flex items-baseline gap-1.5">
+            <span id="res-dokkai-score" class="text-3xl font-black text-amber-800">0</span>
+            <span class="text-sm font-bold text-slate-400">/ 50 Poin</span>
+          </div>
+          <div id="res-dokkai-correct" class="text-xs text-slate-600 mt-1 font-medium">0 / 10 benar</div>
+        </div>
+
+        <div class="washi-card rounded-2xl p-5 border-l-4 border-l-torii">
+          <div class="text-xs font-bold text-slate-500 uppercase font-jp">聴解 (Choukai)</div>
+          <div class="mt-1 flex items-baseline gap-1.5">
+            <span id="res-choukai-score" class="text-3xl font-black text-torii">0</span>
+            <span class="text-sm font-bold text-slate-400">/ 50 Poin</span>
+          </div>
+          <div id="res-choukai-correct" class="text-xs text-slate-600 mt-1 font-medium">0 / 10 benar</div>
+        </div>
+      </div>
+
+      <!-- Review Section Header -->
+      <div class="border-b-2 border-slate-200 pb-3 flex flex-wrap items-center justify-between gap-4">
+        <h3 class="text-lg font-bold text-indigoJp font-serifJp">📖 Pembahasan Lengkap (30 Soal)</h3>
+        <div class="flex flex-wrap gap-2 text-xs font-bold">
+          <button type="button" data-rev-filter="all" class="rev-filter-btn px-3 py-1.5 rounded-xl bg-indigoJp text-white">Semua</button>
+          <button type="button" data-rev-filter="wrong" class="rev-filter-btn px-3 py-1.5 rounded-xl bg-white border border-slate-300 text-slate-700">Salah</button>
+          <button type="button" data-rev-filter="correct" class="rev-filter-btn px-3 py-1.5 rounded-xl bg-white border border-slate-300 text-slate-700">Benar</button>
+        </div>
+      </div>
+
+      <div id="review-list-container" class="space-y-4"></div>
+    </div>
+  </section>
+
+  <script>
+    // =========================================================================
+    // 0. SECURITY SYSTEM (PROTECT INSPECT & CONSOLE)
+    // =========================================================================
+    document.addEventListener('contextmenu', e => e.preventDefault());
+    document.addEventListener('keydown', e => {
+      if (e.key === 'F12' || (e.ctrlKey && e.shiftKey && ['I','J','C'].includes(e.key.toUpperCase())) || (e.ctrlKey && e.key.toUpperCase() === 'U')) {
+        e.preventDefault();
+      }
+    });
+
+    // =========================================================================
+    // 1. BANK SOAL (10 KANJI, 10 DOKKAI, 10 CHOUKAI)
+    // =========================================================================
+    const kanjiBank = [
+      { id: 'K01', q: 'あしたは <strong>天気</strong> が いいでしょう。', sub: 'Pilih cara baca Hiragana yang tepat:', opts: ['てんき', 'でんき', 'げんき', 'てんぎ'], ans: 0, exp: '天気 (てんき / tenki) berarti "cuaca".' },
+      { id: 'K02', q: 'まいあさ 7じに <strong>駅</strong>へ いきます。', sub: 'Pilih cara baca Hiragana yang tepat:', opts: ['みせ', 'えき', 'いえ', 'まち'], ans: 1, exp: '駅 (えき / eki) berarti "stasiun kereta".' },
+      { id: 'K03', q: 'わたしは <strong>病院</strong>で はたらいています。', sub: 'Pilih cara baca Hiragana yang tepat:', opts: ['びよういん', 'びょういん', 'びょうき', 'びようし'], ans: 1, exp: '病院 (びょういん / byouin) berarti "rumah sakit".' },
+      { id: 'K04', q: 'この <strong>新しい</strong> くつは とても かるいです。', sub: 'Pilih cara baca Hiragana yang tepat:', opts: ['あたらしい', 'ふるい', 'たかい', 'やすい'], ans: 0, exp: '新しい (あたらしい / atarashii) berarti "baru".' },
+      { id: 'K05', q: '<strong>来月</strong>、家族と 日本へ りょこうします。', sub: 'Pilih cara baca Hiragana yang tepat:', opts: ['せんげつ', 'こんげつ', 'らいげつ', 'まいげつ'], ans: 2, exp: '来月 (らいげつ / raigetsu) berarti "bulan depan".' },
+      { id: 'K06', q: '<strong>図書館</strong>で 本を かりました。', sub: 'Pilih cara baca Hiragana yang tepat:', opts: ['としょかん', 'としょうかん', 'どうぶつえん', 'びじゅつかん'], ans: 0, exp: '図書館 (としょかん / toshokan) berarti "perpustakaan".' },
+      { id: 'K07', q: 'この へやは とても <strong>広い</strong>ですね。', sub: 'Pilih cara baca Hiragana yang tepat:', opts: ['せまい', 'ひろい', 'ながい', 'みじかい'], ans: 1, exp: '広い (ひろい / hiroi) berarti "luas".' },
+      { id: 'K08', q: '<strong>銀行</strong>は 9じから 3じまでです。', sub: 'Pilih cara baca Hiragana yang tepat:', opts: ['ぎんこう', 'きんこう', 'ぎんごう', 'がっこう'], ans: 0, exp: '銀行 (ぎんこう / ginkou) berarti "bank".' },
+      { id: 'K09', q: '<strong>食べ物</strong>と 飲み物を 買いました。', sub: 'Pilih cara baca Hiragana yang tepat:', opts: ['のみもの', 'たべもの', 'かいもの', 'にもつ'], ans: 1, exp: '食べ物 (たべもの / tabemono) berarti "makanan".' },
+      { id: 'K10', q: 'きょうは <strong>午前</strong> 9じに かいぎが あります。', sub: 'Pilih cara baca Hiragana yang tepat:', opts: ['ごご', 'ごぜん', 'しょうご', 'よる'], ans: 1, exp: '午前 (ごぜん / gozen) berarti "pagi / AM".' }
+    ];
+
+    const dokkaiBank = [
+      {
+        id: 'D01',
+        title: '【お知らせ】食堂の 営業時間',
+        passage: '来週の 月曜日（10月12日）は、キッチンを そうじするため、食堂の 昼ごはんの 時間は 11時30分から 13時までです。いつもより 30分 はやく 終わります。',
+        q: '10月12日の 昼ごはんは 何時まで 食べられますか。',
+        opts: ['11時30分まで', '13時まで', '13時30分まで', '20時まで'],
+        ans: 1,
+        exp: 'Tertulis 「昼ごはんの時間は11時30分から13時までです」.'
+      },
+      {
+        id: 'D02',
+        title: '【メール】田中さんからの 連絡',
+        passage: 'あしたの 午前10時からの 会議ですが、会議室Aから 会議室Bに かわりました。資料は わたしが 持っていきます。',
+        q: 'あしたの 会議は どこに かわりましたか。',
+        opts: ['会議室A', '会議室B', '会議室C', 'ロビー'],
+        ans: 1,
+        exp: 'Tertulis 「会議室Aから会議室Bに かわりました」.'
+      },
+      {
+        id: 'D03',
+        title: '【はり紙】ゴミの 出し方',
+        passage: '● もえるゴミ：月曜日 と 木曜日\n● もえないゴミ：水曜日\n※ ゴミは かならず 朝の 8時までに 出して ください。',
+        q: 'もえないゴミは 何曜日に 出しますか。',
+        opts: ['月曜日', '木曜日', '水曜日', '日曜日'],
+        ans: 2,
+        exp: 'Moe-nai gomi dibuang pada hari Rabu (水曜日).'
+      },
+      {
+        id: 'D04',
+        title: '【メモ】机の上の メモ',
+        passage: 'ラニさんへ\nパソコンの でんげんは 切りましたが、まどが あいています。まどを しめて ください。',
+        q: 'ラニさんは 何を しなければ なりませんか。',
+        opts: ['パソコンをつける', 'まどをしめる', 'ドアをあける', '掃除する'],
+        ans: 1,
+        exp: 'Saran dalam memo adalah menutup jendela (まどを閉めてください).'
+      },
+      {
+        id: 'D05',
+        title: '【案内】病院の 診療時間',
+        passage: '午前 9:00〜12:30 ／ 午後 15:00〜18:30\n休診日：木曜日・日曜日',
+        q: '木曜日は 病院が あいていますか。',
+        opts: ['はい、あいています', 'いいえ、休みです', '午前だけ あいています', '午後だけ あいています'],
+        ans: 1,
+        exp: 'Hari Kamis adalah hari libur klinik (休診日：木曜日).'
+      },
+      {
+        id: 'D06',
+        title: '【チャット】アリさんと ケンさん',
+        passage: 'ケン：今日の 夜 7時に 駅の 前の カレー屋で ごはんを 食べませんか。\nアリ：いいですね！行きましょう。',
+        q: '二人は どこで ごはんを 食べますか。',
+        opts: ['駅の 前の カレー屋', '会社の 食堂', '自宅', 'コンビニ'],
+        ans: 0,
+        exp: 'Mereka berencana makan di warung kari depan stasiun.'
+      },
+      {
+        id: 'D07',
+        title: '【看板】公園の 注意書き',
+        passage: 'この 公園では、犬の さんぽを しても いいですが、かならず リード（ひも）を つけて ください。',
+        q: '犬の さんぽを するとき、どうしますか。',
+        opts: ['リードを つけない', 'かならず リードを つける', '夜だけに する', '走らせない'],
+        ans: 1,
+        exp: 'Wajib mengenakan tali pengikat (リードをつけてください) saat jalan-jalan dengan anjing.'
+      },
+      {
+        id: 'D08',
+        title: '【チラシ】スーパーの セール',
+        passage: '★ りんご（1ふくろ）：300円 → 200円\n★ ぎゅうにゅう：180円 → 150円',
+        q: 'りんごは セールで いくらに なりますか。',
+        opts: ['150円', '200円', '300円', '180円'],
+        ans: 1,
+        exp: 'Harga apel turun menjadi 200 yen.'
+      },
+      {
+        id: 'D09',
+        title: '【お知らせ】日本語教室',
+        passage: '来週の 水曜日は、先生が 出張のため、日本語教室は 休みです。',
+        q: '水曜日の 日本語教室は どうなりますか。',
+        opts: ['ありませす', '休みです', '午前だけです', 'テストです'],
+        ans: 1,
+        exp: 'Kelas bahasa Jepang libur karena guru bertugas luar kota.'
+      },
+      {
+        id: 'D10',
+        title: '【短い文章】日本の 四季',
+        passage: '日本には 春・夏・秋・冬の 四つの 季節が あります。春は さくらが さいて 暖かいです。',
+        q: '春は どんな 季節ですか。',
+        opts: ['雪が ふる', 'さくらが さいて 暖かい', 'とても あつい', '葉が 赤い'],
+        ans: 1,
+        exp: 'Musim semi bunga sakura mekar dan terasa hangat.'
+      }
+    ];
+
+    const choukaiBank = [
+      {
+        id: 'C01',
+        situation: 'スーパーで 客と 店員が 話しています。',
+        script: [
+          { speaker: 'F', text: 'この りんごは ひとつ いくらですか。' },
+          { speaker: 'M', text: 'ひとつ 150円です。でも、3つ なら 400円ですよ。' }
+        ],
+        q: 'りんごを 3つ 買うと いくらですか。',
+        opts: ['150円', '300円', '400円', '450円'],
+        ans: 2,
+        transcript: '客：このりんごはひとついくらですか。\n店員：ひとつ150円です。でも、3つなら400円ですよ。',
+        exp: 'Pembelian 3 buah sekaligus seharga 400 yen.'
+      },
+      {
+        id: 'C02',
+        situation: '会社で 上司と 部下が 話しています。会議は 何時に始まりますか。',
+        script: [
+          { speaker: 'M', text: '今日の 会議は 2時からですね。' },
+          { speaker: 'F', text: 'いいえ、30分 おそくなって、2時半からです。' }
+        ],
+        q: '会議は 何時からですか。',
+        opts: ['2時から', '2時半からです', '3時から', '1時半から'],
+        ans: 1,
+        exp: 'Rapat diundur 30 menit menjadi pukul 2:30.'
+      },
+      {
+        id: 'C03',
+        situation: '駅で 旅行者が 駅員に 聞いています。',
+        script: [
+          { speaker: 'F', text: '京都行きの 電車は 何番線ですか。' },
+          { speaker: 'M', text: '3番線へ 行って ください。' }
+        ],
+        q: '京都行きの 電車は 何番線ですか。',
+        opts: ['1番線', '2番線', '3番線', '4番線'],
+        ans: 2,
+        exp: 'Kereta ke Kyoto berada di peron 3 (3番線).'
+      },
+      {
+        id: 'C04',
+        situation: '病院で 医者が 話しています。',
+        script: [
+          { speaker: 'F', text: '熱が ありますから、今日はおふろに 入らないで ください。' }
+        ],
+        q: '今日は 何をしてはいけませんか。',
+        opts: ['薬を飲む', 'おふろに入る', '水を飲む', '寝る'],
+        ans: 1,
+        exp: 'Pasien dilarang berendam karena demam.'
+      },
+      {
+        id: 'C05',
+        situation: 'レストランで 注文しています。',
+        script: [
+          { speaker: 'M', text: '私は コーヒーにします。リナさんは？' },
+          { speaker: 'F', text: '私は 温かい 紅茶にします。' }
+        ],
+        q: '女の人は 何を 飲みますか。',
+        opts: ['コーヒー', 'アイスティー', '温かい 紅茶', 'ジュース'],
+        ans: 2,
+        exp: 'Perempuan memesan teh hangat (温かい紅茶).'
+      },
+      {
+        id: 'C06',
+        situation: '電話で 待ち合わせを しています。',
+        script: [
+          { speaker: 'M', text: '今 改札の 前に 着きました。' },
+          { speaker: 'F', text: '私は 本屋の 前に います。本屋の 前に 来て ください。' }
+        ],
+        q: '二人は どこで 会いますか。',
+        opts: ['改札の 前', '本屋の 前', '駅の外', 'ホーム'],
+        ans: 1,
+        exp: 'Bertemu di depan toko buku stasiun.'
+      },
+      {
+        id: 'C07',
+        situation: '先生が テストの 注意を 話しています。',
+        script: [
+          { speaker: 'F', text: 'まず、問題用紙に 名前と 番号を 書いて ください。' }
+        ],
+        q: '最初に 何を 書きますか。',
+        opts: ['名前と 番号', '感想', '住所', '電話番号'],
+        ans: 0,
+        exp: 'Instruksi awal adalah menuliskan nama dan nomor.'
+      },
+      {
+        id: 'C08',
+        situation: '妻と 夫が 話しています。',
+        script: [
+          { speaker: 'F', text: 'カレーを作るのに、にんじんと じゃがいもを買ってきて。' }
+        ],
+        q: '夫は何を買いますか。',
+        opts: ['お肉', 'にんじんと じゃがいも', 'りんご', 'パン'],
+        ans: 1,
+        exp: 'Suami diminta membeli wortel dan kentang.'
+      },
+      {
+        id: 'C09',
+        situation: 'ホテルで スタッフが 案内しています。',
+        script: [
+          { speaker: 'F', text: '朝ごはんは 1階の レストランで、朝 6時半から です。' }
+        ],
+        q: '朝ごはんは 何時からですか。',
+        opts: ['6時', '6時半', '7時', '8時'],
+        ans: 1,
+        exp: 'Sarapan mulai pukul 6:30.'
+      },
+      {
+        id: 'C10',
+        situation: '天気に ついて 話しています。',
+        script: [
+          { speaker: 'M', text: '日曜日は 朝から 雨が ふるそうですよ。' }
+        ],
+        q: '日曜日の 天気は どうですか。',
+        opts: ['晴れ', '雨', '雪', 'くもり'],
+        ans: 1,
+        exp: 'Hari Minggu diprakirakan hujan.'
+      }
+    ];
+
+    // =========================================================================
+    // 2. STATE & SHUFFLE
+    // =========================================================================
+    const state = {
+      candidateName: '',
+      examId: '',
+      packetCode: '',
+      examQuestions: [],
+      userAnswers: {},
+      flaggedQuestions: {},
+      audioPlayCounts: {},
+      currentIndex: 0,
+      secondsRemaining: 40 * 60, // 40 minutes for 30 questions
+      timerInterval: null,
+      isSubmitted: false,
+      lastResult: null
+    };
+
+    function fisherYatesShuffle(arr) {
+      const a = [...arr];
+      for (let i = a.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [a[i], a[j]] = [a[j], a[i]];
+      }
+      return a;
+    }
+
+    function generateExamPacket() {
+      const k = fisherYatesShuffle(kanjiBank).slice(0, 10).map(item => ({ ...item, category: 'kanji', categoryLabel: '文字・語彙 (Kanji)' }));
+      const d = fisherYatesShuffle(dokkaiBank).slice(0, 10).map(item => ({ ...item, category: 'dokkai', categoryLabel: '読解 (Dokkai)' }));
+      const c = fisherYatesShuffle(choukaiBank).slice(0, 10).map(item => ({ ...item, category: 'choukai', categoryLabel: '聴解 (Choukai)' }));
+
+      state.examQuestions = [...k, ...d, ...c];
+      state.packetCode = `PKT-FREE-${Math.floor(1000 + Math.random() * 9000)}`;
+      document.getElementById('packet-code').textContent = state.packetCode;
+    }
+
+    // =========================================================================
+    // 3. UI HELPERS & SPEECH SYNTHESIS (AUDIO CHOUKAI)
+    // =========================================================================
+    function spawnSakuraPetals(count = 12) {
+      const container = document.getElementById('sakura-container');
+      container.innerHTML = '';
+      for (let i = 0; i < count; i++) {
+        const petal = document.createElement('div');
+        petal.className = 'sakura-petal';
+        petal.style.left = `${Math.random() * 100}vw`;
+        petal.style.animationDuration = `${8 + Math.random() * 6}s`;
+        petal.style.animationDelay = `${Math.random() * 5}s`;
+        petal.innerHTML = `<svg width="14" height="14" viewBox="0 0 24 24" fill="#FFB7C5"><path d="M12 2C9 6 5 9 6 14C7 18 11 21 12 22C13 21 17 18 18 14C19 9 15 6 12 2Z"/></svg>`;
+        container.appendChild(petal);
+      }
+    }
+
+    let toastTimer = null;
+    function showToast(msg, icon = '🌸') {
+      const box = document.getElementById('toast-box');
+      document.getElementById('toast-message').textContent = msg;
+      document.getElementById('toast-icon').textContent = icon;
+      box.classList.remove('translate-y-24', 'opacity-0');
+      clearTimeout(toastTimer);
+      toastTimer = setTimeout(() => box.classList.add('translate-y-24', 'opacity-0'), 3000);
+    }
+
+    function openConfirmModal(title, htmlBody, onConfirm) {
+      const modal = document.getElementById('confirm-modal');
+      document.getElementById('modal-title').textContent = title;
+      document.getElementById('modal-body').innerHTML = htmlBody;
+      modal.classList.remove('hidden');
+      modal.classList.add('flex');
+
+      document.getElementById('modal-cancel-btn').onclick = () => {
+        modal.classList.add('hidden'); modal.classList.remove('flex');
+      };
+      document.getElementById('modal-confirm-btn').onclick = () => {
+        modal.classList.add('hidden'); modal.classList.remove('flex');
+        onConfirm();
+      };
+    }
+
+    let isSpeaking = false;
+    
+    function stopSpeech() {
+      if ('speechSynthesis' in window) window.speechSynthesis.cancel();
+      isSpeaking = false;
+      const eq = document.getElementById('audio-visualizer');
+      if (eq) eq.classList.remove('eq-playing');
+    }
+
+    function speakJapaneseScript(turns, rate = 1.0, onEndCallback = null) {
+      if (!('speechSynthesis' in window)) {
+        showToast('Browser Anda tidak mendukung fitur audio.', '⚠️');
+        if(onEndCallback) onEndCallback();
+        return;
+      }
+      
+      stopSpeech();
+      isSpeaking = true;
+      const eq = document.getElementById('audio-visualizer');
+      if (eq) eq.classList.add('eq-playing');
+
+      const voices = window.speechSynthesis.getVoices().filter(v => v.lang && v.lang.toLowerCase().includes('ja'));
+      let idx = 0;
+
+      function nextTurn() {
+        if (!isSpeaking || idx >= turns.length) {
+          isSpeaking = false;
+          if (eq) eq.classList.remove('eq-playing');
+          if (onEndCallback) onEndCallback();
+          return;
+        }
+        
+        const t = turns[idx];
+        const utter = new SpeechSynthesisUtterance(t.text);
+        utter.lang = 'ja-JP';
+        utter.rate = rate;
+        
+        if (voices.length > 0) {
+            utter.voice = (t.speaker === 'M' && voices.length > 1) ? voices[1] : voices[0];
+        }
+        
+        utter.pitch = t.speaker === 'M' ? 0.9 : 1.1;
+        
+        utter.onend = () => { 
+            idx++; 
+            setTimeout(nextTurn, 300); 
+        };
+        utter.onerror = () => { 
+            isSpeaking = false; 
+            if (eq) eq.classList.remove('eq-playing'); 
+            if (onEndCallback) onEndCallback();
+        };
+        
+        window.speechSynthesis.speak(utter);
+      }
+      
+      nextTurn();
+    }
+
+    // =========================================================================
+    // 4. EXAM WORKFLOW
+    // =========================================================================
+    function startExam() {
+      const nameInput = document.getElementById('candidate-name');
+      const err = document.getElementById('name-error');
+      const name = nameInput.value.trim();
+      if (!name) {
+        err.classList.remove('hidden');
+        nameInput.focus();
+        return;
+      }
+      err.classList.add('hidden');
+
+      state.candidateName = name;
+      state.examId = `JLPT-FREE-${Math.floor(100000 + Math.random() * 900000)}`;
+      state.userAnswers = {};
+      state.flaggedQuestions = {};
+      state.audioPlayCounts = {};
+      state.currentIndex = 0;
+      state.secondsRemaining = 40 * 60;
+
+      generateExamPacket();
+
+      document.getElementById('exam-candidate-display').textContent = state.candidateName;
+      document.getElementById('exam-id-display').textContent = `ID: ${state.examId}`;
+
+      switchView('view-exam');
+      renderNavigatorGrid();
+      renderCurrentQuestion();
+      startTimer();
+      showToast('Ujian dimulai! Semoga sukses.', '⛩️');
+    }
+
+    function switchView(id) {
+      stopSpeech();
+      ['view-lobby', 'view-exam', 'view-result'].forEach(v => {
+        const el = document.getElementById(v);
+        if (v === id) { el.classList.remove('hidden'); el.classList.add('flex'); }
+        else { el.classList.add('hidden'); el.classList.remove('flex'); }
+      });
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+
+    function startTimer() {
+      clearInterval(state.timerInterval);
+      updateTimerUI();
+      state.timerInterval = setInterval(() => {
+        state.secondsRemaining--;
+        updateTimerUI();
+        if (state.secondsRemaining <= 0) {
+          clearInterval(state.timerInterval);
+          showToast('Waktu habis! Jawaban dikumpulkan otomatis.', '⏱️');
+          submitExam();
+        }
+      }, 1000);
+    }
+
+    function updateTimerUI() {
+      const m = Math.floor(Math.max(0, state.secondsRemaining) / 60);
+      const s = Math.max(0, state.secondsRemaining) % 60;
+      document.getElementById('timer-display').textContent = `${String(m).padStart(2,'0')}:${String(s).padStart(2,'0')}`;
+    }
+
+    function renderCurrentQuestion() {
+      // Hentikan audio jika berpindah soal
+      stopSpeech();
+      
+      const idx = state.currentIndex;
+      const q = state.examQuestions[idx];
+      if (!q) return;
+
+      document.getElementById('q-number-badge').textContent = `Soal ${idx + 1} / 30`;
+      document.getElementById('q-category-badge').textContent = q.categoryLabel;
+
+      const flagBtn = document.getElementById('btn-flag-question');
+      const isF = !!state.flaggedQuestions[idx];
+      flagBtn.className = isF 
+        ? 'px-3.5 py-1.5 rounded-xl bg-goldJp/25 border-2 border-goldJp text-amber-900 text-xs font-extrabold flex items-center gap-1.5 transition'
+        : 'px-3.5 py-1.5 rounded-xl border border-slate-300 text-slate-600 hover:border-goldJp text-xs font-bold flex items-center gap-1.5 transition';
+      document.getElementById('flag-icon').textContent = isF ? '🚩' : '🏳️';
+      document.getElementById('flag-text').textContent = isF ? 'Ragu-ragu' : 'Tandai Ragu-ragu';
+
+      const stimulus = document.getElementById('question-stimulus-area');
+      stimulus.innerHTML = '';
+
+      if (q.category === 'dokkai') {
+        stimulus.innerHTML = `
+          <div class="bg-[#FDFBF7] border-2 border-indigoJp/20 rounded-2xl p-4 sm:p-5 shadow-inner">
+            <div class="font-jp font-bold text-sm text-indigoJp mb-2">${q.title}</div>
+            <div class="font-jp text-base text-slate-800 leading-relaxed whitespace-pre-line">${q.passage}</div>
+          </div>
+        `;
+      } else if (q.category === 'choukai') {
+        const used = state.audioPlayCounts[idx] || 0;
+        const left = Math.max(0, 2 - used);
+        const exhausted = left === 0;
+        
+        stimulus.innerHTML = `
+          <div class="bg-indigoJp text-white rounded-2xl p-4 border border-goldJp/50 shadow">
+            <div class="flex items-center justify-between mb-2 text-xs">
+              <span class="font-bold text-goldLight">🎧 Audio Sesi Mendengarkan (Maks 2x)</span>
+              <span id="audio-left-badge" class="px-2.5 py-0.5 rounded-full ${exhausted ? 'bg-red-500/30 text-red-200' : 'bg-emerald-500/30 text-emerald-200'}">Sisa: ${left}/2</span>
+            </div>
+            <p class="font-jp text-sm text-slate-100 bg-white/10 p-3 rounded-xl mb-3"><strong>Situasi:</strong> ${q.situation}</p>
+            <div class="flex items-center gap-3">
+              <button type="button" id="btn-play" ${exhausted ? 'disabled' : ''} class="px-4 py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 ${exhausted ? 'bg-slate-600 text-slate-300' : 'bg-goldJp text-indigoJp hover:bg-amber-400'}">
+                <span>${exhausted ? '🔒' : '▶️'}</span><span>${exhausted ? 'Batas Habis' : 'Putar Audio'}</span>
+              </button>
+              <div id="audio-visualizer" class="flex items-center gap-1 h-6 px-2"><div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div><div class="eq-bar"></div></div>
+            </div>
+          </div>
+        `;
+        
+        const pBtn = document.getElementById('btn-play');
+        const badge = document.getElementById('audio-left-badge');
+        
+        if (pBtn && !exhausted) {
+          pBtn.onclick = () => {
+            // Update the play count
+            state.audioPlayCounts[idx] = (state.audioPlayCounts[idx] || 0) + 1;
+            const currentLeft = Math.max(0, 2 - state.audioPlayCounts[idx]);
+            
+            // Update UI elements manually without re-rendering the whole component
+            badge.textContent = `Sisa: ${currentLeft}/2`;
+            if(currentLeft === 0) {
+                badge.classList.replace('bg-emerald-500/30', 'bg-red-500/30');
+                badge.classList.replace('text-emerald-200', 'text-red-200');
+            }
+            
+            pBtn.disabled = true;
+            pBtn.className = 'px-4 py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 bg-slate-600 text-slate-300';
+            pBtn.innerHTML = '<span>🔊</span><span>Sedang Diputar...</span>';
+            
+            // Play Audio
+            speakJapaneseScript(q.script, 1.0, () => {
+                // Audio has ended
+                if (currentLeft > 0) {
+                    pBtn.disabled = false;
+                    pBtn.className = 'px-4 py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 bg-goldJp text-indigoJp hover:bg-amber-400';
+                    pBtn.innerHTML = '<span>▶️</span><span>Putar Audio</span>';
+                } else {
+                    pBtn.disabled = true;
+                    pBtn.className = 'px-4 py-2 rounded-xl text-xs sm:text-sm font-bold flex items-center gap-2 bg-slate-600 text-slate-300';
+                    pBtn.innerHTML = '<span>🔒</span><span>Batas Habis</span>';
+                }
+            });
+          };
+        }
+      }
+
+      document.getElementById('question-prompt-jp').innerHTML = q.q;
+      document.getElementById('question-subprompt').textContent = q.sub || 'Pilih jawaban yang paling tepat:';
+
+      const optContainer = document.getElementById('options-container');
+      optContainer.innerHTML = '';
+      const letters = ['A', 'B', 'C', 'D'];
+      const sel = state.userAnswers[idx];
+
+      q.opts.forEach((optText, oIdx) => {
+        const isSel = sel === oIdx;
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.className = `w-full text-left p-3.5 rounded-xl border-2 transition flex items-center gap-3.5 ${isSel ? 'border-indigoJp bg-indigoJp/5' : 'border-slate-200 bg-white hover:border-indigoJp/40'}`;
+        b.innerHTML = `
+          <span class="w-8 h-8 rounded-lg flex items-center justify-center font-extrabold text-xs shrink-0 ${isSel ? 'bg-indigoJp text-goldLight' : 'bg-slate-100 text-slate-700'}">${letters[oIdx]}</span>
+          <span class="font-jp text-base font-medium text-slate-800">${optText}</span>
+        `;
+        b.onclick = () => {
+          state.userAnswers[idx] = oIdx;
+          // Memanggil renderCurrentQuestion di sini aman, 
+          // karena tombol Putar Audio tidak menggunakan userAnswers, 
+          // namun agar audio tidak terpotong saat menjawab, 
+          // kita tidak me-render ulang seluruh soal. Kita hanya update tombol pilihan.
+          updateOptionsSelection(idx);
+          renderNavigatorGrid();
+        };
+        optContainer.appendChild(b);
+      });
+
+      document.getElementById('btn-prev-q').disabled = idx === 0;
+      const nextBtn = document.getElementById('btn-next-q');
+      if (idx === 29) {
+        nextBtn.innerHTML = '<span>Kumpulkan</span><span>✓</span>';
+        nextBtn.className = 'px-6 py-3 rounded-xl bg-torii hover:bg-toriiDark text-white font-bold text-sm flex items-center gap-2 shadow transition';
+      } else {
+        nextBtn.innerHTML = '<span>Berikutnya</span><span>→</span>';
+        nextBtn.className = 'px-6 py-3 rounded-xl bg-indigoJp hover:bg-indigoLight text-white font-bold text-sm flex items-center gap-2 shadow transition';
+      }
+
+      renderNavigatorGrid();
+    }
+    
+    // Fungsi khusus agar saat memilih jawaban, audio tidak ter-reset
+    function updateOptionsSelection(idx) {
+        const container = document.getElementById('options-container');
+        const sel = state.userAnswers[idx];
+        Array.from(container.children).forEach((btn, oIdx) => {
+            const isSel = sel === oIdx;
+            btn.className = `w-full text-left p-3.5 rounded-xl border-2 transition flex items-center gap-3.5 ${isSel ? 'border-indigoJp bg-indigoJp/5' : 'border-slate-200 bg-white hover:border-indigoJp/40'}`;
+            btn.children[0].className = `w-8 h-8 rounded-lg flex items-center justify-center font-extrabold text-xs shrink-0 ${isSel ? 'bg-indigoJp text-goldLight' : 'bg-slate-100 text-slate-700'}`;
+        });
+    }
+
+    function renderNavigatorGrid() {
+      const grid = document.getElementById('nav-grid');
+      grid.innerHTML = '';
+      const answered = Object.keys(state.userAnswers).length;
+      document.getElementById('answered-counter').textContent = `Terjawab: ${answered} / 30`;
+
+      state.examQuestions.forEach((q, i) => {
+        const active = i === state.currentIndex;
+        const ans = state.userAnswers[i] !== undefined;
+        const flag = !!state.flaggedQuestions[i];
+
+        const b = document.createElement('button');
+        b.type = 'button';
+        b.textContent = i + 1;
+        let cls = 'h-9 rounded-lg font-bold text-xs transition flex items-center justify-center ';
+        if (active) cls += 'ring-2 ring-torii ring-offset-1 ';
+        if (flag) cls += 'bg-goldJp text-indigoJp font-extrabold';
+        else if (ans) cls += 'bg-indigoJp text-white';
+        else cls += 'bg-white border border-slate-300 text-slate-700 hover:bg-slate-100';
+
+        b.className = cls;
+        b.onclick = () => { state.currentIndex = i; renderCurrentQuestion(); };
+        grid.appendChild(b);
+      });
+    }
+
+    function submitExam() {
+      clearInterval(state.timerInterval);
+      stopSpeech();
+      state.isSubmitted = true;
+
+      let kC = 0, dC = 0, cC = 0;
+      state.examQuestions.forEach((q, idx) => {
+        if (state.userAnswers[idx] === q.ans) {
+          if (q.category === 'kanji') kC++;
+          else if (q.category === 'dokkai') dC++;
+          else if (q.category === 'choukai') cC++;
+        }
+      });
+
+      const kS = kC * 5, dS = dC * 5, cS = cC * 5;
+      const totalScore = kS + dS + cS; // max 150
+      const totalCorrect = kC + dC + cC;
+      const isPassed = totalScore >= 120; // 24 out of 30
+
+      state.lastResult = { kC, dC, cC, totalCorrect, kS, dS, cS, totalScore, isPassed };
+
+      renderResults();
+      switchView('view-result');
+    }
+
+    function renderResults() {
+      const res = state.lastResult;
+      document.getElementById('res-total-score').textContent = res.totalScore;
+      document.getElementById('res-total-correct').textContent = `${res.totalCorrect} dari 30 soal benar`;
+      document.getElementById('res-kanji-score').textContent = res.kS;
+      document.getElementById('res-kanji-correct').textContent = `${res.kC} / 10 benar`;
+      document.getElementById('res-dokkai-score').textContent = res.dS;
+      document.getElementById('res-dokkai-correct').textContent = `${res.dC} / 10 benar`;
+      document.getElementById('res-choukai-score').textContent = res.cS;
+      document.getElementById('res-choukai-correct').textContent = `${res.cC} / 10 benar`;
+
+      const banner = document.getElementById('result-status-banner');
+      if (res.isPassed) {
+        spawnSakuraPetals(20);
+        banner.className = 'rounded-3xl p-6 sm:p-8 border-2 border-goldJp bg-gradient-to-r from-indigoJp via-[#1f3f6d] to-indigoJp text-white shadow-2xl';
+        banner.innerHTML = `
+          <div class="flex items-center justify-between gap-4">
+            <div>
+              <span class="px-3 py-1 rounded-full bg-goldJp text-indigoJp font-black text-xs uppercase">🏆 LULUS (合格 • PASSED)</span>
+              <h3 class="text-2xl sm:text-3xl font-black font-serifJp mt-2">おめでとうございます！ ${state.candidateName}</h3>
+              <p class="text-sm text-slate-200 mt-1">Skor Anda <strong>${res.totalScore} / 150 poin</strong> (Batas Lulus: 120 poin). Pertahankan prestasi ini!</p>
+            </div>
+            <div class="font-serifJp text-3xl font-black text-goldJp bg-white/10 px-6 py-4 rounded-2xl border border-goldJp">合格</div>
+          </div>
+        `;
+      } else {
+        banner.className = 'rounded-3xl p-6 sm:p-8 border-2 border-torii/40 bg-gradient-to-r from-white via-[#FFF6F6] to-amber-50 text-slate-900 shadow-xl';
+        banner.innerHTML = `
+          <div class="flex items-center justify-between gap-4">
+            <div>
+              <span class="px-3 py-1 rounded-full bg-torii text-white font-black text-xs uppercase">🔥 BELUM LULUS (不合格)</span>
+              <h3 class="text-2xl sm:text-3xl font-black font-serifJp text-indigoJp mt-2">Semangat, ${state.candidateName}!</h3>
+              <p class="text-sm text-slate-600 mt-1">Skor Anda <strong>${res.totalScore} / 150 poin</strong> (membutuhkan min. 120 poin). Pelajari pembahasannya di bawah ini dan coba lagi.</p>
+            </div>
+            <div class="font-serifJp text-3xl font-black text-torii bg-torii/10 px-6 py-4 rounded-2xl border border-torii">不合格</div>
+          </div>
+        `;
+      }
+
+      renderReviewList('all');
+    }
+
+    function renderReviewList(filter) {
+      const container = document.getElementById('review-list-container');
+      container.innerHTML = '';
+      const letters = ['A', 'B', 'C', 'D'];
+
+      state.examQuestions.forEach((q, idx) => {
+        const userAns = state.userAnswers[idx];
+        const isCorrect = userAns === q.ans;
+        if (filter === 'wrong' && isCorrect) return;
+        if (filter === 'correct' && !isCorrect) return;
+
+        const card = document.createElement('div');
+        card.className = `washi-card rounded-2xl p-5 border-l-4 ${isCorrect ? 'border-l-emerald-600' : 'border-l-torii'}`;
+
+        let extra = '';
+        if (q.category === 'dokkai') {
+          extra = `<div class="bg-slate-50 border rounded-xl p-3 mb-3 text-xs sm:text-sm font-jp text-slate-700 whitespace-pre-line"><strong>${q.title}</strong><br/>${q.passage}</div>`;
+        } else if (q.category === 'choukai') {
+          extra = `
+            <div class="bg-indigoJp/5 border border-indigoJp/20 rounded-xl p-3 mb-3 text-xs">
+              <div class="flex items-center justify-between font-bold text-indigoJp mb-1">
+                <span>🎧 Transkrip Audio:</span>
+                <button type="button" data-replay="${idx}" class="replay-btn px-2.5 py-1 rounded bg-indigoJp text-white hover:bg-indigoLight transition">🔊 Putar Ulang</button>
+              </div>
+              <p class="font-jp text-slate-800 whitespace-pre-line bg-white p-2 rounded">${q.transcript}</p>
+            </div>
+          `;
+        }
+
+        const optsHtml = q.opts.map((opt, oIdx) => {
+          let cls = 'bg-white border-slate-200 text-slate-700';
+          let badge = '';
+          if (oIdx === q.ans) { cls = 'bg-emerald-50 border-emerald-500 font-bold'; badge = '<span class="ml-auto text-xs text-emerald-700">✓ Kunci</span>'; }
+          else if (oIdx === userAns) { cls = 'bg-red-50 border-torii font-bold'; badge = '<span class="ml-auto text-xs text-torii">✗ Jawaban Anda</span>'; }
+          return `<div class="px-3 py-2 rounded-xl border ${cls} flex items-center gap-3 text-sm font-jp"><span class="font-sans font-extrabold text-xs px-2 py-0.5 rounded bg-slate-200">${letters[oIdx]}</span><span>${opt}</span>${badge}</div>`;
+        }).join('');
+
+        card.innerHTML = `
+          <div class="flex items-center justify-between mb-2 text-xs">
+            <span class="font-bold text-indigoJp">Soal ${idx + 1} (${q.categoryLabel})</span>
+            <span class="font-extrabold ${isCorrect ? 'text-emerald-700' : 'text-torii'}">${isCorrect ? 'BENAR (+5)' : 'SALAH'}</span>
+          </div>
+          ${extra}
+          <p class="font-jp font-bold text-base text-slate-900 mb-3">${q.q}</p>
+          <div class="grid sm:grid-cols-2 gap-2 mb-3">${optsHtml}</div>
+          <div class="bg-amber-50 border border-amber-200 rounded-xl p-3 text-xs sm:text-sm text-slate-700"><strong>💡 Pembahasan:</strong> ${q.exp}</div>
+        `;
+        container.appendChild(card);
+      });
+
+      // Bind tombol replay di halaman hasil
+      document.querySelectorAll('.replay-btn').forEach(b => {
+        b.onclick = () => {
+          const item = state.examQuestions[parseInt(b.dataset.replay, 10)];
+          if (item && item.script) {
+              const originalText = b.innerHTML;
+              b.innerHTML = '🔊 Memutar...';
+              b.disabled = true;
+              speakJapaneseScript(item.script, 1.0, () => {
+                  b.innerHTML = originalText;
+                  b.disabled = false;
+              });
+          }
+        };
+      });
+    }
+
+    // =========================================================================
+    // 5. INIT & LISTENERS
+    // =========================================================================
+    window.addEventListener('DOMContentLoaded', () => {
+      spawnSakuraPetals(10);
+      generateExamPacket();
+
+      if ('speechSynthesis' in window) {
+        window.speechSynthesis.getVoices();
+        window.speechSynthesis.onvoiceschanged = () => window.speechSynthesis.getVoices();
+      }
+
+      document.getElementById('btn-reshuffle').onclick = () => {
+        generateExamPacket();
+        showToast(`Soal baru dimuat! Paket: ${state.packetCode}`, '🎲');
+      };
+
+      document.getElementById('btn-start-exam').onclick = startExam;
+      document.getElementById('candidate-name').onkeydown = (e) => { if (e.key === 'Enter') startExam(); };
+
+      document.getElementById('btn-flag-question').onclick = () => {
+        state.flaggedQuestions[state.currentIndex] = !state.flaggedQuestions[state.currentIndex];
+        renderCurrentQuestion();
+      };
+
+      document.getElementById('btn-prev-q').onclick = () => {
+        if (state.currentIndex > 0) { state.currentIndex--; renderCurrentQuestion(); }
+      };
+
+      document.getElementById('btn-next-q').onclick = () => {
+        if (state.currentIndex < 29) { state.currentIndex++; renderCurrentQuestion(); }
+        else {
+          openConfirmModal('Kumpulkan & Nilai Ujian?', '<p>Pastikan semua jawaban telah terisi dengan baik.</p>', submitExam);
+        }
+      };
+
+      document.getElementById('btn-finish-exam-top').onclick = () => {
+        openConfirmModal('Kumpulkan Ujian Sekarang?', '<p>Anda yakin ingin mengakhiri sesi ujian?</p>', submitExam);
+      };
+      document.getElementById('btn-submit-exam-side').onclick = () => {
+        openConfirmModal('Kumpulkan Ujian Sekarang?', '<p>Anda yakin ingin mengakhiri sesi ujian?</p>', submitExam);
+      };
+
+      document.querySelectorAll('.rev-filter-btn').forEach(btn => {
+        btn.onclick = () => {
+          document.querySelectorAll('.rev-filter-btn').forEach(b => b.className = 'rev-filter-btn px-3 py-1.5 rounded-xl bg-white border border-slate-300 text-slate-700');
+          btn.className = 'rev-filter-btn px-3.5 py-1.5 rounded-xl bg-indigoJp text-white';
+          renderReviewList(btn.dataset.revFilter);
+        };
+      });
+
+      document.getElementById('btn-retake-exam').onclick = () => {
+        generateExamPacket();
+        spawnSakuraPetals(10);
+        switchView('view-lobby');
+        showToast('Mulai latihan baru!', '🎲');
+      };
+    });
+  </script>
+</body>
+</html>
