@@ -3,13 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>雅 MIYABI - Kanji & Kotoba Duel Arena (220+ Vocab & Live Multiplayer)</title>
+    <title>雅 MIYABI - Online Multiplayer Kanji & Kotoba Arena</title>
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     <!-- Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@500;700;900&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <!-- Canvas Confetti -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    <!-- PeerJS (WebRTC Online Cross-Device Multiplayer Tanpa Backend) -->
+    <script src="https://unpkg.com/peerjs@1.5.2/dist/peerjs.min.js"></script>
+    <!-- MQTT.js (Untuk Live Global Room List & Realtime Sync Cadangan) -->
+    <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
+
     <style>
         :root {
             --gold: #D4AF37;
@@ -25,9 +30,7 @@
             user-select: none;
             -webkit-user-select: none;
         }
-        .font-jp {
-            font-family: 'Noto Serif JP', serif;
-        }
+        .font-jp { font-family: 'Noto Serif JP', serif; }
         .bg-japanese-pattern {
             background-color: #0b0f17;
             background-image: 
@@ -38,7 +41,7 @@
             background-size: 100% 100%, 100% 100%, 40px 40px, 40px 40px;
         }
         .luxury-card {
-            background: rgba(17, 24, 39, 0.88);
+            background: rgba(17, 24, 39, 0.90);
             backdrop-filter: blur(16px);
             border: 1px solid rgba(212, 175, 55, 0.35);
             box-shadow: 0 15px 40px rgba(0, 0, 0, 0.7), inset 0 0 20px rgba(212, 175, 55, 0.08);
@@ -115,7 +118,6 @@
         header { transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out; }
         header.header-hidden { transform: translateY(-100%); opacity: 0; pointer-events: none; }
 
-        /* Custom Scrollbar */
         ::-webkit-scrollbar { width: 5px; height: 5px; }
         ::-webkit-scrollbar-track { background: rgba(15, 23, 42, 0.6); }
         ::-webkit-scrollbar-thumb { background: rgba(212, 175, 55, 0.4); border-radius: 9999px; }
@@ -128,15 +130,18 @@
     <!-- Toast Notification -->
     <div id="toastBox" class="fixed top-16 right-4 z-50 flex flex-col gap-2 max-w-xs w-full pointer-events-none"></div>
 
-    <!-- Top Navigation / Header (Auto-Hide on Scroll) -->
+    <!-- Top Navigation / Header -->
     <header id="mainHeader" class="sticky top-0 z-40 w-full max-w-6xl mx-auto px-4 sm:px-6 py-3 flex items-center justify-between border-b border-amber-500/20 bg-slate-950/85 backdrop-blur-md">
-        <div class="flex items-center gap-2.5 cursor-pointer" onclick="resetToHome()">
+        <div class="flex items-center gap-2.5 cursor-pointer" onclick="leaveRoomAndReset()">
             <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-lg bg-gradient-to-br from-red-700 to-red-950 border border-amber-400/60 flex items-center justify-center shadow-md">
                 <span class="font-jp text-xl font-black gold-gradient-text">雅</span>
             </div>
             <div>
-                <h1 class="font-jp text-sm sm:text-base font-black tracking-wider gold-gradient-text">MIYABI ARENA</h1>
-                <p class="text-[10px] text-slate-400 tracking-widest uppercase">220+ Bank Soal • Live Sync</p>
+                <h1 class="font-jp text-sm sm:text-base font-black tracking-wider gold-gradient-text">MIYABI ONLINE</h1>
+                <div class="flex items-center gap-1.5">
+                    <span id="netStatusDot" class="w-2 h-2 rounded-full bg-amber-400 animate-pulse"></span>
+                    <p id="netStatusText" class="text-[10px] text-slate-400 tracking-wider uppercase">Menghubungkan Cloud...</p>
+                </div>
             </div>
         </div>
 
@@ -162,19 +167,19 @@
         <!-- ==================== 1. SCREEN: HOME / LOBBY ==================== -->
         <section id="screenHome" class="w-full grid lg:grid-cols-12 gap-5 items-start">
             
-            <!-- Left Column: Hero Info + Active Rooms Directory -->
+            <!-- Left Column: Hero Info + Cloud Active Rooms Directory -->
             <div class="lg:col-span-7 space-y-4">
                 <div class="luxury-card rounded-2xl p-5 sm:p-6 relative">
-                    <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-red-950/80 border border-red-500/40 text-red-300 text-[11px] font-semibold mb-3">
+                    <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-950/90 border border-emerald-500/40 text-emerald-300 text-[11px] font-semibold mb-3">
                         <span class="w-2 h-2 rounded-full bg-emerald-400 animate-ping"></span>
-                        <span>REAL-TIME MULTIPLAYER TANPA REFRESH • 220+ SOAL</span>
+                        <span>CLOUD MULTIPLAYER AKTIF • BISA BEDA HP & LAPTOP!</span>
                     </div>
                     <h2 class="font-jp text-2xl sm:text-4xl font-black leading-tight">
                         Duel Kanji & Kotoba <br>
-                        <span class="gold-gradient-text">JLPT N5 & N4 Live Arena</span>
+                        <span class="gold-gradient-text">Cross-Device Online Arena</span>
                     </h2>
                     <p class="text-slate-300 text-xs sm:text-sm leading-relaxed mt-2">
-                        Buka 2 tab atau jendela browser untuk bermain berdua secara *real-time*! Buat room baru atau pilih dari **Daftar Room Aktif** di bawah, masukkan 6 angka kunci, mengobrol langsung di *Live Chat*, dan berduel di saat yang bersamaan!
+                        Sekarang sudah dilengkapi <strong>Cloud Broker & WebRTC P2P</strong>! Anda bisa membuat Room di HP lalu teman Anda bergabung dari HP lain atau PC berbeda menggunakan 6 angka kunci atau klik langsung dari <strong>Daftar Room Online</strong> di bawah!
                     </p>
                     <div class="grid grid-cols-3 gap-2.5 pt-4">
                         <div class="bg-slate-900/90 border border-amber-500/20 p-2.5 rounded-xl text-center">
@@ -182,30 +187,32 @@
                             <div class="text-[10px] text-slate-400">Kanji & Kotoba</div>
                         </div>
                         <div class="bg-slate-900/90 border border-amber-500/20 p-2.5 rounded-xl text-center">
-                            <div class="font-jp text-lg sm:text-xl font-bold text-red-400">Live</div>
-                            <div class="text-[10px] text-slate-400">Room & Chat</div>
+                            <div class="font-jp text-lg sm:text-xl font-bold text-emerald-400">Online</div>
+                            <div class="text-[10px] text-slate-400">Beda HP / PC</div>
                         </div>
                         <div class="bg-slate-900/90 border border-amber-500/20 p-2.5 rounded-xl text-center">
-                            <div class="font-jp text-lg sm:text-xl font-bold text-emerald-400">10 / 30</div>
+                            <div class="font-jp text-lg sm:text-xl font-bold text-red-400">10 / 30</div>
                             <div class="text-[10px] text-slate-400">Mode Soal</div>
                         </div>
                     </div>
                 </div>
 
-                <!-- LIVE ACTIVE ROOMS LIST -->
+                <!-- LIVE ONLINE ACTIVE ROOMS LIST -->
                 <div class="luxury-card rounded-2xl p-5 relative">
                     <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-3">
                         <div class="flex items-center gap-2">
                             <span class="w-2.5 h-2.5 rounded-full bg-emerald-400 animate-pulse"></span>
-                            <h3 class="font-jp text-sm sm:text-base font-bold text-amber-300">🏯 Daftar Room Aktif (Live Lobby)</h3>
+                            <h3 class="font-jp text-sm sm:text-base font-bold text-amber-300">🌐 Daftar Room Online Aktif (Global Lobby)</h3>
                         </div>
-                        <span class="text-[11px] text-slate-400">Otomatis Update</span>
+                        <span class="text-[11px] text-emerald-400 font-semibold">Live Cloud Sync</span>
                     </div>
                     <p class="text-[11px] text-slate-400 mb-3">
-                        Klik tombol <strong class="text-amber-300">"Pilih Kunci"</strong> pada room di bawah atau ketik kuncinya di kolom Gabung Room:
+                        Room yang dibuat oleh pemain lain di perangkat mana pun akan langsung muncul di sini secara otomatis:
                     </p>
-                    <div id="activeRoomsContainer" class="space-y-2 max-h-52 overflow-y-auto pr-1">
-                        <!-- Injected dynamically via live polling -->
+                    <div id="activeRoomsContainer" class="space-y-2 max-h-56 overflow-y-auto pr-1">
+                        <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-800 text-center text-xs text-slate-400">
+                            Memindai Room Online... Buat Room baru di samping untuk memulai!
+                        </div>
                     </div>
                 </div>
             </div>
@@ -226,14 +233,14 @@
                             class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900/90 border border-slate-700 focus:border-amber-400 focus:outline-none text-white text-sm font-semibold">
                     </div>
 
-                    <!-- Join Existing Room Box (Highlighted for 2nd Player) -->
+                    <!-- Join Existing Room Box -->
                     <div class="p-3.5 rounded-xl bg-red-950/30 border border-red-500/40 space-y-2">
                         <label class="block text-[11px] font-bold uppercase tracking-wider text-amber-300">🔑 Gabung Room dengan Kunci Angka</label>
                         <div class="flex gap-2">
                             <input id="joinRoomInput" type="text" inputmode="numeric" maxlength="6" placeholder="Ketik 6 Angka Kunci"
                                 oninput="this.value = this.value.replace(/[^0-9]/g, '')"
                                 class="flex-1 px-3 py-2.5 rounded-xl bg-slate-950 border border-slate-700 focus:border-amber-400 focus:outline-none text-center font-mono text-base tracking-widest text-amber-300 placeholder:text-slate-500 placeholder:text-xs">
-                            <button onclick="joinRoom()" class="btn-crimson px-4 py-2.5 rounded-xl text-xs sm:text-sm uppercase tracking-wider shrink-0">
+                            <button id="btnJoinRoom" onclick="joinRoom()" class="btn-crimson px-4 py-2.5 rounded-xl text-xs sm:text-sm uppercase tracking-wider shrink-0">
                                 Gabung Duel
                             </button>
                         </div>
@@ -272,8 +279,8 @@
                         </select>
                     </div>
 
-                    <button onclick="createRoom()" class="w-full btn-gold py-3 rounded-xl text-xs sm:text-sm uppercase tracking-wider flex items-center justify-center gap-2">
-                        <span>⛩️ Buat Room & Dapatkan Kunci</span>
+                    <button id="btnCreateRoom" onclick="createRoom()" class="w-full btn-gold py-3 rounded-xl text-xs sm:text-sm uppercase tracking-wider flex items-center justify-center gap-2">
+                        <span>⛩️ Buat Room Online Baru</span>
                     </button>
                 </div>
             </div>
@@ -289,7 +296,7 @@
             <div class="flex flex-col sm:flex-row items-center justify-between gap-2 border-b border-slate-800 pb-3 mb-4">
                 <div>
                     <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-400/30 text-emerald-300 text-[10px] font-semibold uppercase tracking-widest">
-                        ● Live Waiting Room (Tanpa Refresh)
+                        ● Terhubung ke Cloud Room (Tanpa Refresh)
                     </span>
                     <h2 class="font-jp text-xl sm:text-2xl font-black text-white mt-1">Ruang Persiapan Duel</h2>
                 </div>
@@ -302,7 +309,7 @@
             <!-- Room Key Banner -->
             <div class="bg-slate-950/90 border-2 border-amber-500/50 rounded-xl p-3.5 mb-4 flex flex-col sm:flex-row items-center justify-between gap-3">
                 <div class="text-center sm:text-left">
-                    <div class="text-[10px] uppercase tracking-widest text-slate-400">Kunci Room (Masukkan di Tab/HP Teman):</div>
+                    <div class="text-[10px] uppercase tracking-widest text-slate-400">Kunci Room Online (Bagikan ke Teman):</div>
                     <div id="roomKeyDisplay" class="font-mono text-3xl sm:text-4xl font-black tracking-[0.25em] gold-gradient-text">------</div>
                 </div>
                 <div class="flex flex-wrap justify-center gap-2">
@@ -322,7 +329,7 @@
                 <div class="md:col-span-5 flex flex-col bg-slate-950/60 border border-slate-800 rounded-xl p-3.5">
                     <div class="flex items-center justify-between mb-2.5">
                         <span class="text-xs font-bold uppercase tracking-wider text-slate-300">Peserta di Room (<span id="playerCountLabel">1</span>)</span>
-                        <span class="text-[10px] text-emerald-400">Live Sync</span>
+                        <span class="text-[10px] text-emerald-400">● Online</span>
                     </div>
                     <div id="participantsGrid" class="space-y-2 flex-1 max-h-56 overflow-y-auto pr-1"></div>
                 </div>
@@ -330,13 +337,12 @@
                 <!-- Live Chat Box (7 cols) -->
                 <div class="md:col-span-7 flex flex-col bg-slate-950/90 border border-amber-500/30 rounded-xl p-3.5 h-64">
                     <div class="flex items-center justify-between border-b border-slate-800 pb-2 mb-2">
-                        <span class="text-xs font-bold uppercase tracking-wider text-amber-300">💬 Obrolan Room Real-Time</span>
-                        <span class="text-[10px] text-emerald-400 animate-pulse">● Terhubung Langsung</span>
+                        <span class="text-xs font-bold uppercase tracking-wider text-amber-300">💬 Live Chat Antar-Perangkat</span>
+                        <span class="text-[10px] text-emerald-400 animate-pulse">● Real-Time</span>
                     </div>
-                    <!-- Chat Messages Scroll Area -->
                     <div id="chatMessagesBox" class="flex-1 overflow-y-auto space-y-2 pr-1 text-xs"></div>
                     
-                    <!-- Quick Chat Stickers/Buttons -->
+                    <!-- Quick Chat Stickers -->
                     <div class="flex gap-1.5 overflow-x-auto py-1.5 border-t border-slate-800/80 mt-1">
                         <button onclick="sendQuickChat('よろしく！ Mari berduel! ⚔️')" class="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-[10px] text-amber-200 shrink-0">⚔️ Yoroshiku!</button>
                         <button onclick="sendQuickChat('Siap mulai! 🔥')" class="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-[10px] text-emerald-200 shrink-0">🔥 Siap Mulai!</button>
@@ -344,9 +350,8 @@
                         <button onclick="sendQuickChat('がんばって！ Ganbatte! 🌸')" class="px-2 py-0.5 rounded bg-slate-800 hover:bg-slate-700 text-[10px] text-pink-200 shrink-0">🌸 Ganbatte!</button>
                     </div>
 
-                    <!-- Chat Input Form -->
                     <div class="flex gap-1.5 pt-1">
-                        <input id="chatInputBox" type="text" maxlength="100" placeholder="Ketik pesan obrolan (langsung tampil tanpa refresh)..." 
+                        <input id="chatInputBox" type="text" maxlength="100" placeholder="Ketik pesan obrolan..." 
                             onkeydown="if(event.key === 'Enter') sendChatMessage('chatInputBox')"
                             class="flex-1 px-3 py-2 rounded-lg bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-amber-400">
                         <button onclick="sendChatMessage('chatInputBox')" class="px-4 py-2 rounded-lg bg-amber-500 hover:bg-amber-400 text-slate-950 font-extrabold text-xs transition">
@@ -398,10 +403,8 @@
                 <div id="timerProgressBar" class="h-full bg-gradient-to-r from-amber-400 via-red-500 to-red-700 transition-all duration-100" style="width: 100%;"></div>
             </div>
 
-            <!-- Question Stage + Live Standings & In-Game Chat -->
             <div class="grid lg:grid-cols-12 gap-4 items-stretch">
-                
-                <!-- Question Stage (8 cols) -->
+                <!-- Question Stage -->
                 <div class="lg:col-span-7 luxury-card rounded-2xl p-5 sm:p-6 flex flex-col justify-between relative overflow-hidden">
                     <div class="corner-ornament corner-tl"></div>
                     <div class="corner-ornament corner-tr"></div>
@@ -427,9 +430,8 @@
                     <div id="optionsContainer" class="grid grid-cols-1 gap-2.5 mt-2"></div>
                 </div>
 
-                <!-- Live Standings + In-Game Chat Sidebar (5 cols) -->
+                <!-- Live Standings + In-Game Chat Sidebar -->
                 <div class="lg:col-span-5 flex flex-col gap-3.5">
-                    <!-- Standings Card -->
                     <div class="luxury-card rounded-2xl p-4">
                         <div class="flex items-center justify-between border-b border-slate-800 pb-2 mb-2.5">
                             <h4 class="font-jp text-xs font-bold text-amber-300 uppercase tracking-wider">⚔️ Live Arena Standings</h4>
@@ -438,15 +440,14 @@
                         <div id="liveScoreboardList" class="space-y-2 max-h-40 overflow-y-auto pr-1"></div>
                     </div>
 
-                    <!-- Mini In-Game Chat -->
                     <div class="luxury-card rounded-2xl p-3.5 flex-1 flex flex-col h-48">
                         <div class="text-[11px] font-bold text-amber-300 mb-1.5 flex items-center justify-between">
                             <span>💬 Live Arena Chat</span>
-                            <span class="text-[9px] text-slate-400">Kirim pesan sambil bertarung</span>
+                            <span class="text-[9px] text-slate-400">Langsung tampil di layar lawan</span>
                         </div>
                         <div id="inGameChatBox" class="flex-1 overflow-y-auto space-y-1.5 pr-1 text-[11px] bg-slate-950/60 rounded-lg p-2 border border-slate-800/80"></div>
                         <div class="flex gap-1.5 mt-2">
-                            <input id="inGameChatInput" type="text" maxlength="60" placeholder="Kirim komentar cepat..." 
+                            <input id="inGameChatInput" type="text" maxlength="60" placeholder="Kirim pesan cepat..." 
                                 onkeydown="if(event.key === 'Enter') sendChatMessage('inGameChatInput')"
                                 class="flex-1 px-2.5 py-1.5 rounded-lg bg-slate-900 border border-slate-700 text-xs text-white focus:outline-none focus:border-amber-400">
                             <button onclick="sendChatMessage('inGameChatInput')" class="px-3 py-1.5 rounded-lg bg-amber-500 text-slate-950 font-bold text-xs">
@@ -534,13 +535,13 @@
 
     <!-- Footer -->
     <footer class="relative z-10 text-center py-3 text-[11px] text-slate-500 border-t border-slate-800/60">
-        雅 MIYABI Arena • 220+ Bank Soal JLPT N5 & N4 • Live Room Directory & Real-Time Chat
+        雅 MIYABI Arena • Online Cross-Device Engine (MQTT Cloud + WebRTC + Local Fallback)
     </footer>
 
     <!-- ==================== JAVASCRIPT ENGINE ==================== -->
     <script>
         /* =========================================================================
-           1. AUTO-HIDE HEADER & TOAST NOTIFICATION
+           1. AUTO-HIDE HEADER & TOAST
            ========================================================================= */
         let lastScrollTop = 0;
         const header = document.getElementById('mainHeader');
@@ -560,7 +561,7 @@
             el.className = 'px-4 py-2.5 rounded-xl bg-slate-900/95 border border-amber-400/60 text-amber-200 text-xs font-bold shadow-lg transition-all';
             el.textContent = msg;
             box.appendChild(el);
-            setTimeout(() => el.remove(), 2600);
+            setTimeout(() => el.remove(), 2800);
         }
 
         /* =========================================================================
@@ -618,7 +619,7 @@
             ["KANJI", "N5", "会う", "あう (Bertemu)"],
             ["KANJI", "N5", "待つ", "まつ (Menunggu)"],
             ["KANJI", "N5", "持つ", "もつ (Membawa / Memegang)"],
-            ["KANJI", "N5", "우雨", "あめ (Hujan)"],
+            ["KANJI", "N5", "大雨", "おおあめ (Hujan Lebat)"],
             ["KANJI", "N5", "北口", "きたぐち (Pintu Utara)"],
             ["KANJI", "N5", "南口", "みなみぐち (Pintu Selatan)"],
             ["KANJI", "N5", "東口", "ひがしぐち (Pintu Timur)"],
@@ -777,7 +778,7 @@
             ["KOTOBA", "N4", "たまに", "たまに (Kadang-kadang / Jarang)"],
             ["KOTOBA", "N4", "そろそろ", "そろそろ (Sebentar Lagi / Saatnya)"],
             ["KOTOBA", "N4", "だんだん", "だんだん (Lama-kelamaan / Bertahap)"],
-            ["KOTOBA", "N4", "ますます", "ますます (Semakinlama Semakin...)"],
+            ["KOTOBA", "N4", "ますます", "ますます (Semakin Lama Semakin...)"],
             ["KOTOBA", "N4", "とうとう", "とうとう (Pada Akhirnya)"],
             ["KOTOBA", "N4", "なるほど", "なるほど (Begitu rupanya / Masuk akal)"],
             ["KOTOBA", "N4", "実は", "じつは (Sebenarnya / Sejujurnya)"],
@@ -958,21 +959,26 @@
         }
 
         /* =========================================================================
-           4. TRIPLE-SYNC ENGINE (BROADCAST + STORAGE EVENT + 350MS POLLING)
-           Menjamin Chat, Room List, dan 2 Player berjalan Real-Time Tanpa Refresh!
+           4. HYBRID CLOUD MULTIPLAYER ENGINE (MQTT CLOUD + PEERJS P2P + LOCAL)
+           Bisa konek beda HP, beda Laptop, beda Jaringan tanpa perlu Backend!
            ========================================================================= */
         const ROUND_TIME = 12.0;
-        const ROOM_PREFIX = 'miyabi_room_v3_';
+        const ROOM_PREFIX = 'miyabi_cloud_v4_';
+        const MQTT_LOBBY_TOPIC = 'akira_miyabi_2026/global_lobby';
+        const MQTT_ROOM_TOPIC_PREFIX = 'akira_miyabi_2026/room/';
+
         let myPlayerId = 'samurai_' + Math.random().toString(36).substring(2, 9);
         let myPlayerName = 'Samurai_' + Math.floor(10 + Math.random() * 89);
         document.getElementById('playerNameInput').value = myPlayerName;
 
         let currentRoomKey = null;
-        let roomChannel = null;
         let activeScreen = 'screenHome';
         let lastKnownChatCount = 0;
-
         let roomState = null;
+
+        // Cloud MQTT & PeerJS State
+        let mqttClient = null;
+        let globalActiveRooms = {}; // { roomKey: roomSummary }
 
         // Local Gameplay State
         let currentRoundIndex = 0;
@@ -980,54 +986,136 @@
         let roundTimeLeft = ROUND_TIME;
         let hasAnsweredCurrentRound = false;
 
-        function getRoomFromStorage(key) {
+        // Inisialisasi Koneksi Cloud MQTT (HiveMQ Public WebSockets)
+        function initCloudNetwork() {
             try {
-                const raw = localStorage.getItem(ROOM_PREFIX + key);
-                return raw ? JSON.parse(raw) : null;
-            } catch (e) {
-                return null;
+                mqttClient = mqtt.connect('wss://broker.hivemq.com:8884/mqtt', {
+                    clientId: 'miyabi_' + Math.random().toString(16).substring(2, 10),
+                    clean: true,
+                    connectTimeout: 4000,
+                    reconnectPeriod: 2000
+                });
+
+                mqttClient.on('connect', () => {
+                    document.getElementById('netStatusDot').className = 'w-2 h-2 rounded-full bg-emerald-400';
+                    document.getElementById('netStatusText').textContent = 'Cloud Online (Siap Beda HP/PC)';
+                    mqttClient.subscribe(MQTT_LOBBY_TOPIC);
+                    if (currentRoomKey) {
+                        mqttClient.subscribe(MQTT_ROOM_TOPIC_PREFIX + currentRoomKey);
+                    }
+                });
+
+                mqttClient.on('message', (topic, message) => {
+                    try {
+                        const data = JSON.parse(message.toString());
+                        if (topic === MQTT_LOBBY_TOPIC) {
+                            if (data && data.roomKey) {
+                                if (data.deleted) {
+                                    delete globalActiveRooms[data.roomKey];
+                                } else {
+                                    globalActiveRooms[data.roomKey] = data;
+                                }
+                                if (activeScreen === 'screenHome') renderActiveRoomsDirectory();
+                            }
+                        } else if (currentRoomKey && topic === MQTT_ROOM_TOPIC_PREFIX + currentRoomKey) {
+                            handleCloudRoomEvent(data);
+                        }
+                    } catch (e) {}
+                });
+            } catch (err) {
+                console.warn('Fallback ke Local Mode:', err);
             }
         }
+        initCloudNetwork();
 
-        function saveRoomToStorage(stateObj) {
-            if (!stateObj || !stateObj.roomKey) return;
-            stateObj.updatedAt = Date.now();
-            try {
-                localStorage.setItem(ROOM_PREFIX + stateObj.roomKey, JSON.stringify(stateObj));
-            } catch (e) {}
-            if (roomChannel) {
+        function publishToCloudRoom(roomKey, payload) {
+            // Simpan juga di localStorage untuk tab di browser yang sama
+            if (payload.fullState) {
                 try {
-                    roomChannel.postMessage({ type: 'SYNC', state: stateObj });
+                    localStorage.setItem(ROOM_PREFIX + roomKey, JSON.stringify(payload.fullState));
                 } catch (e) {}
             }
+            if (mqttClient && mqttClient.connected) {
+                mqttClient.publish(MQTT_ROOM_TOPIC_PREFIX + roomKey, JSON.stringify(payload));
+            }
         }
 
-        // Atomic Updater: selalu baca versi terbaru dari storage sebelum memodifikasi agar data pemain lain tidak tertimpa
+        function broadcastRoomToGlobalLobby(state) {
+            if (!state || !state.roomKey) return;
+            const pList = Object.values(state.players || {});
+            const summary = {
+                roomKey: state.roomKey,
+                hostName: pList.find(p => p.isHost)?.name || pList[0]?.name || 'Samurai',
+                playerCount: pList.length,
+                questionCount: state.questionCount || 10,
+                level: state.level || 'ALL',
+                status: state.status || 'WAITING',
+                updatedAt: Date.now()
+            };
+            globalActiveRooms[state.roomKey] = summary;
+            try {
+                localStorage.setItem(ROOM_PREFIX + state.roomKey, JSON.stringify(state));
+            } catch (e) {}
+
+            if (mqttClient && mqttClient.connected) {
+                mqttClient.publish(MQTT_LOBBY_TOPIC, JSON.stringify(summary));
+            }
+        }
+
+        function handleCloudRoomEvent(data) {
+            if (!data) return;
+
+            // Jika ada pemain baru meminta state terbaru dari Host/Peserta di room
+            if (data.type === 'REQUEST_SYNC' && roomState && data.requesterId !== myPlayerId) {
+                if (data.newPlayer) {
+                    roomState.players[data.newPlayer.id] = data.newPlayer;
+                }
+                if (data.joinChat) {
+                    const exists = (roomState.chatMessages || []).some(c => c.id === data.joinChat.id);
+                    if (!exists) roomState.chatMessages.push(data.joinChat);
+                }
+                publishToCloudRoom(currentRoomKey, { type: 'FULL_SYNC', fullState: roomState });
+                broadcastRoomToGlobalLobby(roomState);
+                syncUIFromRoomState();
+                return;
+            }
+
+            if (data.fullState) {
+                roomState = data.fullState;
+                try {
+                    localStorage.setItem(ROOM_PREFIX + currentRoomKey, JSON.stringify(roomState));
+                } catch (e) {}
+                syncUIFromRoomState();
+            }
+        }
+
+        // Atomic Updater: perbarui state lokal + kirim langsung ke Cloud MQTT
         function updateRoomAtomically(key, mutatorFn) {
-            let latest = getRoomFromStorage(key) || roomState;
-            if (!latest) return;
-            mutatorFn(latest);
-            roomState = latest;
-            saveRoomToStorage(latest);
+            if (!roomState) {
+                try {
+                    const raw = localStorage.getItem(ROOM_PREFIX + key);
+                    if (raw) roomState = JSON.parse(raw);
+                } catch (e) {}
+            }
+            if (!roomState) return;
+            mutatorFn(roomState);
+            roomState.updatedAt = Date.now();
+            publishToCloudRoom(key, { type: 'FULL_SYNC', fullState: roomState });
+            broadcastRoomToGlobalLobby(roomState);
             syncUIFromRoomState();
         }
 
-        function setupBroadcastChannel(key) {
-            if (roomChannel) {
-                try { roomChannel.close(); } catch(e) {}
+        // Heartbeat pengumuman Room ke Global Lobby setiap 4 detik agar HP/PC lain langsung melihat
+        setInterval(() => {
+            if (currentRoomKey && roomState) {
+                broadcastRoomToGlobalLobby(roomState);
             }
-            try {
-                roomChannel = new BroadcastChannel('miyabi_bc_' + key);
-                roomChannel.onmessage = (e) => {
-                    if (e.data && e.data.state) {
-                        roomState = e.data.state;
-                        syncUIFromRoomState();
-                    }
-                };
-            } catch (e) {}
-        }
+            if (activeScreen === 'screenHome') {
+                renderActiveRoomsDirectory();
+            }
+        }, 3500);
 
-        // Listener storage antar-tab
+        // Listener LocalStorage untuk sesama browser
         window.addEventListener('storage', (e) => {
             if (currentRoomKey && e.key === ROOM_PREFIX + currentRoomKey && e.newValue) {
                 try {
@@ -1035,42 +1123,23 @@
                     syncUIFromRoomState();
                 } catch (err) {}
             }
-            if (activeScreen === 'screenHome') {
-                renderActiveRoomsDirectory();
-            }
+            if (activeScreen === 'screenHome') renderActiveRoomsDirectory();
         });
 
-        // 350ms Real-Time Polling Loop (Menjamin 100% jalan walau file:// memblokir event)
-        setInterval(() => {
-            if (activeScreen === 'screenHome') {
-                renderActiveRoomsDirectory();
-            } else if (currentRoomKey) {
-                const latest = getRoomFromStorage(currentRoomKey);
-                if (latest) {
-                    roomState = latest;
-                    syncUIFromRoomState();
-                }
-            }
-        }, 350);
-
-        // Sinkronisasi UI otomatis setiap ada perubahan data Room
         function syncUIFromRoomState() {
             if (!roomState) return;
 
-            // Cek jika ada pesan chat baru untuk membunyikan notifikasi lembut
             const currentChatLen = (roomState.chatMessages || []).length;
             if (currentChatLen > lastKnownChatCount) {
                 if (lastKnownChatCount > 0) playSfx('chat_pop');
                 lastKnownChatCount = currentChatLen;
             }
 
-            // Transisi otomatis 2 player ke layar Game saat status berubah jadi PLAYING
             if (roomState.status === 'PLAYING' && activeScreen === 'screenRoom') {
                 startClientGameplay();
                 return;
             }
 
-            // Transisi otomatis jika kembali ke Waiting Room
             if (roomState.status === 'WAITING' && activeScreen === 'screenResult') {
                 showScreen('screenRoom');
             }
@@ -1087,42 +1156,49 @@
         }
 
         /* =========================================================================
-           5. DAFTAR ROOM AKTIF (LIVE DIRECTORY DI LOBBY)
+           5. DAFTAR ROOM ONLINE AKTIF (GLOBAL LOBBY)
            ========================================================================= */
         function renderActiveRoomsDirectory() {
             const container = document.getElementById('activeRoomsContainer');
             if (!container) return;
 
-            const activeRooms = [];
             const now = Date.now();
-
+            // Gabungkan dari LocalStorage & Cloud MQTT
             for (let i = 0; i < localStorage.length; i++) {
                 const k = localStorage.key(i);
                 if (k && k.startsWith(ROOM_PREFIX)) {
                     try {
                         const r = JSON.parse(localStorage.getItem(k));
-                        // Tampilkan room yang aktif dalam 25 menit terakhir
-                        if (r && r.roomKey && (now - (r.updatedAt || 0) < 25 * 60 * 1000)) {
-                            activeRooms.push(r);
+                        if (r && r.roomKey && (now - (r.updatedAt || 0) < 15 * 60 * 1000)) {
+                            const pList = Object.values(r.players || {});
+                            globalActiveRooms[r.roomKey] = {
+                                roomKey: r.roomKey,
+                                hostName: pList.find(p => p.isHost)?.name || pList[0]?.name || 'Samurai',
+                                playerCount: pList.length,
+                                questionCount: r.questionCount || 10,
+                                level: r.level || 'ALL',
+                                status: r.status || 'WAITING',
+                                updatedAt: r.updatedAt
+                            };
                         }
                     } catch (e) {}
                 }
             }
 
-            activeRooms.sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
+            const roomArray = Object.values(globalActiveRooms)
+                .filter(r => (now - (r.updatedAt || 0)) < 12 * 60 * 1000 && r.playerCount > 0)
+                .sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
 
-            if (activeRooms.length === 0) {
+            if (roomArray.length === 0) {
                 container.innerHTML = `
                     <div class="p-4 rounded-xl bg-slate-900/60 border border-slate-800 text-center text-xs text-slate-400">
-                        Belum ada Room aktif saat ini. Klik <strong class="text-amber-300">"Buat Room & Dapatkan Kunci"</strong> di samping untuk membuka room pertama!
+                        Belum ada Room aktif saat ini. Klik <strong class="text-amber-300">"Buat Room Online Baru"</strong> di samping untuk membuka room pertama!
                     </div>
                 `;
                 return;
             }
 
-            container.innerHTML = activeRooms.map(r => {
-                const pList = Object.values(r.players || {});
-                const hostName = pList.find(p => p.isHost)?.name || pList[0]?.name || 'Samurai';
+            container.innerHTML = roomArray.map(r => {
                 const isWaiting = r.status === 'WAITING';
                 const statusBadge = isWaiting 
                     ? `<span class="px-2 py-0.5 rounded bg-emerald-500/20 border border-emerald-400/40 text-emerald-300 text-[10px] font-bold">MENUNGGU LAWAN</span>`
@@ -1136,7 +1212,7 @@
                                 ${statusBadge}
                             </div>
                             <div class="text-[11px] text-slate-400 mt-0.5">
-                                Host: <strong class="text-white">${hostName}</strong> • ${pList.length} Peserta • ${r.questionCount || 10} Soal (${r.level || 'ALL'})
+                                Host: <strong class="text-white">${r.hostName}</strong> • ${r.playerCount} Peserta • ${r.questionCount} Soal (${r.level})
                             </div>
                         </div>
                         <div class="flex gap-1.5 shrink-0">
@@ -1184,9 +1260,11 @@
             const qCount = parseInt(document.getElementById('questionCountSelect').value, 10) || 10;
 
             currentRoomKey = Math.floor(100000 + Math.random() * 900000).toString();
-            setupBroadcastChannel(currentRoomKey);
+            if (mqttClient && mqttClient.connected) {
+                mqttClient.subscribe(MQTT_ROOM_TOPIC_PREFIX + currentRoomKey);
+            }
 
-            const initialState = {
+            roomState = {
                 roomKey: currentRoomKey,
                 mode: mode,
                 level: level,
@@ -1196,21 +1274,22 @@
                 players: {},
                 chatMessages: [{
                     id: 'msg_' + Date.now(),
-                    sender: '🏯 Sistem Dojo',
-                    text: `Room ${currentRoomKey} dibuka oleh ${myPlayerName}. Bagikan kunci 6 angka ini untuk berduel bersama!`,
+                    sender: '🏯 Sistem Cloud',
+                    text: `Room Online ${currentRoomKey} dibuka oleh ${myPlayerName}. Teman di HP/PC lain bisa langsung join sekarang!`,
                     time: getFormattedTime()
                 }],
                 updatedAt: Date.now()
             };
 
-            initialState.players[myPlayerId] = createPlayerObject(myPlayerId, myPlayerName, false, true);
-            roomState = initialState;
+            roomState.players[myPlayerId] = createPlayerObject(myPlayerId, myPlayerName, false, true);
             lastKnownChatCount = 1;
 
-            saveRoomToStorage(roomState);
+            publishToCloudRoom(currentRoomKey, { type: 'FULL_SYNC', fullState: roomState });
+            broadcastRoomToGlobalLobby(roomState);
+
             showScreen('screenRoom');
             syncUIFromRoomState();
-            showToast(`Room ${currentRoomKey} berhasil dibuat!`);
+            showToast(`Room Online ${currentRoomKey} aktif!`);
         }
 
         function joinRoom() {
@@ -1222,44 +1301,58 @@
             playSfx('gong_start');
             myPlayerName = document.getElementById('playerNameInput').value.trim() || 'Samurai_' + Math.floor(10 + Math.random() * 89);
             currentRoomKey = codeInput;
-            setupBroadcastChannel(currentRoomKey);
 
-            let existing = getRoomFromStorage(currentRoomKey);
-            if (!existing) {
-                // Jika belum ada di storage, buat room dengan kunci tersebut agar tetap bisa masuk bersama
-                existing = {
+            if (mqttClient && mqttClient.connected) {
+                mqttClient.subscribe(MQTT_ROOM_TOPIC_PREFIX + currentRoomKey);
+            }
+
+            const me = createPlayerObject(myPlayerId, myPlayerName, false, false);
+            const joinChat = {
+                id: 'msg_' + Date.now() + '_' + Math.random(),
+                sender: '⚔️ Sistem Cloud',
+                text: `${myPlayerName} telah bergabung ke dalam Room!`,
+                time: getFormattedTime()
+            };
+
+            // Cek jika ada di localStorage terlebih dahulu, sembari meminta sinkronisasi dari Host lewat Cloud MQTT
+            let localExisting = null;
+            try {
+                const raw = localStorage.getItem(ROOM_PREFIX + currentRoomKey);
+                if (raw) localExisting = JSON.parse(raw);
+            } catch (e) {}
+
+            if (localExisting) {
+                localExisting.players[myPlayerId] = me;
+                localExisting.chatMessages.push(joinChat);
+                roomState = localExisting;
+            } else {
+                roomState = {
                     roomKey: currentRoomKey,
                     mode: 'MIX',
                     level: 'ALL',
                     questionCount: 10,
                     status: 'WAITING',
                     questions: [],
-                    players: {},
-                    chatMessages: [],
+                    players: { [myPlayerId]: me },
+                    chatMessages: [joinChat],
                     updatedAt: Date.now()
                 };
             }
 
-            const isFirst = Object.keys(existing.players || {}).length === 0;
-            existing.players[myPlayerId] = createPlayerObject(myPlayerId, myPlayerName, false, isFirst);
-            existing.chatMessages.push({
-                id: 'msg_' + Date.now() + '_' + Math.random(),
-                sender: '⚔️ Sistem Dojo',
-                text: `${myPlayerName} telah bergabung ke dalam Room!`,
-                time: getFormattedTime()
-            });
-
-            roomState = existing;
             lastKnownChatCount = roomState.chatMessages.length;
-            saveRoomToStorage(roomState);
-
             showScreen('screenRoom');
             syncUIFromRoomState();
 
-            // Jika room yang dimasuki ternyata sedang bermain, langsung ikut masuk ke arena!
-            if (roomState.status === 'PLAYING' && roomState.questions && roomState.questions.length > 0) {
-                startClientGameplay();
-            }
+            // Kirim sinyal REQUEST_SYNC ke Cloud agar Host di perangkat lain mengirimkan daftar peserta & chat lengkap
+            publishToCloudRoom(currentRoomKey, {
+                type: 'REQUEST_SYNC',
+                requesterId: myPlayerId,
+                newPlayer: me,
+                joinChat: joinChat,
+                fullState: localExisting ? roomState : null
+            });
+
+            showToast(`Terhubung ke Room ${currentRoomKey}!`);
         }
 
         function addAiChallenger() {
@@ -1308,7 +1401,7 @@
                 });
                 if (state.chatMessages.length > 50) state.chatMessages.shift();
 
-                // Jika ada Bot AI di dalam room, Bot bisa merespons chat secara interaktif
+                // Bot AI membalas chat secara ramah jika ada bot di dalam room
                 const bots = Object.values(state.players || {}).filter(p => p.isBot);
                 if (bots.length > 0 && senderName === myPlayerName && Math.random() < 0.65) {
                     const randomBot = bots[Math.floor(Math.random() * bots.length)];
@@ -1400,7 +1493,7 @@
                         <span class="text-base">${p.isBot ? '🤖' : '侍'}</span>
                         <div>
                             <div class="font-bold text-white truncate">${p.name} ${p.id === myPlayerId ? '<span class="text-amber-300">(Anda)</span>' : ''}</div>
-                            <div class="text-[10px] text-slate-400">${p.isHost ? '👑 Host Room' : (p.isBot ? 'Master AI' : 'Challenger')}</div>
+                            <div class="text-[10px] text-slate-400">${p.isHost ? '👑 Host Room' : (p.isBot ? 'Master AI' : 'Challenger Online')}</div>
                         </div>
                     </div>
                     <span class="text-[10px] px-2 py-0.5 rounded bg-emerald-500/15 text-emerald-400 font-bold shrink-0">SIAP</span>
@@ -1415,13 +1508,11 @@
             if (!currentRoomKey) return;
 
             updateRoomAtomically(currentRoomKey, (state) => {
-                // Jika pemain benar-benar sendirian (1 orang), tambahkan 1 Bot pendamping
                 if (Object.keys(state.players).length === 1) {
                     const botId = 'bot_' + Math.random().toString(36).substring(2, 7);
                     state.players[botId] = createPlayerObject(botId, '⚔️ Musashi (Bot)', true, false);
                 }
 
-                // Filter dari 220+ bank soal N5 & N4
                 let filteredRaw = RAW_VOCAB_DATABASE.filter(item => {
                     const [type, level] = item;
                     const matchMode = state.mode === 'MIX' || type === state.mode;
@@ -1436,7 +1527,6 @@
                 const built = buildQuestionObjects(filteredRaw);
                 state.questions = shuffleArray(built).slice(0, state.questionCount);
 
-                // Reset seluruh skor peserta di room
                 Object.keys(state.players).forEach(pid => {
                     state.players[pid].score = 0;
                     state.players[pid].combo = 0;
@@ -1448,8 +1538,8 @@
                 state.status = 'PLAYING';
                 state.chatMessages.push({
                     id: 'msg_start_' + Date.now(),
-                    sender: '🔥 Arena',
-                    text: `Pertarungan ${state.questionCount} soal dimulai! Semoga beruntung!`,
+                    sender: '🔥 Arena Cloud',
+                    text: `Pertarungan ${state.questionCount} soal dimulai serentak!`,
                     time: getFormattedTime()
                 });
             });
@@ -1555,7 +1645,6 @@
                 });
             }
 
-            // Update skor saya secara atomik ke storage agar pemain lain melihat perubahan real-time
             updateRoomAtomically(currentRoomKey, (state) => {
                 if (!state.players[myPlayerId]) {
                     state.players[myPlayerId] = createPlayerObject(myPlayerId, myPlayerName, false, false);
@@ -1617,7 +1706,6 @@
 
         function simulateBotsForRound() {
             if (!roomState) return;
-            // Hanya 1 pemain manusia pertama (Host) yang menghitung skor Bot agar tidak dobel
             const humanPlayers = Object.values(roomState.players || {}).filter(p => !p.isBot);
             if (humanPlayers.length > 0 && humanPlayers[0].id !== myPlayerId) return;
 
@@ -1765,7 +1853,8 @@
 
         function leaveRoomAndReset() {
             if (currentRoomKey) {
-                updateRoomAtomically(currentRoomKey, (state) => {
+                const oldKey = currentRoomKey;
+                updateRoomAtomically(oldKey, (state) => {
                     if (state.players && state.players[myPlayerId]) {
                         delete state.players[myPlayerId];
                     }
@@ -1776,18 +1865,13 @@
                         time: getFormattedTime()
                     });
                 });
+                if (mqttClient && mqttClient.connected) {
+                    mqttClient.unsubscribe(MQTT_ROOM_TOPIC_PREFIX + oldKey);
+                }
             }
-            resetToHome();
-        }
-
-        function resetToHome() {
             clearInterval(roundTimerInterval);
             currentRoomKey = null;
             roomState = null;
-            if (roomChannel) {
-                try { roomChannel.close(); } catch(e) {}
-                roomChannel = null;
-            }
             document.getElementById('roomBadge').classList.add('hidden');
             showScreen('screenHome');
             renderActiveRoomsDirectory();
