@@ -10,7 +10,7 @@
     <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+JP:wght@500;700;900&family=Plus+Jakarta+Sans:wght@400;600;700;800&display=swap" rel="stylesheet">
     <!-- Canvas Confetti -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
-    <!-- MQTT.js (Untuk Live Global Room List & Realtime Sync) -->
+    <!-- MQTT.js -->
     <script src="https://unpkg.com/mqtt/dist/mqtt.min.js"></script>
 
     <style>
@@ -199,6 +199,12 @@
                             class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900/90 border border-slate-700 focus:border-amber-400 focus:outline-none text-white text-sm font-semibold">
                     </div>
 
+                    <div>
+                        <label class="block text-[11px] font-bold uppercase tracking-wider text-slate-300 mb-1">Nama Room</label>
+                        <input id="roomNameInput" type="text" maxlength="24" placeholder="Contoh: Dojo Kenshin"
+                            class="w-full px-3.5 py-2.5 rounded-xl bg-slate-900/90 border border-slate-700 focus:border-amber-400 focus:outline-none text-white text-sm font-semibold">
+                    </div>
+
                     <!-- Join Existing Room Box -->
                     <div class="p-3.5 rounded-xl bg-red-950/30 border border-red-500/40 space-y-2">
                         <label class="block text-[11px] font-bold uppercase tracking-wider text-amber-300">Gabung dengan Kunci Room</label>
@@ -264,7 +270,7 @@
                     <span class="px-2.5 py-0.5 rounded-full bg-emerald-500/10 border border-emerald-400/30 text-emerald-300 text-[10px] font-semibold uppercase tracking-widest">
                         ● Ruang Tunggu
                     </span>
-                    <h2 class="font-jp text-xl sm:text-2xl font-black text-white mt-1">Persiapan Duel</h2>
+                    <h2 id="roomNameDisplayTitle" class="font-jp text-xl sm:text-2xl font-black text-white mt-1">Persiapan Duel</h2>
                 </div>
                 <div class="flex gap-2 text-xs">
                     <span class="px-3 py-2 rounded-xl bg-slate-900 border border-slate-700 text-amber-300 font-bold flex items-center justify-center" id="roomModeLabel">Campuran</span>
@@ -902,16 +908,17 @@
         }
 
         /* =========================================================================
-           4. CLOUD MULTIPLAYER ENGINE
+           4. CLOUD MULTIPLAYER ENGINE WITH AUTO-CLEANUP & ROOM NAME
            ========================================================================= */
         const ROUND_TIME = 12.0;
-        const ROOM_PREFIX = 'miyabi_cloud_v4_';
+        const ROOM_PREFIX = 'miyabi_cloud_v5_';
         const MQTT_LOBBY_TOPIC = 'akira_miyabi_2026/global_lobby';
         const MQTT_ROOM_TOPIC_PREFIX = 'akira_miyabi_2026/room/';
 
         let myPlayerId = 'samurai_' + Math.random().toString(36).substring(2, 9);
         let myPlayerName = 'Samurai_' + Math.floor(10 + Math.random() * 89);
         document.getElementById('playerNameInput').value = myPlayerName;
+        document.getElementById('roomNameInput').value = `${myPlayerName} Dojo`;
 
         let currentRoomKey = null;
         let activeScreen = 'screenHome';
@@ -979,8 +986,20 @@
         function broadcastRoomToGlobalLobby(state) {
             if (!state || !state.roomKey) return;
             const pList = Object.values(state.players || {});
+            
+            // Auto-Cleanup: Jika peserta kosong atau room sudah ditinggal lebih dari 2 menit
+            if (pList.length === 0 || (Date.now() - (state.updatedAt || Date.now()) > 120000)) {
+                delete globalActiveRooms[state.roomKey];
+                try { localStorage.removeItem(ROOM_PREFIX + state.roomKey); } catch(e) {}
+                if (mqttClient && mqttClient.connected) {
+                    mqttClient.publish(MQTT_LOBBY_TOPIC, JSON.stringify({ roomKey: state.roomKey, deleted: true }));
+                }
+                return;
+            }
+
             const summary = {
                 roomKey: state.roomKey,
+                roomName: state.roomName || 'Dojo Room',
                 hostName: pList.find(p => p.isHost)?.name || pList[0]?.name || 'Samurai',
                 playerCount: pList.length,
                 questionCount: state.questionCount || 10,
@@ -1046,7 +1065,7 @@
             if (activeScreen === 'screenHome') {
                 renderActiveRoomsDirectory();
             }
-        }, 3500);
+        }, 3000);
 
         window.addEventListener('storage', (e) => {
             if (currentRoomKey && e.key === ROOM_PREFIX + currentRoomKey && e.newValue) {
@@ -1088,7 +1107,7 @@
         }
 
         /* =========================================================================
-           5. ACTIVE ROOMS DIRECTORY
+           5. ACTIVE ROOMS DIRECTORY WITH AUTO-CLEANUP
            ========================================================================= */
         function renderActiveRoomsDirectory() {
             const container = document.getElementById('activeRoomsContainer');
@@ -1100,24 +1119,28 @@
                 if (k && k.startsWith(ROOM_PREFIX)) {
                     try {
                         const r = JSON.parse(localStorage.getItem(k));
-                        if (r && r.roomKey && (now - (r.updatedAt || 0) < 15 * 60 * 1000)) {
-                            const pList = Object.values(r.players || {});
-                            globalActiveRooms[r.roomKey] = {
-                                roomKey: r.roomKey,
-                                hostName: pList.find(p => p.isHost)?.name || pList[0]?.name || 'Samurai',
-                                playerCount: pList.length,
-                                questionCount: r.questionCount || 10,
-                                level: r.level || 'ALL',
-                                status: r.status || 'WAITING',
-                                updatedAt: r.updatedAt
-                            };
+                        const pList = Object.values(r.players || {});
+                        // Hapus otomatis jika kosong atau kedaluwarsa > 2 menit tidak aktif
+                        if (!r || !r.roomKey || pList.length === 0 || (now - (r.updatedAt || 0) > 120000)) {
+                            localStorage.removeItem(k);
+                            continue;
                         }
+                        globalActiveRooms[r.roomKey] = {
+                            roomKey: r.roomKey,
+                            roomName: r.roomName || 'Dojo Room',
+                            hostName: pList.find(p => p.isHost)?.name || pList[0]?.name || 'Samurai',
+                            playerCount: pList.length,
+                            questionCount: r.questionCount || 10,
+                            level: r.level || 'ALL',
+                            status: r.status || 'WAITING',
+                            updatedAt: r.updatedAt
+                        };
                     } catch (e) {}
                 }
             }
 
             const roomArray = Object.values(globalActiveRooms)
-                .filter(r => (now - (r.updatedAt || 0)) < 12 * 60 * 1000 && r.playerCount > 0)
+                .filter(r => (now - (r.updatedAt || 0)) < 120000 && r.playerCount > 0)
                 .sort((a, b) => (b.updatedAt || 0) - (a.updatedAt || 0));
 
             if (roomArray.length === 0) {
@@ -1139,11 +1162,11 @@
                     <div class="p-3 rounded-xl bg-slate-900/95 border border-amber-500/30 hover:border-amber-400 transition flex items-center justify-between gap-3">
                         <div>
                             <div class="flex items-center gap-2">
-                                <span class="font-mono text-base font-black text-amber-300 tracking-wider">🔑 ${r.roomKey}</span>
+                                <span class="font-bold text-white text-sm">${r.roomName}</span>
                                 ${statusBadge}
                             </div>
                             <div class="text-[11px] text-slate-400 mt-0.5">
-                                Host: <strong class="text-white">${r.hostName}</strong> • ${r.playerCount} Peserta • ${r.questionCount} Soal
+                                Kunci: <strong class="font-mono text-amber-300">${r.roomKey}</strong> • Host: ${r.hostName} • ${r.playerCount} Orang
                             </div>
                         </div>
                         <button onclick="fillRoomKeyAndFocus('${r.roomKey}')" class="px-3.5 py-2 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 border border-amber-400/50 text-amber-200 text-xs font-bold transition shrink-0 flex items-center justify-center">
@@ -1176,6 +1199,7 @@
         function createRoom() {
             playSfx('gong_start');
             myPlayerName = document.getElementById('playerNameInput').value.trim() || 'Samurai_01';
+            const roomName = document.getElementById('roomNameInput').value.trim() || `${myPlayerName} Dojo`;
             const mode = document.getElementById('quizModeSelect').value;
             const level = document.getElementById('jlptLevelSelect').value;
             const qCount = parseInt(document.getElementById('questionCountSelect').value, 10) || 10;
@@ -1187,6 +1211,7 @@
 
             roomState = {
                 roomKey: currentRoomKey,
+                roomName: roomName,
                 mode: mode,
                 level: level,
                 questionCount: qCount,
@@ -1196,7 +1221,7 @@
                 chatMessages: [{
                     id: 'msg_' + Date.now(),
                     sender: '🏯 Sistem',
-                    text: `Room ${currentRoomKey} dibuka oleh ${myPlayerName}.`,
+                    text: `Room "${roomName}" (${currentRoomKey}) dibuka oleh ${myPlayerName}.`,
                     time: getFormattedTime()
                 }],
                 updatedAt: Date.now()
@@ -1210,7 +1235,7 @@
 
             showScreen('screenRoom');
             syncUIFromRoomState();
-            showToast(`Room ${currentRoomKey} aktif!`);
+            showToast(`Room "${roomName}" aktif!`);
         }
 
         function joinRoom() {
@@ -1248,6 +1273,7 @@
             } else {
                 roomState = {
                     roomKey: currentRoomKey,
+                    roomName: 'Dojo Room',
                     mode: 'MIX',
                     level: 'ALL',
                     questionCount: 10,
@@ -1391,6 +1417,7 @@
             document.getElementById('roomKeyDisplay').textContent = roomState.roomKey;
             document.getElementById('headerRoomCode').textContent = roomState.roomKey;
             document.getElementById('roomBadge').classList.remove('hidden');
+            document.getElementById('roomNameDisplayTitle').textContent = roomState.roomName || 'Persiapan Duel';
 
             const modeMap = { MIX: 'Campuran', KANJI: 'Fokus Kanji', KOTOBA: 'Fokus Kotoba' };
             document.getElementById('roomModeLabel').textContent = `${modeMap[roomState.mode] || 'Campuran'} • ${roomState.level}`;
@@ -1771,13 +1798,30 @@
                     if (state.players && state.players[myPlayerId]) {
                         delete state.players[myPlayerId];
                     }
-                    state.chatMessages.push({
-                        id: 'msg_leave_' + Date.now(),
-                        sender: 'Sistem Dojo',
-                        text: `${myPlayerName} meninggalkan room.`,
-                        time: getFormattedTime()
-                    });
+                    // Jika peserta kosong, set penanda agar room terhapus bersih
+                    if (Object.keys(state.players).length === 0) {
+                        state.updatedAt = 0; // Trigger auto cleanup
+                    } else {
+                        state.chatMessages.push({
+                            id: 'msg_leave_' + Date.now(),
+                            sender: 'Sistem Dojo',
+                            text: `${myPlayerName} meninggalkan room.`,
+                            time: getFormattedTime()
+                        });
+                    }
                 });
+
+                // Hapus penyimpanan lokal room tersebut jika kosong
+                try {
+                    const checkR = JSON.parse(localStorage.getItem(ROOM_PREFIX + oldKey));
+                    if (!checkR || Object.keys(checkR.players || {}).length === 0) {
+                        localStorage.removeItem(ROOM_PREFIX + oldKey);
+                        if (mqttClient && mqttClient.connected) {
+                            mqttClient.publish(MQTT_LOBBY_TOPIC, JSON.stringify({ roomKey: oldKey, deleted: true }));
+                        }
+                    }
+                } catch(e) {}
+
                 if (mqttClient && mqttClient.connected) {
                     mqttClient.unsubscribe(MQTT_ROOM_TOPIC_PREFIX + oldKey);
                 }
