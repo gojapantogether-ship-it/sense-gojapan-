@@ -888,672 +888,743 @@
     // 1. BANK SOAL LENGKAP (KANJI, DOKKAI, CHOUKAI)
     // =========================================================================
     const kanjiBank = [
-      { id: 'K01', q: 'あしたは <strong>天気</strong> が いいでしょう。', sub: 'Pilih cara baca Hiragana:', opts: ['てんき', 'でんき', 'げんき', 'てんぎ'], ans: 0, exp: '天気 (てんき) berarti "cuaca".' },
-      { id: 'K02', q: 'まいあさ 7じに <strong>駅</strong>へ いきます。', sub: 'Pilih cara baca Hiragana:', opts: ['みせ', 'えき', 'いえ', 'まち'], ans: 1, exp: '駅 (えき) berarti "stasiun kereta".' },
-      { id: 'K03', q: 'わたしは <strong>病院</strong>で はたらいています。', sub: 'Pilih cara baca Hiragana:', opts: ['びよういん', 'びょういん', 'びょうき', 'びようし'], ans: 1, exp: '病院 (びょういん) berarti "rumah sakit".' },
-      { id: 'K04', q: 'この <strong>新しい</strong> くつは とても かるいです。', sub: 'Pilih cara baca Hiragana:', opts: ['あたらしい', 'ふるい', 'たかい', 'やすい'], ans: 0, exp: '新しい (あたらしい) berarti "baru".' },
-      { id: 'K05', q: '<strong>来月</strong>、家族と 日本へ りょこうします。', sub: 'Pilih cara baca Hiragana:', opts: ['せんげつ', 'こんげつ', 'らいげつ', 'まいげつ'], ans: 2, exp: '来月 (らいげつ) berarti "bulan depan".' },
-      { id: 'K06', q: '<strong>図書館</strong>で 本を かりました。', sub: 'Pilih cara baca Hiragana:', opts: ['としょかん', 'としょうかん', 'どうぶつえん', 'びじゅつかん'], ans: 0, exp: '図書館 (としょかん) berarti "perpustakaan".' },
-      { id: 'K07', q: 'この へやは とても <strong>広い</strong>ですね。', sub: 'Pilih cara baca Hiragana:', opts: ['せまい', 'ひろい', 'ながい', 'みじかい'], ans: 1, exp: '広い (ひろい) berarti "luas".' },
-      { id: 'K08', q: '<strong>銀行</strong>は 9じから 3じまでです。', sub: 'Pilih cara baca Hiragana:', opts: ['ぎんこう', 'きんこう', 'ぎんごう', 'がっこう'], ans: 0, exp: '銀行 (ぎんこう) berarti "bank".' },
-      { id: 'K09', q: '<strong>食べ物</strong>と 飲み物を 買いました。', sub: 'Pilih cara baca Hiragana:', opts: ['のみもの', 'たべもの', 'かいもの', 'にもつ'], ans: 1, exp: '食べ物 (たべもの) berarti "makanan".' },
-      { id: 'K10', q: 'きょうは <strong>午前</strong> 9じに かいぎが あります。', sub: 'Pilih cara baca Hiragana:', opts: ['ごご', 'ごぜん', 'しょうご', 'よる'], ans: 1, exp: '午前 (ごぜん) berarti "pagi / AM".' },
-      { id: 'K11', q: '<strong>空港</strong>まで バスで 1じかん かかります。', sub: 'Pilih cara baca Hiragana:', opts: ['くうこう', 'こうこう', 'こうえん', 'みなと'], ans: 0, exp: '空港 (くうこう) berarti "bandara".' },
-      { id: 'K12', q: '<strong>切符</strong>を 2まい かって ください。', sub: 'Pilih cara baca Hiragana:', opts: ['きって', 'きっぷ', 'きっさてん', 'きもち'], ans: 1, exp: '切符 (きっぷ) berarti "tiket/karcis".' },
-      { id: 'K13', q: '<strong>荷物</strong>が おもいので、てつだって ください。', sub: 'Pilih cara baca Hiragana:', opts: ['にもつ', 'くだもの', 'たてもの', 'のりもの'], ans: 0, exp: '荷物 (にもつ) berarti "bagasi / barang bawaan".' },
-      { id: 'K14', q: '<strong>両親</strong>は インドネシアに すんでいます。', sub: 'Pilih cara baca Hiragana:', opts: ['りょうしん', 'きょうだい', 'かぞく', 'ともだち'], ans: 0, exp: '両親 (りょうしん) berarti "kedua orang tua".' },
-      { id: 'K15', q: 'この まちは <strong>有名</strong>な おてらが あります。', sub: 'Pilih cara baca Hiragana:', opts: ['ゆうめい', 'ゆめい', 'ようめい', 'ゆうめ'], ans: 0, exp: '有名 (ゆうめい) berarti "terkenal".' },
-      { id: 'K16', q: '<strong>去年</strong>の ふゆは とても さむかったです。', sub: 'Pilih cara baca Hiragana:', opts: ['きょねん', 'きょうねん', 'らいねん', 'ことし'], ans: 0, exp: '去年 (きょねん) berarti "tahun lalu".' },
-      { id: 'K17', q: '<strong>夕方</strong> 6じごろ うちに かえります。', sub: 'Pilih cara baca Hiragana:', opts: ['ゆうがた', 'あさがた', 'ひるま', 'よなか'], ans: 0, exp: '夕方 (ゆうがた) berarti "sore menjelang malam".' },
-      { id: 'K18', q: '<strong>医者</strong>に くすりを もらいました。', sub: 'Pilih cara baca Hiragana:', opts: ['いしゃ', 'かいしゃ', 'うんてんしゅ', 'てんいん'], ans: 0, exp: '医者 (いしゃ) berarti "dokter".' },
-      { id: 'K19', q: '<strong>写真</strong>を とっても いいですか。', sub: 'Pilih cara baca Hiragana:', opts: ['しゃしん', 'しんぶん', 'ざっし', 'てがみ'], ans: 0, exp: '写真 (しゃしん) berarti "foto".' },
-      { id: 'K20', q: '<strong>音楽</strong>を ききながら べんきょうします。', sub: 'Pilih cara baca Hiragana:', opts: ['おんがく', 'えいが', 'りょうり', 'うんどう'], ans: 0, exp: '音楽 (おんがく) berarti "musik".' },
-      { id: 'K21', q: 'しゅうまつに ともだちと <strong>かいもの</strong>に いきます。', sub: 'Pilih Kanji:', opts: ['買い物', '食べ物', '飲み物', '建物'], ans: 0, exp: '買い物 (かいもの) = berbelanja.' },
-      { id: 'K22', q: 'まいにち にほんごを <strong>べんきょう</strong>します。', sub: 'Pilih Kanji:', opts: ['勉強', '練習', '質問', '説明'], ans: 0, exp: '勉強 (べんきょう) = belajar.' },
-      { id: 'K23', q: 'おとうとは <strong>かいしゃ</strong>で はたらいています。', sub: 'Pilih Kanji:', opts: ['会社', '社会', '神社', '会議'], ans: 0, exp: '会社 (かいしゃ) = perusahaan.' },
-      { id: 'K24', q: 'あしたは <strong>しごと</strong>が やすみです。', sub: 'Pilih Kanji:', opts: ['仕事', '食事', '用事', '火事'], ans: 0, exp: '仕事 (しごと) = pekerjaan.' },
-      { id: 'K25', q: 'ははに <strong>てがみ</strong>を かきました。', sub: 'Pilih Kanji:', opts: ['手紙', '新聞', '切手', '地図'], ans: 0, exp: '手紙 (てがみ) = surat.' },
-      { id: 'K26', q: 'にちようびに へやを <strong>そうじ</strong>します。', sub: 'Pilih Kanji:', opts: ['掃除', '洗濯', '料理', '運動'], ans: 0, exp: '掃除 (そうじ) = membersihkan.' },
-      { id: 'K27', q: 'ホテルを <strong>よやく</strong>しなければ なりません。', sub: 'Pilih Kanji:', opts: ['予約', '予定', '約束', '用意'], ans: 0, exp: '予約 (よやく) = reservasi.' },
-      { id: 'K28', q: 'つぎの <strong>しつもん</strong>に こたえて ください。', sub: 'Pilih Kanji:', opts: ['質問', '問題', '試験', '宿題'], ans: 0, exp: '質問 (しつもん) = pertanyaan.' },
-      { id: 'K29', q: '<strong>あんぜん</strong>に きをつけて 作業して ください。', sub: 'Pilih Kanji:', opts: ['安全', '安心', '案内', '安定'], ans: 0, exp: '安全 (あんぜん) = keselamatan/aman.' },
-      { id: 'K30', q: 'きょうは <strong>ざんぎょう</strong>が 2じかん あります。', sub: 'Pilih Kanji:', opts: ['残業', '卒業', '授業', '工業'], ans: 0, exp: '残業 (ざんぎょう) = lembur.' },
-      { id: 'K31', q: 'この <strong>きそく</strong>を かならず まもって ください。', sub: 'Pilih Kanji:', opts: ['規則', '時間', '場所', '番号'], ans: 0, exp: '規則 (きそく) = peraturan.' },
-      { id: 'K32', q: 'かみのけが ながいので、<strong>きります</strong>。', sub: 'Pilih Kanji:', opts: ['切ります', '着ます', '来ます', '聞きます'], ans: 0, exp: '切ります (きります) = memotong.' },
-      { id: 'K33', q: 'えきの まえは いつも <strong>にぎやか</strong>です。', sub: 'Pilih kata sifat:', opts: ['しずか', 'にぎやか', 'べんり', 'しんせつ'], ans: 1, exp: 'にぎやか = ramai.' },
-      { id: 'K34', q: 'でんしゃの じかんに（   ）ように、はやく いえを でました。', sub: 'Pilih kosakata:', opts: ['おくれる', 'まにあう', 'わすれる', 'やすむ'], ans: 1, exp: '間に合う (まにあう) = sempat / tepat waktu.' },
-      { id: 'K35', q: 'ともだちに ペンを（   ）ので、かえさなければ なりません。', sub: 'Pilih kata kerja:', opts: ['かしました', 'かりました', 'あげました', 'おしえました'], ans: 1, exp: '借りました (かりました) = meminjam dari teman.' },
-      { id: 'K36', q: 'エアコンが（   ）ので、へやが あついです。', sub: 'Pilih kata kerja:', opts: ['なおしました', 'こわれました', 'つきました', 'あきました'], ans: 1, exp: '壊れました (こわれました) = rusak.' },
-      { id: 'K37', q: 'かさ を（   ）ように、げんかんに おいて おきます。', sub: 'Pilih bentuk:', opts: ['おぼえない', 'わすれない', 'おもいださない', 'なくさない'], ans: 1, exp: '忘れないように = supaya tidak lupa.' },
-      { id: 'K38', q: 'すみません、この かんじの（   ）かたを おしえて ください。', sub: 'Pilih kata:', opts: ['よみ', 'よむ', 'よんで', 'よみます'], ans: 0, exp: '読み方 (よみかた) = cara membaca.' },
-      { id: 'K39', q: 'きのうの よる、はやく ねたので、きょうは とても（   ）です。', sub: 'Pilih kata:', opts: ['ねむい', 'げんき', 'さむい', 'いたい'], ans: 1, exp: '元気 (げんき) = sehat / segar.' },
-      { id: 'K40', q: 'ゴミは <strong>決まった</strong> ばしょに だして ください。', sub: 'Arti kata 決まった:', opts: ['きめられた', 'あたらしい', 'とおい', 'きたない'], ans: 0, exp: '決まった (きまった) = yang telah ditentukan.' },
-      { id: 'K41', q: 'この にもつは <strong>重い</strong>です。Lawan kata 重い:', opts: ['かるい', 'ひろい', 'たかい', 'ふとい'], ans: 0, exp: '重い (berat) >< 軽い (ringan).' },
-      { id: 'K42', q: 'へやが <strong>暗い</strong>ので、でんきを つけましょう。Lawan kata 暗い:', opts: ['あかるい', 'あつい', 'つめたい', 'せまい'], ans: 0, exp: '暗い (gelap) >< 明るい (terang).' },
-      { id: 'K43', q: 'かいぎは 10じに <strong>始まります</strong>。Lawan kata 始まります:', opts: ['おわります', 'きまります', 'とまります', 'かわります'], ans: 0, exp: '始まります (mulai) >< 終わります (selesai).' },
-      { id: 'K44', q: 'わたしは 日本へ きて まだ <strong>半年</strong>です。', sub: 'Cara baca 半年:', opts: ['はんとし', 'はんねん', 'はんつき', 'はんにち'], ans: 0, exp: '半年 (はんとし) = setengah tahun.' },
-      { id: 'K45', q: '<strong>住所</strong>と 電話番号を かいて ください。', sub: 'Cara baca 住所:', opts: ['じゅうしょ', 'じゅしょ', 'ちゅうしょ', 'ばしょ'], ans: 0, exp: '住所 (じゅうしょ) = alamat.' },
-      { id: 'K46', q: '<strong>経験</strong>が なくても、だいじょうぶです。', sub: 'Cara baca 経験:', opts: ['けいけん', 'けけん', 'けんきゅう', 'けいかく'], ans: 0, exp: '経験 (けいけん) = pengalaman.' },
-      { id: 'K47', q: '<strong>給料</strong>は まいつき 25にちに もらいます。', sub: 'Cara baca 給料:', opts: ['きゅうりょう', 'きゅりょう', 'りょうり', 'りょうきん'], ans: 0, exp: '給料 (きゅうりょう) = gaji.' },
-      { id: 'K48', q: '<strong>休日</strong>は いつも こうえんで サッカーを します。', sub: 'Cara baca 休日:', opts: ['きゅうじつ', 'きゅじつ', 'やすみび', 'へいじつ'], ans: 0, exp: '休日 (きゅうじつ) = hari libur.' },
-      { id: 'K49', q: '<strong>注意</strong>して どうろを わたって ください。', sub: 'Cara baca 注意:', opts: ['ちゅうい', 'ちゅい', 'ようい', 'いみ'], ans: 0, exp: '注意 (ちゅうい) = berhati-hati.' },
-      { id: 'K50', q: 'しけんに <strong>合格</strong>して、とても うれしいです。', sub: 'Cara baca 合格:', opts: ['ごうかく', 'ごかく', 'こうかく', 'ごうがく'], ans: 0, exp: '合格 (ごうかく) = lulus ujian.' }
-    ];
+  { id: 'K01', q: 'きょうは いい <strong>天気</strong>ですね。', sub: 'Pilih cara baca Hiragana:', opts: ['てんき', 'でんき', 'げんき', 'てんぎ'], ans: 0, exp: '天気 (てんき) berarti "cuaca".' },
+  { id: 'K02', q: 'あした <strong>会社</strong>を やすみます。', sub: 'Pilih cara baca Hiragana:', opts: ['かいしゃ', 'がいしゃ', 'かいさ', 'がいさ'], ans: 0, exp: '会社 (かいしゃ) berarti "perusahaan".' },
+  { id: 'K03', q: 'この <strong>本</strong>は おもしろいです。', sub: 'Pilih cara baca Hiragana:', opts: ['ほん', 'ぽん', 'ぼん', 'おん'], ans: 0, exp: '本 (ほん) berarti "buku".' },
+  { id: 'K04', q: 'まいにち <strong>日本語</strong>を はなします。', sub: 'Pilih cara baca Hiragana:', opts: ['にほんご', 'にっぽんご', 'にほんこ', 'にっぽんこ'], ans: 0, exp: '日本語 (にほんご) berarti "bahasa Jepang".' },
+  { id: 'K05', q: 'あそこに <strong>車</strong>が 止まっています。', sub: 'Pilih cara baca Hiragana:', opts: ['くるま', 'じてんしゃ', '電車', 'バス'], ans: 0, exp: '車 (くるま) berarti "mobil".' },
+  { id: 'K06', q: '<strong>学校</strong>で 勉強します。', sub: 'Pilih cara baca Hiragana:', opts: ['がっこう', 'かくこう', 'かっこう', 'がこう'], ans: 0, exp: '学校 (がっこう) berarti "sekolah".' },
+  { id: 'K07', q: '<strong>先生</strong>に 質問を します。', sub: 'Pilih cara baca Hiragana:', opts: ['せんせい', 'せんせい', 'せいせい', 'せんせ'], ans: 0, exp: '先生 (せんせい) berarti "guru/dosen".' },
+  { id: 'K08', q: '<strong>友達</strong>と 映画を 見ました。', sub: 'Pilih cara baca Hiragana:', opts: ['ともだち', 'きょうだい', 'りょうしん', 'かぞく'], ans: 0, exp: '友達 (ともだち) berarti "teman".' },
+  { id: 'K09', q: '<strong>今週</strong>の 土曜日は 休みです。', sub: 'Pilih cara baca Hiragana:', opts: ['こんしゅう', 'せんしゅう', 'らいしゅう', 'まいしゅう'], ans: 0, exp: '今週 (こんしゅう) berarti "minggu ini".' },
+  { id: 'K10', q: 'あの <strong>店</strong>で パンを かいました。', sub: 'Pilih cara baca Hiragana:', opts: ['みせ', 'いえ', 'へや', 'まち'], ans: 0, exp: '店 (みせ) berarti "toko".' },
+  { id: 'K11', q: '<strong>電気</strong>を つけて ください。', sub: 'Pilih cara baca Hiragana:', opts: ['でんき', 'てんき', 'げんき', 'てんき'], ans: 0, exp: '電気 (でんき) berarti "listrik / lampu".' },
+  { id: 'K12', q: '<strong>部屋</strong>を きれいに そうじします。', sub: 'Pilih cara baca Hiragana:', opts: ['へや', 'いえ', 'たてもの', 'きょうしつ'], ans: 0, exp: '部屋 (へや) berarti "kamar / ruangan".' },
+  { id: 'K13', q: '<strong>野菜</strong>を たくさん 食べてください。', sub: 'Pilih cara baca Hiragana:', opts: ['やさい', 'くだもの', 'にく', 'さかな'], ans: 0, exp: '野菜 (やさい) berarti "sayuran".' },
+  { id: 'K14', q: 'この <strong>魚</strong>は 新鮮で おいしいです。', sub: 'Pilih cara baca Hiragana:', opts: ['さかな', 'にく', 'たまご', 'やさい'], ans: 0, exp: '魚 (さかな) berarti "ikan".' },
+  { id: 'K15', q: '<strong>肉</strong>を 食べません。', sub: 'Pilih cara baca Hiragana:', opts: ['にく', 'さかな', 'やさい', 'くだもの'], ans: 0, exp: '肉 (にく) berarti "daging".' },
+  { id: 'K16', q: '<strong>水</strong>を 一杯 飲んでください。', sub: 'Pilih cara baca Hiragana:', opts: ['みず', 'おゆ', 'おちゃ', 'ジュース'], ans: 0, exp: '水 (みず) berarti "air (dingin)".' },
+  { id: 'K17', q: '<strong>花</strong>が きれいに 咲いています。', sub: 'Pilih cara baca Hiragana:', opts: ['はな', '木', '草', '葉'], ans: 0, exp: '花 (はな) berarti "bunga".' },
+  { id: 'K18', q: 'この <strong>山</strong>は とても 高いです。', sub: 'Pilih cara baca Hiragana:', opts: ['やま', '川', '海', '空'], ans: 0, exp: '山 (やま) berarti "gunung".' },
+  { id: 'K19', q: '<strong>川</strong>の 水が きれいです。', sub: 'Pilih cara baca Hiragana:', opts: ['かわ', 'やま', 'うみ', 'いけ'], ans: 0, exp: '川 (かわ) berarti "sungai".' },
+  { id: 'K20', q: '夏休みに <strong>海</strong>へ 行きます。', sub: 'Pilih cara baca Hiragana:', opts: ['うみ', '川', '山', '湖'], ans: 0, exp: '海 (うみ) berarti "laut".' },
+  { id: 'K21', q: 'あしたは <strong>あめ</strong>が 降るでしょう。', sub: 'Pilih Kanji:', opts: ['雨', '雪', '雲', '風'], ans: 0, exp: '雨 (あめ) = hujan.' },
+  { id: 'K22', q: '<strong>ひがし</strong>の 空が 明るくなりました。', sub: 'Pilih Kanji:', opts: ['東', '西', '南', '北'], ans: 0, exp: '東 (ひがし) = timur.' },
+  { id: 'K23', q: '<strong>にし</strong>の 方へ 行きます。', sub: 'Pilih Kanji:', opts: ['西', '東', '南', '北'], ans: 0, exp: '西 (にし) = barat.' },
+  { id: 'K24', q: '<strong>みなみ</strong>の 島は 温かいです。', sub: 'Pilih Kanji:', opts: ['南', '北', '東', '西'], ans: 0, exp: '南 (みなみ) = selatan.' },
+  { id: 'K25', q: '<strong>きた</strong>の 国は 雪が 多いです。', sub: 'Pilih Kanji:', opts: ['北', '南', '東', '西'], ans: 0, exp: '北 (きた) = utara.' },
+  { id: 'K26', q: '<strong>まいにち</strong> 漢字を 練習します。', sub: 'Pilih Kanji:', opts: ['毎日', '毎週', '毎月', '毎年'], ans: 0, exp: '毎日 (まいにち) = setiap hari.' },
+  { id: 'K27', q: 'この <strong>じかん</strong>に 会議が あります。', sub: 'Pilih Kanji:', opts: ['時間', '空間', '年間', '期間'], ans: 0, exp: '時間 (じかん) = waktu.' },
+  { id: 'K28', q: '<strong>いま</strong> 何時ですか。', sub: 'Pilih Kanji:', opts: ['今', '日', '月', '年'], ans: 0, exp: '今 (いま) = sekarang.' },
+  { id: 'K29', q: '<strong>あたらし</strong> パソコンを 買いました。', sub: 'Pilih Kanji:', opts: ['新しい', '古い', '高い', '安い'], ans: 0, exp: '新しい (あたらしい) = baru.' },
+  { id: 'K30', q: 'この くつは <strong>ふるい</strong>です。', sub: 'Pilih Kanji:', opts: ['古い', '新しい', '大きい', '小さい'], ans: 0, exp: '古い (ふるい) = lama / tua.' },
+  { id: 'K31', q: 'この カバンは <strong>高い</strong>です。', sub: 'Pilih Kanji:', opts: ['高い', '安い', '大きい', '軽い'], ans: 0, exp: '高い (たかい) = mahal / tinggi.' },
+  { id: 'K32', q: 'この 本は <strong>安い</strong>です。', sub: 'Pilih Kanji:', opts: ['安い', '高い', '広い', '狭い'], ans: 0, exp: '安い (やすい) = murah.' },
+  { id: 'K33', q: '<strong>おおきい</strong> 家に 住みたいです。', sub: 'Pilih Kanji:', opts: ['大きい', '小さい', '長い', '短い'], ans: 0, exp: '大きい (おおきい) = besar.' },
+  { id: 'K34', q: '<strong>ちいさい</strong> 子どもが 遊んでいます。', sub: 'Pilih Kanji:', opts: ['小さい', '大きい', '高い', '低い'], ans: 0, exp: '小さい (ちいさい) = kecil.' },
+  { id: 'K35', q: '<strong>ながい</strong> ペンを 貸してください。', sub: 'Pilih Kanji:', opts: ['長い', '短い', '太い', '細い'], ans: 0, exp: '長い (ながい) = panjang.' },
+  { id: 'K36', q: 'えんぴつが <strong>みじかく</strong> なりました。', sub: 'Pilih Kanji:', opts: ['短く', '長く', '太く', '細く'], ans: 0, exp: '短い (みじかい) = pendek.' },
+  { id: 'K37', q: 'この 道は とても <strong>せまい</strong>です。', sub: 'Pilih Kanji:', opts: ['狭い', '広い', '長い', '暗い'], ans: 0, exp: '狭い (せまい) = sempit.' },
+  { id: 'K38', q: 'うれしくて <strong>こころ</strong>が ドキドキします。', sub: 'Pilih Kanji:', opts: ['心', '体', '手', '足'], ans: 0, exp: '心 (こころ) = hati / jiwa.' },
+  { id: 'K39', q: '<strong>て</strong>を 洗ってから 食べてください。', sub: 'Pilih Kanji:', opts: ['手', '足', '目', '耳'], ans: 0, exp: '手 (て) = tangan.' },
+  { id: 'K40', q: '<strong>あし</strong>が 痛くて 歩けません。', sub: 'Pilih Kanji:', opts: ['足', '手', '頭', '顔'], ans: 0, exp: '足 (あし) = kaki.' },
+  { id: 'K41', q: '<strong>め</strong>が 悪くて メガネを かけます。', sub: 'Pilih Kanji:', opts: ['目', '耳', '口', '鼻'], ans: 0, exp: '目 (め) = mata.' },
+  { id: 'K42', q: '音楽を <strong>みみ</strong>で 聞きます。', sub: 'Pilih Kanji:', opts: ['耳', '目', '手', '口'], ans: 0, exp: '耳 (みみ) = telinga.' },
+  { id: 'K43', q: '<strong>くち</strong>を 開けて ください。', sub: 'Pilih Kanji:', opts: ['口', '目', '耳', '鼻'], ans: 0, exp: '口 (くち) = mulut.' },
+  { id: 'K44', q: '<strong>はな</strong>で 匂いを かぎます。', sub: 'Pilih Kanji:', opts: ['鼻', '口', '耳', '目'], ans: 0, exp: '鼻 (はな) = hidung.' },
+  { id: 'K45', q: '<strong>あたま</strong>が 痛い です。', sub: 'Pilih Kanji:', opts: ['頭', '顔', '体', '首'], ans: 0, exp: '頭 (あたま) = kepala.' },
+  { id: 'K46', q: '<strong>からだ</strong>に いい 食べ物を 食事します。', sub: 'Pilih Kanji:', opts: ['体', '心', '手', '足'], ans: 0, exp: '体 (からだ) = badan / tubuh.' },
+  { id: 'K47', q: '<strong>じぶん</strong>の 意見を 言います。', sub: 'Pilih Kanji:', opts: ['自分', '他人', '家族', '友達'], ans: 0, exp: '自分 (じぶん) = diri sendiri.' },
+  { id: 'K48', q: '<strong>せんげつ</strong> 日本へ 来ました。', sub: 'Pilih Kanji:', opts: ['先月', '今月', '来月', '毎月'], ans: 0, exp: '先月 (せんげつ) = bulan lalu.' },
+  { id: 'K49', q: '<strong>らいねん</strong> 国へ 帰ります。', sub: 'Pilih Kanji:', opts: ['来年', '去年', '今年', '毎年月'], ans: 0, exp: '来年 (らいねん) = tahun depan.' },
+  { id: 'K50', q: 'あしたは <strong>やすみ</strong>です。', sub: 'Pilih Kanji:', opts: ['休み', '仕事', '勉強', '運動'], ans: 0, exp: '休み (やすみ) = libur / istirahat.' }
+];
 
-    const dokkaiBank = [
-      { id: 'D01', title: '【お知らせ】食堂の 営業時間', passage: '来週の 月曜日（10月12日）は、キッチンを そうじするため、食堂の 昼ごはんの 時間は 11時30分から 13時までです。いつもより 30分 はやく 終わりますので、気をつけて ください。夜ごはんは いつもどおり 17時から 20時までです。', q: '10月12日の 昼ごはんは 何時まで 食べられますか。', opts: ['11時30分まで', '13時まで', '13時30分まで', '20時まで'], ans: 1, exp: 'Tertulis 「13時までです」.' },
-      { id: 'D02', title: '【メール】田中さんからの 連絡', passage: 'アグスさん、おつかれさまです。田中です。あしたの 午前10時からの 会議ですが、会議室Aから 会議室Bに かわりました。資料は わたしが 持っていきますので、アグスさんは ノートと ペンだけ 持ってきて ください。', q: 'アグスさんは あした どこへ 行かなければ なりませんか。', opts: ['会議室A', '会議室B', '田中さんの へや', '食堂'], ans: 1, exp: 'Berpindah ke Ruang Rapat B (会議室B).' },
-      { id: 'D03', title: '【はり紙】ゴミの 出し方ルール', passage: 'アパートの みなさんへ：\n● もえるゴミ：月曜日 と 木曜日\n● もえないゴミ：水曜日\n● ペットボトル・かん：土曜日\n※ ゴミは かならず 朝の 8時までに 出して ください。', q: 'ペットボトルは いつ 出しますか。', opts: ['月曜日の 朝8時まで', '水曜日の 朝8時すぎ', '土曜日の 朝8時まで', '木曜日の 夜'], ans: 2, exp: 'Hari Sabtu (土曜日) sebelum jam 8 pagi.' },
-      { id: 'D04', title: '【メモ】机の上の メモ', passage: 'ラニさんへ\nさきに 帰ります。パソコンの でんげんは 切りましたが、まどが あいています。ラニさんが 帰るとき、まどを しめて、ドアに かぎを かけて ください。\n佐藤', q: 'ラニさんは 帰るとき 何を しなければ なりませんか。', opts: ['パソコンの でんげんを 切る', 'まどを あける', 'まどを しめて、かぎを かける', '佐藤さんに 電話する'], ans: 2, exp: 'Menutup jendela dan mengunci pintu.' },
-      { id: 'D05', title: '【案内】さくら病院の 診療時間', passage: '月・火・水・金曜日：午前 9:00〜12:30 ／ 午後 15:00〜18:30\n土曜日：午前 9:00〜13:00（午後は 休み）\n休診日：木曜日・日曜日・祝日', q: '土曜日の 午後 4時に 病院へ 行ったら、どうなりますか。', opts: ['すぐに みてもらえます', '休みなので みてもらえません', '18時30分まで 入れます', '木曜日だけ あいています'], ans: 1, exp: 'Hari Sabtu sore tutup (午後は休み).' },
-      { id: 'D06', title: '【チャット】アリさんと ケンさんの 会話', passage: 'ケン：アリさん、今日の 夜 7時から 駅の 前の カレー屋で ごはんを 食べませんか。\nアリ：いいですね！でも、残業が 30分 あるので、7時15分に 店の中で 待っています。', q: '二人は 何時に どこで 会いますか。', opts: ['7時に 駅の 前で', '7時に カレー屋の 中で', '7時15分に 駅の 前で', '7時15分に カレー屋の 中で'], ans: 3, exp: 'Pukul 7:15 di dalam restoran.' },
-      { id: 'D07', title: '【お知らせ】工場見学の 注意', passage: '工場の 中へ 入る ときは、かならず ヘルメットと 安全ぐつを つけて ください。機械の 写真は とらないで ください。', q: '工場の 中で してはいけない ことは 何ですか。', opts: ['ヘルメットをつける', '安全ぐつをはく', '機械の写真をとる', 'スマホをしまう'], ans: 2, exp: 'Dilarang memotret mesin.' },
-      { id: 'D08', title: '【チラシ】スーパー「みどり」', passage: '日曜日は お客様感謝デー！りんご（4こ）：300円 → 200円、ぎゅうにゅう（1本）：180円 → 150円', q: '日曜日に りんごを 2ふくろと ぎゅうにゅうを 1本 買ったら、いくらですか。', opts: ['550円', '650円', '780円', '450円'], ans: 0, exp: '(200 x 2) + 150 = 550 yen.' },
-      { id: 'D09', title: '【電車の お知らせ】', passage: '大雨のため中央線は新宿〜東京間で止まっています。地下鉄丸ノ内線をご利用ください。', q: '東京駅へ 急いで 行きたい 人は どうすれば いいですか。', opts: ['中央線を待つ', '切符を買いなおす', '地下鉄 丸ノ内線に 乗る', 'バスだけ 使う'], ans: 2, exp: 'Naik kereta bawah tanah Marunouchi.' },
-      { id: 'D10', title: '【メール】日本語教室', passage: '5月20日は先生が出張のため休みです。かわりに23日（土）午前10時から授業をします。', q: '5月20日は どうして 教室が 休みですか。', opts: ['祝日だから', '病気だから', '先生が 出張だから', 'テキストがない'], ans: 2, exp: 'Guru dinas luar kota (出張のため).' },
-      { id: 'D11', title: '【図書館の ルール】', passage: '本は5冊まで2週間。図書館がしまっているときは入口横の「返却ポスト」に入れてください。', q: '図書館が しまっている とき、本は どこに 返しますか。', opts: ['カウンター', '家に置く', '入口の 横の 返却ポスト', '郵送'], ans: 2, exp: 'Kotak pengembalian (返却ポスト).' },
-      { id: 'D12', title: '【シフト表】', passage: 'デウィさんのシフト：月・水17:00〜22:00、金9:00〜15:00', q: 'デウィさんが 朝から はたらく 日は 何曜日ですか。', opts: ['月曜日', '水曜日', '木曜日', '金曜日'], ans: 3, exp: 'Hari Jumat (金曜日) pukul 09:00.' },
-      { id: 'D13', title: '【手紙】ホームステイ先より', passage: '今日は歓迎会ですね。夜ごはんはいりませんね。', q: 'リナさんは 今日 家で 夜ごはんを 食べますか。', opts: ['はい', 'いいえ、歓迎会があるので食べません', '23時に食べる', 'わからない'], ans: 1, exp: 'Ada pesta penyambutan.' },
-      { id: 'D14', title: '【看板】公園の 注意書き', q: 'この 公園の 中で してはいけない ことは 何ですか。', passage: '犬のさんぽはリードをつけてください。自転車に乗ったまま入らないでください。', opts: ['自転車に乗ること', 'ひもなし犬', '犬の散歩', '歩くこと'], ans: 0, exp: 'Naik sepeda di dalam taman.' },
-      { id: 'D15', title: '【短い文章】日本の 四季', passage: '日本には春・夏・秋・冬があります。秋は木の葉が赤や黄色にかわってきれいです。', q: '木の 葉が 赤や 黄色に かわるのは どの 季節ですか。', opts: ['春', '夏', '秋', '冬'], ans: 2, exp: 'Musim gugur (秋).' },
-      { id: 'D16', title: '【メール】面接案内', passage: '日時：11月5日午後2時。10分前までに5階受付へお越しください。', q: 'ブディさんは 何時までに 受付へ 行かなければ なりませんか。', opts: ['午後1時50分まで', '午後2時00分まで', '午後2時10分まで', '午前10時'], ans: 0, exp: 'Pukul 13:50 (10 menit sebelum 14:00).' },
-      { id: 'D17', title: '【説明書】くすり', passage: '1日3回、食後30分以内に2じょうずつ飲んでください。', q: 'この くすりは 1日に 全部で 何じょう 飲みますか。', opts: ['2じょう', '3じょう', '5じょう', '6じょう'], ans: 3, exp: '3 x 2 = 6 tablet.' },
-      { id: 'D18', title: '【掲示板】水道工事', passage: '午前9時から午後1時まで断水します。', q: '水が 出ない 時間は 何時間ですか。', opts: ['2時間', '3時間', '4時間', '5時間'], ans: 2, exp: '4 jam.' },
-      { id: 'D19', title: '【日記】温泉', passage: '温泉に入る前に体を洗います。タオルはお湯に入れないでください。', q: '温泉で してはいけない ことは 何ですか。', opts: ['体を洗う', '友だちと入る', 'タオルを お湯の 中に 入れる', 'おふろに入る'], ans: 2, exp: 'Memasukkan handuk ke air kolam.' },
-      { id: 'D20', title: '【クーポン】', passage: 'ラーメン800円が650円。※ランチタイム（11:30〜14:00）は使えません。', q: 'この クーポンが 使えるのは いつですか。', opts: ['12時', '1時30分', '夜の 7時', 'ランチ'], ans: 2, exp: 'Malam hari (夜の7時).' },
-      { id: 'D21', title: '【社内連絡】', passage: 'エアコンは26度。最後の人はエアコンと電気を消してください。', q: '部屋を 最後の出る 人は 何を しますか。', opts: ['20度にする', 'エアコンと電気を消す', 'まどを開ける', '何もしない'], ans: 1, exp: 'Mematikan AC dan lampu.' },
-      { id: 'D22', title: '【メニュー】', passage: 'さかな弁当600円、ごはん大盛り＋50円、お茶100円', q: 'さかな弁当（ごはん大盛り）と お茶を 1本 買うと、いくらですか。', opts: ['650円', '700円', '750円', '800円'], ans: 2, exp: '600 + 50 + 100 = 750 yen.' },
-      { id: 'D23', title: '【メッセージ】', passage: 'わからないことは勝手にせずすぐ先輩に聞いてください。', q: 'わからない ことが あったとき、どうすれば いいですか。', opts: ['勝手にする', 'すぐ先輩に聞く', '何もしない', '帰る'], ans: 1, exp: 'Segera bertanya kepada senior.' },
-      { id: 'D24', title: '【美術館】', passage: '開館9:30〜17:00（入館は16:30まで）', q: '美術館に 入れるのは 何時までですか。', opts: ['16:00', '16:30', '17:00', '17:30'], ans: 1, exp: 'Pukul 16:30.' },
-      { id: 'D25', title: '【コンビニ】', passage: '24時間営業。お弁当だけでなく電気代の支払いもできます。', q: 'この 文章に 書いて ある ことは どれですか。', opts: ['夜10時閉館', '電気代を払える', 'ATMなし', '弁当のみ'], ans: 1, exp: 'Bisa membayar tagihan listrik.' },
-      { id: 'D26', title: '【お礼の手紙】', passage: '1か月間、本当にありがとうございました。', q: 'この 手紙を 書いた 人は どのくらい 高橋さんの 家に いましたか。', opts: ['1週間', '2週間', '1か月間', '1年'], ans: 2, exp: 'Selama 1 bulan.' },
-      { id: 'D27', title: '【天気予報】', passage: '土曜日はよく晴れて洗濯日和。日曜日は午後から雨。', q: '洗濯物を ほすのに いいのは いつですか。', opts: ['土曜日', '日曜日の午後', '日曜日の夜', '毎日'], ans: 0, exp: 'Hari Sabtu.' },
-      { id: 'D28', title: '【社員旅行】', passage: '箱根へ行きます。金曜日までに山田さんに名前を伝えてください。参加費3,000円。', q: '参加したい 人は 今週の 金曜日までに 何を しますか。', opts: ['3000円払う', '山田さんに名前を伝える', 'ホテル予約', '切符買う'], ans: 1, exp: 'Memberi tahu Yamada-san.' },
-      { id: 'D29', title: '【道をきく】', passage: 'まっすぐ行って二つ目の信号を右。100mほどで左側にあります。銀行のとなりです。', q: '郵便局は どこに ありますか。', opts: ['一つ目角', '銀行前', '二つ目右折の道の左側', '駅内'], ans: 2, exp: 'Sebelah kiri setelah belok kanan di lampu merah kedua.' },
-      { id: 'D30', title: '【寮の洗濯機】', passage: '朝7時〜夜10時まで。夜10時すぎは近所の迷惑になるので使わないでください。', q: 'どうして 夜 10時すぎに 洗濯機を 使っては いけませんか。', opts: ['水が止まる', '電気代高い', '近所の人の迷惑になる', '故障'], ans: 2, exp: 'Mengganggu tetangga.' },
-      { id: 'D31', title: '【忘れ物】', passage: '3階トイレで青い折りたたみ傘を発見。1階警備員室まで取りに来てください。', q: '青い かさは 今 どこに ありますか。', opts: ['3階トイレ', '1階警備員室', '2階会議室', '玄関'], ans: 1, exp: 'Ruang satpam lantai 1.' },
-      { id: 'D32', title: '【パーティー】', passage: '土曜18時パーティー。料理も飲み物も用意するから何も持ってこなくていいよ！', q: 'ワンさんは パーティーに 何を 持っていきますか。', opts: ['ケーキ', '飲み物', '料理', '何も持っていかなくていい'], ans: 3, exp: 'Tidak perlu membawa apa-apa.' },
-      { id: 'D33', title: '【エレベーター点検】', passage: '午前10時〜12時使えません。階段をご利用ください。', q: '午前11時に 5階へ 行きたい 人は どうしますか。', opts: ['エレベーター', '階段を使う', '12時まで待つ', '別ビル'], ans: 1, exp: 'Menggunakan tangga.' },
-      { id: 'D34', title: '【おじぎ】', passage: '友達は軽く頭を下げます。お客様や先生には深くおじぎをします。', q: '深く ていねいに おじぎを するのは どんな ときですか。', opts: ['友達', '家族', 'お客様や先生', '一人'], ans: 2, exp: 'Bertemu tamu perusahaan atau guru.' },
-      { id: 'D35', title: '【バスの乗り方】', passage: '後ろから乗って整理券を取る。降りる時は運賃箱へ。', q: 'バスに 乗るとき、まず 何を しますか。', opts: ['前ドア乗車', '料金支払い', '後ろドア乗車で整理券をとる', '名前言う'], ans: 2, exp: 'Naik dari pintu belakang dan ambil karcis.' },
-      { id: 'D36', title: '【冷蔵庫のプリン】', passage: '赤い紙がはってあるのは私の。もう一つは兄ちゃんが食べていいよ。', q: 'お兄ちゃんが 食べても いい プリンは どれですか。', opts: ['全部', '赤い紙つき', '赤い紙なし', '両方ダメ'], ans: 2, exp: 'Tanpa kertas merah.' },
-      { id: 'D37', title: '【健康診断】', passage: '当日の朝は水とお茶以外飲まないで。朝食も食べないで。', q: '健康診断の 日の 朝、飲んでも いい ものは 何ですか。', opts: ['コーヒー牛乳', 'ジュース', '水と お茶', 'みそ汁'], ans: 2, exp: 'Air putih dan teh.' },
-      { id: 'D38', title: '【週末の予定】', q: 'Bさんは 日曜日に 何を しますか。', passage: '土曜は映画、日曜は姉とデパートへ買い物に行きます。', opts: ['映画', 'バイト', '姉とデパートへ行く', '公園'], ans: 2, exp: 'Pergi ke department store bersama kakak.' },
-      { id: 'D39', title: '【携帯マナー】', passage: '電車内はマナーモードにし通話は遠慮してください。', q: '電車の中で 携帯電話は どうしなければ なりませんか。', opts: ['大声で話す', 'マナーモードにして通話しない', '音を出す', '電源切る'], ans: 1, exp: 'Mode senyap dan tidak menelepon.' },
-      { id: 'D40', title: '【スポーツクラブ】', passage: '入会金5,000円（今月無料！）、月会費6,000円', q: '今月中に 申し込むと、いくら 安くなりますか。', opts: ['1000円', '5000円', '6000円', '11000円'], ans: 1, exp: 'Hemat 5,000 yen.' },
-      { id: 'D41', title: '【宅配便】', passage: '留守のときはポストに不在連絡票が入ります。', q: '留守で 荷物を 受け取れなかった とき、どうなりますか。', opts: ['捨てられる', '不在連絡票が入る', '来年届く', '隣に置く'], ans: 1, exp: 'Slip tidak di rumah di kotak pos.' },
-      { id: 'D42', title: '【休憩室】', passage: '使ったコップやお皿は自分で洗って元の場所に戻してください。', q: '休憩室で コップを 使った あと、どうしますか。', opts: ['そのまま置く', '自分で洗って元に戻す', 'ゴミ箱へ', '事務室へ'], ans: 1, exp: 'Dicuci dan dikembalikan.' },
-      { id: 'D43', title: '【遅刻の連絡】', passage: '事故で電車が15分おくれており、9時の始業に10分ほど遅れそうです。', q: 'ラフィさんは どうして 会社に おくれますか。', opts: ['寝坊', '事故で電車がおくれている', '病院', '道違い'], ans: 1, exp: 'Kereta terlambat karena kecelakaan.' },
-      { id: 'D44', title: '【自販機故障】', passage: 'ただいま1,000円札が使えません。100円玉や500円玉硬貨をお使いください。', q: 'この 自動販売機で 飲み物を 買う とき、何が 使えますか。', opts: ['1000円札', '5000円札', '100円玉と500円玉', 'カード'], ans: 2, exp: 'Koin 100 dan 500 yen.' },
-      { id: 'D45', title: '【朝ごはん】', passage: '時間がなくてもバナナ1本や牛乳1ぱいだけでも飲むといいです。', q: '時間が ない ときは どうすると いいと 書いて ありますか。', opts: ['食べない', 'バナナや牛乳だけでもとる', '昼を2回', '夜食べる'], ans: 1, exp: 'Setidaknya makan pisang atau minum susu.' },
-      { id: 'D46', title: '【防犯】', passage: '自転車から離れるときは短い時間でもかならずかぎをかけてください。', q: '自転車から 離れる とき、何を しなければ なりませんか。', opts: ['荷物を入れる', '短い時間でもかぎをかける', '電気をつける', '道路真ん中に置く'], ans: 1, exp: 'Mengunci sepeda.' },
-      { id: 'D47', title: '【葉書】', passage: '先月仕事で大阪に引っ越しました。大阪はたこ焼きがおいしいです。', q: 'この 葉書を 書いた 人は 今 どこに 住んでいますか。', opts: ['東京', '大阪', '北海道', '沖縄'], ans: 1, exp: 'Osaka.' },
-      { id: 'D48', title: '【試験会場】', passage: '机の上に置いていいのは受験票、えんぴつ、消しゴムだけです。', q: '試験中、机の 上に おいても いい ものは どれですか。', opts: ['スマホ', '腕時計', '消しゴム', '辞書'], ans: 2, exp: 'Penghapus (消しゴム).' },
-      { id: 'D49', title: '【夏祭り】', passage: '8月15日17時中央公園で夏祭り。雨の場合は16日に延期します。', q: '8月15日が 雨だったら、夏祭りは どうなりますか。', opts: ['中止', '16日に行う', '体育館', '来年'], ans: 1, exp: 'Ditunda ke tanggal 16.' },
-      { id: 'D50', title: '【リサイクル】', passage: '新聞紙やダンボールはひもでしばって出します。', q: '新聞紙や ダンボールは どうやって 出しますか。', opts: ['袋に入れる', 'ひもでしばって出す', '水にぬらす', '小さく切る'], ans: 1, exp: 'Diikat dengan tali.' }
-    ];
+const dokkaiBank = [
+  { id: 'D01', title: '【お知らせ】食堂の 営業日', passage: '今週の土曜日は、工場の機械を点検するため、食堂の営業はお休みです。日曜日は通常どおり営業します。', q: '土曜日の食堂はどうなりますか。', opts: ['通常どおり営業する', '休みである', '夜だけ営業する', 'メニューが変わる'], ans: 1, exp: 'Tertulis お休みです (libur).' },
+  { id: 'D02', title: '【メール】鈴木さんより', passage: '山田さん、お疲れ様です。明日の午後2時からの打ち合わせですが、会議室Cに変更になりました。よろしくお願いします。', q: '明日の打ち合わせはどこで行われますか。', opts: ['会議室A', '会議室B', '会議室C', '元の部屋'], ans: 2, exp: 'Berpindah ke Ruang Rapat C (会議室C).' },
+  { id: 'D03', title: '【掲示板】図書室の利用', passage: '図書室の本は1人3冊まで借りることができます。期間は1週間です。返却日は必ず守ってください。', q: '本は最大何冊まで借りられますか。', opts: ['1冊', '2冊', '3冊', '5冊'], ans: 2, exp: 'Tertulis 3冊まで (sampai 3 buku).' },
+  { id: 'D04', title: '【メモ】冷蔵庫の貼り紙', passage: '佐藤さんへ：牛乳を買っておきました。夜飲むときはレンジで温めてくださいね。母より', q: '夜に牛乳を飲むとき、どうしますか。', opts: ['そのまま飲む', 'レンジで温める', '捨ててしまう', 'コーヒーに入れる'], ans: 1, exp: 'Dihangatkan dengan microwave.' },
+  { id: 'D05', title: '【案内】郵便局の営業時間', passage: '窓口：平日9:00〜17:00（土日祝日は休み）。ATM：毎日8:00〜21:00まで使えます。', q: '日曜日にATMを使いたい場合、使えますか。', opts: ['使えない', '使える', '窓口が開いている', '夜8時まで'], ans: 1, exp: 'ATM bisa digunakan setiap hari (毎日).' },
+  { id: 'D06', title: '【チャット】佐藤さんと田中さん', passage: '佐藤：明日、駅前の新しいカフェに行かない？\n田中：いいね！仕事が終わる6時半に待ち合わせしよう。', q: '二人は何時にどこで会いますか。', opts: ['6時に駅前', '6時半にカフェの前', '7時に会社', '5時に駅の中'], ans: 1, exp: 'Pukul 6:30 di depan kafe.' },
+  { id: 'D07', title: '【チラシ】スーパーの特売', passage: '水曜日は卵が1パック100円！※お一人様1つ限りとさせていただきます。', q: '卵を何パック買えますか。', opts: ['いくつでも', '1人1つまで', '2つまで', '日曜だけ'], ans: 1, exp: '1 orang maksimal 1 buah (お一人様1つ限り).' },
+  { id: 'D08', title: '【電車の案内】', passage: '人身事故の影響で、山手線は現在上下線ともに運転を見合わせています。', q: '山手線はどうなっていますか。', opts: ['通常運行', '運転を見合わせている', 'スピードを落としている', '空いている'], ans: 1, exp: 'Operasional dihentikan sementara (運転を見合わせている).' },
+  { id: 'D09', title: '【ゴミ出しの注意】', passage: 'ビン・カンは毎週金曜日の朝、透明な袋に入れて出してください。黒い袋はダメです。', q: 'ビン・カンを出すときの袋の色はどれですか。', opts: ['黒い袋', '透明な袋', '赤い袋', '何でもいい'], ans: 1, exp: 'Kantong transparan (透明な袋).' },
+  { id: 'D10', title: '【教室の連絡】', passage: '来週の月曜日は祝日のため、日本語の授業はありません。火曜日から通常通りです。', q: '来週の月曜日は授業がありますか。', opts: ['ある', 'ない', 'オンラインでやる', '分からない'], ans: 1, exp: 'Tidak ada karena hari libur nasional.' },
+  { id: 'D11', title: '【病院の受付】', passage: '初めての方は保険証を出して、こちらの問診票に記入をお願いします。', q: '初めて病院に来た人は何をしますか。', opts: ['薬を飲む', '保険証を出し問診票を書く', 'すぐ帰る', '熱を測らない'], ans: 1, exp: 'Menunjukkan kartu asuransi dan mengisi lembar anamnesis.' },
+  { id: 'D12', title: '【シフト表】', passage: '木村さんの今週の勤務：火・水・木・金（9:00〜15:00）。土日は休み。', q: '木村さんは土曜日に働きますか。', opts: ['働く', '休みである', '午前だけ働く', '夜働く'], ans: 1, exp: 'Libur pada akhir pekan (土日は休み).' },
+  { id: 'D13', title: '【ホテル規約】', passage: 'チェックアウトは午前10時までです。鍵はフロントへお返しください。', q: '何時までに部屋を出なければなりませんか。', opts: ['9時', '10時', '11時', '12時'], ans: 1, exp: 'Pukul 10 pagi.' },
+  { id: 'D14', title: '【公園の注意】', passage: '芝生の中に入らないでください。ボール遊びは禁止です。', q: '公園でしてはいけないことは何ですか。', opts: ['歩くこと', '芝生に入ることやボール遊び', '写真を撮ること', 'ベンチに座ること'], ans: 1, exp: 'Masuk ke rumput dan bermain bola.' },
+  { id: 'D15', title: '【季節の便り】', passage: '北海道の冬はとても寒くて、雪がたくさん降ります。あたたかい服が必要です。', q: '北海道の冬はどんな天気ですか。', opts: ['暑い', '雪がたくさん降る', '雨が多い', 'いつも晴れ'], ans: 1, exp: 'Banyak turun salju.' },
+  { id: 'D16', title: '【面接の案内】', passage: '面接の時間は10月15日の午後2時です。当日は履歴書をお持ちください。', q: '面接に何を持っていきますか。', opts: ['カメラ', '履歴書', 'お弁当', 'お土産'], ans: 1, exp: 'Riwayat hidup (履歴書).' },
+  { id: 'D17', title: '【薬の説明】', passage: '1日3回、毎食後に1錠ずつ飲んでください。お酒と一緒に飲まないでください。', q: 'この薬を飲むタイミングはいつですか。', opts: ['食前', '食後', '寝る前', 'いつでも'], ans: 1, exp: 'Setelah makan (食後).' },
+  { id: 'D18', title: '【断水のお知らせ】', passage: '配管工事のため、明日の午後1時から午後4時まで水が出ません。', q: '水が出ない時間は何時間ですか。', opts: ['2時間', '3時間', '4時間', '1時間'], ans: 1, exp: 'Dari 13:00 ke 16:00 = 3 jam.' },
+  { id: 'D19', title: '【温泉のマナー】', passage: 'お風呂に入る前に、体をしっかり洗ってください。タオルを湯船に入れないでください。', q: 'お風呂に入るときの注意はどれですか。', opts: ['体を洗う', 'タオルを入れる', '服を着たまま入る', '走る'], ans: 0, exp: 'Mencuci badan terlebih dahulu.' },
+  { id: 'D20', title: '【割引券】', passage: '定食メニューが通常800円のところ、このクーポンで100円引きになります。', q: 'クーポンを使うと定食はいくらになりますか。', opts: ['700円', '800円', '900円', '600円'], ans: 0, exp: '800 - 100 = 700 yen.' },
+  { id: 'D21', title: '【オフィスのルール】', passage: '退室の際は、エアコンとパソコンの電源を切り、窓を閉めてください。', q: '部屋を出るときに何をしますか。', opts: ['電気をつける', '窓を開ける', '電源を切り窓を閉める', '何もしない'], ans: 2, exp: 'Mematikan daya dan menutup jendela.' },
+  { id: 'D22', title: '【食堂のメニュー】', passage: 'ラーメン500円、カレー600円、うどん450円。大盛りはプラス100円です。', q: 'カレーの大盛りはいくらですか。', opts: ['600円', '700円', '550円', '500円'], ans: 1, exp: '600 + 100 = 700 yen.' },
+  { id: 'D23', title: '【仕事の指示】', passage: '自分で判断できないときは、勝手にやらずに必ず先輩に相談してください。', q: '分からないことがあったらどうしますか。', opts: ['自分で決める', '先輩に相談する', 'そのままにする', '帰る'], ans: 1, exp: 'Berkonsultasi dengan senior.' },
+  { id: 'D24', title: '【美術館の案内】', passage: '開館時間：10:00〜17:00（最終入場は16:30まで）', q: '16:45に行ったら入れますか。', opts: ['入れる', '入れない', '無料で入れる', '予約できる'], ans: 1, exp: 'Tidak bisa karena masuk terakhir 16:30.' },
+  { id: 'D25', title: '【コンビニのサービス】', passage: 'コピー機、ATMのほか、宅急便の発送も受け付けております。', q: 'コンビニで何ができますか。', opts: ['宿泊', '宅急便の発送', '車の修理', '散髪'], ans: 1, exp: 'Pengiriman kurir/takkyubin.' },
+  { id: 'D26', title: '【お礼の手紙】', passage: '日本に来て半年、先生や友達に支えられて楽しく過ごしています。', q: '日本に来てどのくらいですか。', opts: ['1ヶ月', '半年', '1年', '3年'], ans: 1, exp: 'Setengah tahun (半年).' },
+  { id: 'D27', title: '【天気予報】', passage: '明日は朝からよく晴れますが、夜から急に雨が降るでしょう。傘を持って出かけてください。', q: '明日はどんな準備が必要ですか。', opts: ['コート', '傘', 'サングラス', '長靴'], ans: 1, exp: 'Membawa payung karena hujan malam.' },
+  { id: 'D28', title: '【社員旅行の案内】', passage: '今年の社員旅行は京都に行きます。参加希望者は金曜日までに申し込んでください。', q: '申し込みの締め切りはいつですか。', opts: ['水曜日', '金曜日', '土曜日', '日曜日'], ans: 1, exp: 'Hari Jumat.' },
+  { id: 'D29', title: '【道案内】', passage: 'この道を真っ直ぐ行って、信号を右に曲がると、左側に郵便局があります。', q: '郵便局はどちら側にありますか。', opts: ['右側', '左側', '正面', '地下'], ans: 1, exp: 'Sebelah kiri (左側).' },
+  { id: 'D30', title: '【寮の洗濯機】', passage: '洗濯機は夜11時から朝6時まで使用禁止です。近所の迷惑になります。', q: '夜中の2時に洗濯機を使ってもいいですか。', opts: ['いいえ、使ってはいけない', 'はい、使える', '静かならいい', '自由'], ans: 0, exp: 'Dilarang digunakan pada jam tersebut.' },
+  { id: 'D31', title: '【忘れ物の案内】', passage: '2階の教室で黒い財布が見つかりました。心当たりのある方は事務室へ来てください。', q: '黒い財布はどこにありますか。', opts: ['1階食堂', '2階教室', '事務室', '玄関'], ans: 2, exp: 'Di ruang administrasi/jimusho.' },
+  { id: 'D32', title: '【パーティーの連絡】', passage: '飲み物は準備しますので、食べ物を何か一品持ってきてください。', q: '何を持っていきますか。', opts: ['飲み物', '食べ物を一品', 'お金', 'イス'], ans: 1, exp: 'Membawa satu item makanan.' },
+  { id: 'D33', title: '【エレベーター点検】', passage: '本日13:00〜15:00まで点検のためエレベーターが止まります。階段をご利用ください。', q: '14時に上に上がるにはどうしますか。', opts: ['エレベーターを使う', '階段を使う', '待つ', '外に出る'], ans: 1, exp: 'Menggunakan tangga.' },
+  { id: 'D34', title: '【挨拶の仕方】', passage: 'お客様と話すときは、おじぎの角度を深くして丁寧に対応しましょう。', q: 'お客様に対するおじぎはどうしますか。', opts: ['軽くする', '深くして丁寧にする', 'しなくていい', '座ってする'], ans: 1, exp: 'Lebih dalam dan sopan.' },
+  { id: 'D35', title: '【バスの乗り方】', passage: 'バスは前から乗って、運賃を先払いにしてください。', q: '乗るときに何をしますか。', opts: ['整理券を取る', '運賃を払う', '後ろから乗る', '降りる'], ans: 1, exp: 'Membayar ongkos di depan.' },
+  { id: 'D36', title: '【冷蔵庫のメモ】', passage: 'プリンは2つあります。名前が書いてあるほうは食べないでください。', q: 'どれを食べてもいいですか。', opts: ['名前があるほう', '名前がないほう', '両方ダメ', '両方いい'], ans: 1, exp: 'Yang tidak ada namanya.' },
+  { id: 'D37', title: '【健康診断の前日】', passage: '夜の9時以降は何も食べないでください。水は飲んでも大丈夫です。', q: '夜10時に水を飲んでもいいですか。', opts: ['はい、いいえ', 'はい、大丈夫', '食べてはいけない', 'ダメ'], ans: 1, exp: 'Boleh minum air putih.' },
+  { id: 'D38', title: '【週末の予定】', passage: '土曜日は部屋の掃除をして、日曜日は友達と買い物に行きます。', q: '日曜日に何をしますか。', opts: ['部屋の掃除', '友達と買い物', '仕事', '勉強'], ans: 1, exp: 'Belanja dengan teman.' },
+  { id: 'D39', title: '【電車のマナー】', passage: '車内ではマナーモードに設定し、大きな声で電話をしないでください。', q: '電車の中でどうしなければなりませんか。', opts: ['音楽を大音量で聞く', 'マナーモードにして通話しない', '立っている', '寝る'], ans: 1, exp: 'Mode senyap dan tidak menelepon.' },
+  { id: 'D40', title: '【ジムのキャンペーン】', passage: '今月中に入会すると、入会金5,000円が無料になります。', q: '今月中に入会するといくらお得ですか。', opts: ['無料にならない', '5,000円', '10,000円', '分からない'], ans: 1, exp: 'Hemat 5,000 yen.' },
+  { id: 'D41', title: '【不在票】', passage: 'お留守だったため、郵便局へ持ち帰りました。再配達のご連絡をお願いします。', q: '荷物は今どこにありますか。', opts: ['家の中', '郵便局', '隣の家', '駅'], ans: 1, exp: 'Dibawa kembali ke kantor pos.' },
+  { id: 'D42', title: '【休憩室のルール】', q: '使った食器はどうしますか。', passage: '使ったお皿やコップは自分で洗って、元の棚に戻してください。', opts: ['そのままにする', '自分で洗って戻す', 'ゴミ箱に捨てる', '他の人に洗ってもらう'], ans: 1, exp: 'Dicuci sendiri dan dikembalikan ke rak.' },
+  { id: 'D43', title: '【遅刻の連絡】', passage: '電車が止まってしまったため、会社に30分ほど遅れます。', q: 'どうして遅れますか。', opts: ['寝坊した', '電車が止まった', '道を間違えた', '病気になった'], ans: 1, exp: 'Kereta berhenti.' },
+  { id: 'D44', title: '【自動販売機】', passage: 'ただいま500円札が使えません。100円玉か10円玉を入れてください。', q: 'どの硬貨が使えますか。', opts: ['500円札', '100円玉や10円玉', 'クレジットカード', '千円札'], ans: 1, exp: 'Koin 100 atau 10 yen.' },
+  { id: 'D45', title: '【朝ごはんの大切さ】', passage: '朝時間がなくても、パン1枚や牛乳だけでも口に入れるようにしましょう。', q: '時間がないときはどうするといいですか。', opts: ['何も食べない', 'パンや牛乳だけでも摂る', '昼にたくさん食べる', '寝る'], ans: 1, exp: 'Setidaknya makan sepotong roti atau susu.' },
+  { id: 'D46', title: '【自転車の防犯】', passage: '短い時間でも、自転車から離れるときは必ず鍵をかけてください。', q: '自転車を離れるときはどうしますか。', opts: ['鍵をかける', '鍵をかけない', '友達に預ける', 'そのままにする'], ans: 0, exp: 'Wajib mengunci.' },
+  { id: 'D47', title: '【引っ越しの手紙】', passage: '先月、東京から福岡に引っ越しました。新しい生活はとても楽しいです。', q: '手紙を書いた人は今どこに住んでいますか。', opts: ['東京', '大阪', '福岡', '京都'], ans: 2, exp: 'Fukuoka.' },
+  { id: 'D48', title: '【試験の持ち物】', passage: '机の上に出していいのは、受験票と鉛筆、消しゴムだけです。ペンケースはバッグにしまってください。', q: '机の上に置いていいものはどれですか。', opts: ['ペンケース', '消しゴム', '辞書', 'スマホ'], ans: 1, exp: 'Penghapus (消しゴム).' },
+  { id: 'D49', title: '【イベントの延期】', passage: '日曜日のバーベキューは雨の場合、翌週の曜日に延期します。', q: '雨が降ったらどうなりますか。', opts: ['中止する', '来週に延期する', '室内でする', 'そのままやる'], ans: 1, exp: 'Ditunda ke minggu depan.' },
+  { id: 'D50', title: '【ゴミの分け方】', passage: 'ダンボールは小さくたたんで、紐で縛って出してください。', q: 'ダンボールはどうやって出しますか。', opts: ['そのまま捨てる', '小さくたたんで紐で縛る', '破る', '燃やす'], ans: 1, exp: 'Dilipat kecil dan diikat tali.' }
+];
 
-    const choukaiBank = [
-      {
-        id: 'C01',
-        situation: 'スーパーで 女の人と 店員が 話しています。',
-        script: [
-          { speaker: 'F', text: 'すみません、この りんごは ひとつ いくらですか。' },
-          { speaker: 'M', text: 'ひとつ 150円です。3つ セットなら 400円ですよ。' },
-          { speaker: 'F', text: 'じゃあ、3つ セットを ください。' }
-        ],
-        q: '女の人は りんごを いくつ 買いますか。',
-        opts: ['1つ', '2つ', '3つ', '4つ'],
-        ans: 2,
-        transcript: '女：このりんごはひとついくらですか。\n店員：150円です。3つセットなら400円です。\n女：じゃあ、3つセットをください。',
-        exp: 'Membeli paket isi 3 apel.'
-      },
-      {
-        id: 'C02',
-        situation: '会社で 会議の 時間に ついて 話しています。',
-        script: [
-          { speaker: 'M', text: '今日の 会議は 2時からですね。' },
-          { speaker: 'F', text: 'いいえ、部長が おくれるので 30分 おそくなり、2時半からです。' }
-        ],
-        q: '会議は 何時からですか。',
-        opts: ['1時半', '2時', '2時半', '3時'],
-        ans: 2,
-        exp: 'Pukul 2:30.'
-      },
-      {
-        id: 'C03',
-        situation: '駅で 電車の ホームを 聞いています。',
-        script: [
-          { speaker: 'F', text: '京都行きの 電車は 何番線ですか。' },
-          { speaker: 'M', text: '3番線へ 行って ください。4番線は 大阪行きです。' }
-        ],
-        q: '京都行きの 電車は 何番線ですか。',
-        opts: ['1番線', '2番線', '3番線', '4番線'],
-        ans: 2,
-        exp: 'Peron 3.'
-      },
-      {
-        id: 'C04',
-        situation: '病院で 医者から 注意を 聞いています。',
-        script: [
-          { speaker: 'F', text: '熱が ありますから、今日は おふろに 入らないで ください。シャワーも だめです。' }
-        ],
-        q: '男の人は 今日 何を してはいけませんか。',
-        opts: ['薬を飲む', '早く寝る', 'おふろやシャワーに入る', '水を飲む'],
-        ans: 2,
-        exp: 'Dilarang mandi / shower.'
-      },
-      {
-        id: 'C05',
-        situation: 'レストランで 飲み物を 注文します。',
-        script: [
-          { speaker: 'M', text: '私は コーヒーにします。リナさんは？' },
-          { speaker: 'F', text: '今日は 少し 寒いから、温かい 紅茶にします。' }
-        ],
-        q: '女の人は 何を 注文しますか。',
-        opts: ['冷たいコーヒー', 'アイスティー', 'アイスコーヒー', '温かい 紅茶'],
-        ans: 3,
-        exp: 'Teh hitam hangat.'
-      },
-      {
-        id: 'C06',
-        situation: '駅の前で 待ち合わせを しています。',
-        script: [
-          { speaker: 'M', text: '改札の 前に 着きました。' },
-          { speaker: 'F', text: '本屋で 本を見ています。本屋の 前に 来てください。' }
-        ],
-        q: '二人は どこで 会いますか。',
-        opts: ['改札の前', '本屋の前', '映画館の前', 'バス停'],
-        ans: 1,
-        exp: 'Depan toko buku.'
-      },
-      {
-        id: 'C07',
-        situation: '教室で テストの 注意を聞きます。',
-        script: [
-          { speaker: 'F', text: 'まず、問題用紙に 名前と 番号を 書いて ください。' }
-        ],
-        q: '生徒は 最初に 何を しますか。',
-        opts: ['問題を解く', '名前と番号を書く', '辞書を開く', '手をあげる'],
-        ans: 1,
-        exp: 'Menulis nama dan nomor.'
-      },
-      {
-        id: 'C08',
-        situation: '家で 買い物リストを確認しています。',
-        script: [
-          { speaker: 'F', text: 'カレーを作るのに、にんじんと じゃがいもを買ってきて。お肉と玉ねぎはあります。' }
-        ],
-        q: '夫は 何を 買ってきますか。',
-        opts: ['お肉と玉ねぎ', 'にんじんとじゃがいも', 'ルーだけ', 'お肉とニンジン'],
-        ans: 1,
-        exp: 'Wortel dan kentang.'
-      },
-      {
-        id: 'C09',
-        situation: '工場で ロッカーの使い方を教わります。',
-        script: [
-          { speaker: 'M', text: 'かばんやスマホは更衣室のロッカーに入れて鍵をかけてください。' }
-        ],
-        q: '社員は かばんを どこに 入れますか。',
-        opts: ['作業場の床', '事務所の棚', '更衣室のロッカー', '食堂'],
-        ans: 2,
-        exp: 'Loker ruang ganti.'
-      },
-      {
-        id: 'C10',
-        situation: 'ホテルのフロントで朝食の時間を聞いています。',
-        script: [
-          { speaker: 'F', text: '朝ごはんは1階のレストランで、朝6時半から9時半までです。' }
-        ],
-        q: '朝ごはんは 何時から 何時までですか。',
-        opts: ['6時〜9時', '6時半〜9時半', '7時〜9時', '7時半〜10時'],
-        ans: 1,
-        exp: 'Pukul 6:30 - 9:30.'
-      },
-      {
-        id: 'C11',
-        situation: '週末の天気について話しています。',
-        script: [
-          { speaker: 'M', text: '日曜日は朝から雨が降るそうですよ。' }
-        ],
-        q: '日曜日の 天気は どうですか。',
-        opts: ['晴れ', 'くもり', '雨', '雪'],
-        ans: 2,
-        exp: 'Hujan.'
-      },
-      {
-        id: 'C12',
-        situation: '郵便局で海外へ荷物を送ります。',
-        script: [
-          { speaker: 'F', text: '航空便なら2,400円、船便なら1,200円です。\n男：急ぎますから航空便で。' }
-        ],
-        q: '男の人は いくら 払いますか。',
-        opts: ['1,000円', '1,200円', '2,400円', '3,600円'],
-        ans: 2,
-        exp: '2,400 yen.'
-      },
-      {
-        id: 'C13',
-        situation: 'オフィスのコピー機の前で。',
-        script: [
-          { speaker: 'F', text: 'この資料を15部、白黒でコピーしてください。' }
-        ],
-        q: '男の人は これから 何を しますか。',
-        opts: ['カラー5部', '白黒15部コピー', '捨てる', 'メール送信'],
-        ans: 1,
-        exp: 'Fotokopi hitam putih 15 rangkap.'
-      },
-      {
-        id: 'C14',
-        situation: 'バス車内のアナウンス。',
-        script: [
-          { speaker: 'F', text: 'つぎは、市役所前、市役所前です。' }
-        ],
-        q: 'つぎの バス停は どこですか。',
-        opts: ['駅前', '病院前', '市役所前', '図書館前'],
-        ans: 2,
-        exp: 'Shiyakusho-mae.'
-      },
-      {
-        id: 'C15',
-        situation: 'プレゼント選び。',
-        script: [
-          { speaker: 'F', text: 'マリアさんは料理が好きだから、かわいいエプロンはどう？\n男：いいね、それにしよう。' }
-        ],
-        q: '二人は マリアさんに 何を あげますか。',
-        opts: ['花', 'エプロン', 'ケーキ', '本'],
-        ans: 1,
-        exp: 'Celemek.'
-      },
-      {
-        id: 'C16',
-        situation: '図書館での本の貸出期限。',
-        script: [
-          { speaker: 'M', text: '今日は10月1日ですので、2週間後の10月15日までです。' }
-        ],
-        q: '本は 何月何日までに 返しますか。',
-        opts: ['10月7日', '10月10日', '10月15日', '10月31日'],
-        ans: 2,
-        exp: '15 Oktober.'
-      },
-      {
-        id: 'C17',
-        situation: '靴屋での買い物。',
-        script: [
-          { speaker: 'F', text: '26センチは売り切れです。26.5ならあります。\n客：じゃあ26.5にします。' }
-        ],
-        q: '男の人は 何センチの 靴を 買いますか。',
-        opts: ['25.5', '26', '26.5', '27'],
-        ans: 2,
-        exp: 'Ukuran 26.5.'
-      },
-      {
-        id: 'C18',
-        situation: '昼食の相談。',
-        script: [
-          { speaker: 'F', text: '昨日ラーメンだったので、今日はうどんがよいです。' }
-        ],
-        q: '二人は 何を 食べに 行きますか。',
-        opts: ['ラーメン', 'うどん', 'カレー', 'すし'],
-        ans: 1,
-        exp: 'Udon.'
-      },
-      {
-        id: 'C19',
-        situation: '歯医者の予約電話。',
-        script: [
-          { speaker: 'F', text: '木曜日は休みです。金曜日の午後3時は？\n男：それでお願いします。' }
-        ],
-        q: '男の人は いつ 歯医者へ 行きますか。',
-        opts: ['木曜午前', '木曜午後', '金曜午後3時', '土曜午後'],
-        ans: 2,
-        exp: 'Jumat jam 3 sore.'
-      },
-      {
-        id: 'C20',
-        situation: '学校の持ち物連絡。',
-        script: [
-          { speaker: 'F', text: 'えんぴつと消しゴムを持ってきてください。色えんぴつは学校にあります。' }
-        ],
-        q: 'あした 家から 持ってくる ものは 何ですか。',
-        opts: ['えんぴつと消しゴム', '色えんぴつ', 'カメラ', '辞書'],
-        ans: 0,
-        exp: 'Pensil dan penghapus.'
-      },
-      {
-        id: 'C21',
-        situation: 'エアコンの故障について。',
-        script: [
-          { speaker: 'M', text: 'リモコンの電池は変えましたか。\n女：まだです。変えてみます。' }
-        ],
-        q: '女の人は まず 何を しますか。',
-        opts: ['エアコン買い替え', 'リモコン電池交換', '引越し', '電気屋を呼ぶ'],
-        ans: 1,
-        exp: 'Ganti baterai remote.'
-      },
-      {
-        id: 'C22',
-        situation: '家族の写真を見ています。',
-        script: [
-          { speaker: 'F', text: '背の高いめがねは父で、そのとなりの帽子をかぶっているのが兄です。' }
-        ],
-        q: '女の人の お兄さんは どの 人ですか。',
-        opts: ['めがねの人', '帽子をかぶっている人', '背が低い人', 'カメラマン'],
-        ans: 1,
-        exp: 'Yang memakai topi.'
-      },
-      {
-        id: 'C23',
-        situation: 'コンビニのお弁当。',
-        script: [
-          { speaker: 'F', text: 'お弁当は温めますか。\n客：家に帰ってからなので温めなくていいです。おはしをつけてください。' }
-        ],
-        q: '店員は お弁当を どうしますか。',
-        opts: ['温める', '温めないでおはしをつける', '温めてスプーン', '何もしない'],
-        ans: 1,
-        exp: 'Tidak dihangatkan, beri sumpit.'
-      },
-      {
-        id: 'C24',
-        situation: '趣味についての会話。',
-        script: [
-          { speaker: 'F', text: 'よくケーキやクッキーを作ります。甘いものを作るのが大好きです。' }
-        ],
-        q: '女の人の 趣味は 何ですか。',
-        opts: ['お菓子作り', 'サッカー', '映画', '登山'],
-        ans: 0,
-        exp: 'Membuat kue.'
-      },
-      {
-        id: 'C25',
-        situation: '電話の伝言。',
-        script: [
-          { speaker: 'F', text: 'ABC商事の佐藤さんからお電話です。3時ごろまたかけ直すそうです。' }
-        ],
-        q: '誰から 電話が ありましたか。',
-        opts: ['鈴木さん', 'ABC商事の佐藤さん', '田中部長', '銀行員'],
-        ans: 1,
-        exp: 'Sato-san dari ABC Shouji.'
-      },
-      {
-        id: 'C26',
-        situation: '駅のアナウンス。',
-        script: [
-          { speaker: 'M', text: '強い風のため、電車が約10分おくれております。' }
-        ],
-        q: '電車が おくれている 理由は 何ですか。',
-        opts: ['大雨', '雪', '強い風', '事故'],
-        ans: 2,
-        exp: 'Angin kencang.'
-      },
-      {
-        id: 'C27',
-        situation: 'カフェでの注文。',
-        script: [
-          { speaker: 'M', text: '店内ですか、お持ち帰りですか。\n女：持ち帰りで。' }
-        ],
-        q: '女の人は ジュースを どうしますか。',
-        opts: ['店内で飲む', '持ち帰る', 'あげる', 'キャンセル'],
-        ans: 1,
-        exp: 'Dibawa pulang (take-away).'
-      },
-      {
-        id: 'C28',
-        situation: '会社のフロア案内。',
-        script: [
-          { speaker: 'F', text: '2階は食堂、3階は事務所、会議室は4階です。' }
-        ],
-        q: '第2会議室は 何階に ありますか。',
-        opts: ['1階', '2階', '3階', '4階'],
-        ans: 3,
-        exp: 'Lantai 4.'
-      },
-      {
-        id: 'C29',
-        situation: '勤務時間について。',
-        script: [
-          { speaker: 'F', text: '朝9時から夕方6時まで。昼休み1時間で働く時間は8時間です。' }
-        ],
-        q: '女の人は 毎日 何時間 はたらきますか。',
-        opts: ['7時間', '8時間', '9時間', '10時間'],
-        ans: 1,
-        exp: '8 jam.'
-      },
-      {
-        id: 'C30',
-        situation: 'デパートの迷子案内。',
-        script: [
-          { speaker: 'F', text: '白いTシャツに青いズボンをはいた男の子が母親を探しています。' }
-        ],
-        q: '男の子は どんな 服を 着ていますか。',
-        opts: ['青いTシャツ', '白いTシャツと青いズボン', '赤いシャツ', '黄色い帽子'],
-        ans: 1,
-        exp: 'Kaus putih dan celana biru.'
-      },
-      {
-        id: 'C31',
-        situation: '旅行の交通手段。',
-        script: [
-          { speaker: 'M', text: '新幹線のほうが便利だから新幹線で行くよ。' }
-        ],
-        q: '二人は 何で 京都へ 行きますか。',
-        opts: ['飛行機', '新幹線', '夜行バス', '車'],
-        ans: 1,
-        exp: 'Shinkansen.'
-      },
-      {
-        id: 'C32',
-        situation: '料理の手順。',
-        script: [
-          { speaker: 'F', text: 'まず、玉ねぎを細かく切ってください。そのあとでにんじんです。' }
-        ],
-        q: '最初に 何を 切りますか。',
-        opts: ['にんじん', 'キャベツ', '玉ねぎ', 'じゃがいも'],
-        ans: 2,
-        exp: 'Bawang bombay.'
-      },
-      {
-        id: 'C33',
-        situation: '忘れ物の場所。',
-        script: [
-          { speaker: 'M', text: '昼ごはんを食べた食堂に置いてきちゃった！' }
-        ],
-        q: '男の人は どこに かさを 忘れましたか。',
-        opts: ['電車', '食堂', '会議室', 'トイレ'],
-        ans: 1,
-        exp: 'Kantin.'
-      },
-      {
-        id: 'C34',
-        situation: '病院の会計。',
-        script: [
-          { speaker: 'M', text: '診察代1,200円、くすり代600円で全部で1,800円です。' }
-        ],
-        q: '今日の 料金は 全部で いくらですか。',
-        opts: ['600円', '1,200円', '1,800円', '2,000円'],
-        ans: 2,
-        exp: '1,800 yen.'
-      },
-      {
-        id: 'C35',
-        situation: '引っ越しの予定。',
-        script: [
-          { speaker: 'F', text: '来週の日曜日に引っ越します。' }
-        ],
-        q: '女の人は いつ 引っ越しますか。',
-        opts: ['今週土曜', '今週日曜', '来週土曜', '来週日曜'],
-        ans: 3,
-        exp: 'Hari Minggu depan.'
-      },
-      {
-        id: 'C36',
-        situation: '銀行での手続き。',
-        script: [
-          { speaker: 'F', text: 'まず、あちらの機械で番号札をお取りください。' }
-        ],
-        q: '男の人は まず 何を しますか。',
-        opts: ['番号札をとる', 'ATMでお金を入れる', '外に出る', '通帳を捨てる'],
-        ans: 0,
-        exp: 'Ambil nomor antrean.'
-      },
-      {
-        id: 'C37',
-        situation: '映画の上映時間。',
-        script: [
-          { speaker: 'M', text: '3時から始まって2時間あるから5時に終わります。' }
-        ],
-        q: '映画は 何時に 終わりますか。',
-        opts: ['3時', '4時', '5時', '6時'],
-        ans: 2,
-        exp: 'Pukul 5.'
-      },
-      {
-        id: 'C38',
-        situation: '出社時間の変更。',
-        script: [
-          { speaker: 'M', text: '明日のお客様のため30分早く。' },
-          { speaker: 'F', text: '普段9時だから8時半ですね。' }
-        ],
-        q: '女の人は あした 何時に 出社しますか。',
-        opts: ['8時', '8時半', '9時', '9時半'],
-        ans: 1,
-        exp: 'Pukul 8:30.'
-      },
-      {
-        id: 'C39',
-        situation: '花屋で母親の誕生日プレゼント。',
-        script: [
-          { speaker: 'F', text: '母はピンクが好きなのでピンクのカーネーションにします。' }
-        ],
-        q: '女の人は 何色の 花を 買いますか。',
-        opts: ['赤', '黄色', '白', 'ピンク'],
-        ans: 3,
-        exp: 'Pink.'
-      },
-      {
-        id: 'C40',
-        situation: '休日の過ごし方。',
-        script: [
-          { speaker: 'M', text: '平日は疲れているので、休日は家で本を読んだり音楽を聞いたりしています。' }
-        ],
-        q: '男の人は 休日に いつも 何を していますか。',
-        opts: ['旅行', '読書や音楽鑑賞', '仕事', 'ジム'],
-        ans: 1,
-        exp: 'Membaca buku dan dengar musik di rumah.'
-      },
-      {
-        id: 'C41',
-        situation: '空港の搭乗口案内。',
-        script: [
-          { speaker: 'F', text: '東京行きは12番ゲートに変更になりました。' }
-        ],
-        q: '東京行きの 搭乗口は 何番ゲートですか。',
-        opts: ['10番', '12番', '14番', '20番'],
-        ans: 1,
-        exp: 'Gate 12.'
-      },
-      {
-        id: 'C42',
-        situation: '教室の掃除当番。',
-        script: [
-          { speaker: 'M', text: '私が黒板を消します。' },
-          { speaker: 'F', text: 'じゃあ私はほうきで床をはきます。' }
-        ],
-        q: '女の人は 何を しますか。',
-        opts: ['黒板消し', '床をはく', '窓ふき', 'ゴミ捨て'],
-        ans: 1,
-        exp: 'Menyapu lantai.'
-      },
-      {
-        id: 'C43',
-        situation: '遅刻の理由。',
-        script: [
-          { speaker: 'M', text: 'バスに乗っているんだけど道がこんでいて15分遅れそう。' }
-        ],
-        q: '男の人は どうして おくれますか。',
-        opts: ['道がこんでいる', '財布忘れ', 'バス間違い', '雨'],
-        ans: 0,
-        exp: 'Jalan macet.'
-      },
-      {
-        id: 'C44',
-        situation: 'スーパーのタイムセール。',
-        script: [
-          { speaker: 'F', text: 'お惣菜のお弁当と天ぷらがすべて半額になります！' }
-        ],
-        q: '今から 半額に なる ものは 何ですか。',
-        opts: ['果物', 'お弁当と天ぷら', '牛乳とパン', 'お米'],
-        ans: 1,
-        exp: 'Bento dan tempura.'
-      },
-      {
-        id: 'C45',
-        situation: '家の鍵の場所。',
-        script: [
-          { speaker: 'F', text: '車の鍵？玄関の棚の上においてあるよ。' }
-        ],
-        q: '車の かぎは どこに ありましたか。',
-        opts: ['テーブル', 'ポケット', '玄関の棚の上', '車内'],
-        ans: 2,
-        exp: 'Rak pintu masuk.'
-      },
-      {
-        id: 'C46',
-        situation: '通勤手段について。',
-        script: [
-          { speaker: 'M', text: '寮から会社まで15分なので毎日自転車で来ています。' }
-        ],
-        q: '男の人は 毎日 何で 会社へ 来ますか。',
-        opts: ['電車', 'バス', '自転車', '車'],
-        ans: 2,
-        exp: 'Sepeda.'
-      },
-      {
-        id: 'C47',
-        situation: 'レストランでの追加注文。',
-        script: [
-          { speaker: 'M', text: 'お水をもう一杯と、フォークも一本お願いします。' }
-        ],
-        q: '男の人は 何を 頼みましたか。',
-        opts: ['お水とフォーク', 'お茶とスプーン', 'お水とナイフ', 'コーヒー'],
-        ans: 0,
-        exp: 'Air dan garpu.'
-      },
-      {
-        id: 'C48',
-        situation: '漢字の勉強法。',
-        script: [
-          { speaker: 'F', text: '毎日ノートに10回ずつ書いて声に出して読んでいます。' }
-        ],
-        q: '女の人は どうやって 漢字を 覚えますか。',
-        opts: ['見るだけ', '書いて声に出す', 'テレビを見る', '何もしない'],
-        ans: 1,
-        exp: 'Menulis dan membaca bersuara.'
-      },
-      {
-        id: 'C49',
-        situation: 'お寺でのマナー。',
-        script: [
-          { speaker: 'M', text: '建物の中ではフラッシュを使って写真を撮らないでください。' }
-        ],
-        q: '建物の中で してはいけない ことは 何ですか。',
-        opts: ['靴をぬぐ', '静かに歩く', 'フラッシュ撮影', '話を聞く'],
-        ans: 2,
-        exp: 'Foto dengan flash.'
-      },
-      {
-        id: 'C50',
-        situation: 'テストの結果報告。',
-        script: [
-          { speaker: 'F', text: 'ドキドキしましたが225点でした！合格です！' }
-        ],
-        q: '女の人は 何点 でしたか。',
-        opts: ['185', '200', '225', '250'],
-        ans: 2,
-        exp: '225 poin.'
-      }
-    ];
+const choukaiBank = [
+  {
+    id: 'C01',
+    situation: 'パン屋で店員と話しています。',
+    script: [
+      { speaker: 'F', text: 'すみません、このメロンパンはいくつありますか。' },
+      { speaker: 'M', text: '全部で4つ残っていますよ。' },
+      { speaker: 'F', text: 'じゃあ、全部ください。' }
+    ],
+    q: '女の人はメロンパンをいくつ買いますか。',
+    opts: ['2つ', '3つ', '4つ', '5つ'],
+    ans: 2,
+    transcript: '女：このメロンパンはいくつありますか。\n店員：全部で4つ残っていますよ。\n女：じゃあ、全部ください。',
+    exp: 'Membeli semuanya (4 buah).'
+  },
+  {
+    id: 'C02',
+    situation: '会社で仕事の開始時間について話しています。',
+    script: [
+      { speaker: 'M', text: '明日の朝のミーティングはいつもより早いですか。' },
+      { speaker: 'F', text: 'ええ、15分早くて8時45分から始まります。' }
+    ],
+    q: '明日のミーティングは何時からですか。',
+    opts: ['8時30分', '8時45分', '9時00分', '9時15分'],
+    ans: 1,
+    transcript: '男：明日の朝のミーティングはいつもより早いですか。\n女：ええ、15分早くて8時45分から始まります。',
+    exp: 'Pukul 8:45.'
+  },
+  {
+    id: 'C03',
+    situation: '駅のホームで電車の行き先を確認しています。',
+    script: [
+      { speaker: 'M', text: 'この電車は東京に行きますか。' },
+      { speaker: 'F', text: 'いいえ、東京行きは次の2番線です。これは横浜行きですよ。' }
+    ],
+    q: '東京行きの電車はは何番線ですか。',
+    opts: ['1番線', '2番線', '3番線', '4番線'],
+    ans: 1,
+    transcript: '男：この電車は東京に行きますか。\n女：いいえ、東京行きは次の2番線です。これは横浜行きですよ。',
+    exp: 'Peron 2.'
+  },
+  {
+    id: 'C04',
+    situation: '病院で医師から指示を受けています。',
+    script: [
+      { speaker: 'F', text: 'お薬は毎食後、水と一緒に飲んでくださいね。' },
+      { speaker: 'M', text: 'はい、分かりました。' }
+    ],
+    q: '薬はいつ飲みますか。',
+    opts: ['食前', '食後', '寝る前', 'いつでもいい'],
+    ans: 1,
+    transcript: '医者：お薬は毎食後、水と一緒に飲んでくださいね。\n男：はい、分かりました。',
+    exp: 'Setelah makan (食後).'
+  },
+  {
+    id: 'C05',
+    situation: 'カフェで飲み物を注文しています。',
+    script: [
+      { speaker: 'F', text: '温かいコーヒーと、冷たいオレンジジュース、どちらにしますか。' },
+      { speaker: 'M', text: '寒いから温かいコーヒーをお願いします。' }
+    ],
+    q: '男の人は何を注文しますか。',
+    opts: ['温かいコーヒー', 'オレンジジュース', '冷たいコーヒー', 'お茶'],
+    ans: 0,
+    transcript: '女：温かいコーヒーと、冷たいオレンジジュース、どちらにしますか。\n男：寒いから温かいコーヒーをお願いします。',
+    exp: 'Kopi hangat.'
+  },
+  {
+    id: 'C06',
+    situation: '本屋の前で待ち合わせをしています。',
+    script: [
+      { speaker: 'M', text: '今、駅の改札を出たよ。どこにいる？' },
+      { speaker: 'F', text: '私は駅前の本屋の看板の下で待ってるよ。' }
+    ],
+    q: '女の人はどこで待っていますか。',
+    opts: ['改札の前', '本屋の看板の下', 'バス停', 'カフェの中'],
+    ans: 1,
+    transcript: '男：今、駅の改札を出たよ。どこにいる？\n女：私は駅前の本屋の看板の下で待ってるよ。',
+    exp: 'Di bawah papan nama toko buku.'
+  },
+  {
+    id: 'C07',
+    situation: '教室でテストの準備をしています。',
+    script: [
+      { speaker: 'M', text: '先生、ペンは黒ですか、赤ですか。' },
+      { speaker: 'F', text: '黒の鉛筆かシャーペンを使ってください。赤は使わないでね。' }
+    ],
+    q: 'テストでは何を使いますか。',
+    opts: ['赤ペン', '黒の鉛筆やシャーペン', '万年筆', 'クレヨン'],
+    ans: 1,
+    transcript: '学生：先生、ペンは黒ですか、赤ですか。\n先生：黒の鉛筆かシャーペンを使ってください。赤は使わないでね。',
+    exp: 'Pensil hitam atau mechanical pencil.'
+  },
+  {
+    id: 'C08',
+    situation: 'スーパーに行く夫に妻が頼んでいます。',
+    script: [
+      { speaker: 'F', text: '牛乳と卵をお願いね。あ、りんごも1つ買ってきて。' },
+      { speaker: 'M', text: '牛乳と卵やりんごだね。分かった。' }
+    ],
+    q: '夫が買わないものはどれですか。',
+    opts: ['牛乳', '卵', 'りんご', 'パン'],
+    ans: 3,
+    transcript: '妻：牛乳と卵をお願いね。あ、りんごも1つ買ってきて。\n夫：牛乳と卵やりんごだね。分かった。',
+    exp: 'Roti (パン) tidak disebutkan.'
+  },
+  {
+    id: 'C09',
+    situation: '会社の更衣室で話しています。',
+    script: [
+      { speaker: 'M', text: 'この上着はどこに置けばいいですか。' },
+      { speaker: 'F', text: '個人のロッカーに入れて鍵をかけておいてください。' }
+    ],
+    q: '上着はどこに入れますか。',
+    opts: ['椅子の背もたれ', '個人のロッカー', '机の上', '床'],
+    ans: 1,
+    transcript: '男：この上着はどこに置けばいいですか。\n女：個人のロッカーに入れて鍵をかけておいてください。',
+    exp: 'Loker pribadi.'
+  },
+  {
+    id: 'C10',
+    situation: 'ホテルのフロントで聞いています。',
+    script: [
+      { speaker: 'M', text: '大浴場は何時まで入れますか。' },
+      { speaker: 'F', text: '夜は12時まで、朝は6時から入れます。' }
+    ],
+    q: '夜の大浴場は何時までですか。',
+    opts: ['10時', '11時', '12時', '朝まで'],
+    ans: 2,
+    transcript: '客：大浴場は何時まで入れますか。\n係：夜は12時まで、朝は6時から入れます。',
+    exp: 'Sampai jam 12 malam.'
+  },
+  {
+    id: 'C11',
+    situation: '天気について話しています。',
+    script: [
+      { speaker: 'F', text: '明日はピクニックだけど、天気はどうかな。' },
+      { speaker: 'M', text: '予報では一日中晴れだって。よかったね！' }
+    ],
+    q: '明日の天気はどうですか。',
+    opts: ['雨', '雪', '晴れ', '曇り'],
+    ans: 2,
+    transcript: '女：明日はピクニックだけど、天気はどうかな。\n男：予報では一日中晴れだって。よかったね！',
+    exp: 'Cerah (晴れ).'
+  },
+  {
+    id: 'C12',
+    situation: '郵便局で手続きをしています。',
+    script: [
+      { speaker: 'M', text: 'この荷物を船便で送りたいんですが。' },
+      { speaker: 'F', text: 'はい、船便ですね。料金は1,500円になります。' }
+    ],
+    q: '料金はいくらですか。',
+    opts: ['1,000円', '1,500円', '2,000円', '2,500円'],
+    ans: 1,
+    transcript: '男：この荷物を船便で送りたいんですが。\n局員：はい、船便ですね。料金は1,500円になります。',
+    exp: '1,500 yen.'
+  },
+  {
+    id: 'C13',
+    situation: 'オフィスでコピーを頼まれています。',
+    script: [
+      { speaker: 'F', text: 'この書類、カラーで10部お願いします。' },
+      { speaker: 'M', text: 'カラーで10部ですね。すぐやります。' }
+    ],
+    q: '書類はどうやってコピーしますか。',
+    opts: ['白黒で5部', 'カラーで10部', 'カラーで5部', '白黒で10部'],
+    ans: 1,
+    transcript: '女：この書類、カラーで10部お願いします。\n男：カラーで10部ですね。すぐやります。',
+    exp: 'Warna (カラー) 10 rangkap.'
+  },
+  {
+    id: 'C14',
+    situation: 'バスの中でアナウンスを聞いています。',
+    script: [
+      { speaker: 'M', text: 'まもなく、図書館前、図書館前です。お忘れ物のないようご注意ください。' }
+    ],
+    q: '次のバス停の名前は何ですか。',
+    opts: ['駅前', '病院前', '図書館前', '公園前'],
+    ans: 2,
+    transcript: 'アナウンス：まもなく、図書館前、図書館前です。お忘れ物のないようご注意ください。',
+    exp: 'Toshokan-mae.'
+  },
+  {
+    id: 'C15',
+    situation:談話室で友達にプレゼントを選んでいます。',
+    script: [
+      { speaker: 'M', text: '田中さんは花が好きだから、赤いバラの鉢植えはどう？' },
+      { speaker: 'F', text: '素敵！それにしよう。' }
+    ],
+    q: '二人は何をプレゼントしますか。',
+    opts: ['本', '赤いバラの鉢植え', 'ケーキ', '服'],
+    ans: 1,
+    transcript: '男：田中さんは花が好きだから、赤いバラの鉢植えはどう？\n女：素敵！それにしよう。',
+    exp: 'Tanaman pot mawar merah.'
+  },
+  {
+    id: 'C16',
+    situation: '図書館で本を借りています。',
+    script: [
+      { speaker: 'F', text: '今日借りた本は、2週間後の11月14日までに返してくださいね。' },
+      { speaker: 'M', text: 'はい、分かりました。' }
+    ],
+    q: '本はいつまでに返しますか。',
+    opts: ['今日', '1週間後', '11月14日', '来月'],
+    ans: 2,
+    transcript: '係：今日借りた本は、2週間後の11月14日までに返してくださいね。\n男：はい、分かりました。',
+    exp: '14 November.'
+  },
+  {
+    id: 'C17',
+    situation: '靴屋で店員と話しています。',
+    script: [
+      { speaker: 'M', text: 'この靴の26センチはありますか。' },
+      { speaker: 'F', text: 'すみません、26センチは売り切れですが、27センチならございます。' }
+    ],
+    q: '店にある靴のサイズは何センチですか。',
+    opts: ['25センチ', '26センチ', '27センチ', '28センチ'],
+    ans: 2,
+    transcript: '客：この靴の26センチはありますか。\n店員：すみません、26センチは売り切れですが、27センチならございます。',
+    exp: 'Ukuran 27.'
+  },
+  {
+    id: 'C18',
+    situation: 'お昼ご飯を何にするか話しています。',
+    script: [
+      { speaker: 'F', text: '昨日はパスタだったから、今日は温かいラーメンにしようよ。' },
+      { speaker: 'M', text: 'いいね、そうしよう。' }
+    ],
+    q: '二人は何を食べますか。',
+    opts: ['パスタ', 'ラーメン', 'うどん', '寿司'],
+    ans: 1,
+    transcript: '女：昨日はパスタだったから、今日は温かいラーメンにしようよ。\n男：いいね、そうしよう。',
+    exp: 'Ramen.'
+  },
+  {
+    id: 'C19',
+    situation: '歯医者の予約をしています。',
+    script: [
+      { speaker: 'M', text: '水曜日は空いていますか。' },
+      { speaker: 'F', text: '水曜日は休診日ですので、木曜日の午後3時はいかがですか。' }
+    ],
+    q: 'いつ歯医者に行きますか。',
+    opts: ['水曜日の午前', '水曜日の午後', '木曜日の午後3時', '金曜日'],
+    ans: 2,
+    transcript: '男：水曜日は空いていますか。\n受付：水曜日は休診日ですので、木曜日の午後3時はいかがですか。',
+    exp: 'Hari Kamis jam 3 sore.'
+  },
+  {
+    id: 'C20',
+    situation: '学校の持ち物について確認しています。',
+    script: [
+      { speaker: 'F', text: '明日はノートとのりとハサミを持ってきてくださいね。' },
+      { speaker: 'M', text: 'はい、分かりました。' }
+    ],
+    q: '明日は何を持っていきますか。',
+    opts: ['辞書だけ', 'ノートとのりとハサミ', '絵の具', '色鉛筆'],
+    ans: 1,
+    transcript: '先生：明日はノートとのりとハサミを持ってきてくださいね。\n学生：はい、分かりました。',
+    exp: 'Buku catatan, lem, dan gunting.'
+  },
+  {
+    id: 'C21',
+    situation: 'エアコンのリモコンについて。',
+    script: [
+      { speaker: 'M', text: 'あれ、エアコンがつかないね。' },
+      { speaker: 'F', text: 'もしかしてリモコンの電池がないのかも。変えてみようか。' }
+    ],
+    q: '二人はまず何をしますか。',
+    opts: ['エアコンを買い換える', 'リモコンの電池を変える', '窓を開ける', '業者を呼ぶ'],
+    ans: 1,
+    transcript: '男：あれ、エアコンがつかないね。\n女：もしかしてリモコンの電池がないのかも。変えてみようか。',
+    exp: 'Mengganti baterai remote.'
+  },
+  {
+    id: 'C22',
+    situation: '家族の写真を見せています。',
+    script: [
+      { speaker: 'F', text: 'この背が高くて帽子をかぶっているのが私の弟です。' }
+    ],
+    q: '弟はどんな人ですか。',
+    opts: ['背が低くてメガネの人', '背が高くて帽子をかぶっている人', '髪が短い人', 'カメラを持っている人'],
+    ans: 1,
+    transcript: '女：この背が高くて帽子をかぶっているのが私の弟です。',
+    exp: 'Tinggi dan memakai topi.'
+  },
+  {
+    id: 'C23',
+    situation: 'コンビニでお弁当を買っています。',
+    script: [
+      { speaker: 'M', text: 'お弁当温めますか。' },
+      { speaker: 'F', text: 'はい、お願いします。あ、お箸も入れてください。' }
+    ],
+    q: '店員はどうしますか。',
+    opts: ['温めない', '温めてお箸を入れる', 'スプーンを入れる', '何もしない'],
+    ans: 1,
+    transcript: '店員：お弁当温めますか。\n客：はい、お願いします。あ、お箸も入れてください。',
+    exp: 'Dihangatkan dan diberi sumpit.'
+  },
+  {
+    id: 'C24',
+    situation: '趣味について話しています。',
+    script: [
+      { speaker: 'F', text: '休日はいつも山に登ったり写真を撮ったりしています。' }
+    ],
+    q: '女の人の趣味は何ですか。',
+    opts: ['料理', '登山と写真撮影', '読書', '映画鑑賞'],
+    ans: 1,
+    transcript: '女：休日はいつも山に登ったり写真を撮ったりしています。',
+    exp: 'Mendaki gunung dan fotografi.'
+  },
+  {
+    id: 'C25',
+    situation: '電話の伝言を頼んでいます。',
+    script: [
+      { speaker: 'M', text: '鈴木さん、さっき山田商事から電話がありましたよ。後で折り返すそうです。' }
+    ],
+    q: 'どこから電話がありましたか。',
+    opts: ['鈴木さん', '山田商事', '銀行', '病院'],
+    ans: 1,
+    transcript: '男：鈴木さん、さっき山田商事から電話がありましたよ。後で折り返すそうです。',
+    exp: 'Yamada Shouji.'
+  },
+  {
+    id: 'C26',
+    situation: '電車のアナウンスを聞いています。',
+    script: [
+      { speaker: 'F', text: '大雨のため、電車が20分ほど遅れております。' }
+    ],
+    q: '電車が遅れている原因は何ですか。',
+    opts: ['事故', '大雨', '強い風', '雪'],
+    ans: 1,
+    transcript: 'アナウンス：大雨のため、電車が20分ほど遅れております。',
+    exp: 'Hujan lebat.'
+  },
+  {
+    id: 'C27',
+    situation: 'ファストフード店で注文しています。',
+    script: [
+      { speaker: 'M', text: 'ハンバーガーセット、店内でお召し上がりですか。' },
+      { speaker: 'F', text: 'いいえ、持ち帰りでお願いします。' }
+    ],
+    q: '商品はどうしますか。',
+    opts: ['店内で食べる', '持ち帰る', '配達してもらう', 'キャンセルする'],
+    ans: 1,
+    transcript: '店員：ハンバーガーセット、店内でお召し上がりですか。\n客：いいえ、持ち帰りでお願いします。',
+    exp: 'Dibawa pulang (take-away).'
+  },
+  {
+    id: 'C28',
+    situation: 'オフィスの階について聞いています。',
+    script: [
+      { speaker: 'M', text: '総務課はどこですか。' },
+      { speaker: 'F', text: '総務課は2階です。会議室は3階ですよ。' }
+    ],
+    q: '総務課は何階にありますか。',
+    opts: ['1階', '2階', '3階', '4階'],
+    ans: 1,
+    transcript: '男：総務課はどこですか。\n女：総務課は2階です。会議室は3階ですよ。',
+    exp: 'Lantai 2.'
+  },
+  {
+    id: 'C29',
+    situation: '仕事の時間について話しています。',
+    script: [
+      { speaker: 'F', text: '私の仕事は朝8時から夕方5時までで、お昼休みが1時間あります。' }
+    ],
+    q: '働く時間は何時間ですか。',
+    opts: ['7時間', '8時間', '9時間', '10時間'],
+    ans: 1,
+    transcript: '女：私の仕事は朝8時から夕方5時までで、お昼休みが1時間あります。',
+    exp: '8 jam.'
+  },
+  {
+    id: 'C30',
+    situation: 'デパートの迷子の放送です。',
+    script: [
+      { speaker: 'M', text: '赤い帽子をかぶった女の子が、お母さんを探しています。' }
+    ],
+    q: '迷子の女の子は何を身につけていますか。',
+    opts: ['青い服', '赤い帽子', 'メガネ', '黄色いカバン'],
+    ans: 1,
+    transcript: '放送：赤い帽子をかぶった女の子が、お母さんを探しています。',
+    exp: 'Topi merah.'
+  },
+  {
+    id: 'C31',
+    situation: '旅行の移動手段を決めています。',
+    script: [
+      { speaker: 'F', text: '新幹線だと高いから、安い高速バスで行かない？' },
+      { speaker: 'M', text: 'そうだね、そうしよう。' }
+    ],
+    q: '二人は何で行きますか。',
+    opts: ['新幹線', '飛行機', '高速バス', '自家用車'],
+    ans: 2,
+    transcript: '女：新幹線だと高いから、安い高速バスで行かない？\n男：そうだね、そうしよう。',
+    exp: 'Bus malam/ekspres (高速バス).'
+  },
+  {
+    id: 'C32',
+    situation: '料理の手順を確認しています。',
+    script: [
+      { speaker: 'M', text: 'カレーを作るよ。最初に何をすればいい？' },
+      { speaker: 'F', text: 'まず、ジャガイモとニンジンを一口大に切ってね。' }
+    ],
+    q: '最初に何を切りますか。',
+    opts: ['肉', 'ジャガイモとニンジン', '玉ねぎ', 'トマト'],
+    ans: 1,
+    transcript: '男：カレーを作るよ。最初に何をすればいい？\n女：まず、ジャガイモとニンジンを一口大に切ってね。',
+    exp: 'Kentang dan wortel.'
+  },
+  {
+    id: 'C33',
+    situation: '忘れ物について話しています。',
+    script: [
+      { speaker: 'F', text: 'あれ、傘がない！どこに忘れたんだろう。' },
+      { speaker: 'M', text: 'さっきお昼を食べた食堂じゃない？' }
+    ],
+    q: '傘はどこに忘れた可能性が高いですか。',
+    opts: ['電車の中', '食堂', '事務所', 'コンビニ'],
+    ans: 1,
+    transcript: '女：あれ、傘がない！どこに忘れたんだろう。\n男：さっきお昼を食べた食堂じゃない？',
+    exp: 'Kantin.'
+  },
+  {
+    id: 'C34',
+    situation: '病院の支払いをしています。',
+    script: [
+      { speaker: 'F', text: '診察代が1,500円で、薬代が500円ですので、合計2,000円です。' }
+    ],
+    q: '合計いくら払いますか。',
+    opts: ['1,000円', '1,500円', '2,000円', '2,500円'],
+    ans: 2,
+    transcript: '受付：診察代が1,500円で、薬代が500円ですので、合計2,000円です。',
+    exp: '2,000 yen.'
+  },
+  {
+    id: 'C35',
+    situation: '引っ越しのスケジュールです。',
+    script: [
+      { speaker: 'M', text: '来月の最初の土曜日に新しいアパートに引っ越します。' }
+    ],
+    q: 'いつ引っ越しますか。',
+    opts: ['今月の土曜日', '来月の最初の土曜日', '来月の終わり', '日曜日'],
+    ans: 1,
+    transcript: '男：来月の最初の土曜日に新しいアパートに引っ越します。',
+    exp: 'Hari Sabtu pertama bulan depan.'
+  },
+  {
+    id: 'C36',
+    situation: '銀行での案内です。',
+    script: [
+      { speaker: 'F', text: 'いらっしゃいませ。お客様、まずはあちらの機械で番号札をお取りください。' }
+    ],
+    q: '銀行に入ってまず何をしますか。',
+    opts: ['お金を下ろす', '番号札を取る', '椅子に座る', '書類を書く'],
+    ans: 1,
+    transcript: '行員：いらっしゃいませ。お客様、まずはあちらの機械で番号札をお取りください。',
+    exp: 'Mengambil nomor antrean.'
+  },
+  {
+    id: 'C37',
+    situation: '映画のスケジュールについて。',
+    script: [
+      { speaker: 'M', text: '映画は午後2時に始まって、2時間で終わるよ。' }
+    ],
+    q: '映画は何時に終わりますか。',
+    opts: ['午後3時', '午後4時', '午後5時', '午後6時'],
+    ans: 1,
+    transcript: '男：映画は午後2時に始まって、2時間で終わるよ。',
+    exp: 'Pukul 16:00 (14:00 + 2 jam).'
+  },
+  {
+    id: 'C38',
+    situation: '明日の出勤時間について話しています。',
+    script: [
+      { speaker: 'F', text: '明日は大事な会議があるから、いつもより30分早く来てね。' },
+      { speaker: 'M', text: 'いつもは9時だから、8時半だね。分かりました。' }
+    ],
+    q: '明日は何時に会社に行きますか。',
+    opts: ['8時', '8時半', '9時', '9時半'],
+    ans: 1,
+    transcript: '女：明日は大事な会議があるから、いつもより30分早く来てね。\n男：いつもは9時だから、8時半だね。分かりました。',
+    exp: 'Pukul 8:30.'
+  },
+  {
+    id: 'C39',
+    situation: '母の日のプレゼント選び。',
+    script: [
+      { speaker: 'M', text: '母の日は何の花にしようか。' },
+      { speaker: 'F', text: '母は青より黄色が好きだから、黄色いチューリップにしようよ。' }
+    ],
+    q: '何色の花を贈りますか。',
+    opts: ['赤', '青', '黄色', '白'],
+    ans: 2,
+    transcript: '男：母の日は何の花にしようか。\n女：母は青より黄色が好きだから、黄色いチューリップにしようよ。',
+    exp: 'Kuning (黄色).'
+  },
+  {
+    id: 'C40',
+    situation: '休日の過ごし方について。',
+    script: [
+      { speaker: 'F', text: '休日は家でゆっくり読書をしたり、音楽を聞いたりするのが好きです。' }
+    ],
+    q: '休日は何をしていますか。',
+    opts: ['スポーツ', '読書や音楽鑑賞', '買い物', '旅行'],
+    ans: 1,
+    transcript: '女：休日は家でゆっくり読書をしたり、音楽を聞いたりするのが好きです。',
+    exp: 'Membaca dan mendengarkan musik.'
+  },
+  {
+    id: 'C41',
+    situation: '空港でのアナウンスです。',
+    script: [
+      { speaker: 'M', text: '福岡行きのお客様にご案内いたします。搭乗口が5番から8番に変更になりました。' }
+    ],
+    q: '福岡行きの搭乗口は何番になりましたか。',
+    opts: ['3番', '5番', '8番', '10番'],
+    ans: 2,
+    transcript: 'アナウンス：福岡行きのお客様にご案内いたします。搭乗口が5番から8番に変更になりました。',
+    exp: 'Gate 8.'
+  },
+  {
+    id: 'C42',
+    situation: '掃除の役割分担をしています。',
+    script: [
+      { speaker: 'M', text: 'じゃあ、僕は窓を拭くよ。' },
+      { speaker: 'F', text: '私は床を掃くね。' }
+    ],
+    q: '女の人は何をしますか。',
+    opts: ['窓を拭く', '床を掃く', '黒板を消す', 'ゴミを捨てる'],
+    ans: 1,
+    transcript: '男：じゃあ、僕は窓を拭くよ。\n女：私は床を掃くね。',
+    exp: 'Menyapu lantai.'
+  },
+  {
+    id: 'C43',
+    situation: '遅刻の連絡をしています。',
+    script: [
+      { speaker: 'F', text: 'もしもし、バスに乗っているんですが、道が混んでいて10分ほど遅れそうです。' }
+    ],
+    q: 'なぜ遅れますか。',
+    opts: ['寝坊した', '道が混んでいる', '電車が止まった', '道を間違えた'],
+    ans: 1,
+    transcript: '女：もしもし、バスに乗っているんですが、道が混んでいて10分ほど遅れそうです。',
+    exp: 'Jalanan macet.'
+  },
+  {
+    id: 'C44',
+    situation: 'スーパーの特売情報です。',
+    script: [
+      { speaker: 'M', text: 'ただいまより、お弁当とお寿司が全品半額になります！' }
+    ],
+    q: '今から何が半額になりますか。',
+    opts: ['野菜と果物', 'お弁当とお寿司', 'お酒とジュース', 'パン'],
+    ans: 1,
+    transcript: '店員：ただいまより、お弁当とお寿司が全品半額になります！',
+    exp: 'Bento dan sushi.'
+  },
+  {
+    id: 'C45',
+    situation: '家の鍵のありかを確認しています。',
+    script: [
+      { speaker: 'F', text: '車の鍵どこ？\nM: 玄関の棚の上に置いたよ。' }
+    ],
+    q: '車の鍵はどこにありましたか。',
+    opts: ['リビングのテーブル', '玄関の棚の上', '車の中', 'ポケット'],
+    ans: 1,
+    transcript: '女：車の鍵どこ？\n男：玄関の棚の上に置いたよ。',
+    exp: 'Rak di pintu masuk.'
+  },
+  {
+    id: 'C46',
+    situation: '通勤方法について話しています。',
+    script: [
+      { speaker: 'M', text: '会社まで近いですから、いつも自転車で通勤しています。' }
+    ],
+    q: '男の人は何で通勤していますか。',
+    opts: ['電車', 'バス', '自転車', '車'],
+    ans: 2,
+    transcript: '男：会社まで近いですから、いつも自転車で通勤しています。',
+    exp: 'Sepeda.'
+  },
+  {
+    id: 'C47',
+    situation: 'レストランで追加を頼んでいます。',
+    script: [
+      { speaker: 'F', text: 'すみません、お冷やをもう一杯と、スプーンをください。' }
+    ],
+    q: '何を頼みましたか。',
+    opts: ['お水とスプーン', 'お茶とフォーク', 'お水とナイフ', 'コーヒー'],
+    ans: 0,
+    transcript: '客：すみません、お冷やをもう一杯と、スプーンをください。',
+    exp: 'Air putih dan sendok.'
+  },
+  {
+    id: 'C48',
+    situation: '漢字の勉強方法について。',
+    script: [
+      { speaker: 'M', text: '漢字を覚えるときは、ただ見るだけでなく、ノートに何回も書いて声に出しています。' }
+    ],
+    q: '男の人はどうやって漢字を覚えますか。',
+    opts: ['見るだけ', '書いて声に出す', 'パソコンで打つ', '何もしない'],
+    ans: 1,
+    transcript: '男：漢字を覚えるときは、ただ見るだけでなく、ノートに何回も書いて声に出しています。',
+    exp: 'Menulis dan mengucapkannya bersuara.'
+  },
+  {
+    id: 'C49',
+    situation: 'お寺の見学時の注意です。',
+    script: [
+      { speaker: 'F', text: '建物の中では、カメラのフラッシュを使って写真を撮らないでくださいね。' }
+    ],
+    q: '建物の中で何をしてはいけませんか。',
+    opts: ['靴を脱ぐこと', 'フラッシュを使って写真を撮ること', '静かに歩くこと', '帽子をかぶること'],
+    ans: 1,
+    transcript: '係：建物の中では、カメラのフラッシュを使って写真を撮らないでくださいね。',
+    exp: 'Memotret dengan flash.'
+  },
+  {
+    id: 'C50',
+    situation: '試験の結果を聞いて喜んでいます。',
+    script: [
+      { speaker: 'F', text: 'やった！試験の点数、230点だったよ！合格だ！' }
+    ],
+    q: 'テストは何点でしたか。',
+    opts: ['200点', '210点', '230点', '250点'],
+    ans: 2,
+    transcript: '女：やった！試験の点数、230点だったよ！合格だ！',
+    exp: '230 poin.'
+  }
+];
 
     // =========================================================================
     // 2. STATE & FISHER-YATES SHUFFLE ENGINE
