@@ -103,25 +103,32 @@
   <header id="smart-header" class="fixed top-0 left-0 right-0 z-40 bg-slate-900/95 backdrop-blur-md border-b border-slate-800/90 shadow-xl">
     <div class="max-w-6xl mx-auto px-3 sm:px-6 py-2.5">
       
-      <!-- Top Row: Brand, Progress & Quick Drill Button -->
+      <!-- Top Row: Back Button, Brand, Progress & Quick Drill Button -->
       <div class="flex items-center justify-between gap-2">
-        <!-- Brand -->
-        <div class="flex items-center gap-2.5">
-          <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-md shadow-indigo-500/20 font-jp font-black text-lg sm:text-xl text-white shrink-0">
-            漢
-          </div>
-          <div>
-            <div class="flex items-center gap-2">
-              <h1 class="text-sm sm:text-base font-extrabold tracking-tight text-white">
-                Kanji Flashcard <span class="text-indigo-400">N5–N4</span>
-              </h1>
-              <span class="hidden md:inline-block text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-indigo-500/15 text-indigo-300 border border-indigo-500/30">
-                Minna 1 & 2 + JFT
-              </span>
+        <div class="flex items-center gap-2">
+          <!-- Tombol Back / Kembali -->
+          <button onclick="history.back()" class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 border border-slate-700 flex items-center justify-center text-xs transition-all cursor-pointer shrink-0" title="Kembali">
+            <i class="fa-solid fa-arrow-left"></i>
+          </button>
+
+          <!-- Brand -->
+          <div class="flex items-center gap-2.5">
+            <div class="w-9 h-9 sm:w-10 sm:h-10 rounded-xl bg-gradient-to-br from-indigo-500 to-purple-600 flex items-center justify-center shadow-md shadow-indigo-500/20 font-jp font-black text-lg sm:text-xl text-white shrink-0">
+              漢
             </div>
-            <p class="text-[10px] sm:text-xs text-slate-400 leading-tight">
-              Hanzi Writer Looping &bull; <span id="header-progress-label" class="text-emerald-400 font-semibold">0/0 Hafal (0%)</span>
-            </p>
+            <div>
+              <div class="flex items-center gap-2">
+                <h1 class="text-sm sm:text-base font-extrabold tracking-tight text-white">
+                  Kanji Flashcard <span class="text-indigo-400">N5–N4</span>
+                </h1>
+                <span class="hidden md:inline-block text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded-full bg-indigo-500/15 text-indigo-300 border border-indigo-500/30">
+                  Minna 1 & 2 + JFT
+                </span>
+              </div>
+              <p class="text-[10px] sm:text-xs text-slate-400 leading-tight">
+                Hanzi Writer Looping &bull; <span id="header-progress-label" class="text-emerald-400 font-semibold">0/0 Hafal (0%)</span>
+              </p>
+            </div>
           </div>
         </div>
 
@@ -148,7 +155,7 @@
         </div>
       </div>
 
-      <!-- Second Row: Filter Deck (Level, Kategori, Status Hafalan, Search) -->
+      <!-- Second Row: Filter Deck (Level, Kategori, 3 Status Hafalan: Semua, Belum, Sudah, Isolasi, Search) -->
       <div class="mt-2 pt-2 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-2">
         <!-- Filter Pills -->
         <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5 flex-1">
@@ -168,7 +175,7 @@
             <option value="Kata Sifat & Lainnya">Kanji Kata Sifat / Ket (形容詞)</option>
           </select>
 
-          <!-- Status Hafalan Tabs -->
+          <!-- Status Hafalan Tabs (Sekarang 4 Opsi: Semua, Belum Hafal, Sudah Hafal, Isolasi Baru Dihafal) -->
           <div class="inline-flex rounded-xl bg-slate-850 p-0.5 border border-slate-700/80 shrink-0">
             <button onclick="setDeckStatusFilter('ALL')" data-status="ALL" class="deck-status-btn px-2.5 py-1 rounded-lg text-xs font-semibold transition-all bg-indigo-600 text-white cursor-pointer">
               Semua (<span id="tab-count-all">0</span>)
@@ -178,6 +185,9 @@
             </button>
             <button onclick="setDeckStatusFilter('MEMORIZED')" data-status="MEMORIZED" class="deck-status-btn px-2.5 py-1 rounded-lg text-xs font-semibold transition-all text-slate-400 hover:text-white cursor-pointer">
               Sudah Hafal (<span id="tab-count-mem">0</span>)
+            </button>
+            <button onclick="setDeckStatusFilter('ISOLATED')" data-status="ISOLATED" class="deck-status-btn px-2.5 py-1 rounded-lg text-xs font-semibold transition-all text-slate-400 hover:text-white cursor-pointer" title="Isolasi khusus kanji yang baru saja/sedang dihafal">
+              <i class="fa-solid fa-bookmark mr-1 text-amber-400"></i>Isolasi (<span id="tab-count-iso">0</span>)
             </button>
           </div>
         </div>
@@ -227,8 +237,8 @@
       <!-- Display Mode Switcher: Kartu Terbuka vs Mode Tebak (Flip) -->
       <div class="flex items-center gap-2 ml-auto">
         <button id="toggle-view-mode-btn" onclick="toggleCardDisplayMode()" class="px-2.5 py-1 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-semibold text-slate-200 flex items-center gap-1.5 transition-all cursor-pointer" title="Ganti antara Mode Tebak (Balik Kartu) atau Tampilkan Semua Sekaligus">
-          <i id="view-mode-icon" class="fa-solid fa-Columns text-indigo-400"></i>
-          <span id="view-mode-text">Mode: Kartu Terbuka</span>
+          <i id="view-mode-icon" class="fa-solid fa-columns text-indigo-400"></i>
+          <span id="view-mode-text">Mode: Kartu Terبuka</span>
         </button>
 
         <button onclick="openResetModal()" class="p-1.5 rounded-xl bg-slate-800 hover:bg-rose-950/60 text-slate-400 hover:text-rose-300 border border-slate-700 text-xs transition-all cursor-pointer" title="Reset Semua Progres Hafalan">
@@ -249,7 +259,7 @@
       </div>
       <h2 class="text-lg font-bold text-white mb-1">Tidak Ada Kartu Kanji pada Filter Ini</h2>
       <p id="empty-deck-desc" class="text-xs sm:text-sm text-slate-400 max-w-md mb-5">
-        Belum ada Kanji yang cocok dengan pencarian atau filter status hafalan yang Anda pilih.
+        Belum ada Kanji yang cocok dengan pencarian atau filter kategori/isolasi yang Anda pilih.
       </p>
       <div class="flex flex-wrap items-center justify-center gap-2">
         <button onclick="resetAllFilters()" class="px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs sm:text-sm font-bold shadow-lg shadow-indigo-600/25 transition-all cursor-pointer">
@@ -368,7 +378,7 @@
               </span>
             </div>
 
-            <!-- ACTUAL DETAILS CONTENT (Meaning, Onyomi/Kunyomi, Vocab, Example Sentence) -->
+            <!-- ACTUAL DETAILS CONTENT (Meaning, Readings, Vocab, Example Sentence) -->
             <div id="fc-details-content" class="flex flex-col justify-between h-full space-y-3.5">
               
               <!-- Meaning & Readings Box -->
@@ -421,11 +431,11 @@
                 </div>
               </div>
 
-              <!-- Example Sentence Box (1 Sentence + Full Hiragana + Indonesian Meaning) -->
+              <!-- Example Sentence Box -->
               <div class="bg-slate-850/95 border border-slate-800 rounded-2xl p-4 flex-1 flex flex-col justify-between space-y-2">
                 <div class="flex items-center justify-between">
                   <span class="text-xs font-bold uppercase tracking-wider text-indigo-400 flex items-center gap-1.5">
-                    <i class="fa-solid fa-quote-left"></i> Contoh Kalimat (Minna no Nihongo)
+                    <i class="fa-solid fa-quote-left"></i> Contoh Kalimat (Minna no Nihongo / JFT)
                   </span>
                   <button onclick="speakCurrentSentence()" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-indigo-600/30 text-indigo-300 border border-slate-700 text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer">
                     <i class="fa-solid fa-volume-low"></i> Putar Audio Kalimat
@@ -460,7 +470,7 @@
 
         </div>
 
-        <!-- ==================== BOTTOM FLASHCARD ACTION BAR (MARK MEMORIZED / NAVIGATION) ==================== -->
+        <!-- ==================== BOTTOM FLASHCARD ACTION BAR ==================== -->
         <div class="mt-5 pt-4 border-t border-slate-800/90 grid grid-cols-2 sm:grid-cols-12 gap-2.5 items-center">
           
           <!-- Prev Button -->
@@ -507,7 +517,7 @@
 
   </main>
 
-  <!-- ==================== DRAWER / MODAL: DAFTAR KATALOG SEMUA KANJI (325 KANJI) ==================== -->
+  <!-- ==================== DRAWER: KATALOG SEMUA KANJI ==================== -->
   <div id="catalog-drawer" class="fixed inset-0 z-50 hidden bg-slate-950/85 backdrop-blur-md flex flex-col p-2 sm:p-6">
     <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-6xl w-full mx-auto flex-1 flex flex-col overflow-hidden shadow-2xl">
       
@@ -541,7 +551,7 @@
     </div>
   </div>
 
-  <!-- ==================== MODAL KONFIRMASI RESET PROGRES ==================== -->
+  <!-- ==================== MODAL KONFIRMASI RESET ==================== -->
   <div id="reset-modal" class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-sm w-full p-5 shadow-2xl text-center">
       <div class="w-12 h-12 rounded-2xl bg-rose-500/15 text-rose-400 flex items-center justify-center mx-auto mb-3 text-xl">
@@ -549,7 +559,7 @@
       </div>
       <h3 class="text-base font-bold text-white mb-1">Reset Seluruh Progres Hafalan?</h3>
       <p class="text-xs text-slate-400 mb-5">
-        Semua Kanji yang sudah ditandai "Sudah Hafal" akan dikembalikan menjadi "Belum Hafal".
+        Semua Kanji yang sudah ditandai "Sudah Hafal" akan dikembalikan menjadi "Belum Hafal" dan kategori isolasi akan dikosongkan.
       </p>
       <div class="flex items-center gap-2 justify-center">
         <button onclick="closeResetModal()" class="flex-1 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold cursor-pointer">
@@ -573,7 +583,7 @@
   <!-- FOOTER -->
   <footer class="border-t border-slate-800/80 bg-slate-900/40 py-3 px-4 text-center text-[11px] text-slate-400">
     <div class="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-1">
-      <span><strong>Kanji Expert Flashcard JLPT N5-N4 & JFT-Basic</strong> &bull; Kurikulum Lengkap Minna no Nihongo I & II</span>
+      <span><strong>Kanji Expert Flashcard JLPT N5-N4 & JFT-Basic</strong> &bull; Kurikulum Lengkap Minna no Nihongo I & II + Rambu Peringatan</span>
       <span>Animasi Urutan Tulis <strong>Hanzi Writer</strong> &bull; Tersimpan Otomatis di Browser</span>
     </div>
   </footer>
@@ -581,12 +591,21 @@
   <!-- ==================== APPLICATION SCRIPT ==================== -->
   <script>
     /*************************************************************************
-     * 1. DATABASE LENGKAP KANJI TUNGGAL & KANJI GABUNGAN (JUKUGO) N5 & N4
-     * Mencakup seluruh Kanji Tunggal & Kanji Gabungan Minna no Nihongo I & II:
-     * Format: [kanji, level, catCode (V=Kata Kerja, N=Kata Benda, A=Kata Sifat, J=Kanji Gabungan),
-     *          onyomi/reading, kunyomi/romaji, meaning, vocab, sentence, hiragana, translation]
+     * 1. DATABASE LENGKAP KANJI + TAMBAHAN RAMBU PERINGATAN N4 (DILARANG MASUK, DLL)
      *************************************************************************/
     const RAW_KANJI_DATA = [
+      // ==================== TAMBAHAN KANJI N4: RAMBU PERINGATAN & KESELAMATAN ====================
+      ["禁煙","N4","J","きんえん","kin'en","Dilarang Merokok","禁煙 (きんえん) [JFT/N4]","ここでは禁煙ですから、タバコを吸わないでください。","ここでは きんえんですから、たばこを すわないで ください。","Karena di sini dilarang merokok, mohon jangan merokok."],
+      ["立入","N4","J","たちい.る","tachiiru","Masuk / Dilarang Masuk","立入禁止 (たちいりきんし)","危険ですから、工事現場に立入禁止です。","きけんですから、こうじげんばに たちいりきんしです。","Karena berbahaya, dilarang masuk ke area lokasi konstruksi."],
+      ["危険","N4","J","きけん","kiken","Berbahaya","危険 (きけん) [JFT/N4]","この川は深くて危険ですから、泳いではいけません。","この かわは ふかくて きけんですから、およいでは いけません。","Karena sungai ini dalam dan berbahaya, dilarang berenang."],
+      ["注意","N4","J","ちゅうい","chuui","Perhatian / Hati-hati","注意 (ちゅうい) [JFT/N4]","足元が滑りますから、よく注意してください。","あしもとが すべりますから、よく ちゅういして ください。","Karena pijakan licin, mohon berhati-hati."],
+      ["禁止","N4","J","きんし","kinshi","Larangan","禁止 (きんし) [JFT/N4]","美術館の中は写真撮影が禁止されています。","びじゅつかんの なかは しゃしんさつえいが きんしされて います。","Di dalam museum seni pengambilan foto dilarang."],
+      ["非常","N4","J","ひじょう","hijou","Darurat","非常口 (ひじょうぐち)","火事の時は、非常口から外へ逃げてください。","かじの ときは、ひじょうぐちから そとへ にげて ください。","Saat terjadi kebakaran, evakuasi ke luar melalui pintu darurat."],
+      ["安全","N4","J","あんぜん","anzen","Aman / Keselamatan","安全 (あんぜん) [JFT/N4]","工場では安全第一で作業をします。","こうじょうでは あんぜん だいいちで さぎょうを します。","Di pabrik kami bekerja dengan mengutamakan keselamatan nomor satu."],
+      ["故障","N4","J","こしょう","koshou","Rusak / Gangguan Mesin","故障 (こしょう) [JFT/N4]","エレベーターが故障していますから、階段を使います。","エレベーターが こしょうして いますから、かいだんを つかいます。","Karena lift sedang rusak, kami menggunakan tangga."],
+      ["満員","N4","J","まんいん","man'in","Penuh / Sesak Orang","満員 (まんいん) [JFT/N4]","朝の電車はいつも満員です。","あさの でんしゃは いつも まんいんです。","Kereta pagi selalu penuh sesak."],
+      ["停電","N4","J","ていでん","teiden","Pemadaman Listrik","停電 (ていでん) [JFT/N4]","強い台風で電気が止まり、停電になりました。","つよい たいふうで でんきが とまり、ていでんに なりました。","Karena topan kuat listrik padam dan terjadi mati lampu."],
+
       // ==================== JLPT N5 (MINNA NO NIHONGO I: BAB 1-25) ====================
       // --- N5: KATA KERJA (動詞) ---
       ["食","N5","V","ショク","た.べる","Makan","食べます (たべます)","毎朝、パンと卵を食べます。","まいあさ、パンと たまごを たべます。","Setiap pagi saya makan roti dan telur."],
@@ -598,12 +617,12 @@
       ["話","N5","V","ワ","はな.す","Berbicara / Cerita","話します (はなします)","先生と日本語で話します。","せんせいと にほんごで はなします。","Saya berbicara dengan guru menggunakan bahasa Jepang."],
       ["買","N5","V","バイ","か.う","Membeli","買います (かいます)","デパートで新しい靴を買いました。","デパートで あたらしい くつを かいました。","Saya telah membeli sepatu baru di toserba."],
       ["行","N5","V","コウ・ギョウ","い.く・おこな.う","Pergi / Melakukan","行きます (いきます)","来月、新幹線で京都へ行きます。","らいげつ、しんかんせんで きょうとへ いきます。","Bulan depan saya pergi ke Kyoto dengan Shinkansen."],
-      ["来","N5","V","ライ","く.る","Datang","来ます (きます)","友達は今日、私のうちへ来ます。","ともだちは きょう、わたしの うちへ きます。","Teman saya hari ini datang ke rumah saya."],
+      ["来","N5","V","ライ","く.る","Datang","来ます (きます)","友達は今日、公式サイトへ来ます。","ともだちは きょう、うちへ きます。","Teman saya hari ini datang ke rumah saya."],
       ["帰","N5","V","キ","かえ.る","Pulang / Kembali","帰ります (かえります)","毎日、午後六時にうちへ帰ります。","まいにち、ごご ろくじに うちへ かえります。","Setiap hari saya pulang ke rumah pada pukul 6 sore."],
       ["会","N5","V","カイ","あ.う","Bertemu","会います (あいます)","駅の前で田中さんに会いました。","えきの まえで たなかさんに あいました。","Saya bertemu dengan Saudara Tanaka di depan stasiun."],
       ["休","N5","V","キュウ","やす.む","Istirahat / Libur","休みます (やすみます)","熱がありますから、会社を休みます。","ねつが ありますから、かいしゃを やすみます。","Karena demam, saya libur masuk kantor."],
       ["入","N5","V","ニュウ","はい.る・い.れる","Masuk / Memasukkan","入ります (はいります)","あの喫茶店に入って、休みましょう。","あの きっさてんに はいって、やすみましょう。","Mari masuk ke kafe itu dan beristirahat."],
-      ["出","N5","V","シュツ","で.る・だ.す","Keluar / Mengeluarkan","出ます (でます) / 出します","毎朝、八時に家を出ます。","まいあさ、はちじに いえを でます。","Setiap pagi saya keluar rumah pada jam 8."],
+      ["出","N5","V","シュツ","で.る・だ.す","Keluar / Mengeluarkan","出ます (でます) / 出します","毎朝、八時に家を出ます。","まいあさ、hachijiに いえを でます。","Setiap pagi saya keluar rumah pada jam 8."],
       ["立","N5","V","リツ","た.つ","Berdiri","立ちます (たちます)","教室の前のドアのところに立ちます。","きょうしつの まえの ドアの ところに たちます。","Berdiri di dekat pintu depan ruang kelas."],
       ["待","N5","V","タイ","ま.つ","Menunggu","待ちます (まちます)","駅の改札で十分ぐらい待ちました。","えきの かいさつで じゅっぷんぐらい まちました。","Saya menunggu sekitar 10 menit di gerbang tiket stasiun."],
       ["言","N5","V","ゲン・ゴン","い.う","Berkata / Mengucapkan","言います (いいます)","寝る前に「おやすみなさい」と言います。","ねる まえに「おやすみなさい」と いいます。","Sebelum tidur mengucapkan 'Oyasuminasai'."],
@@ -648,7 +667,7 @@
       ["店","N5","N","テン","みせ","Toko / Kedai","店 (みせ) / 喫茶店","この店のラーメンはとてもおいしいです。","この みせの ラーメンは とても おいしいです。","Ramen di kedai ini sangat lezat."],
       ["銀","N5","N","ギン","-","Perak / Bank","銀行 (ぎんこう)","銀行は午前九時から午後三時までです。","ぎんこうは ごぜん くじから ごご さんじまでです。","Bank buka dari jam 9 pagi sampai jam 3 sore."],
       ["山","N5","N","サン","やま","Gunung","富士山 (ふじさん) / 山","日本で一番高い山は富士山です。","にほんで いちばん たかい やまは ふじさんです。","Gunung tertinggi di Jepang adalah Gunung Fuji."],
-      ["川","N5","N","セン","かわ","Sungai","川 (かわ)","町の真ん中にきれいな川があります。","まちの まんなかに きれいな かわが あります。","Di tengah kota terdapat sungai yang bersih."],
+      ["川","N5","N","セン","かわ","Sungai","川 (かわ)","町の真ん中にきれいな川があります。","町の まんなかに きれいな かわが あります。","Di tengah kota terdapat sungai yang bersih."],
       ["空","N5","N","クウ","そら・あ.く","Langit / Kosong","空港 (くうこう) / 空 (そら)","今日は天気がいいですから、空が青いです。","きょうは てんきが いいですから、そらが あおいです。","Karena hari ini cuacanya bagus, langitnya biru."],
       ["天","N5","N","テン","あめ","Cuaca / Langit","天気 (てんき)","明日の天気はどうですか。","あしたの てんきは どうですか。","Bagaimana cuaca besok?"],
       ["気","N5","N","キ・ケ","-","Semangat / Udara","元気 (げんき) / 電気","お元気ですか。はい、元気です。","おげんきですか。はい、げんきです。","Apa kabar? Ya, saya sehat."],
@@ -696,7 +715,7 @@
       ["多","N5","A","タ","おお.い","Banyak","多い (おおい)","東京は車と人がとても多いです。","とうきょうは くるまと ひとが とても おおいです。","Di Tokyo mobil dan orang sangat banyak."],
       ["少","N5","A","ショウ","すく.ない・すこ.し","Sedikit","少し (すこし) / 少ない","日本語が少し分かります。","にほんごが すこし わかります。","Saya mengerti sedikit bahasa Jepang."],
       ["白","N5","A","ハク","しろ.い","Putih","白い (しろい)","白いシャツを着ている人は先生です。","しろい シャツを きている ひとは せんせいです。","Orang yang memakai kemeja putih adalah guru."],
-      ["赤","N5","A","セキ","あか.い","Merah","赤い (あかい) / 赤ちゃん","母の誕生日に赤いバラを買いました。","ははの たんじょうびに あかい バラを かいました。","Saya membeli mawar merah saat ulang tahun ibu."],
+      ["赤","N5","A","セキ","あか.い","Merah","赤い (あかい) / 赤ちゃん","母の誕生日に赤いバラを買いました。","ははの たんじょうびに あかい バラを かいました。","Pada hari ulang tahun ibu, saya membeli mawar merah."],
       ["青","N5","A","セイ","あお.い","Biru","青い (あおい)","日本の夏は空が青くてきれいです。","にほんの なつは そらが あおくて きれいです。","Saat musim panas di Jepang, langitnya biru dan indah."],
       ["黒","N5","A","コク","くろ.い","Hitam","黒い (くろい)","あの黒い靴はいくらですか。","あの くろい くつは いくらですか。","Sepatu hitam itu harganya berapa?"],
       ["一","N5","A","イチ・イツ","ひと.つ","Satu","一つ (ひとつ) / 一月","りんごを一つください。","りんごを ひとつ ください。","Tolong beri saya satu buah apel."],
@@ -716,7 +735,7 @@
 
       // ==================== JLPT N4 (MINNA NO NIHONGO II: BAB 26-50) ====================
       // --- N4: KATA KERJA (動詞) ---
-      ["働","N4","V","ドウ","はたら.く","Bekerja","働きます (はたらきます)","兄は日本の工場で働いています。","あには にほんの こうじょうで はたらいて います。","Kakak laki-laki saya sedang bekerja di pabrik Jepang."],
+      ["働","N4","V","ドウ","hata.rakum","Bekerja","働きます (はたらきます)","兄は日本の工場で働いています。","あには にほんの こうじょうで はたらいて います。","Kakak laki-laki saya sedang bekerja di pabrik Jepang."],
       ["住","N4","V","ジュウ","す.む","Tinggal / Menetap","住みます (すみます) / 住所","家族と一緒にジャカルタに住んでいます。","かぞくと いっしょに ジャカルタに すんで います。","Saya tinggal di Jakarta bersama keluarga."],
       ["作","N4","V","サク・サ","つく.る","Membuat","作ります (つくります)","誕生日に母がケーキを作ってくれました。","たんじょうびに ははが ケーキを つくって くれました。","Saat ulang tahun, ibu membuatkan kue untuk saya."],
       ["使","N4","V","シ","つか.う","Menggunakan / Memakai","使います (つかいます)","このコピー機を使ってもいいですか。","この コピーきを つかっても いいですか。","Bolehkah saya menggunakan mesin fotokopi ini?"],
@@ -736,7 +755,7 @@
       ["着","N4","V","チャク","き.る・つ.く","Memakai baju / Tiba","着ます (きます) / 着きます","飛行機は夜八時に空港に着きます。","ひこうきは よる はちじに くうこうに つきます。","Pesawat tiba di bandara pada pukul 8 malam."],
       ["脱","N4","V","ダツ","ぬ.ぐ","Melepas (Baju/Sepatu)","脱ぎます (ぬぎます)","家に入る前に、靴を脱ぎます。","いえに はいる まえに、くつを ぬぎます。","Sebelum masuk ke rumah, melepas sepatu."],
       ["歩","N4","V","ホ・ブ","ある.く","Berjalan kaki","歩きます (あるきます) / 散歩","毎朝、公園を三十分ぐらい歩きます。","まいあさ、こうえんを さんじゅっぷんぐらい あるきます。","Setiap pagi saya berjalan kaki di taman sekitar 30 menit."],
-      ["走","N4","V","ソウ","はし.る","Berlari","走ります (はしります)","時間がないので、駅まで走りました。","じかんが ないので、えきまで はしりました。","Karena tidak ada waktu, saya berlari sampai stasiun."],
+      ["走","N4","V","ソウ","はし.る","Berlari","走ります (hASHIRIMASU)","時間がないので、駅まで走りました。","じかんが ないので、えきまで はしりました。","Karena tidak ada waktu, saya berlari sampai stasiun."],
       ["乗","N4","V","ジョウ","の.る","Naik (Kendaraan)","乗ります (のります)","東京駅で山手線に乗り換えます。","とうきょうえきで やまのてせんに のりかえます。","Saya transit naik jalur Yamanote di Stasiun Tokyo."],
       ["降","N4","V","コウ","お.りる・ふ.る","Turun (Kendaraan / Hujan)","降ります (おります) / 降ります","次のバス停でバスを降ります。","つぎの バスていで バスを おります。","Saya turun dari bus di halte berikutnya."],
       ["習","N4","V","シュウ","なら.う","Belajar (dari seseorang)","習います (ならいます) / 練習","日本人の先生に料理の作り方を習いました。","にほんじんの せんせいに りょうりの つくりかたを ならいました。","Saya belajar cara memasak dari guru orang Jepang."],
@@ -884,7 +903,7 @@
       ["茶","N4","N","チャ・サ","-","Teh / Cokelat","お茶 (おちゃ) / 紅茶","食後に温かいお茶を飲みます。","しょくごに あたたかい おちゃを のみます。","Setelah makan saya minum teh hangat."],
       ["飯","N4","N","ハン","めし","Nasi / Makanan","朝ご飯 (あさごはん) / 晩ご飯","晩ご飯はもう食べましたか。","ばんごはんは もう たべましたか。","Apakah Anda sudah makan malam?"],
       ["野","N4","N","ヤ","の","Lapangan / Sayur","野菜 (やさい) / 野球","健康のために、毎日野菜を食べます。","けんこうの ために、まいにち やさいを たべます。","Demi kesehatan, setiap hari saya makan sayur."],
-      ["菜","N4","N","サイ","な","Sayur / Lauk","野菜 (やさい)","スーパーで新鮮な野菜を買いました。","スーパーで しんせんな やさいを かいました。","Saya membeli sayur segar di supermarket."],
+      ["菜","N4","N","サイ","な","Sayur / Lauk","野菜 (やさい)","スーパーで新鮮な野菜を買いました。","スーパーで しんせんな さかなを かいました。","Saya membeli sayur segar di supermarket."],
       ["料","N4","N","リョウ","-","Bahan / Biaya / Masakan","料理 (りょうり) / 無料","インドネシア料理で何が一番好きですか。","インドネシアりょうりで なにが いちばん すきですか。","Di antara masakan Indonesia, apa yang paling Anda sukai?"],
       ["理","N4","N","リ","-","Alasan / Logika","料理 (りょうり) / 理由 / 無理","遅れた理由を先生に説明しました。","おくれた りゆうを せんせいに せつめいしました。","Saya menjelaskan alasan keterlambatan kepada guru."],
       ["服","N4","N","フク","-","Pakaian","服 (ふく) / 洋服","パーティーに着て行く服を探しています。","パーティーに きて いく ふくを さがして います。","Saya sedang mencari pakaian yang akan dikenakan ke pesta."],
@@ -950,8 +969,7 @@
       ["急","N4","A","キュウ","いそ.ぐ","Darurat / Buru-buru / Ekspres","急ぎます (いそぎます) / 急行","時間がないので、急いで駅へ行きます。","じかんが ないので、いそいで えきへ いきます。","Karena tidak ada waktu, saya buru-buru pergi ke stasiun."],
       ["不","N4","A","フ・ブ","-","Tidak- (Prefiks Negatif)","不便 (ふべん) / 不安","バスがあまり来ないので、この町は少し不便です。","バスが あまり こないので、この まちは すこし ふべんです。","Karena bus jarang datang, kota ini agak kurang praktis."],
 
-      // ==================== KANJI GABUNGAN / JUKUGO (熟語) N5 & N4 (MINNA NO NIHONGO I & II) ====================
-      // --- 1. GEDUNG, FASILITAS UMUM & TEMPAT (N5 & N4) ---
+      // ==================== KANJI GABUNGAN / JUKUGO (熟語) N5 & N4 ====================
       ["図書館","N5","J","としょかん","toshokan","Perpustakaan","図書館 (としょかん) [Minna 1]","図書館で日本語の本を借りました。","としょかんで にほんごの ほんを かりました。","Saya telah meminjam buku bahasa Jepang di perpustakaan."],
       ["郵便局","N5","J","ゆうびんきょく","yuubinkyoku","Kantor Pos","郵便局 (ゆうびんきょく) [Minna 1]","郵便局へ荷物を送りに行きます。","ゆうびんきょくへ にもつを おくりに いきます。","Saya pergi ke kantor pos untuk mengirim barang paket."],
       ["大使館","N5","J","たいしかん","taishikan","Kedutaan Besar","大使館 (たいしかん) [Minna 1]","インドネシア大使館は東京にあります。","インドネシアたいしかんは とうきょうに あります。","Kedutaan Besar Indonesia berada di Tokyo."],
@@ -976,8 +994,6 @@
       ["旅館","N4","J","りょかん","ryokan","Penginapan Tradisional Jepang","旅館 (りょかん) [Minna 2]","京都の古い旅館に泊まりました。","きょうとの ふるい りょかんに とまりました。","Saya menginap di penginapan tradisional tua di Kyoto."],
       ["神社","N5","J","じんじゃ","jinja","Kuil Shinto","神社 (じんじゃ) [Minna 1]","お正月に友達と神社へ行きました。","おしょうがつに ともだちと じんじゃへ いきました。","Saat Tahun Baru saya pergi ke kuil Shinto bersama teman."],
       ["教会","N4","J","きょうかい","kyoukai","Gereja","教会 (きょうかい) [Minna 2]","日曜日の朝、家族と教会へ行きます。","にちようびの あさ、かぞくと きょうかいへ いきます。","Pada Minggu pagi saya pergi ke gereja bersama keluarga."],
-
-      // --- 2. RUANGAN, BAGIAN GEDUNG & TOKO (N5 & N4) ---
       ["会議室","N5","J","かいぎしつ","kaigishitsu","Ruang Rapat","会議室 (かいぎしつ) [Minna 1]","会議室は二階にあります。","かいぎしつは にかいに あります。","Ruang rapat berada di lantai dua."],
       ["教室","N5","J","きょうしつ","kyoushitsu","Ruang Kelas","教室 (きょうしつ) [Minna 1]","教室で日本語のテストをします。","きょうしつで にほんごの テストを します。","Kami mengadakan tes bahasa Jepang di ruang kelas."],
       ["事務所","N5","J","じむしょ","jimusho","Kantor Administrasi","事務所 (じむしょ) [Minna 1]","田中さんは今、事務所にいます。","たなかさんは いま、じむしょに います。","Saudara Tanaka sekarang ada di kantor administrasi."],
@@ -994,11 +1010,9 @@
       ["売り場","N5","J","うりば","uriba","Tempat Penjualan / Stan","売り場 (うりば) [Minna 1]","靴の売り場は一階にあります。","くつの うりばは いっかいに あります。","Stan penjualan sepatu ada di lantai satu."],
       ["乗り場","N5","J","のりば","noriba","Tempat Naik Kendaraan / Peron","乗り場 (のりば) [Minna 1]","タクシーの乗り場はあそこです。","タクシーの のりばは あそこです。","Tempat naik taksi ada di sebelah sana."],
       ["本屋","N5","J","ほんや","honya","Toko Buku","本屋 (ほんや) [Minna 1]","駅前の本屋で日本語の辞書を買いました。","えきまえの ほんやで にほんごの じしょを かいました。","Saya membeli kamus bahasa Jepang di toko buku depan stasiun."],
-      ["花屋","N5","J","はなや","hanaya","Toko Bunga","花屋 (はなや) [Minna 1]","花屋できれいな赤いバラを買いました。","はなやで きれいな あかい バラを かいました。","Saya membeli mawar merah yang indah di toko bunga."],
+      ["花屋","N5","J","はなや","hanaya","Toko Bunga","花屋 (ほんや) [Minna 1]","花屋できれいな赤いバラを買いました。","はなやで きれいな あかい バラを かいました。","Saya membeli mawar merah yang indah di toko bunga."],
       ["八百屋","N5","J","やおや","yaoya","Toko Sayur","八百屋 (やおや) [Minna 1]","八百屋で新鮮な野菜と果物を買います。","やおやで しんせんな やさいと くだものを かいます。","Saya membeli sayur dan buah segar di toko sayur."],
       ["薬局","N4","J","やっきょく","yakkyoku","Apotek / Toko Obat","薬局 (やっきょく) [Minna 2]","病院の隣の薬局で薬をもらいました。","びょういんの となりの やっきょくで くすりを もらいました。","Saya mendapatkan obat di apotek sebelah rumah sakit."],
-
-      // --- 3. TRANSPORTASI, LALU LINTAS & PERJALANAN (N5 & N4) ---
       ["新幹線","N5","J","しんかんせん","shinkansen","Kereta Cepat Shinkansen","新幹線 (しんかんせん) [Minna 1]","東京から京都まで新幹線で行きます。","とうきょうから きょうとまで しんかんせんで いきます。","Dari Tokyo sampai Kyoto saya pergi menggunakan Shinkansen."],
       ["電車","N5","J","でんしゃ","densha","Kereta Listrik","電車 (でんしゃ) [Minna 1]","毎朝、八時の電車に乗ります。","まいあさ、はちじの でんしゃに のります。","Setiap pagi saya naik kereta listrik jam 8."],
       ["地下鉄","N5","J","ちかてつ","chikatetsu","Kereta Bawah Tanah (Subway)","地下鉄 (ちかてつ) [Minna 1]","東京は地下鉄がとても便利です。","とうきょうは ちかてつが とても べんりです。","Di Tokyo kereta bawah tanah sangat praktis."],
@@ -1007,8 +1021,6 @@
       ["飛行機","N5","J","ひこうき","hikouki","Pesawat Terbang","飛行機 (ひこうき) [Minna 1]","飛行機でインドネシアから日本へ来ました。","ひこうきで インドネシアから にほんへ きました。","Saya datang dari Indonesia ke Jepang dengan pesawat terbang."],
       ["交差点","N5","J","こうさてん","kousaten","Persimpangan Jalan","交差点 (こうさてん) [Minna 1]","次の交差点を左へ曲がってください。","つぎの こうさてんを ひだりへ まがって ください。","Tolong belok kiri di persimpangan berikutnya."],
       ["信号","N5","J","しんごう","shingou","Lampu Lalu Lintas","信号 (しんごう) [Minna 1]","信号が青になってから、道を渡ります。","しんごうが あおに なってから、みちを わたります。","Setelah lampu lalu lintas menjadi hijau, baru menyeberang jalan."],
-
-      // --- 4. PROFESI, KELUARGA & ORANG (N5 & N4) ---
       ["先生","N5","J","せんせい","sensei","Guru / Pengajar / Dokter","先生 (せんせい) [Minna 1]","佐藤先生は日本語の先生です。","さとうせんせいは にほんごの せんせいです。","Guru Sato adalah pengajar bahasa Jepang."],
       ["学生","N5","J","がくせい","gakusei","Mahasiswa / Pelajar","学生 (がくせい) [Minna 1]","私はインドネシアからの留学生です。","わたしは インドネシアからの りゅうがくせいです。","Saya adalah pelajar asing dari Indonesia."],
       ["会社員","N5","J","かいしゃいん","kaishain","Karyawan Perusahaan","会社員 (かいしゃいん) [Minna 1]","父は日本の会社の会社員です。","ちちは にほんの かいしゃの かいしゃいんです。","Ayah saya adalah karyawan perusahaan Jepang."],
@@ -1021,8 +1033,6 @@
       ["兄弟","N5","J","きょうだい","kyoudai","Saudara Kandung","兄弟 (きょうだい) [Minna 1]","兄弟は兄が一人と妹が一人います。","きょうだいは あにが ひとりと いもうとが ひとり います。","Saudara kandung saya ada satu kakak laki-laki dan satu adik perempuan."],
       ["友達","N5","J","ともだち","tomodachi","Teman / Sahabat","友達 (ともだち) [Minna 1]","週末、友達とサッカーをします。","しゅうまつ、ともだちと サッカーを します。","Akhir pekan saya bermain sepak bola bersama teman."],
       ["外国人","N5","J","がいこくじん","gaikokujin","Orang Asing","外国人 (がいこくじん) [Minna 1]","この町には外国人がたくさん住んでいます。","この まちには がいこくじんが たくさん すんで います。","Di kota ini tinggal banyak orang asing."],
-
-      // --- 5. WAKTU, HARI & TANGGAL (N5 & N4) ---
       ["日曜日","N5","J","にちようび","nichiyoubi","Hari Minggu","日曜日 (にちようび) [Minna 1]","日曜日は家族とゆっくり休みます。","にちようびは かぞくと ゆっくり やすみます。","Hari Minggu saya beristirahat santai bersama keluarga."],
       ["月曜日","N5","J","げつようび","getsuyoubi","Hari Senin","月曜日 (げつようび) [Minna 1]","月曜日の朝は電車がとても混みます。","げつようびの あさは でんしゃが とても こみます。","Senin pagi kereta listrik sangat padat."],
       ["火曜日","N5","J","かようび","kayoubi","Hari Selasa","火曜日 (かようび) [Minna 1]","火曜日に日本語の会話の授業があります。","かようびに にほんごの かいわの じゅぎょうが あります。","Pada hari Selasa ada pelajaran percakapan bahasa Jepang."],
@@ -1033,7 +1043,7 @@
       ["毎日","N5","J","まいにち","mainichi","Setiap Hari","毎日 (まいにち) [Minna 1]","毎日、漢字を十個ずつ覚えます。","まいにち、かんじを じゅっこずつ おぼえます。","Setiap hari saya menghafal masing-masing 10 Kanji."],
       ["毎朝","N5","J","まいあさ","maiasa","Setiap Pagi","毎朝 (まいあさ) [Minna 1]","毎朝、六時に起きてニュースを見ます。","まいあさ、ろくじに おきて ニュースを みます。","Setiap pagi saya bangun jam 6 lalu menonton berita."],
       ["毎晩","N5","J","まいばん","maiban","Setiap Malam","毎晩 (まいばん) [Minna 1]","毎晩、寝る前に本を読みます。","まいばん、ねる まえに ほんを よみます。","Setiap malam sebelum tidur saya membaca buku."],
-      ["毎週","N5","J","まいしゅう","maishuu","Setiap Minggu / Pekan","毎週 (まいしゅう) [Minna 1]","毎週日曜日に国の母に電話します。","まいしゅう にちようびに くにの ははに でんわします。","Setiap hari Minggu saya menelepon ibu di tanah air."],
+      ["毎週","N5","J","まいしゅう","maishuu","Setiap Minggu / Pekan","毎週 (まいしゅう) [Minna 1]","毎週日曜日に国の母に電話します。","まいしゅう にちようびに くの ははに でんわします。","Setiap hari Minggu saya menelepon ibu di tanah air."],
       ["来週","N5","J","らいしゅう","raishuu","Minggu Depan","来週 (らいしゅう) [Minna 1]","来週から新しい仕事が始まります。","らいしゅうから あたらしい しごとが はじまります。","Mulai minggu depan pekerjaan baru akan dimulai."],
       ["来月","N5","J","らいげつ","raigetsu","Bulan Depan","来月 (らいげつ) [Minna 1]","来月、大阪へ出張します。","らいげつ、おおさかへ しゅっちょうします。","Bulan depan saya dinas kerja ke Osaka."],
       ["来年","N5","J","らいねん","rainen","Tahun Depan","来年 (らいねん) [Minna 1]","来年、日本で働きたいと思っています。","らいねん、にほんで はたらきたいと おもって います。","Tahun depan saya berencana ingin bekerja di Jepang."],
@@ -1043,8 +1053,6 @@
       ["今朝","N5","J","けさ","kesa","Tadi Pagi","今朝 (けさ) [Minna 1]","今朝はパンと果物を食べました。","けさは パンと くだものを たべました。","Tadi pagi saya makan roti dan buah-buahan."],
       ["今晩","N5","J","こんばん","konban","Malam Ini","今晩 (こんばん) [Minna 1]","今晩、家ですき焼きを作ります。","こんばん、いえで すきやきを つくります。","Malam ini saya membuat sukiyaki di rumah."],
       ["誕生日","N5","J","たんじょうび","tanjoubi","Hari Ulang Tahun","誕生日 (たんじょうび) [Minna 1]","友達の誕生日に時計をプレゼントしました。","ともだちの たんじょうびに とけいを プレゼントしました。","Saat ulang tahun teman, saya menghadiahkan jam tangan."],
-
-      // --- 6. KATA KERJA GABUNGAN / SURU-VERBS (勉強・練習・運動・準備・予約・dll.) ---
       ["勉強","N5","J","べんきょう","benkyou","Belajar (勉強します)","勉強します (べんきょうします) [Minna 1]","毎日、二時間ぐらい日本語を勉強します。","まいにち、にじかんぐらい にほんごを べんきょうします。","Setiap hari saya belajar bahasa Jepang sekitar 2 jam."],
       ["練習","N5","J","れんしゅう","renshuu","Latihan / Berlatih (練習します)","練習します (れんしゅうします) [Minna 1]","毎日、漢字の書き方を練習しています。","まいにち、かんじの かきかたを れんしゅうして います。","Setiap hari saya sedang berlatih cara menulis Kanji."],
       ["仕事","N5","J","しごと","shigoto","Pekerjaan / Bekerja (仕事します)","仕事します (しごとします) [Minna 1]","月曜日から金曜日まで会社で仕事します。","げつようびから きんようびまで かいしゃで しごとします。","Dari Senin sampai Jumat saya bekerja di kantor."],
@@ -1066,7 +1074,7 @@
       ["準備","N4","J","じゅんび","junbi","Persiapan (準備します)","準備します (じゅんびします) [Minna 2]","会議の資料を準備しておきます。","かいぎの しりょうを じゅんびして おきます。","Saya menyiapkan dokumen rapat terlebih dahulu."],
       ["予習","N4","J","よしゅう","yoshuu","Belajar Materi Sebelum Kelas","予習します (よしゅうします) [Minna 2]","授業の前に、新しい言葉を予習します。","じゅぎょうの まえに、あたらしい ことばを よしゅうします。","Sebelum pelajaran dimulai, saya mempelajari dulu kosakata baru."],
       ["復習","N4","J","ふくしゅう","fukushuu","Mengulang Pelajaran (Review)","復習します (ふくしゅうします) [Minna 2]","習った文法を家でよく復習してください。","ならった ぶんぽうを いえで よく ふくしゅうして ください。","Tolong ulangi dengan baik tata bahasa yang sudah dipelajari di rumah."],
-      ["説明","N4","J","せつめい","setsumei","Penjelasan / Menjelaskan","説明します (せつめいします) [Minna 2]","使い方をもう一度説明していただけませんか。","つかい方を もう いちど せつめいして いただけませんか。","Bisakah Anda menjelaskan cara pakainya sekali lagi?"],
+      ["説明","N4","J","せつめい","setsumei","Penjelasan / Menjelaskan","説明します (せつめいします) [Minna 2]","使い方をもう一度説明していただけませんか。","つかいかたを もう いちど せつめいして いただけませんか。","Bisakah Anda menjelaskan cara pakainya sekali lagi?"],
       ["案内","N4","J","あんない","annai","Memandu / Mengantar Jalan","案内します (あんないします) [Minna 2]","私が工場の中をご案内します。","わたしが こうじょうの なかを ごあんないします。","Saya akan memandu Anda melihat bagian dalam pabrik."],
       ["紹介","N4","J","しょうかい","shoukai","Memperkenalkan","紹介します (しょうかいします) [Minna 2]","友達に日本語の先生を紹介しました。","ともだちに にほんごの せんせいを しょうかいしました。","Saya memperkenalkan guru bahasa Jepang kepada teman."],
       ["連絡","N4","J","れんらく","renraku","Menghubungi / Kabar","連絡します (れんらくします) [Minna 2]","駅に着いたら、すぐ連絡してください。","えきに ついたら、すぐ れんらくして ください。","Kalau sudah tiba di stasiun, tolong segera hubungi saya."],
@@ -1081,10 +1089,7 @@
       ["卒業","N4","J","そつぎょう","sotsugyou","Lulus Sekolah / Universitas","卒業します (そつぎょうします) [Minna 2]","来年、大学を卒業して会社に入ります。","らいねん、だいがくを そつぎょうして かいしゃに はいります。","Tahun depan saya lulus universitas lalu masuk perusahaan."],
       ["出席","N4","J","しゅっせき","shusseki","Hadir (Rapat / Kelas)","出席します (しゅっせきします) [Minna 2]","明日の会議には必ず出席してください。","あしたの かいぎには かならず しゅっせきして ください。","Tolong pastikan hadir pada rapat besok."],
       ["欠席","N4","J","けっせき","kesseki","Tidak Hadir / Absen","欠席します (けっせきします) [Minna 2]","風邪をひいたので、今日の授業を欠席します。","かぜを ひいたので、きょうの じゅぎょうを けっせきします。","Karena masuk angin, saya absen pelajaran hari ini."],
-      ["故障","N4","J","こしょう","koshou","Kerusakan Mesin (Mogok/Rusak)","故障します (こしょうします) [Minna 2]","エアコンが故障して、部屋がとても暑いです。","エアコンが こしょうして、へやが とても あついです。","AC-nya rusak sehingga kamar menjadi sangat panas."],
       ["修理","N4","J","しゅうり","shuuri","Perbaikan / Reparasi","修理します (しゅうりします) [Minna 2]","壊れたパソコンを店で修理してもらいました。","こわれた パソコンを みせで しゅうりして もらいました。","Saya meminta toko memperbaiki PC yang rusak."],
-
-      // --- 7. MAKANAN, BENDA SEHARI-HARI, BAHASA & KONSEP PENTING (N5 & N4) ---
       ["朝ご飯","N5","J","あさごはん","asagohan","Sarapan / Makan Pagi","朝ご飯 (あさごはん) [Minna 1]","毎朝、七時に朝ご飯を食べます。","まいあさ、しちじに あさごはんを たべます。","Setiap pagi saya sarapan pada pukul 7."],
       ["昼ご飯","N5","J","ひるごはん","hirugohan","Makan Siang","昼ご飯 (ひるごはん) [Minna 1]","同僚と一緒に昼ご飯を食べに行きます。","どうりょうと いっしょに ひるごはんを たべに いきます。","Saya pergi makan siang bersama rekan kerja."],
       ["晩ご飯","N5","J","ばんごはん","bangohan","Makan Malam","晩ご飯 (ばんごはん) [Minna 1]","今日の晩ご飯はカレーライスです。","きょうの ばんごはんは カレーライスです。","Makan malam hari ini adalah nasi kari."],
@@ -1113,7 +1118,7 @@
       ["大切","N4","J","たいせつ","taisetsu","Penting / Berharga","大切 (たいせつ) [Minna 2]","家族と健康が一番大切です。","かぞくと けんこうが いちばん たいせつです。","Keluarga dan kesehatan adalah yang paling penting."],
       ["安心","N4","J","あんしん","anshin","Lega / Tenang","安心します (あんしんします) [Minna 2]","試験に合格して、本当に安心しました。","しけんに ごうかくして、ほんとうに あんしんしました。","Setelah lulus ujian, saya benar-benar merasa lega."],
       ["安全","N4","J","あんぜん","anzen","Aman / Keselamatan","安全 (あんぜん) [Minna 2]","工場では安全に気をつけて働きます。","こうじょうでは あんぜんに きを つけて はたらきます。","Di pabrik saya bekerja dengan memperhatikan keselamatan."],
-      ["宿題","N5","J","しゅくだい","shukudai","Pekerjaan Rumah (PR)","宿題 (しゅくだい) [Minna 1]","今日の宿題はもう終わりましたか。","きょうの しゅくだいは もう おわりましたか。","Apakah PR hari ini sudah selesai?"],
+      ["宿題","N5","J","しゅくだい","shukudai","Pekerjaan Rumah (PR)","宿題 (しゅくだい) [Minna 1]","今日の宿題はもう終わりましたか。","きょうの じゅくだいは もう おわりましたか。","Apakah PR hari ini sudah selesai?"],
       ["試験","N5","J","しけん","shiken","Ujian","試験 (しけん) [Minna 1]","来月、日本語の試験があります。","らいげつ、にほんごの しけんが あります。","Bulan depan ada ujian bahasa Jepang."],
       ["問題","N5","J","もんだい","mondai","Soal / Masalah","問題 (もんだい) [Minna 1]","この問題は少し難しいですね。","この もんだいは すこし むずかしいですね。","Soal ini sedikit sulit ya."],
       ["意味","N4","J","いみ","imi","Arti / Makna","意味 (いみ) [Minna 2]","この言葉の意味を教えてください。","この ことばの いみを おしえて ください。","Tolong beritahu arti dari kosakata ini."],
@@ -1130,7 +1135,6 @@
       "J": "Kanji Gabungan"
     };
 
-    // Kamus Arti Per Karakter Tunggal untuk Fitur Bedah Karakter Penyusun (Jukugo)
     const CHAR_MEANING_DICT = {
       "図": "Peta/Gambar", "書": "Buku/Tulis", "館": "Gedung", "郵": "Pos", "便": "Praktis/Surat",
       "局": "Kantor/Biro", "大": "Besar", "使": "Utusan/Pakai", "美": "Indah", "術": "Seni/Teknik",
@@ -1175,17 +1179,17 @@
       "元": "Asal/Sehat", "有": "Ada/Punya", "名": "Nama", "利": "Guna/Untung", "不": "Tidak",
       "安": "Tenang/Aman", "全": "Seluruh/Selamat", "宿": "Inap/PR", "題": "Soal/Topik", "試": "Coba/Uji",
       "験": "Uji", "意": "Makna/Pikiran", "味": "Rasa", "注": "Curah/Fokus", "経": "Lalui",
-      "慣": "Terbiasa", "文": "Sastra/Budaya", "化": "Ubah"
+      "慣": "Terbiasa", "文": "Sastra/Budaya", "化": "Ubah", "禁": "Larangan", "煙": "Asap",
+      "立": "Berdiri", "危": "Bahaya", "険": "Curam", "停": "Berhenti", "電": "Listrik",
+      "満": "Penuh"
     };
 
-    // Helper: Extract Hanzi/Kanji characters from string (for Hanzi Writer stroke animation)
     function extractKanjiChars(str) {
       const chars = [...String(str).trim()];
       const kanjiOnly = chars.filter(ch => /[\u4e00-\u9faf\u3400-\u4dbf]/.test(ch));
       return kanjiOnly.length > 0 ? kanjiOnly : [chars[0]];
     }
 
-    // Deduplicate by full Kanji/Jukugo word so both single Kanji and compound Jukugo are preserved
     const seenKanji = new Set();
     const KANJI_DATABASE = [];
     RAW_KANJI_DATA.forEach((row) => {
@@ -1212,7 +1216,6 @@
       }
     });
 
-    // Also build a quick lookup from single Kanji in database to fill any missing breakdown meanings
     KANJI_DATABASE.forEach(item => {
       if (item.kanji.length === 1 && !CHAR_MEANING_DICT[item.kanji]) {
         CHAR_MEANING_DICT[item.kanji] = item.meaning.split('/')[0].trim();
@@ -1220,14 +1223,16 @@
     });
 
     /*************************************************************************
-     * 2. STATE MANAGEMENT & LOCAL STORAGE
+     * 2. STATE MANAGEMENT & LOCAL STORAGE (DENGAN KATEGORI ISOLASI BARU)
      *************************************************************************/
-    const STORAGE_KEY = 'kanji_expert_minna_memorized_v3';
+    const STORAGE_KEY = 'kanji_expert_minna_memorized_v4';
     let memorizedIds = new Set();
+    // Menyimpan ID Kanji yang baru saja dihafal untuk kategori Isolasi (Baru Dihafal)
+    let isolatedRecentlyIds = []; 
 
     function loadMemorizedState() {
       try {
-        const raw = localStorage.getItem(STORAGE_KEY) || localStorage.getItem('kanji_expert_minna_memorized_v2') || localStorage.getItem('kanji_expert_minna_memorized_v1');
+        const raw = localStorage.getItem(STORAGE_KEY) || localStorage.getItem('kanji_expert_minna_memorized_v3');
         if (raw) {
           const parsed = JSON.parse(raw);
           if (Array.isArray(parsed)) {
@@ -1237,6 +1242,11 @@
             });
           }
         }
+        const isoRaw = localStorage.getItem('kanji_expert_isolated_recent');
+        if (isoRaw) {
+          const parsedIso = JSON.parse(isoRaw);
+          if (Array.isArray(parsedIso)) isolatedRecentlyIds = parsedIso;
+        }
       } catch (e) {
         console.warn('Gagal memuat localStorage:', e);
       }
@@ -1244,27 +1254,25 @@
 
     function saveMemorizedState() {
       try {
-        // Save by Kanji word so it remains stable across updates
         const words = [...memorizedIds].map(id => {
           const found = KANJI_DATABASE.find(k => k.id === id);
           return found ? found.kanji : id;
         });
         localStorage.setItem(STORAGE_KEY, JSON.stringify(words));
+        localStorage.setItem('kanji_expert_isolated_recent', JSON.stringify(isolatedRecentlyIds));
       } catch (e) {
         console.warn('Gagal menyimpan localStorage:', e);
       }
     }
 
     // Active Deck & Flashcard State
-    let currentStatusFilter = 'ALL'; // ALL | UNMEMORIZED | MEMORIZED
+    let currentStatusFilter = 'ALL'; // ALL | UNMEMORIZED | MEMORIZED | ISOLATED
     let activeDeck = [...KANJI_DATABASE];
     let currentIndex = 0;
 
-    // Mode Tampilan Kartu: 'OPEN' (Terbuka penuh) atau 'FLIP' (Tebak arti dulu)
     let cardDisplayMode = 'OPEN';
     let isCardBackRevealed = true;
 
-    // Hanzi Writer Instance State (Supports both Single Kanji & Multi-Character Jukugo Sequential Looping)
     let hwInstance = null;
     let hwLoopTimer = null;
     let hwSessionToken = 0;
@@ -1273,13 +1281,12 @@
     let hwSpeed = 1.2;
     let hwShowOutline = true;
 
-    // Multi-character Jukugo state
     let hwCharList = ['食'];
     let hwActiveCharIndex = 0;
-    let hwAutoCycleAll = true; // Automatically animate char 1 -> char 2 -> char 3 in a loop for Jukugo!
+    let hwAutoCycleAll = true;
 
     /*************************************************************************
-     * 3. AUTO-HIDE SMART HEADER ON SCROLL DOWN / SHOW ON SCROLL UP
+     * 3. SMART HEADER SCROLL
      *************************************************************************/
     let lastScrollY = window.scrollY;
     const smartHeader = document.getElementById('smart-header');
@@ -1305,12 +1312,12 @@
     window.addEventListener('resize', adjustHeaderSpacer);
 
     /*************************************************************************
-     * 4. MULTI-CHARACTER & SINGLE HANZI WRITER ENGINE (AUTO-LOOP & PAUSE)
+     * 4. HANZI WRITER ENGINE
      *************************************************************************/
     function initHanziWriterForCard(item) {
       hwCharList = item.chars && item.chars.length > 0 ? item.chars : extractKanjiChars(item.kanji);
       hwActiveCharIndex = 0;
-      hwAutoCycleAll = hwCharList.length > 1; // Default to sequential auto-cycle for compound Kanji
+      hwAutoCycleAll = hwCharList.length > 1;
       renderHanziCharTabs(item);
       mountHanziCharacter(hwCharList[hwActiveCharIndex]);
     }
@@ -1319,7 +1326,6 @@
       const tabsEl = document.getElementById('hw-char-tabs');
       if (!tabsEl) return;
 
-      // Only show selector tabs if the word has more than 1 character (or contains kana like 朝ご飯)
       if (!item || (hwCharList.length <= 1 && item.kanji.length <= 1)) {
         tabsEl.classList.add('hidden');
         tabsEl.classList.remove('flex');
@@ -1350,7 +1356,7 @@
 
         const charMeaning = CHAR_MEANING_DICT[ch] || '';
         html += `
-          <button onclick="selectSingleHwChar(${idx})" class="px-2.5 py-1 rounded-lg text-xs font-jp border transition-all cursor-pointer ${btnClass}" title="Fokus karakter ${ch} ${charMeaning ? '(' + charMeaning + ')' : ''}">
+          <button onclick="selectSingleHwChar(${idx})" class="px-2.5 py-1 rounded-lg text-xs font-jp border transition-all cursor-pointer ${btnClass}" title="Fokus karakter ${ch}">
             ${idx + 1}. ${ch}
           </button>
         `;
@@ -1428,7 +1434,6 @@
           if (token !== hwSessionToken || hwIsPaused || hwIsQuiz) return;
           hwLoopTimer = setTimeout(() => {
             if (token !== hwSessionToken || hwIsPaused || hwIsQuiz) return;
-            // If multi-character Jukugo is in Auto-Cycle mode, advance to the next character!
             if (hwAutoCycleAll && hwCharList.length > 1) {
               hwActiveCharIndex = (hwActiveCharIndex + 1) % hwCharList.length;
               renderHanziCharTabs(activeDeck[currentIndex]);
@@ -1487,7 +1492,6 @@
       const activeChar = hwCharList[hwActiveCharIndex];
       hwInstance.quiz({
         onComplete: () => {
-          // If Jukugo has multiple characters and we are in auto-cycle, let user quiz the next character too!
           if (hwCharList.length > 1 && hwActiveCharIndex < hwCharList.length - 1) {
             showToast(`Bagus! Karakter "${activeChar}" tepat. Lanjut tulis karakter berikutnya!`, 'success');
             setTimeout(() => {
@@ -1514,11 +1518,8 @@
     function toggleHanziOutline(show) {
       hwShowOutline = show;
       if (!hwInstance) return;
-      if (show) {
-        hwInstance.showOutline();
-      } else {
-        hwInstance.hideOutline();
-      }
+      if (show) hwInstance.showOutline();
+      else hwInstance.hideOutline();
     }
 
     function setHanziSpeed(speed) {
@@ -1551,12 +1552,13 @@
     }
 
     /*************************************************************************
-     * 5. FLASHCARD RENDERING & DECK NAVIGATION
+     * 5. FLASHCARD RENDERING & NAVIGATION
      *************************************************************************/
     function updateGlobalStatsUI() {
       const total = KANJI_DATABASE.length;
       const memCount = memorizedIds.size;
       const unmemCount = total - memCount;
+      const isoCount = isolatedRecentlyIds.length;
       const pct = total > 0 ? Math.round((memCount / total) * 100) : 0;
 
       document.getElementById('header-progress-label').textContent = `${memCount}/${total} Hafal (${pct}%)`;
@@ -1564,6 +1566,7 @@
       document.getElementById('tab-count-all').textContent = total;
       document.getElementById('tab-count-unmem').textContent = unmemCount;
       document.getElementById('tab-count-mem').textContent = memCount;
+      document.getElementById('tab-count-iso').textContent = isoCount;
     }
 
     function renderCurrentFlashcard() {
@@ -1591,7 +1594,6 @@
       const item = activeDeck[currentIndex];
       const isMem = memorizedIds.has(item.id);
 
-      // Update Deck Position & Progress Bar
       document.getElementById('card-index-label').textContent = currentIndex + 1;
       document.getElementById('card-total-label').textContent = activeDeck.length;
       const jumpInput = document.getElementById('jump-input');
@@ -1602,18 +1604,15 @@
       const deckPct = Math.round(((currentIndex + 1) / activeDeck.length) * 100);
       document.getElementById('deck-progress-bar').style.width = `${deckPct}%`;
 
-      // Animate Card Transition
       const cardEl = document.getElementById('flashcard-card');
       cardEl.classList.remove('card-enter');
-      void cardEl.offsetWidth; // trigger reflow
+      void cardEl.offsetWidth;
       cardEl.classList.add('card-enter');
 
-      // Card Border Styling based on Memorized State
       cardEl.className = `card-enter rounded-3xl bg-slate-900/95 border-2 shadow-2xl p-4 sm:p-6 transition-all duration-200 ${
         isMem ? 'border-emerald-500/50 shadow-emerald-950/25' : 'border-slate-800'
       }`;
 
-      // Top Badges
       document.getElementById('fc-number-badge').textContent = `Kanji #${item.num}`;
       const lvlBadge = document.getElementById('fc-level-badge');
       lvlBadge.textContent = `JLPT ${item.level} (${item.level === 'N5' ? 'Minna 1' : 'Minna 2'})`;
@@ -1635,7 +1634,6 @@
               : 'bg-teal-500/15 text-teal-300 border-teal-500/30'
       }`;
 
-      // Memorized Status Pill & Action Buttons
       const memPill = document.getElementById('fc-memorized-pill');
       const btnMem = document.getElementById('btn-mark-memorized');
       const btnUnmem = document.getElementById('btn-mark-unmemorized');
@@ -1652,7 +1650,6 @@
         btnUnmem.className = 'col-span-1 sm:col-span-4 py-3 px-4 rounded-2xl font-bold text-xs sm:text-sm border flex items-center justify-center gap-2 bg-rose-500/20 text-rose-300 border-rose-500/40 cursor-pointer';
       }
 
-      // Populate Kanji Details & Example Sentence
       document.getElementById('flip-cover-kanji').textContent = item.kanji;
       const kanjiTextEl = document.getElementById('fc-kanji-text');
       kanjiTextEl.textContent = item.kanji;
@@ -1668,7 +1665,6 @@
       document.getElementById('fc-hiragana').textContent = item.hiragana;
       document.getElementById('fc-translation').textContent = `"${item.translation}"`;
 
-      // Render Jukugo Breakdown if multi-character Kanji Gabungan
       const breakdownBox = document.getElementById('fc-jukugo-breakdown-box');
       const breakdownList = document.getElementById('fc-jukugo-breakdown-list');
       if (item.chars && item.chars.length > 1) {
@@ -1686,7 +1682,6 @@
         breakdownBox.classList.add('hidden');
       }
 
-      // Handle Flip Mode Cover State
       if (cardDisplayMode === 'FLIP') {
         isCardBackRevealed = false;
       } else {
@@ -1694,7 +1689,6 @@
       }
       updateFlipCoverUI();
 
-      // Mount Hanzi Writer (Single or Multi-character Jukugo)
       initHanziWriterForCard(item);
     }
 
@@ -1712,7 +1706,7 @@
         btnText.textContent = 'Mode: Kartu Terbuka';
         btnIcon.className = 'fa-solid fa-columns text-indigo-400';
         isCardBackRevealed = true;
-        showToast('Mode Kartu Terbuka: Semua informasi langsung tampil.', 'info');
+        showToast('Mode Kartu Terبuka: Semua informasi langsung tampil.', 'info');
       }
       updateFlipCoverUI();
     }
@@ -1766,7 +1760,7 @@
     }
 
     /*************************************************************************
-     * 6. MARK MEMORIZED / UNMEMORIZED & RANDOM DRILL FOR MEMORIZED KANJI
+     * 6. MARK MEMORIZED & ISOLATION CATEGORY (BARU DİHAFAL)
      *************************************************************************/
     function setCurrentCardMemorized(status) {
       if (activeDeck.length === 0) return;
@@ -1775,9 +1769,17 @@
 
       if (status) {
         memorizedIds.add(item.id);
-        showToast(`Kanji "${item.kanji} (${item.meaning})" ditandai Sudah Hafal!`, 'success');
+        // Tambahkan ke daftar isolasi (baru dihafal) jika belum ada di dalam array isolasi
+        if (!isolatedRecentlyIds.includes(item.id)) {
+          isolatedRecentlyIds.unshift(item.id); // Taruh di urutan paling depan
+          // Batasi maksimal 50 item terakhir yang diisolasi
+          if (isolatedRecentlyIds.length > 50) isolatedRecentlyIds.pop();
+        }
+        showToast(`Kanji "${item.kanji} (${item.meaning})" ditandai Sudah Hafal & Masuk Isolasi!`, 'success');
       } else {
         memorizedIds.delete(item.id);
+        // Hapus dari isolasi jika dibatalkan hafalan
+        isolatedRecentlyIds = isolatedRecentlyIds.filter(id => id !== item.id);
         showToast(`Kanji "${item.kanji} (${item.meaning})" ditandai Belum Hafal.`, 'info');
       }
 
@@ -1786,9 +1788,7 @@
 
       const autoNext = document.getElementById('chk-auto-next').checked;
 
-      // If filtering specifically by UNMEMORIZED or MEMORIZED, re-filter deck cleanly
       if (currentStatusFilter !== 'ALL') {
-        const prevLen = activeDeck.length;
         applyDeckFilters(false);
         if (activeDeck.length > 0 && currentIndex >= activeDeck.length) {
           currentIndex = 0;
@@ -1804,14 +1804,12 @@
       }
     }
 
-    // FITUR KHUSUS: ACAK URUTAN KANJI YANG SUDAH DITANDAI HAFAL UNTUK LATIHAN
     function startMemorizedShuffleDrill() {
       if (memorizedIds.size === 0) {
         showToast('Belum ada Kanji yang ditandai "Sudah Hafal". Tandai minimal 1 Kanji dulu atau gunakan tombol Acak Kartu!', 'info');
         return;
       }
 
-      // Reset search & dropdowns so all memorized Kanji are included
       document.getElementById('search-input').value = '';
       document.getElementById('clear-search-btn').classList.add('hidden');
       document.getElementById('filter-level').value = 'ALL';
@@ -1819,14 +1817,12 @@
 
       setDeckStatusFilter('MEMORIZED', false);
 
-      // Shuffle the memorized deck
       for (let i = activeDeck.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [activeDeck[i], activeDeck[j]] = [activeDeck[j], activeDeck[i]];
       }
 
       currentIndex = 0;
-      // Switch to Flip (Tebak) mode automatically for effective drill
       if (cardDisplayMode !== 'FLIP') {
         toggleCardDisplayMode();
       } else {
@@ -1874,16 +1870,17 @@
       const catVal = document.getElementById('filter-category').value;
 
       const clearBtn = document.getElementById('clear-search-btn');
-      if (query.length > 0) {
-        clearBtn.classList.remove('hidden');
-      } else {
-        clearBtn.classList.add('hidden');
-      }
+      if (query.length > 0) clearBtn.classList.remove('hidden');
+      else clearBtn.classList.add('hidden');
 
       activeDeck = KANJI_DATABASE.filter(item => {
         const isMem = memorizedIds.has(item.id);
+        const isIso = isolatedRecentlyIds.includes(item.id);
+
         if (currentStatusFilter === 'MEMORIZED' && !isMem) return false;
         if (currentStatusFilter === 'UNMEMORIZED' && isMem) return false;
+        if (currentStatusFilter === 'ISOLATED' && !isIso) return false;
+
         if (levelVal !== 'ALL' && item.level !== levelVal) return false;
         if (catVal !== 'ALL' && item.category !== catVal) return false;
 
@@ -1929,20 +1926,24 @@
 
       grid.innerHTML = activeDeck.map((item, idx) => {
         const isMem = memorizedIds.has(item.id);
+        const isIso = isolatedRecentlyIds.includes(item.id);
         const isCurrent = idx === currentIndex;
         const isJukugo = item.category === 'Kanji Gabungan';
         return `
           <button onclick="selectKanjiFromCatalog(${idx})" class="p-2.5 rounded-2xl border text-left transition-all flex flex-col justify-between cursor-pointer ${
             isCurrent
               ? 'bg-indigo-600/25 border-indigo-400 ring-2 ring-indigo-500/40'
-              : isMem
-                ? 'bg-emerald-950/30 border-emerald-500/40 hover:border-emerald-400'
-                : 'bg-slate-850 border-slate-800 hover:border-slate-600'
+              : isIso
+                ? 'bg-amber-950/30 border-amber-500/50 hover:border-amber-400'
+                : isMem
+                  ? 'bg-emerald-950/30 border-emerald-500/40 hover:border-emerald-400'
+                  : 'bg-slate-850 border-slate-800 hover:border-slate-600'
           }">
             <div class="flex items-center justify-between w-full mb-1">
               <div class="flex items-center gap-1">
                 <span class="text-[10px] font-bold px-1.5 py-0.2 rounded ${item.level === 'N5' ? 'bg-indigo-500/20 text-indigo-300' : 'bg-purple-500/20 text-purple-300'}">${item.level}</span>
                 ${isJukugo ? '<span class="text-[9px] font-bold px-1 rounded bg-fuchsia-500/20 text-fuchsia-300">熟語</span>' : ''}
+                ${isIso ? '<span class="text-[9px] font-bold px-1 rounded bg-amber-500/20 text-amber-300" title="Baru dihafal / Isolasi"><i class="fa-solid fa-bookmark"></i></span>' : ''}
               </div>
               <i class="${isMem ? 'fa-solid fa-circle-check text-emerald-400' : 'fa-regular fa-circle text-slate-600'} text-xs"></i>
             </div>
@@ -1962,18 +1963,23 @@
     function markAllFilteredMemorized(status) {
       if (activeDeck.length === 0) return;
       activeDeck.forEach(item => {
-        if (status) memorizedIds.add(item.id);
-        else memorizedIds.delete(item.id);
+        if (status) {
+          memorizedIds.add(item.id);
+          if (!isolatedRecentlyIds.includes(item.id)) isolatedRecentlyIds.unshift(item.id);
+        } else {
+          memorizedIds.delete(item.id);
+          isolatedRecentlyIds = isolatedRecentlyIds.filter(id => id !== item.id);
+        }
       });
       saveMemorizedState();
       updateGlobalStatsUI();
       renderCatalogGrid();
       renderCurrentFlashcard();
-      showToast(`${activeDeck.length} Kanji berhasil ditandai Sudah Hafal!`, 'success');
+      showToast(`${activeDeck.length} Kanji berhasil diperbarui status hafalannya!`, 'success');
     }
 
     /*************************************************************************
-     * 8. AUDIO PELAFALAN (WEB SPEECH API), SWIPE TOUCH & KEYBOARD SHORTCUTS
+     * 8. SPEECH, SWIPE & SHORTCUTS
      *************************************************************************/
     function speakJapaneseText(text) {
       if (!('speechSynthesis' in window)) {
@@ -2000,13 +2006,11 @@
       speakJapaneseText(item.sentence);
     }
 
-    // Touch Swipe Gestures on Flashcard (Left / Right)
     let touchStartX = 0;
     let touchStartY = 0;
     const stageEl = document.getElementById('flashcard-stage');
 
     stageEl.addEventListener('touchstart', (e) => {
-      // Ignore swipe if touching inside Hanzi Writer canvas during quiz mode
       if (e.target.closest('#hanzi-writer-target') && hwIsQuiz) return;
       touchStartX = e.changedTouches[0].screenX;
       touchStartY = e.changedTouches[0].screenY;
@@ -2022,7 +2026,6 @@
       }
     }, { passive: true });
 
-    // Keyboard Shortcuts for PC
     window.addEventListener('keydown', (e) => {
       if (['INPUT', 'SELECT', 'TEXTAREA'].includes(document.activeElement.tagName)) return;
       if (!document.getElementById('catalog-drawer').classList.contains('hidden')) {
@@ -2053,7 +2056,7 @@
     });
 
     /*************************************************************************
-     * 9. RESET MODAL & TOAST NOTIFICATION
+     * 9. RESET MODAL & TOAST
      *************************************************************************/
     function openResetModal() {
       document.getElementById('reset-modal').classList.remove('hidden');
@@ -2065,11 +2068,12 @@
 
     function confirmResetAllProgress() {
       memorizedIds.clear();
+      isolatedRecentlyIds = [];
       saveMemorizedState();
       updateGlobalStatsUI();
       closeResetModal();
       resetAllFilters();
-      showToast('Seluruh progres hafalan berhasil di-reset.', 'info');
+      showToast('Seluruh progres hafalan dan isolasi berhasil di-reset.', 'info');
     }
 
     let toastTimer = null;
