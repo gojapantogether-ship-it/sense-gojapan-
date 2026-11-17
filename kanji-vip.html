@@ -132,22 +132,19 @@
           </div>
         </div>
 
-        <!-- Action Buttons: Latihan Acak Hafal + Switch View -->
+        <!-- Action Buttons -->
         <div class="flex items-center gap-1.5 sm:gap-2">
-          <!-- Tombol Latihan Acak Kanji yang Sudah Dihafal -->
           <button onclick="startMemorizedShuffleDrill()" id="btn-drill-memorized" class="flex items-center gap-1.5 px-3 py-2 rounded-xl font-bold text-xs bg-gradient-to-r from-amber-500 to-orange-500 hover:from-amber-400 hover:to-orange-400 text-slate-950 shadow-lg shadow-amber-500/20 active:scale-95 transition-all cursor-pointer" title="Acak urutan Kanji yang sudah ditandai Hafal untuk latihan">
             <i class="fa-solid fa-shuffle"></i>
             <span class="hidden xs:inline sm:inline">Latihan Hafal</span>
             <span id="badge-memorized-count" class="px-1.5 py-0.2 rounded-full bg-slate-950/25 text-slate-950 font-extrabold text-[11px]">0</span>
           </button>
 
-          <!-- Tombol Acak Deck Saat Ini -->
           <button onclick="shuffleCurrentDeck()" class="flex items-center gap-1.5 px-2.5 sm:px-3 py-2 rounded-xl font-semibold text-xs bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 active:scale-95 transition-all cursor-pointer" title="Acak urutan kartu yang sedang aktif">
             <i class="fa-solid fa-dice text-indigo-400"></i>
             <span class="hidden sm:inline">Acak Kartu</span>
           </button>
 
-          <!-- Tombol Buka Katalog Semua Kanji -->
           <button onclick="toggleCatalogDrawer()" class="flex items-center gap-1.5 px-2.5 sm:px-3 py-2 rounded-xl font-semibold text-xs bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-300 border border-indigo-500/30 active:scale-95 transition-all cursor-pointer" title="Lihat & Cari dari Daftar Semua Kanji">
             <i class="fa-solid fa-table-cells-large"></i>
             <span class="hidden md:inline">Daftar Kanji</span>
@@ -155,9 +152,8 @@
         </div>
       </div>
 
-      <!-- Second Row: Filter Deck (Level, Kategori, 3 Status Hafalan: Semua, Belum, Sudah, Isolasi, Search) -->
+      <!-- Second Row: Filter Deck (Level, Kategori, 4 Status Hafalan + Isolasi Scratchpad, Search) -->
       <div class="mt-2 pt-2 border-t border-slate-800/80 flex flex-wrap items-center justify-between gap-2">
-        <!-- Filter Pills -->
         <div class="flex items-center gap-1.5 overflow-x-auto no-scrollbar py-0.5 flex-1">
           <!-- Level Select -->
           <select id="filter-level" onchange="applyDeckFilters()" class="bg-slate-850 border border-slate-700/80 text-slate-200 text-xs rounded-xl px-2.5 py-1.5 focus:outline-none focus:border-indigo-500 shrink-0 cursor-pointer">
@@ -175,18 +171,18 @@
             <option value="Kata Sifat & Lainnya">Kanji Kata Sifat / Ket (形容詞)</option>
           </select>
 
-          <!-- Status Hafalan Tabs (Sekarang 4 Opsi: Semua, Belum Hafal, Sudah Hafal, Isolasi Baru Dihafal) -->
+          <!-- Status Hafalan & Isolasi Sementara -->
           <div class="inline-flex rounded-xl bg-slate-850 p-0.5 border border-slate-700/80 shrink-0">
             <button onclick="setDeckStatusFilter('ALL')" data-status="ALL" class="deck-status-btn px-2.5 py-1 rounded-lg text-xs font-semibold transition-all bg-indigo-600 text-white cursor-pointer">
               Semua (<span id="tab-count-all">0</span>)
             </button>
             <button onclick="setDeckStatusFilter('UNMEMORIZED')" data-status="UNMEMORIZED" class="deck-status-btn px-2.5 py-1 rounded-lg text-xs font-semibold transition-all text-slate-400 hover:text-white cursor-pointer">
-              Belum Hafal (<span id="tab-count-unmem">0</span>)
+              Belum (<span id="tab-count-unmem">0</span>)
             </button>
             <button onclick="setDeckStatusFilter('MEMORIZED')" data-status="MEMORIZED" class="deck-status-btn px-2.5 py-1 rounded-lg text-xs font-semibold transition-all text-slate-400 hover:text-white cursor-pointer">
-              Sudah Hafal (<span id="tab-count-mem">0</span>)
+              Sudah (<span id="tab-count-mem">0</span>)
             </button>
-            <button onclick="setDeckStatusFilter('ISOLATED')" data-status="ISOLATED" class="deck-status-btn px-2.5 py-1 rounded-lg text-xs font-semibold transition-all text-slate-400 hover:text-white cursor-pointer" title="Isolasi khusus kanji yang baru saja/sedang dihafal">
+            <button onclick="setDeckStatusFilter('ISOLATED')" data-status="ISOLATED" class="deck-status-btn px-2.5 py-1 rounded-lg text-xs font-semibold transition-all text-slate-400 hover:text-white cursor-pointer" title="Daftar Isolasi Sementara untuk Harian">
               <i class="fa-solid fa-bookmark mr-1 text-amber-400"></i>Isolasi (<span id="tab-count-iso">0</span>)
             </button>
           </div>
@@ -217,9 +213,8 @@
   <!-- ==================== MAIN FLASHCARD WORKSPACE ==================== -->
   <main class="flex-1 max-w-5xl w-full mx-auto px-3 sm:px-6 py-3 flex flex-col justify-between">
     
-    <!-- Top Deck Status Bar: Card Counter, Mode Toggle (Flip vs Split), Auto-Next Toggle -->
+    <!-- Top Deck Status Bar -->
     <div class="flex flex-wrap items-center justify-between gap-2 mb-3 bg-slate-900/80 border border-slate-800/90 rounded-2xl px-3.5 py-2">
-      <!-- Card Counter & Progress -->
       <div class="flex items-center gap-2.5">
         <span id="drill-mode-indicator" class="hidden px-2 py-0.5 rounded-md bg-amber-500/20 border border-amber-500/40 text-amber-300 text-[11px] font-bold">
           <i class="fa-solid fa-bolt mr-1"></i>Mode Latihan Acak
@@ -227,18 +222,22 @@
         <span class="text-xs sm:text-sm font-bold text-white">
           Kartu <span id="card-index-label" class="text-indigo-400">1</span> dari <span id="card-total-label">325</span>
         </span>
-        <!-- Quick Jump Input -->
         <div class="hidden sm:flex items-center gap-1 text-xs text-slate-400">
           <span>&bull; Lompat ke:</span>
           <input id="jump-input" type="number" min="1" max="325" onchange="jumpToCardNumber(this.value)" placeholder="#" class="w-14 px-2 py-0.5 bg-slate-850 border border-slate-700 rounded-lg text-center text-white text-xs focus:outline-none focus:border-indigo-500">
         </div>
       </div>
 
-      <!-- Display Mode Switcher: Kartu Terbuka vs Mode Tebak (Flip) -->
       <div class="flex items-center gap-2 ml-auto">
-        <button id="toggle-view-mode-btn" onclick="toggleCardDisplayMode()" class="px-2.5 py-1 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-semibold text-slate-200 flex items-center gap-1.5 transition-all cursor-pointer" title="Ganti antara Mode Tebak (Balik Kartu) atau Tampilkan Semua Sekaligus">
+        <!-- Tombol Toggle Cepat Isolasi di Header kartu -->
+        <button id="btn-toggle-isolate-card" onclick="toggleCurrentCardIsolation()" class="px-2.5 py-1 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/40 text-xs font-bold text-amber-300 flex items-center gap-1.5 transition-all cursor-pointer" title="Masukkan atau hapus dari daftar isolasi sementara">
+          <i class="fa-solid fa-bookmark"></i>
+          <span id="isolate-btn-label">Isolasi</span>
+        </button>
+
+        <button id="toggle-view-mode-btn" onclick="toggleCardDisplayMode()" class="px-2.5 py-1 rounded-xl bg-slate-800 hover:bg-slate-700 border border-slate-700 text-xs font-semibold text-slate-200 flex items-center gap-1.5 transition-all cursor-pointer">
           <i id="view-mode-icon" class="fa-solid fa-columns text-indigo-400"></i>
-          <span id="view-mode-text">Mode: Kartu Terبuka</span>
+          <span id="view-mode-text">Mode: Terbuka</span>
         </button>
 
         <button onclick="openResetModal()" class="p-1.5 rounded-xl bg-slate-800 hover:bg-rose-950/60 text-slate-400 hover:text-rose-300 border border-slate-700 text-xs transition-all cursor-pointer" title="Reset Semua Progres Hafalan">
@@ -252,14 +251,14 @@
       <div id="deck-progress-bar" class="h-full bg-gradient-to-r from-indigo-500 via-purple-500 to-emerald-400 transition-all duration-300" style="width: 1%"></div>
     </div>
 
-    <!-- EMPTY STATE (WHEN NO KANJI MATCHES FILTER) -->
+    <!-- EMPTY STATE -->
     <div id="empty-deck-state" class="hidden flex-col items-center justify-center py-16 px-4 text-center bg-slate-900/60 border border-slate-800 rounded-3xl my-auto">
       <div class="w-16 h-16 rounded-2xl bg-slate-800 flex items-center justify-center text-3xl text-slate-400 mb-3">
         <i class="fa-regular fa-folder-open"></i>
       </div>
       <h2 class="text-lg font-bold text-white mb-1">Tidak Ada Kartu Kanji pada Filter Ini</h2>
       <p id="empty-deck-desc" class="text-xs sm:text-sm text-slate-400 max-w-md mb-5">
-        Belum ada Kanji yang cocok dengan pencarian atau filter kategori/isolasi yang Anda pilih.
+        Belum ada Kanji di daftar isolasi sementara atau pada filter yang Anda pilih.
       </p>
       <div class="flex flex-wrap items-center justify-center gap-2">
         <button onclick="resetAllFilters()" class="px-4 py-2.5 rounded-xl bg-indigo-600 hover:bg-indigo-500 text-white text-xs sm:text-sm font-bold shadow-lg shadow-indigo-600/25 transition-all cursor-pointer">
@@ -273,7 +272,7 @@
       
       <div id="flashcard-card" class="card-enter rounded-3xl bg-slate-900/95 border-2 border-slate-800 shadow-2xl p-4 sm:p-6 transition-all duration-200">
         
-        <!-- Card Top Header: Level, Category, Audio & Memorized Status Badge -->
+        <!-- Card Top Header -->
         <div class="flex flex-wrap items-center justify-between gap-2 pb-3.5 mb-4 border-b border-slate-800/90">
           <div class="flex items-center gap-2 flex-wrap">
             <span id="fc-number-badge" class="text-xs font-extrabold px-2.5 py-1 rounded-lg bg-slate-800 text-slate-300 border border-slate-700">
@@ -287,21 +286,21 @@
             </span>
           </div>
 
-          <!-- Status Indicator Pill on Card -->
           <div class="flex items-center gap-2">
+            <span id="fc-isolated-pill" class="hidden text-xs font-bold px-2.5 py-1 rounded-full bg-amber-500/20 text-amber-300 border border-amber-500/40">
+              <i class="fa-solid fa-bookmark mr-1"></i>Diisolasi Sementara
+            </span>
             <span id="fc-memorized-pill" class="text-xs font-bold px-3 py-1 rounded-full border">
               Belum Hafal
             </span>
           </div>
         </div>
 
-        <!-- Card Body Grid: Left (Hanzi Writer Interactive Studio) & Right (Meaning, Readings & Minna Sentence) -->
+        <!-- Card Body Grid -->
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-5 items-stretch">
           
-          <!-- LEFT COLUMN (5 Cols): HANZI WRITER STROKE ANIMATION & QUIZ -->
+          <!-- LEFT COLUMN: HANZI WRITER STROKE -->
           <div class="lg:col-span-5 flex flex-col items-center justify-between bg-slate-950/80 border border-slate-800/90 rounded-2xl p-4">
-            
-            <!-- Top Label inside Canvas Box -->
             <div class="w-full flex items-center justify-between text-xs text-slate-400 mb-2 px-1">
               <span class="font-semibold text-slate-300 flex items-center gap-1.5">
                 <i class="fa-solid fa-paintbrush text-indigo-400"></i> Urutan Tulis (Hanzi Writer)
@@ -311,37 +310,30 @@
               </span>
             </div>
 
-            <!-- MULTI-CHARACTER SELECTOR TABS (Appears for Kanji Gabungan / Jukugo) -->
-            <div id="hw-char-tabs" class="hidden w-full mb-2 flex-wrap items-center justify-center gap-1.5 bg-slate-900/90 p-1.5 rounded-xl border border-slate-800">
-              <!-- Populated dynamically for multi-character Jukugo -->
-            </div>
+            <div id="hw-char-tabs" class="hidden w-full mb-2 flex-wrap items-center justify-center gap-1.5 bg-slate-900/90 p-1.5 rounded-xl border border-slate-800"></div>
 
-            <!-- HANZI WRITER SVG TARGET CONTAINER -->
             <div class="relative my-1">
               <div id="hanzi-writer-target" class="kanji-grid-bg w-[210px] h-[210px] sm:w-[230px] sm:h-[230px] rounded-2xl flex items-center justify-center overflow-hidden shadow-inner"></div>
             </div>
 
-            <!-- Stroke Speed & Action Controls -->
             <div class="w-full mt-3 space-y-2">
-              <!-- Primary Controls: Pause/Play, Restart, Coba Tulis (Quiz) -->
               <div class="grid grid-cols-3 gap-2">
                 <button id="btn-hw-pause" onclick="toggleHanziPause()" class="py-2 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-white text-xs font-bold border border-slate-700 flex items-center justify-center gap-1.5 active:scale-95 transition-all cursor-pointer">
                   <i class="fa-solid fa-pause text-amber-400"></i>
                   <span>Pause</span>
                 </button>
 
-                <button onclick="restartHanziLoop()" class="py-2 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold border border-slate-700 flex items-center justify-center gap-1.5 active:scale-95 transition-all cursor-pointer" title="Ulangi dari goresan pertama">
+                <button onclick="restartHanziLoop()" class="py-2 px-3 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-bold border border-slate-700 flex items-center justify-center gap-1.5 active:scale-95 transition-all cursor-pointer">
                   <i class="fa-solid fa-rotate-right text-indigo-400"></i>
                   <span>Ulangi</span>
                 </button>
 
-                <button id="btn-hw-quiz" onclick="startHanziQuiz()" class="py-2 px-3 rounded-xl bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-300 text-xs font-bold border border-indigo-500/40 flex items-center justify-center gap-1.5 active:scale-95 transition-all cursor-pointer" title="Latihan menulis goresan Kanji dengan jari atau mouse">
+                <button id="btn-hw-quiz" onclick="startHanziQuiz()" class="py-2 px-3 rounded-xl bg-indigo-600/20 hover:bg-indigo-600/30 text-indigo-300 text-xs font-bold border border-indigo-500/40 flex items-center justify-center gap-1.5 active:scale-95 transition-all cursor-pointer">
                   <i class="fa-solid fa-pen-nib"></i>
                   <span>Latihan Tulis</span>
                 </button>
               </div>
 
-              <!-- Outline Toggle & Speed Control -->
               <div class="flex items-center justify-between text-[11px] text-slate-400 pt-1 px-1">
                 <label class="flex items-center gap-1.5 cursor-pointer select-none hover:text-slate-200">
                   <input type="checkbox" id="chk-show-outline" checked onchange="toggleHanziOutline(this.checked)" class="rounded bg-slate-800 border-slate-700 text-indigo-500 focus:ring-0">
@@ -355,184 +347,131 @@
                 </div>
               </div>
             </div>
-
           </div>
 
-          <!-- RIGHT COLUMN (7 Cols): KANJI DETAILS, READINGS & MINNA SENTENCE (WITH FLIP COVER OPTION) -->
+          <!-- RIGHT COLUMN: DETAILS -->
           <div class="lg:col-span-7 flex flex-col justify-between relative">
-            
-            <!-- FLIP COVER OVERLAY (Shown only when in "Mode Tebak / Flip" and card is unflipped) -->
             <div id="flip-cover-overlay" onclick="revealCardBack()" class="hidden absolute inset-0 z-20 rounded-2xl bg-slate-900/95 backdrop-blur-md border-2 border-dashed border-indigo-500/40 flex-col items-center justify-center p-6 text-center cursor-pointer hover:border-indigo-400 transition-all group">
               <div class="w-16 h-16 rounded-2xl bg-indigo-500/15 border border-indigo-500/30 flex items-center justify-center text-indigo-400 text-2xl mb-3 group-hover:scale-110 transition-transform">
                 <i class="fa-solid fa-eye"></i>
               </div>
               <p class="font-jp text-4xl font-black text-white mb-2" id="flip-cover-kanji">食</p>
-              <h3 class="text-base sm:text-lg font-extrabold text-white mb-1">
-                Tebak Arti, Bacaan & Kalimat Kanji Ini!
-              </h3>
-              <p class="text-xs text-slate-400 max-w-xs mb-4">
-                Perhatikan urutan goresan di samping, lalu klik di sini atau tekan tombol <strong>Spasi</strong> untuk membuka jawaban.
-              </p>
+              <h3 class="text-base sm:text-lg font-extrabold text-white mb-1">Tebak Arti, Bacaan & Kalimat Kanji Ini!</h3>
+              <p class="text-xs text-slate-400 max-w-xs mb-4">Klik di sini atau tekan <strong>Spasi</strong> untuk membuka jawaban.</p>
               <span class="px-4 py-2 rounded-xl bg-indigo-600 group-hover:bg-indigo-500 text-white font-bold text-xs shadow-lg shadow-indigo-600/30">
-                <i class="fa-solid fa-rotate mr-1.5"></i> Balik Kartu / Buka Jawaban
+                <i class="fa-solid fa-rotate mr-1.5"></i> Buka Jawaban
               </span>
             </div>
 
-            <!-- ACTUAL DETAILS CONTENT (Meaning, Readings, Vocab, Example Sentence) -->
             <div id="fc-details-content" class="flex flex-col justify-between h-full space-y-3.5">
-              
-              <!-- Meaning & Readings Box -->
               <div class="bg-slate-850/95 border border-slate-800 rounded-2xl p-4">
                 <div class="flex items-start justify-between gap-3">
                   <div>
-                    <span class="text-[11px] font-bold uppercase tracking-wider text-indigo-400 block">
-                      Arti Bahasa Indonesia
-                    </span>
-                    <h2 id="fc-meaning" class="text-xl sm:text-2xl font-extrabold text-white mt-0.5 leading-snug">
-                      Makan
-                    </h2>
+                    <span class="text-[11px] font-bold uppercase tracking-wider text-indigo-400 block">Arti Bahasa Indonesia</span>
+                    <h2 id="fc-meaning" class="text-xl sm:text-2xl font-extrabold text-white mt-0.5 leading-snug">Makan</h2>
                   </div>
-
-                  <!-- Big Character & Audio Button -->
                   <div class="flex items-center gap-2 shrink-0">
-                    <span id="fc-kanji-text" class="font-jp text-3xl sm:text-4xl font-black text-indigo-300 bg-slate-900 px-3 py-1 rounded-xl border border-slate-800">
-                      食
-                    </span>
-                    <button onclick="speakCurrentVocab()" class="w-10 h-10 rounded-xl bg-indigo-500/20 hover:bg-indigo-500/30 text-indigo-300 border border-indigo-500/30 flex items-center justify-center active:scale-95 transition-all cursor-pointer" title="Dengarkan Pelafalan Kosakata (Jepang)">
+                    <span id="fc-kanji-text" class="font-jp text-3xl sm:text-4xl font-black text-indigo-300 bg-slate-900 px-3 py-1 rounded-xl border border-slate-800">食</span>
+                    <button onclick="speakCurrentVocab()" class="w-10 h-10 rounded-xl bg-indigo-500/25 hover:bg-indigo-500/35 text-indigo-300 border border-indigo-500/30 flex items-center justify-center active:scale-95 transition-all cursor-pointer">
                       <i class="fa-solid fa-volume-high"></i>
                     </button>
                   </div>
                 </div>
 
-                <!-- Kunyomi & Onyomi Grid -->
                 <div class="grid grid-cols-1 sm:grid-cols-2 gap-2.5 mt-3.5 pt-3 border-t border-slate-800/90">
                   <div class="bg-slate-900/90 border border-slate-800/80 rounded-xl px-3 py-2">
-                    <span class="text-[11px] text-slate-400 font-medium block">Kunyomi (Cara Baca Jepang / 訓):</span>
+                    <span class="text-[11px] text-slate-400 font-medium block">Kunyomi (訓):</span>
                     <span id="fc-kunyomi" class="font-jp text-sm sm:text-base font-bold text-emerald-300">た.べる</span>
                   </div>
                   <div class="bg-slate-900/90 border border-slate-800/80 rounded-xl px-3 py-2">
-                    <span class="text-[11px] text-slate-400 font-medium block">Onyomi (Cara Baca Cina / 音):</span>
+                    <span class="text-[11px] text-slate-400 font-medium block">Onyomi (音):</span>
                     <span id="fc-onyomi" class="font-jp text-sm sm:text-base font-bold text-amber-300">ショク</span>
                   </div>
                 </div>
 
-                <!-- Main Vocabulary in Minna no Nihongo -->
                 <div class="mt-2.5 bg-indigo-950/30 border border-indigo-500/25 rounded-xl px-3 py-2 flex items-center justify-between gap-2">
-                  <span class="text-xs text-slate-300 font-medium">Kosakata / Cara Baca:</span>
-                  <span id="fc-vocab" class="font-jp text-sm sm:text-base font-extrabold text-indigo-300">食べます (たべます)</span>
+                  <span class="text-xs text-slate-300 font-medium">Kosakata:</span>
+                  <span id="fc-vocab" class="font-jp text-sm sm:text-base font-extrabold text-indigo-300">食べます</span>
                 </div>
 
-                <!-- Component Kanji Breakdown (For Kanji Gabungan / Jukugo) -->
                 <div id="fc-jukugo-breakdown-box" class="hidden mt-2.5 bg-fuchsia-950/25 border border-fuchsia-500/30 rounded-xl px-3 py-2">
-                  <span class="text-[11px] font-bold uppercase tracking-wider text-fuchsia-300 block mb-1">
-                    <i class="fa-solid fa-puzzle-piece mr-1"></i>Bedah Karakter Penyusun (Jukugo):
-                  </span>
+                  <span class="text-[11px] font-bold uppercase tracking-wider text-fuchsia-300 block mb-1"><i class="fa-solid fa-puzzle-piece mr-1"></i>Bedah Karakter:</span>
                   <div id="fc-jukugo-breakdown-list" class="flex flex-wrap items-center gap-1.5"></div>
                 </div>
               </div>
 
-              <!-- Example Sentence Box -->
               <div class="bg-slate-850/95 border border-slate-800 rounded-2xl p-4 flex-1 flex flex-col justify-between space-y-2">
                 <div class="flex items-center justify-between">
                   <span class="text-xs font-bold uppercase tracking-wider text-indigo-400 flex items-center gap-1.5">
-                    <i class="fa-solid fa-quote-left"></i> Contoh Kalimat (Minna no Nihongo / JFT)
+                    <i class="fa-solid fa-quote-left"></i> Contoh Kalimat
                   </span>
                   <button onclick="speakCurrentSentence()" class="px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-indigo-600/30 text-indigo-300 border border-slate-700 text-xs font-semibold flex items-center gap-1.5 transition-all cursor-pointer">
-                    <i class="fa-solid fa-volume-low"></i> Putar Audio Kalimat
+                    <i class="fa-solid fa-volume-low"></i> Putar Audio
                   </button>
                 </div>
 
-                <!-- Japanese Sentence with Kanji -->
                 <div class="py-1">
-                  <p id="fc-sentence" class="font-jp text-base sm:text-lg font-extrabold text-white leading-relaxed">
-                    毎朝、パンと卵を食べます。
-                  </p>
-                  <!-- Full Hiragana Reading -->
-                  <p id="fc-hiragana" class="font-jp text-xs sm:text-sm font-medium text-amber-300 mt-1 leading-relaxed">
-                    まいあさ、パンと たまごを たべます。
-                  </p>
+                  <p id="fc-sentence" class="font-jp text-base sm:text-lg font-extrabold text-white leading-relaxed">毎朝、パンと卵を食べます。</p>
+                  <p id="fc-hiragana" class="font-jp text-xs sm:text-sm font-medium text-amber-300 mt-1 leading-relaxed">まいあさ、パンと たまごを たべます。</p>
                 </div>
 
-                <!-- Indonesian Translation -->
                 <div class="pt-2 border-t border-slate-800/90 flex items-center justify-between gap-2">
-                  <p id="fc-translation" class="text-xs sm:text-sm text-slate-200 italic font-medium">
-                    "Setiap pagi saya makan roti dan telur."
-                  </p>
-                  <button id="btn-rehide-card" onclick="hideCardBack()" class="hidden text-[11px] text-slate-400 hover:text-white underline shrink-0 cursor-pointer">
-                    Tutup Jawaban
-                  </button>
+                  <p id="fc-translation" class="text-xs sm:text-sm text-slate-200 italic font-medium">"Setiap pagi saya makan roti dan telur."</p>
+                  <button id="btn-rehide-card" onclick="hideCardBack()" class="hidden text-[11px] text-slate-400 hover:text-white underline shrink-0 cursor-pointer">Tutup Jawaban</button>
                 </div>
               </div>
-
             </div>
-
           </div>
-
         </div>
 
-        <!-- ==================== BOTTOM FLASHCARD ACTION BAR ==================== -->
+        <!-- ==================== ACTION BAR ==================== -->
         <div class="mt-5 pt-4 border-t border-slate-800/90 grid grid-cols-2 sm:grid-cols-12 gap-2.5 items-center">
-          
-          <!-- Prev Button -->
           <button onclick="prevCard()" class="col-span-1 sm:col-span-2 py-3 px-3 rounded-2xl bg-slate-800 hover:bg-slate-700 text-slate-200 font-bold text-xs sm:text-sm border border-slate-700 flex items-center justify-center gap-1.5 active:scale-95 transition-all cursor-pointer">
             <i class="fa-solid fa-arrow-left"></i>
             <span>Sebelumnya</span>
           </button>
 
-          <!-- Mark UNMEMORIZED Button -->
           <button id="btn-mark-unmemorized" onclick="setCurrentCardMemorized(false)" class="col-span-1 sm:col-span-4 py-3 px-4 rounded-2xl font-bold text-xs sm:text-sm border flex items-center justify-center gap-2 active:scale-95 transition-all cursor-pointer">
             <i class="fa-solid fa-circle-xmark text-base"></i>
             <span>Tandai Belum Hafal</span>
           </button>
 
-          <!-- Mark MEMORIZED Button -->
           <button id="btn-mark-memorized" onclick="setCurrentCardMemorized(true)" class="col-span-1 sm:col-span-4 py-3 px-4 rounded-2xl font-bold text-xs sm:text-sm border flex items-center justify-center gap-2 active:scale-95 transition-all cursor-pointer">
             <i class="fa-solid fa-circle-check text-base"></i>
             <span>Tandai Sudah Hafal</span>
           </button>
 
-          <!-- Next Button -->
           <button onclick="nextCard()" class="col-span-1 sm:col-span-2 py-3 px-3 rounded-2xl bg-indigo-600 hover:bg-indigo-500 text-white font-bold text-xs sm:text-sm shadow-lg shadow-indigo-600/25 flex items-center justify-center gap-1.5 active:scale-95 transition-all cursor-pointer">
             <span>Berikutnya</span>
             <i class="fa-solid fa-arrow-right"></i>
           </button>
-
         </div>
 
-        <!-- Keyboard & Swipe Hint + Auto-Advance Checkbox -->
         <div class="mt-3 flex flex-wrap items-center justify-between gap-2 text-[11px] text-slate-400 px-1">
           <div class="flex items-center gap-3">
             <span class="hidden sm:inline"><i class="fa-regular fa-keyboard mr-1 text-indigo-400"></i>Pintasan: <strong>&larr;/&rarr;</strong> Navigasi &bull; <strong>Spasi</strong> Balik Kartu &bull; <strong>P</strong> Pause Tulis &bull; <strong>Enter</strong> Hafal</span>
-            <span class="sm:hidden"><i class="fa-solid fa-hand-pointer mr-1 text-indigo-400"></i>Geser (Swipe) kartu ke kiri/kanan untuk pindah Kanji</span>
+            <span class="sm:hidden"><i class="fa-solid fa-hand-pointer mr-1 text-indigo-400"></i>Geser kartu untuk pindah Kanji</span>
           </div>
           <label class="flex items-center gap-1.5 cursor-pointer select-none text-slate-300 hover:text-white ml-auto">
             <input type="checkbox" id="chk-auto-next" checked class="rounded bg-slate-800 border-slate-700 text-emerald-500 focus:ring-0">
-            <span>Otomatis lanjut kartu berikutnya saat klik "Sudah Hafal"</span>
+            <span>Otomatis lanjut saat klik "Sudah Hafal"</span>
           </label>
         </div>
-
       </div>
-
     </div>
-
   </main>
 
-  <!-- ==================== DRAWER: KATALOG SEMUA KANJI ==================== -->
+  <!-- ==================== DRAWER: KATALOG ==================== -->
   <div id="catalog-drawer" class="fixed inset-0 z-50 hidden bg-slate-950/85 backdrop-blur-md flex flex-col p-2 sm:p-6">
     <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-6xl w-full mx-auto flex-1 flex flex-col overflow-hidden shadow-2xl">
-      
-      <!-- Drawer Header -->
       <div class="p-4 sm:px-6 border-b border-slate-800 flex flex-wrap items-center justify-between gap-3">
         <div>
           <h2 class="text-base sm:text-lg font-extrabold text-white flex items-center gap-2">
             <i class="fa-solid fa-table-cells-large text-indigo-400"></i>
-            <span>Katalog Lengkap Kanji N5 & N4 (<span id="catalog-count">325</span> Kanji)</span>
+            <span>Katalog Lengkap Kanji (<span id="catalog-count">325</span> Kanji)</span>
           </h2>
-          <p class="text-xs text-slate-400">
-            Klik salah satu Kanji di bawah untuk langsung membuka Flashcard dan animasi cara tulisnya.
-          </p>
+          <p class="text-xs text-slate-400">Klik salah satu Kanji untuk langsung membuka Flashcard.</p>
         </div>
-
         <div class="flex items-center gap-2">
           <button onclick="markAllFilteredMemorized(true)" class="px-3 py-1.5 rounded-xl bg-emerald-500/15 hover:bg-emerald-500/25 text-emerald-300 border border-emerald-500/30 text-xs font-bold cursor-pointer">
             <i class="fa-solid fa-check-double mr-1"></i> Tandai Hafal Filter Ini
@@ -542,37 +481,26 @@
           </button>
         </div>
       </div>
-
-      <!-- Drawer Grid List -->
-      <div id="catalog-grid" class="flex-1 overflow-y-auto p-4 sm:p-6 grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2.5 content-start">
-        <!-- Populated dynamically -->
-      </div>
-
+      <div id="catalog-grid" class="flex-1 overflow-y-auto p-4 sm:p-6 grid grid-cols-2 sm:grid-cols-4 md:grid-cols-6 lg:grid-cols-8 gap-2.5 content-start"></div>
     </div>
   </div>
 
-  <!-- ==================== MODAL KONFIRMASI RESET ==================== -->
+  <!-- ==================== MODAL RESET ==================== -->
   <div id="reset-modal" class="fixed inset-0 z-50 hidden bg-slate-950/80 backdrop-blur-sm flex items-center justify-center p-4">
     <div class="bg-slate-900 border border-slate-800 rounded-3xl max-w-sm w-full p-5 shadow-2xl text-center">
       <div class="w-12 h-12 rounded-2xl bg-rose-500/15 text-rose-400 flex items-center justify-center mx-auto mb-3 text-xl">
         <i class="fa-solid fa-triangle-exclamation"></i>
       </div>
-      <h3 class="text-base font-bold text-white mb-1">Reset Seluruh Progres Hafalan?</h3>
-      <p class="text-xs text-slate-400 mb-5">
-        Semua Kanji yang sudah ditandai "Sudah Hafal" akan dikembalikan menjadi "Belum Hafal" dan kategori isolasi akan dikosongkan.
-      </p>
+      <h3 class="text-base font-bold text-white mb-1">Reset Progres Hafalan?</h3>
+      <p class="text-xs text-slate-400 mb-5">Semua status hafal dan daftar isolasi sementara akan dikosongkan.</p>
       <div class="flex items-center gap-2 justify-center">
-        <button onclick="closeResetModal()" class="flex-1 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold cursor-pointer">
-          Batal
-        </button>
-        <button onclick="confirmResetAllProgress()" class="flex-1 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold cursor-pointer">
-          Ya, Reset Semua
-        </button>
+        <button onclick="closeResetModal()" class="flex-1 py-2.5 rounded-xl bg-slate-800 hover:bg-slate-700 text-slate-300 text-xs font-semibold cursor-pointer">Batal</button>
+        <button onclick="confirmResetAllProgress()" class="flex-1 py-2.5 rounded-xl bg-rose-600 hover:bg-rose-500 text-white text-xs font-bold cursor-pointer">Ya, Reset</button>
       </div>
     </div>
   </div>
 
-  <!-- TOAST NOTIFICATION -->
+  <!-- TOAST -->
   <div id="toast-box" class="fixed bottom-5 left-1/2 -translate-x-1/2 z-50 pointer-events-none opacity-0 transition-all duration-300 transform translate-y-2">
     <div class="bg-slate-900/95 border border-slate-700 text-white px-4 py-2.5 rounded-2xl shadow-2xl flex items-center gap-2.5 text-xs sm:text-sm font-semibold backdrop-blur-md">
       <i id="toast-icon" class="fa-solid fa-circle-check text-emerald-400"></i>
@@ -583,18 +511,14 @@
   <!-- FOOTER -->
   <footer class="border-t border-slate-800/80 bg-slate-900/40 py-3 px-4 text-center text-[11px] text-slate-400">
     <div class="max-w-5xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-1">
-      <span><strong>Kanji Expert Flashcard JLPT N5-N4 & JFT-Basic</strong> &bull; Kurikulum Lengkap Minna no Nihongo I & II + Rambu Peringatan</span>
-      <span>Animasi Urutan Tulis <strong>Hanzi Writer</strong> &bull; Tersimpan Otomatis di Browser</span>
+      <span><strong>Kanji Expert Flashcard</strong> &bull; Kurikulum Minna & Rambu Peringatan N4</span>
+      <span>Animasi <strong>Hanzi Writer</strong></span>
     </div>
   </footer>
 
   <!-- ==================== APPLICATION SCRIPT ==================== -->
   <script>
-    /*************************************************************************
-     * 1. DATABASE LENGKAP KANJI + TAMBAHAN RAMBU PERINGATAN N4 (DILARANG MASUK, DLL)
-     *************************************************************************/
     const RAW_KANJI_DATA = [
-      // ==================== TAMBAHAN KANJI N4: RAMBU PERINGATAN & KESELAMATAN ====================
       ["禁煙","N4","J","きんえん","kin'en","Dilarang Merokok","禁煙 (きんえん) [JFT/N4]","ここでは禁煙ですから、タバコを吸わないでください。","ここでは きんえんですから、たばこを すわないで ください。","Karena di sini dilarang merokok, mohon jangan merokok."],
       ["立入","N4","J","たちい.る","tachiiru","Masuk / Dilarang Masuk","立入禁止 (たちいりきんし)","危険ですから、工事現場に立入禁止です。","きけんですから、こうじげんばに たちいりきんしです。","Karena berbahaya, dilarang masuk ke area lokasi konstruksi."],
       ["危険","N4","J","きけん","kiken","Berbahaya","危険 (きけん) [JFT/N4]","この川は深くて危険ですから、泳いではいけません。","この かわは ふかくて きけんですから、およいでは いけません。","Karena sungai ini dalam dan berbahaya, dilarang berenang."],
@@ -606,8 +530,6 @@
       ["満員","N4","J","まんいん","man'in","Penuh / Sesak Orang","満員 (まんいん) [JFT/N4]","朝の電車はいつも満員です。","あさの でんしゃは いつも まんいんです。","Kereta pagi selalu penuh sesak."],
       ["停電","N4","J","ていでん","teiden","Pemadaman Listrik","停電 (ていでん) [JFT/N4]","強い台風で電気が止まり、停電になりました。","つよい たいふうで でんきが とまり、ていでんに なりました。","Karena topan kuat listrik padam dan terjadi mati lampu."],
 
-      // ==================== JLPT N5 (MINNA NO NIHONGO I: BAB 1-25) ====================
-      // --- N5: KATA KERJA (動詞) ---
       ["食","N5","V","ショク","た.べる","Makan","食べます (たべます)","毎朝、パンと卵を食べます。","まいあさ、パンと たまごを たべます。","Setiap pagi saya makan roti dan telur."],
       ["飲","N5","V","イン","の.む","Minum","飲みます (のみます)","仕事の後で、コーヒーを飲みます。","しごとの あとで、コーヒーを のみます。","Setelah bekerja, saya minum kopi."],
       ["見","N5","V","ケン","み.る","Melihat / Menonton","見ます (みます)","昨日、友達と日本の映画を見ました。","きのう、ともだちと にほんの えいがを みました。","Kemarin saya menonton film Jepang bersama teman."],
@@ -617,19 +539,17 @@
       ["話","N5","V","ワ","はな.す","Berbicara / Cerita","話します (はなします)","先生と日本語で話します。","せんせいと にほんごで はなします。","Saya berbicara dengan guru menggunakan bahasa Jepang."],
       ["買","N5","V","バイ","か.う","Membeli","買います (かいます)","デパートで新しい靴を買いました。","デパートで あたらしい くつを かいました。","Saya telah membeli sepatu baru di toserba."],
       ["行","N5","V","コウ・ギョウ","い.く・おこな.う","Pergi / Melakukan","行きます (いきます)","来月、新幹線で京都へ行きます。","らいげつ、しんかんせんで きょうとへ いきます。","Bulan depan saya pergi ke Kyoto dengan Shinkansen."],
-      ["来","N5","V","ライ","く.る","Datang","来ます (きます)","友達は今日、公式サイトへ来ます。","ともだちは きょう、うちへ きます。","Teman saya hari ini datang ke rumah saya."],
+      ["来","N5","V","ライ","く.る","Datang","来ます (きます)","友達は今日、うちへ来ます。","ともだちは きょう、うちへ きます。","Teman saya hari ini datang ke rumah saya."],
       ["帰","N5","V","キ","かえ.る","Pulang / Kembali","帰ります (かえります)","毎日、午後六時にうちへ帰ります。","まいにち、ごご ろくじに うちへ かえります。","Setiap hari saya pulang ke rumah pada pukul 6 sore."],
       ["会","N5","V","カイ","あ.う","Bertemu","会います (あいます)","駅の前で田中さんに会いました。","えきの まえで たなかさんに あいました。","Saya bertemu dengan Saudara Tanaka di depan stasiun."],
       ["休","N5","V","キュウ","やす.む","Istirahat / Libur","休みます (やすみます)","熱がありますから、会社を休みます。","ねつが ありますから、かいしゃを やすみます。","Karena demam, saya libur masuk kantor."],
       ["入","N5","V","ニュウ","はい.る・い.れる","Masuk / Memasukkan","入ります (はいります)","あの喫茶店に入って、休みましょう。","あの きっさてんに はいって、やすみましょう。","Mari masuk ke kafe itu dan beristirahat."],
-      ["出","N5","V","シュツ","で.る・だ.す","Keluar / Mengeluarkan","出ます (でます) / 出します","毎朝、八時に家を出ます。","まいあさ、hachijiに いえを でます。","Setiap pagi saya keluar rumah pada jam 8."],
+      ["出","N5","V","シュツ","で.る・だ.す","Keluar / Mengeluarkan","出ます (でます) / 出します","毎朝、八時に家を出ます。","まいあさ、はちじに いえを でます。","Setiap pagi saya keluar rumah pada jam 8."],
       ["立","N5","V","リツ","た.つ","Berdiri","立ちます (たちます)","教室の前のドアのところに立ちます。","きょうしつの まえの ドアの ところに たちます。","Berdiri di dekat pintu depan ruang kelas."],
       ["待","N5","V","タイ","ま.つ","Menunggu","待ちます (まちます)","駅の改札で十分ぐらい待ちました。","えきの かいさつで じゅっぷんぐらい まちました。","Saya menunggu sekitar 10 menit di gerbang tiket stasiun."],
       ["言","N5","V","ゲン・ゴン","い.う","Berkata / Mengucapkan","言います (いいます)","寝る前に「おやすみなさい」と言います。","ねる まえに「おやすみなさい」と いいます。","Sebelum tidur mengucapkan 'Oyasuminasai'."],
       ["思","N5","V","シ","おも.う","Berpikir / Mengira","思います (おもいます)","明日は雨が降ると思います。","あしたは あめが ふると おもいます。","Saya rasa besok akan turun hujan."],
       ["知","N5","V","チ","し.る","Tahu / Mengenal","知っています (しっています)","ミラーさんの電話番号を知っていますか。","ミラーさんの でんわばんごうを しっていますか。","Apakah Anda tahu nomor telepon Saudara Miller?"],
-
-      // --- N5: KATA BENDA (名詞) ---
       ["日","N5","N","ニチ・ジツ","ひ・か","Hari / Matahari","日曜日 (にちようび)","日曜日はどこも行きません。","にちようびは どこも いきません。","Pada hari Minggu saya tidak pergi ke mana-mana."],
       ["月","N5","N","ゲツ・ガツ","つき","Bulan / Hari Senin","月曜日 (げつようび)","月曜日から金曜日まで働きます。","げつようびから きんようびまで はたらきます。","Saya bekerja dari hari Senin sampai hari Jumat."],
       ["火","N5","N","カ","ひ","Api / Hari Selasa","火曜日 (かようび)","火曜日に日本語の試験があります。","かようびに にほんごの しけんが あります。","Pada hari Selasa ada ujian bahasa Jepang."],
@@ -703,8 +623,6 @@
       ["局","N5","N","キョク","-","Kantor / Biro / Stasiun TV","郵便局 (ゆうびんきょく) / 薬局","駅の前の薬局で風邪の薬を買いました。","えきの まえの やっきょくで かぜの くすりを かいました。","Saya membeli obat flu di apotek depan stasiun."],
       ["番","N5","N","バン","-","Nomor / Giliran / Pos Polisi","交番 (こうばん) / 電話番号","道が分からない時は交番で聞きます。","みちが わからない ときは こうばんで ききます。","Saat tidak tahu jalan, saya bertanya di pos polisi."],
       ["交","N5","N","コウ","まじ.わる","Persimpangan / Pergaulan","交番 (こうばん) / 交差点","あの交差点を右へ曲がってください。","あの こうさてんを みぎへ まがって ください。","Tolong belok kanan di persimpangan jalan itu."],
-
-      // --- N5: KATA SIFAT, ANGKA & SATUAN (形容詞・数詞) ---
       ["大","N5","A","ダイ・タイ","おお.きい","Besar","大きい (おおきい) / 大学","あそこに大きい白い犬がいます。","あそこに おおきい しろい いぬが います。","Di sana ada anjing putih yang besar."],
       ["小","N5","A","ショウ","ちい.さい","Kecil","小さい (ちいさい)","小さくて軽いカメラが欲しいです。","ちいさくて かるい カメラが ほしいです。","Saya menginginkan kamera yang kecil dan ringan."],
       ["高","N5","A","コウ","たか.い","Tinggi / Mahal","高い (たかい) / 高校","このパソコンは少し高いですが、便利です。","この パソコンは すこし たかいですが、べんりです。","PC ini sedikit mahal, tetapi praktis."],
@@ -718,7 +636,7 @@
       ["赤","N5","A","セキ","あか.い","Merah","赤い (あかい) / 赤ちゃん","母の誕生日に赤いバラを買いました。","ははの たんじょうびに あかい バラを かいました。","Pada hari ulang tahun ibu, saya membeli mawar merah."],
       ["青","N5","A","セイ","あお.い","Biru","青い (あおい)","日本の夏は空が青くてきれいです。","にほんの なつは そらが あおくて きれいです。","Saat musim panas di Jepang, langitnya biru dan indah."],
       ["黒","N5","A","コク","くろ.い","Hitam","黒い (くろい)","あの黒い靴はいくらですか。","あの くろい くつは いくらですか。","Sepatu hitam itu harganya berapa?"],
-      ["一","N5","A","イチ・イツ","ひと.つ","Satu","一つ (ひとつ) / 一月","りんごを一つください。","りんごを ひとつ ください。","Tolong beri saya satu buah apel."],
+      ["一","N5","A","イチ・イツ","ひと.つ","Satu","一つ (ひとつ) / 一月","りんごをひとつください。","りんごを ひとつ ください。","Tolong beri saya satu buah apel."],
       ["二","N5","A","ニ","ふた.つ","Dua","二つ (ふたつ) / 二月","みかんを二つ食べました。","みかんを ふたつ たべました。","Saya telah makan dua buah jeruk."],
       ["三","N5","A","サン","みっ.つ","Tiga","三つ (みっつ) / 三月","会議室に椅子が三つあります。","かいぎしつに いすが みっつ あります。","Di ruang rapat ada tiga buah kursi."],
       ["四","N5","A","シ","よっ.つ・よん","Empat","四つ (よっつ) / 四月","日本の大学は四月に始まります。","にほんの だいがくは しがつに はじまります。","Universitas di Jepang dimulai pada bulan April."],
@@ -732,10 +650,7 @@
       ["千","N5","A","セン","ち","Seribu","千円 (せんえん) / 三千","このかばんは三千五百円でした。","この かばんは さんぜん ごひゃくえんでした。","Tas ini harganya 3.500 yen."],
       ["万","N5","A","マン・バン","-","Sepuluh Ribu","一万円 (いちまんえん)","銀行で五万円おろしました。","ぎんこうで ごまんえん おろしました。","Saya menarik uang 50.000 yen di bank."],
       ["円","N5","A","エン","まる.い","Yen / Bulat","百円 (ひゃくえん)","この時計は一万二千円です。","この とけいは いちまん にせんえんです。","Jam tangan ini harganya 12.000 yen."],
-
-      // ==================== JLPT N4 (MINNA NO NIHONGO II: BAB 26-50) ====================
-      // --- N4: KATA KERJA (動詞) ---
-      ["働","N4","V","ドウ","hata.rakum","Bekerja","働きます (はたらきます)","兄は日本の工場で働いています。","あには にほんの こうじょうで はたらいて います。","Kakak laki-laki saya sedang bekerja di pabrik Jepang."],
+      ["働","N4","V","ドウ","はたら.く","Bekerja","働きます (はたらきます)","兄は日本の工場で働いています。","あには にほんの こうじょうで はたらいて います。","Kakak laki-laki saya sedang bekerja di pabrik Jepang."],
       ["住","N4","V","ジュウ","す.む","Tinggal / Menetap","住みます (すみます) / 住所","家族と一緒にジャカルタに住んでいます。","かぞくと いっしょに ジャカルタに すんで います。","Saya tinggal di Jakarta bersama keluarga."],
       ["作","N4","V","サク・サ","つく.る","Membuat","作ります (つくります)","誕生日に母がケーキを作ってくれました。","たんじょうびに ははが ケーキを つくって くれました。","Saat ulang tahun, ibu membuatkan kue untuk saya."],
       ["使","N4","V","シ","つか.う","Menggunakan / Memakai","使います (つかいます)","このコピー機を使ってもいいですか。","この コピーきを つかっても いいですか。","Bolehkah saya menggunakan mesin fotokopi ini?"],
@@ -755,7 +670,7 @@
       ["着","N4","V","チャク","き.る・つ.く","Memakai baju / Tiba","着ます (きます) / 着きます","飛行機は夜八時に空港に着きます。","ひこうきは よる はちじに くうこうに つきます。","Pesawat tiba di bandara pada pukul 8 malam."],
       ["脱","N4","V","ダツ","ぬ.ぐ","Melepas (Baju/Sepatu)","脱ぎます (ぬぎます)","家に入る前に、靴を脱ぎます。","いえに はいる まえに、くつを ぬぎます。","Sebelum masuk ke rumah, melepas sepatu."],
       ["歩","N4","V","ホ・ブ","ある.く","Berjalan kaki","歩きます (あるきます) / 散歩","毎朝、公園を三十分ぐらい歩きます。","まいあさ、こうえんを さんじゅっぷんぐらい あるきます。","Setiap pagi saya berjalan kaki di taman sekitar 30 menit."],
-      ["走","N4","V","ソウ","はし.る","Berlari","走ります (hASHIRIMASU)","時間がないので、駅まで走りました。","じかんが ないので、えきまで はしりました。","Karena tidak ada waktu, saya berlari sampai stasiun."],
+      ["走","N4","V","ソウ","はし.る","Berlari","走ります (はしります)","時間がないので、駅まで走りました。","じかんが ないので、えきまで はしりました。","Karena tidak ada waktu, saya berlari sampai stasiun."],
       ["乗","N4","V","ジョウ","の.る","Naik (Kendaraan)","乗ります (のります)","東京駅で山手線に乗り換えます。","とうきょうえきで やまのてせんに のりかえます。","Saya transit naik jalur Yamanote di Stasiun Tokyo."],
       ["降","N4","V","コウ","お.りる・ふ.る","Turun (Kendaraan / Hujan)","降ります (おります) / 降ります","次のバス停でバスを降ります。","つぎの バスていで バスを おります。","Saya turun dari bus di halte berikutnya."],
       ["習","N4","V","シュウ","なら.う","Belajar (dari seseorang)","習います (ならいます) / 練習","日本人の先生に料理の作り方を習いました。","にほんじんの せんせいに りょうりの つくりかたを ならいました。","Saya belajar cara memasak dari guru orang Jepang."],
@@ -765,7 +680,7 @@
       ["直","N4","V","チョク・ジキ","なお.す・なお.る","Memperbaiki / Sembuh","直します (なおします) / 直ります","壊れた自転車を自分で直しました。","こわれた じてんしゃを じぶんで なおしました。","Saya memperbaiki sendiri sepeda yang rusak."],
       ["忘","N4","V","ボウ","わす.れる","Lupa","忘れます (わすれます) / 忘れ物","電車の中に傘を忘れてしまいました。","でんしゃの なかに かさを わすれて しまいました。","Payung saya tidak sengaja tertinggal di dalam kereta."],
       ["覚","N4","V","カク","おぼ.える","Mengingat / Menghafal","覚えます (おぼえます)","毎日、新しい漢字を十個覚えます。","まいにち、あたらしい かんじを じゅっこ おぼえます。","Setiap hari saya menghafal 10 Kanji baru."],
-      ["運","N4","V","ウン","はこ.ぶ","Mengangkut / Mengemudi","運転します (うんてんします) / 運動","私は車の運転ができます。","わたしは くるまの うんてんが できます。","Saya bisa mengemudikan mobil."],
+      ["運","N4","V","ウン","hako.bu","Mengangkut / Mengemudi","運転します (うんてんします) / 運動","私は車の運転ができます。","わたしは くるまの うんてんが できます。","Saya bisa mengemudikan mobil."],
       ["動","N4","V","ドウ","うご.く","Bergerak","動きます (うごきます) / 動物","この時計は電池がなくて動きません。","この とけいは でんちが なくて うごきません。","Jam ini tidak bergerak karena baterainya habis."],
       ["止","N4","V","シ","と.まる・と.める","Berhenti / Menghentikan","止まります (とまります) / 中止","ここに車を止めてはいけません。","ここに くるまを とめては いけません。","Tidak boleh memarkir mobil di sini."],
       ["集","N4","V","シュウ","あつ.まる・あつ.める","Berkumpul / Mengumpulkan","集めます (あつめます) / 集まります","趣味は日本の古い切手を集めることです。","しゅみは にほんの ふるい きってを あつめる ことです。","Hobi saya adalah mengumpulkan prangko lama Jepang."],
@@ -824,8 +739,6 @@
       ["育","N4","V","イク","そだ.つ・そだ.てる","Tumbuh / Membesarkan","育てます (そだてます)","田舎で野菜を育てています。","いなかで やさいを そだてて います。","Saya membudidayakan sayuran di desa."],
       ["建","N4","V","ケン","た.てる・た.つ","Membangun / Berdiri","建てます (たてます) / 建物","将来、自分の家を建てたいです。","しょうらい、じぶんの いえを たてたいです。","Di masa depan, saya ingin membangun rumah sendiri."],
       ["呼","N4","V","コ","よ.ぶ","Memanggil / Mengundang","呼びます (よびます)","タクシーを呼びましょうか。","タクシーを よびましょうか。","Bagaimana kalau saya panggilkan taksi?"],
-
-      // --- N4: KATA BENDA (名詞) ---
       ["家","N4","N","カ・ケ","いえ・うち","Rumah / Keluarga","家族 (かぞく) / 家 (いえ)","私の家族は四人です。","わたしの かぞくは よにんです。","Keluarga saya berjumlah empat orang."],
       ["族","N4","N","ゾク","-","Keluarga / Suku","家族 (かぞく) / 水族館","週末は家族と水族館へ行きました。","しゅうまつは かぞくと すいぞくかんへ いきました。","Akhir pekan saya pergi ke akuarium bersama keluarga."],
       ["兄","N4","N","ケイ・キョウ","あに","Kakak Laki-laki","兄 (あに) / お兄さん","兄は大阪の大学で勉強しています。","あには おおさかの だいがくで べんきょうして います。","Kakak laki-laki saya sedang kuliah di universitas di Osaka."],
@@ -876,7 +789,7 @@
       ["港","N4","N","コウ","みなと","Pelabuhan","港 (みなと) / 空港","横浜の港で大きな船を見ました。","よこはまの みなとで おおきな ふねを みました。","Saya melihat kapal besar di pelabuhan Yokohama."],
       ["公","N4","N","コウ","おおやけ","Umum / Publik","公園 (こうえん)","休みの日は公園でテニスをします。","やすみの ひは こうえんで テニスを します。","Pada hari libur saya bermain tenis di taman."],
       ["園","N4","N","エン","その","Taman / Kebun","公園 (こうえん) / 動物園","日曜日に家族と動物園へ行きました。","にちようびに かぞくと どうぶつえんへ いきました。","Hari Minggu saya pergi ke kebun binatang bersama keluarga."],
-      ["春","N4","N","シュン","はる","Musim Semi","春 (はる) / 春休み","日本の春は暖かくて気持ちがいいです。","にほんの はるは あたたかくて きもちが いいです。","Musim semi di Jepang hangat dan nyaman."],
+      ["春","N4","N","シュン","hARU","Musim Semi","春 (はる) / 春休み","日本の春は暖かくて気持ちがいいです。","にほんの はるは あたたかくて きもちが いいです。","Musim semi di Jepang hangat dan nyaman."],
       ["夏","N4","N","カ","なつ","Musim Panas","夏 (なつ) / 夏休み","日本の夏はとても蒸し暑いです。","にほんの なつは とても むしあついです。","Musim panas di Jepang sangat panas dan lembap."],
       ["秋","N4","N","シュウ","あき","Musim Gugur","秋 (あき)","秋は紅葉がとてもきれいです。","あきは もみじが とても きれいです。","Pada musim gugur, daun momiji sangat indah."],
       ["冬","N4","N","トウ","ふゆ","Musim Dingin","冬 (ふゆ) / 冬休み","北海道の冬は雪がたくさん降ります。","ほっかいどうの ふゆは ゆきが たくさん ふります。","Musim dingin di Hokkaido turun banyak salju."],
@@ -913,7 +826,7 @@
       ["映","N4","N","エイ","うつ.る","Memantulkan / Proyeksi","映画 (えいが) / 映画館","休みの日は家で映画を見ることが好きです。","やすみの ひは いえで えいがを みる ことが すきです。","Pada hari libur saya suka menonton film di rumah."],
       ["画","N4","N","ガ・カク","-","Gambar / Rencana","映画 (えいが) / 計画","来年の旅行の計画を立てています。","らいねんの りょこうの けいかくを たてて います。","Saya sedang menyusun rencana perjalanan tahun depan."],
       ["歌","N4","N","カ","うた・うた.う","Lagu / Bernyanyi","歌 (うた) / 歌います","みんなで日本の歌を歌いましょう。","みんなで にほんの うたを うたいましょう。","Mari kita menyanyikan lagu Jepang bersama-sama."],
-      ["旅","N4","N","リョ","たび","Perjalanan / Wisata","旅行 (りょこう) / 旅館","来月、家族と京都へ旅行します。","らいげつ、かぞくと きょうとへ りょこうします。","Bulan depan saya berwisata ke Kyoto bersama keluarga."],
+      ["旅","N4","N","リョ","たび","Perjalanan / Wisata","旅行 (りょこう) / 旅館","来月、家族と京都へ旅行します。","らいげつ、かぞくと きょうとへ リョこうします。","Bulan depan saya berwisata ke Kyoto bersama keluarga."],
       ["船","N4","N","セン","ふね","Kapal Laut","船 (ふね)","船で近くの島へ行きました。","ふねで ちかくの しまへ いきました。","Saya pergi ke pulau terdekat dengan kapal laut."],
       ["機","N4","N","キ","はた","Mesin / Pesawat","飛行機 (ひこうき) / コピー機","飛行機でジャカルタから東京へ来ました。","ひこうきで ジャカルタから とうきょうへ きました。","Saya datang dari Jakarta ke Tokyo naik pesawat terbang."],
       ["線","N4","N","セン","-","Garis / Jalur Kereta","新幹線 (しんかんせん) / 山手線","正しい答えに線を引いてください。","ただしい こたえに せんを ひいて ください。","Tolong tarik garis pada jawaban yang benar."],
@@ -931,8 +844,6 @@
       ["意","N4","N","イ","-","Makna / Pikiran / Hati-hati","意味 (いみ) / 注意 / 意見","この漢字の意味が分かりません。","この かんじの いみが わかりません。","Saya tidak mengerti arti dari Kanji ini."],
       ["界","N4","N","カイ","-","Dunia / Batas","世界 (せかい)","世界中のいろいろな国へ旅行したいです。","せかいじゅうの いろいろな くにへ りょこうしたいです。","Saya ingin berwisata ke berbagai negara di seluruh dunia."],
       ["世","N4","N","セ・セイ","よ","Dunia / Generasi","世界 (せかい) / お世話","日本では皆様に大変お世話になりました。","にほんでは みなさまに たいへん おせわに なりました。","Di Jepang saya telah banyak dibantu oleh semuanya."],
-
-      // --- N4: KATA SIFAT, KETERANGAN & PREFIKS (形容詞・副詞) ---
       ["広","N4","A","コウ","ひろ.い","Luas","広い (ひろい)","もっと広いアパートに引っ越したいです。","もっと ひろい アパートに ひっこしたいです。","Saya ingin pindah ke apartemen yang lebih luas."],
       ["強","N4","A","キョウ","つよ.い","Kuat / Belajar","強い (つよい) / 勉強します","今日は風が強いですから、気をつけてください。","きょうは かぜが つよいですから、きを つけて ください。","Karena hari ini anginnya kencang, harap berhati-hati."],
       ["弱","N4","A","ジャク","よわ.い","Lemah","弱い (よわい)","私はお酒に弱いですから、あまり飲みません。","わたしは おさけに よわいですから、あまり のみません。","Karena saya lemah terhadap alkohol, saya jarang minum."],
@@ -966,10 +877,8 @@
       ["親","N4","A","シン","おや・した.しい","Orang Tua / Ramah","親切 (しんせつ) / 両親","日本人は外国人に親切だと思います。","にほんじんは がいこくじんに しんせつだと おもいます。","Menurut saya orang Jepang ramah kepada orang asing."],
       ["特","N4","A","トク","-","Khusus / Spesial","特に (とくに) / 特別","果物は何でも好きですが、特にみかんが好きです。","くだものは なんでも すきですが、とくに みかんが すきです。","Saya suka buah apa saja, khususnya jeruk mikan."],
       ["別","N4","A","ベツ","わか.れる","Terpisah / Lain / Spesial","特別 (とくべつ) / 別々","会計は別々にお願いします。","かいけいは べつべつに おねがいします。","Pembayarannya tolong dipisah masing-masing."],
-      ["急","N4","A","キュウ","いそ.ぐ","Darurat / Buru-buru / Ekspres","急ぎます (いそぎます) / 急行","時間がないので、急いで駅へ行きます。","じかんが ないので、いそいで えきへ いきます。","Karena tidak ada waktu, saya buru-buru pergi ke stasiun."],
+      ["急","N4","A","キュウ","いそ.ぐ","Darurat / Buru-buru / Ekspres","急ぎます (いそぎます) / 急行","時間がないので、急いで駅へ行きます。","じかんが ないので、えきまで いきます。","Karena tidak ada waktu, saya buru-buru pergi ke stasiun."],
       ["不","N4","A","フ・ブ","-","Tidak- (Prefiks Negatif)","不便 (ふべん) / 不安","バスがあまり来ないので、この町は少し不便です。","バスが あまり こないので、この まちは すこし ふべんです。","Karena bus jarang datang, kota ini agak kurang praktis."],
-
-      // ==================== KANJI GABUNGAN / JUKUGO (熟語) N5 & N4 ====================
       ["図書館","N5","J","としょかん","toshokan","Perpustakaan","図書館 (としょかん) [Minna 1]","図書館で日本語の本を借りました。","としょかんで にほんごの ほんを かりました。","Saya telah meminjam buku bahasa Jepang di perpustakaan."],
       ["郵便局","N5","J","ゆうびんきょく","yuubinkyoku","Kantor Pos","郵便局 (ゆうびんきょく) [Minna 1]","郵便局へ荷物を送りに行きます。","ゆうびんきょくへ にもつを おくりに いきます。","Saya pergi ke kantor pos untuk mengirim barang paket."],
       ["大使館","N5","J","たいしかん","taishikan","Kedutaan Besar","大使館 (たいしかん) [Minna 1]","インドネシア大使館は東京にあります。","インドネシアたいしかんは とうきょうに あります。","Kedutaan Besar Indonesia berada di Tokyo."],
@@ -1010,7 +919,7 @@
       ["売り場","N5","J","うりば","uriba","Tempat Penjualan / Stan","売り場 (うりば) [Minna 1]","靴の売り場は一階にあります。","くつの うりばは いっかいに あります。","Stan penjualan sepatu ada di lantai satu."],
       ["乗り場","N5","J","のりば","noriba","Tempat Naik Kendaraan / Peron","乗り場 (のりば) [Minna 1]","タクシーの乗り場はあそこです。","タクシーの のりばは あそこです。","Tempat naik taksi ada di sebelah sana."],
       ["本屋","N5","J","ほんや","honya","Toko Buku","本屋 (ほんや) [Minna 1]","駅前の本屋で日本語の辞書を買いました。","えきまえの ほんやで にほんごの じしょを かいました。","Saya membeli kamus bahasa Jepang di toko buku depan stasiun."],
-      ["花屋","N5","J","はなや","hanaya","Toko Bunga","花屋 (ほんや) [Minna 1]","花屋できれいな赤いバラを買いました。","はなやで きれいな あかい バラを かいました。","Saya membeli mawar merah yang indah di toko bunga."],
+      ["花屋","N5","J","はなや","hanaya","Toko Bunga","花屋 (はなや) [Minna 1]","花屋できれいな赤いバラを買いました。","はなやで きれいな あかい バラを かいました。","Saya membeli mawar merah yang indah di toko bunga."],
       ["八百屋","N5","J","やおや","yaoya","Toko Sayur","八百屋 (やおや) [Minna 1]","八百屋で新鮮な野菜と果物を買います。","やおやで しんせんな やさいと くだものを かいます。","Saya membeli sayur dan buah segar di toko sayur."],
       ["薬局","N4","J","やっきょく","yakkyoku","Apotek / Toko Obat","薬局 (やっきょく) [Minna 2]","病院の隣の薬局で薬をもらいました。","びょういんの となりの やっきょくで くすりを もらいました。","Saya mendapatkan obat di apotek sebelah rumah sakit."],
       ["新幹線","N5","J","しんかんせん","shinkansen","Kereta Cepat Shinkansen","新幹線 (しんかんせん) [Minna 1]","東京から京都まで新幹線で行きます。","とうきょうから きょうとまで しんかんせんで いきます。","Dari Tokyo sampai Kyoto saya pergi menggunakan Shinkansen."],
@@ -1033,7 +942,7 @@
       ["兄弟","N5","J","きょうだい","kyoudai","Saudara Kandung","兄弟 (きょうだい) [Minna 1]","兄弟は兄が一人と妹が一人います。","きょうだいは あにが ひとりと いもうとが ひとり います。","Saudara kandung saya ada satu kakak laki-laki dan satu adik perempuan."],
       ["友達","N5","J","ともだち","tomodachi","Teman / Sahabat","友達 (ともだち) [Minna 1]","週末、友達とサッカーをします。","しゅうまつ、ともだちと サッカーを します。","Akhir pekan saya bermain sepak bola bersama teman."],
       ["外国人","N5","J","がいこくじん","gaikokujin","Orang Asing","外国人 (がいこくじん) [Minna 1]","この町には外国人がたくさん住んでいます。","この まちには がいこくじんが たくさん すんで います。","Di kota ini tinggal banyak orang asing."],
-      ["日曜日","N5","J","にちようび","nichiyoubi","Hari Minggu","日曜日 (にちようび) [Minna 1]","日曜日は家族とゆっくり休みます。","にちようびは かぞくと ゆっくり やすみます。","Hari Minggu saya beristirahat santai bersama keluarga."],
+      ["日曜日","N5","J","にちようび","nichiyoubi","Hari Minggu","日曜日 (にちようび) [Minna 1]","日曜日は家族とゆっくり休みます。","日ようびは かぞくと ゆっくり やすみます。","Hari Minggu saya beristirahat santai bersama keluarga."],
       ["月曜日","N5","J","げつようび","getsuyoubi","Hari Senin","月曜日 (げつようび) [Minna 1]","月曜日の朝は電車がとても混みます。","げつようびの あさは でんしゃが とても こみます。","Senin pagi kereta listrik sangat padat."],
       ["火曜日","N5","J","かようび","kayoubi","Hari Selasa","火曜日 (かようび) [Minna 1]","火曜日に日本語の会話の授業があります。","かようびに にほんごの かいわの じゅぎょうが あります。","Pada hari Selasa ada pelajaran percakapan bahasa Jepang."],
       ["水曜日","N5","J","すいようび","suiyoubi","Hari Rabu","水曜日 (すいようび) [Minna 1]","この店は毎週水曜日が休みです。","この みせは まいしゅう すいようびが やすみです。","Toko ini tutup setiap hari Rabu."],
@@ -1043,7 +952,7 @@
       ["毎日","N5","J","まいにち","mainichi","Setiap Hari","毎日 (まいにち) [Minna 1]","毎日、漢字を十個ずつ覚えます。","まいにち、かんじを じゅっこずつ おぼえます。","Setiap hari saya menghafal masing-masing 10 Kanji."],
       ["毎朝","N5","J","まいあさ","maiasa","Setiap Pagi","毎朝 (まいあさ) [Minna 1]","毎朝、六時に起きてニュースを見ます。","まいあさ、ろくじに おきて ニュースを みます。","Setiap pagi saya bangun jam 6 lalu menonton berita."],
       ["毎晩","N5","J","まいばん","maiban","Setiap Malam","毎晩 (まいばん) [Minna 1]","毎晩、寝る前に本を読みます。","まいばん、ねる まえに ほんを よみます。","Setiap malam sebelum tidur saya membaca buku."],
-      ["毎週","N5","J","まいしゅう","maishuu","Setiap Minggu / Pekan","毎週 (まいしゅう) [Minna 1]","毎週日曜日に国の母に電話します。","まいしゅう にちようびに くの ははに でんわします。","Setiap hari Minggu saya menelepon ibu di tanah air."],
+      ["毎週","N5","J","まいしゅう","maishuu","Setiap Minggu / Pekan","毎週 (まいしゅう) [Minna 1]","毎週日曜日に国の母に電話します。","まいしゅう にちようびに くにの ははに でんわします。","Setiap hari Minggu saya menelepon ibu di tanah air."],
       ["来週","N5","J","らいしゅう","raishuu","Minggu Depan","来週 (らいしゅう) [Minna 1]","来週から新しい仕事が始まります。","らいしゅうから あたらしい しごとが はじまります。","Mulai minggu depan pekerjaan baru akan dimulai."],
       ["来月","N5","J","らいげつ","raigetsu","Bulan Depan","来月 (らいげつ) [Minna 1]","来月、大阪へ出張します。","らいげつ、おおさかへ しゅっちょうします。","Bulan depan saya dinas kerja ke Osaka."],
       ["来年","N5","J","らいねん","rainen","Tahun Depan","来年 (らいねん) [Minna 1]","来年、日本で働きたいと思っています。","らいねん、にほんで はたらきたいと おもって います。","Tahun depan saya berencana ingin bekerja di Jepang."],
@@ -1223,18 +1132,17 @@
     });
 
     /*************************************************************************
-     * 2. STATE MANAGEMENT & LOCAL STORAGE (DENGAN KATEGORI ISOLASI BARU)
+     * 2. STATE MANAGEMENT & LOCAL STORAGE
      *************************************************************************/
-    const STORAGE_KEY = 'kanji_expert_minna_memorized_v4';
+    const STORAGE_KEY = 'kanji_expert_minna_memorized_v5';
     let memorizedIds = new Set();
-    // Menyimpan ID Kanji yang baru saja dihafal untuk kategori Isolasi (Baru Dihafal)
-    let isolatedRecentlyIds = []; 
+    let isolatedSet = new Set(); // Daftar terpisah untuk Isolasi Sementara
 
     function loadMemorizedState() {
       try {
-        const raw = localStorage.getItem(STORAGE_KEY) || localStorage.getItem('kanji_expert_minna_memorized_v3');
-        if (raw) {
-          const parsed = JSON.parse(raw);
+        const rawMem = localStorage.getItem(STORAGE_KEY) || localStorage.getItem('kanji_expert_minna_memorized_v4');
+        if (rawMem) {
+          const parsed = JSON.parse(rawMem);
           if (Array.isArray(parsed)) {
             parsed.forEach(val => {
               const found = KANJI_DATABASE.find(k => k.id === val || k.kanji === val);
@@ -1242,10 +1150,15 @@
             });
           }
         }
-        const isoRaw = localStorage.getItem('kanji_expert_isolated_recent');
-        if (isoRaw) {
-          const parsedIso = JSON.parse(isoRaw);
-          if (Array.isArray(parsedIso)) isolatedRecentlyIds = parsedIso;
+        const rawIso = localStorage.getItem('kanji_expert_isolated_set');
+        if (rawIso) {
+          const parsedIso = JSON.parse(rawIso);
+          if (Array.isArray(parsedIso)) {
+            parsedIso.forEach(val => {
+              const found = KANJI_DATABASE.find(k => k.id === val || k.kanji === val);
+              if (found) isolatedSet.add(found.id);
+            });
+          }
         }
       } catch (e) {
         console.warn('Gagal memuat localStorage:', e);
@@ -1254,18 +1167,21 @@
 
     function saveMemorizedState() {
       try {
-        const words = [...memorizedIds].map(id => {
+        const memWords = [...memorizedIds].map(id => {
           const found = KANJI_DATABASE.find(k => k.id === id);
           return found ? found.kanji : id;
         });
-        localStorage.setItem(STORAGE_KEY, JSON.stringify(words));
-        localStorage.setItem('kanji_expert_isolated_recent', JSON.stringify(isolatedRecentlyIds));
+        const isoWords = [...isolatedSet].map(id => {
+          const found = KANJI_DATABASE.find(k => k.id === id);
+          return found ? found.kanji : id;
+        });
+        localStorage.setItem(STORAGE_KEY, JSON.stringify(memWords));
+        localStorage.setItem('kanji_expert_isolated_set', JSON.stringify(isoWords));
       } catch (e) {
         console.warn('Gagal menyimpan localStorage:', e);
       }
     }
 
-    // Active Deck & Flashcard State
     let currentStatusFilter = 'ALL'; // ALL | UNMEMORIZED | MEMORIZED | ISOLATED
     let activeDeck = [...KANJI_DATABASE];
     let currentIndex = 0;
@@ -1354,9 +1270,8 @@
             ? 'bg-indigo-500/30 text-indigo-200 border-indigo-400/60 font-bold'
             : 'bg-slate-850 text-slate-400 border-slate-700 hover:text-white';
 
-        const charMeaning = CHAR_MEANING_DICT[ch] || '';
         html += `
-          <button onclick="selectSingleHwChar(${idx})" class="px-2.5 py-1 rounded-lg text-xs font-jp border transition-all cursor-pointer ${btnClass}" title="Fokus karakter ${ch}">
+          <button onclick="selectSingleHwChar(${idx})" class="px-2.5 py-1 rounded-lg text-xs font-jp border transition-all cursor-pointer ${btnClass}">
             ${idx + 1}. ${ch}
           </button>
         `;
@@ -1493,7 +1408,7 @@
       hwInstance.quiz({
         onComplete: () => {
           if (hwCharList.length > 1 && hwActiveCharIndex < hwCharList.length - 1) {
-            showToast(`Bagus! Karakter "${activeChar}" tepat. Lanjut tulis karakter berikutnya!`, 'success');
+            showToast(`Bagus! Karakter "${activeChar}" tepat. Lanjut tulis berikutnya!`, 'success');
             setTimeout(() => {
               if (!hwIsQuiz) return;
               hwActiveCharIndex++;
@@ -1558,7 +1473,7 @@
       const total = KANJI_DATABASE.length;
       const memCount = memorizedIds.size;
       const unmemCount = total - memCount;
-      const isoCount = isolatedRecentlyIds.length;
+      const isoCount = isolatedSet.size;
       const pct = total > 0 ? Math.round((memCount / total) * 100) : 0;
 
       document.getElementById('header-progress-label').textContent = `${memCount}/${total} Hafal (${pct}%)`;
@@ -1593,6 +1508,7 @@
 
       const item = activeDeck[currentIndex];
       const isMem = memorizedIds.has(item.id);
+      const isIso = isolatedSet.has(item.id);
 
       document.getElementById('card-index-label').textContent = currentIndex + 1;
       document.getElementById('card-total-label').textContent = activeDeck.length;
@@ -1634,6 +1550,21 @@
               : 'bg-teal-500/15 text-teal-300 border-teal-500/30'
       }`;
 
+      // Update Isolasi pill & Header Button
+      const isoPill = document.getElementById('fc-isolated-pill');
+      const isolateBtnLabel = document.getElementById('isolate-btn-label');
+      const isolateBtn = document.getElementById('btn-toggle-isolate-card');
+
+      if (isIso) {
+        isoPill.classList.remove('hidden');
+        isolateBtnLabel.textContent = 'Hapus Isolasi';
+        isolateBtn.className = 'px-2.5 py-1 rounded-xl bg-amber-500 text-slate-950 border border-amber-400 text-xs font-extrabold flex items-center gap-1.5 transition-all cursor-pointer shadow-md shadow-amber-500/20';
+      } else {
+        isoPill.classList.add('hidden');
+        isolateBtnLabel.textContent = 'Isolasi';
+        isolateBtn.className = 'px-2.5 py-1 rounded-xl bg-amber-500/15 hover:bg-amber-500/25 border border-amber-500/40 text-xs font-bold text-amber-300 flex items-center gap-1.5 transition-all cursor-pointer';
+      }
+
       const memPill = document.getElementById('fc-memorized-pill');
       const btnMem = document.getElementById('btn-mark-memorized');
       const btnUnmem = document.getElementById('btn-mark-unmemorized');
@@ -1672,7 +1603,7 @@
         breakdownList.innerHTML = item.chars.map((ch, idx) => {
           const m = CHAR_MEANING_DICT[ch] || 'Kanji';
           return `
-            <button onclick="selectSingleHwChar(${idx})" class="px-2.5 py-1 rounded-lg bg-slate-900/90 hover:bg-fuchsia-900/40 border border-fuchsia-500/30 text-xs flex items-center gap-1.5 transition-all cursor-pointer" title="Klik untuk melihat urutan tulis karakter ${ch}">
+            <button onclick="selectSingleHwChar(${idx})" class="px-2.5 py-1 rounded-lg bg-slate-900/90 hover:bg-fuchsia-900/40 border border-fuchsia-500/30 text-xs flex items-center gap-1.5 transition-all cursor-pointer">
               <span class="font-jp font-black text-sm text-fuchsia-300">${ch}</span>
               <span class="text-slate-300 font-medium">(${m})</span>
             </button>
@@ -1692,21 +1623,45 @@
       initHanziWriterForCard(item);
     }
 
+    function toggleCurrentCardIsolation() {
+      if (activeDeck.length === 0) return;
+      const item = activeDeck[currentIndex];
+      if (!item) return;
+
+      if (isolatedSet.has(item.id)) {
+        isolatedSet.delete(item.id);
+        showToast(`Kanji "${item.kanji}" dihapus dari daftar Isolasi.`, 'info');
+      } else {
+        isolatedSet.add(item.id);
+        showToast(`Kanji "${item.kanji}" dimasukkan ke daftar Isolasi sementara!`, 'success');
+      }
+
+      saveMemorizedState();
+      updateGlobalStatsUI();
+      renderCurrentFlashcard();
+
+      // Jika sedang berada di mode filter Isolasi dan item dihapus, perbarui deck
+      if (currentStatusFilter === 'ISOLATED') {
+        applyDeckFilters(false);
+        renderCurrentFlashcard();
+      }
+    }
+
     function toggleCardDisplayMode() {
       cardDisplayMode = cardDisplayMode === 'OPEN' ? 'FLIP' : 'OPEN';
       const btnText = document.getElementById('view-mode-text');
       const btnIcon = document.getElementById('view-mode-icon');
 
       if (cardDisplayMode === 'FLIP') {
-        btnText.textContent = 'Mode: Tebak (Balik Kartu)';
+        btnText.textContent = 'Mode: Tebak';
         btnIcon.className = 'fa-solid fa-rotate text-amber-400';
         isCardBackRevealed = false;
-        showToast('Mode Tebak Aktif: Arti & kalimat disembunyikan dulu.', 'info');
+        showToast('Mode Tebak Aktif: Arti disembunyikan dulu.', 'info');
       } else {
-        btnText.textContent = 'Mode: Kartu Terbuka';
+        btnText.textContent = 'Mode: Terbuka';
         btnIcon.className = 'fa-solid fa-columns text-indigo-400';
         isCardBackRevealed = true;
-        showToast('Mode Kartu Terبuka: Semua informasi langsung tampil.', 'info');
+        showToast('Mode Terbuka: Informasi tampil.', 'info');
       }
       updateFlipCoverUI();
     }
@@ -1732,11 +1687,8 @@
       } else {
         overlay.classList.add('hidden');
         overlay.classList.remove('flex');
-        if (cardDisplayMode === 'FLIP') {
-          rehideBtn.classList.remove('hidden');
-        } else {
-          rehideBtn.classList.add('hidden');
-        }
+        if (cardDisplayMode === 'FLIP') rehideBtn.classList.remove('hidden');
+        else rehideBtn.classList.add('hidden');
       }
     }
 
@@ -1760,7 +1712,7 @@
     }
 
     /*************************************************************************
-     * 6. MARK MEMORIZED & ISOLATION CATEGORY (BARU DİHAFAL)
+     * 6. MARK MEMORIZED
      *************************************************************************/
     function setCurrentCardMemorized(status) {
       if (activeDeck.length === 0) return;
@@ -1769,47 +1721,32 @@
 
       if (status) {
         memorizedIds.add(item.id);
-        // Tambahkan ke daftar isolasi (baru dihafal) jika belum ada di dalam array isolasi
-        if (!isolatedRecentlyIds.includes(item.id)) {
-          isolatedRecentlyIds.unshift(item.id); // Taruh di urutan paling depan
-          // Batasi maksimal 50 item terakhir yang diisolasi
-          if (isolatedRecentlyIds.length > 50) isolatedRecentlyIds.pop();
-        }
-        showToast(`Kanji "${item.kanji} (${item.meaning})" ditandai Sudah Hafal & Masuk Isolasi!`, 'success');
+        showToast(`Kanji "${item.kanji}" ditandai Sudah Hafal!`, 'success');
       } else {
         memorizedIds.delete(item.id);
-        // Hapus dari isolasi jika dibatalkan hafalan
-        isolatedRecentlyIds = isolatedRecentlyIds.filter(id => id !== item.id);
-        showToast(`Kanji "${item.kanji} (${item.meaning})" ditandai Belum Hafal.`, 'info');
+        showToast(`Kanji "${item.kanji}" ditandai Belum Hafal.`, 'info');
       }
 
       saveMemorizedState();
       updateGlobalStatsUI();
 
       const autoNext = document.getElementById('chk-auto-next').checked;
-
       if (currentStatusFilter !== 'ALL') {
         applyDeckFilters(false);
-        if (activeDeck.length > 0 && currentIndex >= activeDeck.length) {
-          currentIndex = 0;
-        }
+        if (activeDeck.length > 0 && currentIndex >= activeDeck.length) currentIndex = 0;
         renderCurrentFlashcard();
         return;
       }
 
-      if (status && autoNext && activeDeck.length > 1) {
-        nextCard();
-      } else {
-        renderCurrentFlashcard();
-      }
+      if (status && autoNext && activeDeck.length > 1) nextCard();
+      else renderCurrentFlashcard();
     }
 
     function startMemorizedShuffleDrill() {
       if (memorizedIds.size === 0) {
-        showToast('Belum ada Kanji yang ditandai "Sudah Hafal". Tandai minimal 1 Kanji dulu atau gunakan tombol Acak Kartu!', 'info');
+        showToast('Belum ada Kanji yang ditandai Sudah Hafal.', 'info');
         return;
       }
-
       document.getElementById('search-input').value = '';
       document.getElementById('clear-search-btn').classList.add('hidden');
       document.getElementById('filter-level').value = 'ALL';
@@ -1823,21 +1760,15 @@
       }
 
       currentIndex = 0;
-      if (cardDisplayMode !== 'FLIP') {
-        toggleCardDisplayMode();
-      } else {
-        renderCurrentFlashcard();
-      }
+      if (cardDisplayMode !== 'FLIP') toggleCardDisplayMode();
+      else renderCurrentFlashcard();
 
       document.getElementById('drill-mode-indicator').classList.remove('hidden');
-      showToast(`Latihan Acak dimulai! ${activeDeck.length} Kanji yang Sudah Hafal telah diacak.`, 'success');
+      showToast(`Latihan Acak dimulai! ${activeDeck.length} Kanji diacak.`, 'success');
     }
 
     function shuffleCurrentDeck() {
-      if (activeDeck.length <= 1) {
-        showToast('Jumlah kartu di filter ini kurang dari 2.', 'info');
-        return;
-      }
+      if (activeDeck.length <= 1) return;
       for (let i = activeDeck.length - 1; i > 0; i--) {
         const j = Math.floor(Math.random() * (i + 1));
         [activeDeck[i], activeDeck[j]] = [activeDeck[j], activeDeck[i]];
@@ -1845,11 +1776,11 @@
       currentIndex = 0;
       document.getElementById('drill-mode-indicator').classList.remove('hidden');
       renderCurrentFlashcard();
-      showToast(`Urutan ${activeDeck.length} kartu berhasil diacak!`, 'success');
+      showToast(`Urutan kartu berhasil diacak!`, 'success');
     }
 
     /*************************************************************************
-     * 7. FILTERING, SEARCH & CATALOG DRAWER
+     * 7. FILTERING & CATALOG DRAWER
      *************************************************************************/
     function setDeckStatusFilter(status, shouldRender = true) {
       currentStatusFilter = status;
@@ -1875,7 +1806,7 @@
 
       activeDeck = KANJI_DATABASE.filter(item => {
         const isMem = memorizedIds.has(item.id);
-        const isIso = isolatedRecentlyIds.includes(item.id);
+        const isIso = isolatedSet.has(item.id);
 
         if (currentStatusFilter === 'MEMORIZED' && !isMem) return false;
         if (currentStatusFilter === 'UNMEMORIZED' && isMem) return false;
@@ -1926,7 +1857,7 @@
 
       grid.innerHTML = activeDeck.map((item, idx) => {
         const isMem = memorizedIds.has(item.id);
-        const isIso = isolatedRecentlyIds.includes(item.id);
+        const isIso = isolatedSet.has(item.id);
         const isCurrent = idx === currentIndex;
         const isJukugo = item.category === 'Kanji Gabungan';
         return `
@@ -1943,7 +1874,7 @@
               <div class="flex items-center gap-1">
                 <span class="text-[10px] font-bold px-1.5 py-0.2 rounded ${item.level === 'N5' ? 'bg-indigo-500/20 text-indigo-300' : 'bg-purple-500/20 text-purple-300'}">${item.level}</span>
                 ${isJukugo ? '<span class="text-[9px] font-bold px-1 rounded bg-fuchsia-500/20 text-fuchsia-300">熟語</span>' : ''}
-                ${isIso ? '<span class="text-[9px] font-bold px-1 rounded bg-amber-500/20 text-amber-300" title="Baru dihafal / Isolasi"><i class="fa-solid fa-bookmark"></i></span>' : ''}
+                ${isIso ? '<span class="text-[9px] font-bold px-1 rounded bg-amber-500/20 text-amber-300" title="Diisolasi"><i class="fa-solid fa-bookmark"></i></span>' : ''}
               </div>
               <i class="${isMem ? 'fa-solid fa-circle-check text-emerald-400' : 'fa-regular fa-circle text-slate-600'} text-xs"></i>
             </div>
@@ -1963,29 +1894,21 @@
     function markAllFilteredMemorized(status) {
       if (activeDeck.length === 0) return;
       activeDeck.forEach(item => {
-        if (status) {
-          memorizedIds.add(item.id);
-          if (!isolatedRecentlyIds.includes(item.id)) isolatedRecentlyIds.unshift(item.id);
-        } else {
-          memorizedIds.delete(item.id);
-          isolatedRecentlyIds = isolatedRecentlyIds.filter(id => id !== item.id);
-        }
+        if (status) memorizedIds.add(item.id);
+        else memorizedIds.delete(item.id);
       });
       saveMemorizedState();
       updateGlobalStatsUI();
       renderCatalogGrid();
       renderCurrentFlashcard();
-      showToast(`${activeDeck.length} Kanji berhasil diperbarui status hafalannya!`, 'success');
+      showToast(`Status hafal filter diperbarui!`, 'success');
     }
 
     /*************************************************************************
-     * 8. SPEECH, SWIPE & SHORTCUTS
+     * 8. SPEECH & SHORTCUTS
      *************************************************************************/
     function speakJapaneseText(text) {
-      if (!('speechSynthesis' in window)) {
-        showToast('Browser ini belum mendukung fitur suara Text-to-Speech.', 'info');
-        return;
-      }
+      if (!('speechSynthesis' in window)) return;
       window.speechSynthesis.cancel();
       const u = new SpeechSynthesisUtterance(text);
       u.lang = 'ja-JP';
@@ -1996,8 +1919,7 @@
     function speakCurrentVocab() {
       const item = activeDeck[currentIndex];
       if (!item) return;
-      const cleanWord = item.vocab.split('(')[0].split('/')[0].trim();
-      speakJapaneseText(cleanWord);
+      speakJapaneseText(item.vocab.split('(')[0].split('/')[0].trim());
     }
 
     function speakCurrentSentence() {
@@ -2068,12 +1990,12 @@
 
     function confirmResetAllProgress() {
       memorizedIds.clear();
-      isolatedRecentlyIds = [];
+      isolatedSet.clear();
       saveMemorizedState();
       updateGlobalStatsUI();
       closeResetModal();
       resetAllFilters();
-      showToast('Seluruh progres hafalan dan isolasi berhasil di-reset.', 'info');
+      showToast('Seluruh progres & isolasi di-reset.', 'info');
     }
 
     let toastTimer = null;
@@ -2083,9 +2005,7 @@
       const icon = document.getElementById('toast-icon');
 
       msg.textContent = message;
-      icon.className = type === 'success'
-        ? 'fa-solid fa-circle-check text-emerald-400'
-        : 'fa-solid fa-circle-info text-indigo-400';
+      icon.className = type === 'success' ? 'fa-solid fa-circle-check text-emerald-400' : 'fa-solid fa-circle-info text-indigo-400';
 
       box.classList.remove('opacity-0', 'translate-y-2');
       box.classList.add('opacity-100', 'translate-y-0');
